@@ -7,7 +7,8 @@ if ! [ -x "$(command -v resgen)" ]; then
 fi
 
 # check if csc compiler exist
-csc='csc'
+csc="csc"
+
 if ! [ -x "$(command -v csc)" ]; then
 	echo "### Command csc not exist, checking mono-csc..."
 
@@ -17,7 +18,12 @@ if ! [ -x "$(command -v csc)" ]; then
 		exit 1
 	else
 		echo "### Command mono-csc found, switching..."
-		csc='mono-csc'
+		csc="mono-csc"
+
+		# mono-csc needs to add some references (at least at debian)
+		references="/reference:System.Windows.Forms
+					/reference:System.Drawing
+					/reference:System.Data"
 	fi
 fi
 
@@ -82,9 +88,7 @@ fi
 echo "### Compiling application"
 $csc /reference:dll/Bytescout.PDFRenderer.dll \
 	/reference:dll/PdfSharp.dll \
-	/reference:System.Windows.Forms \
-	/reference:System.Drawing \
-	/reference:System.Data \
+	$references \
 	/out:build/CDesigner.exe \
 	/resource:obj/CDesigner.Main.resources \
 	/resource:obj/CDesigner.NewPattern.resources \
