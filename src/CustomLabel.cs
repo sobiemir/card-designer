@@ -16,7 +16,7 @@ namespace CDesigner
 		public bool TextFromDB;
 		public bool PrintText;
 		public bool PrintBorder;
-	};
+	}
 
 	class CDField : Label
 	{

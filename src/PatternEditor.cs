@@ -16,7 +16,7 @@ namespace CDesigner
 
 		public int PrintColor;
 		public int PrintImage;
-	};
+	}
 
 	public struct DBPageFields
 	{
@@ -26,7 +26,7 @@ namespace CDesigner
 		public int[] Column;
 		public bool[] Preview;
 		public int Fields;
-	};
+	}
 
 	class PatternEditor
 	{
@@ -109,10 +109,10 @@ namespace CDesigner
 			BinaryReader reader = new BinaryReader( file );
 
 			// wczytaj dane z pliku
-			size.Width = reader.ReadInt16( );
-			size.Height	= reader.ReadInt16( );
-			int pages = reader.ReadByte( );
-			bool dynamic = reader.ReadByte( ) == 1;
+			size.Width = reader.ReadInt16();
+			size.Height	= reader.ReadInt16();
+			int pages = reader.ReadByte();
+			reader.ReadByte();
 
 			// wyczyść kontrolki
 			container.Controls.Clear( );
@@ -477,11 +477,10 @@ namespace CDesigner
 			BinaryReader reader = new BinaryReader( file );
 
 			// wysokość i szerokość...
-			int itrash;
-			itrash = reader.ReadInt16( );
-			itrash = reader.ReadInt16( );
+			reader.ReadInt16( );
+			reader.ReadInt16( );
 			int pages = reader.ReadByte( );
-			bool dynamic = reader.ReadByte( ) == 1;
+			reader.ReadByte( );
 
 			if( pages == 0 )
 				return 0;
@@ -501,8 +500,8 @@ namespace CDesigner
 				fields[x].Preview = new bool[fields[x].Fields];
 
 				// śmieci...
-				itrash = reader.ReadByte( );
-				itrash = reader.ReadInt32( );
+				reader.ReadByte( );
+				reader.ReadInt32( );
 
 				// lista kontrolek na stronie
 				for( int y = 0; y < fields[x].Fields; ++y )
@@ -513,34 +512,34 @@ namespace CDesigner
 					fields[x].Preview[y] = false;
 
 					// śmieci
-					itrash = reader.ReadInt16( );
-					itrash = reader.ReadInt16( );
-					itrash = reader.ReadInt16( );
-					itrash = reader.ReadInt16( );
-					itrash = reader.ReadByte( );
-					itrash = reader.ReadInt32( );
-					itrash = reader.ReadByte( );
-					itrash = reader.ReadInt32( );
-					itrash = reader.ReadInt32( );
+					reader.ReadInt16( );
+					reader.ReadInt16( );
+					reader.ReadInt16( );
+					reader.ReadInt16( );
+					reader.ReadByte( );
+					reader.ReadInt32( );
+					reader.ReadByte( );
+					reader.ReadInt32( );
+					reader.ReadInt32( );
 
-					string strash = reader.ReadString( );
-					itrash = reader.ReadByte( );
-					float ftrash = reader.ReadSingle( );
-					itrash = reader.ReadByte( );
-					itrash = reader.ReadByte( );
+					reader.ReadString( );
+					reader.ReadByte( );
+					reader.ReadSingle( );
+					reader.ReadByte( );
+					reader.ReadByte( );
 
 					// informacje o treści dynamicznej
 					fields[x].ImageFromDB[y] = reader.ReadByte( ) == 1;
-					itrash = reader.ReadByte( );
-					itrash = reader.ReadByte( );
+					reader.ReadByte( );
+					reader.ReadByte( );
 					fields[x].TextFromDB[y] = reader.ReadByte( ) == 1;
-					itrash = reader.ReadByte( );
-					itrash = reader.ReadByte( );
+					reader.ReadByte( );
+					reader.ReadByte( );
 				}
 
 				// śmieci
-				itrash = reader.ReadByte( );
-				itrash = reader.ReadByte( );
+				reader.ReadByte( );
+				reader.ReadByte( );
 			}
 
 			// zamknij uchwyty do pliku

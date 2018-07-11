@@ -25,6 +25,7 @@ resgen /useSourcePath ^
 	/compile ^
 		resx/Main.resx,obj/CDesigner.Main.resources ^
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources ^
+        resx/SetColumns.resx,obj/CDesigner.SetColumns.resources ^
 		properties/Resources.resx,obj/CDesigner.Properties.Resources.resources
 @echo off
 
@@ -70,18 +71,22 @@ csc /reference:dll/PdfSharp.dll ^
 	/out:build/CDesigner.exe ^
 	/resource:obj/CDesigner.Main.resources ^
 	/resource:obj/CDesigner.NewPattern.resources ^
+    /resource:obj/CDesigner.SetColumns.resources ^
 	/resource:obj/CDesigner.Properties.Resources.resources ^
 	/target:winexe ^
 	/utf8output ^
 		src/CustomLabel.cs ^
+        src/ExtendLabel.cs ^
 		src/Main.cs ^
 		designer/Main.Designer.cs ^
 		src/NewPattern.cs ^
 		designer/NewPattern.Designer.cs ^
+        src/PatternEditor.cs ^
 		src/Program.cs ^
+        src/SetColumns.cs ^
+        designer/SetColumns.Designer.cs ^
 		properties/AssemblyInfo.cs ^
-		properties/Resources.Designer.cs ^
-		properties/Settings.Designer.cs
+		properties/Resources.Designer.cs
 
 @echo off
 echo ### Copy images and dlls
