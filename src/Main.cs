@@ -56,6 +56,10 @@ namespace CDesigner
 		{
 			InitializeComponent( );
 
+			// utwórz folder gdy nie istnieje
+			if( !Directory.Exists("patterns") )
+				Directory.CreateDirectory( "patterns" );
+
 			// odśwież listę wzorów
 			this.RefreshProjectList( );
 		}
