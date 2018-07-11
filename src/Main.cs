@@ -25,7 +25,6 @@ namespace CDesigner
 
 		private bool rendererLoaded = false;
 		
-		private int         prevCurr = -1;
 		private bool        prevLock = false;
 		private Size        prevSize;
 		private CustomLabel prevCurrObj;
@@ -196,17 +195,13 @@ namespace CDesigner
 			this.tMainPanel.Hide( );
 			this.tPatternPanel.Show( );
 
-			// zapisz indeks aktualnego wzoru
-			this.prevCurr = lbProjectList.SelectedIndex;
-
 			// wczytaj dane
 			string item = lbProjectList.SelectedItem.ToString( );
 			FileStream file = new FileStream( "patterns/" + item + "/config.cfg", FileMode.OpenOrCreate );
 			BinaryReader reader = new BinaryReader( file );
 
 			// wczytaj rozmiar (mm)
-			this.prevSize.Width = (int)reader.ReadInt16( );
-			this.prevSize.Height = (int)reader.ReadInt16( );
+			this.prevSize = new Size( (int)reader.ReadInt16(), (int)reader.ReadInt16() );
 
 			// zamknij plik
 			reader.Close( );
