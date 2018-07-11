@@ -7,7 +7,8 @@ if ! [ -x "$(command -v resgen)" ]; then
 fi
 
 # check if csc compiler exist
-csc='csc'
+csc="csc"
+
 if ! [ -x "$(command -v csc)" ]; then
 	echo "### Command csc not exist, checking mono-csc..."
 
@@ -17,7 +18,12 @@ if ! [ -x "$(command -v csc)" ]; then
 		exit 1
 	else
 		echo "### Command mono-csc found, switching..."
-		csc='mono-csc'
+		csc="mono-csc"
+
+		# mono-csc needs to add some references (at least at debian)
+		references="/reference:System.Windows.Forms
+					/reference:System.Drawing
+					/reference:System.Data"
 	fi
 fi
 
@@ -54,11 +60,6 @@ if ! [ -x "$(command -v wget)" ]; then
 	echo "### Command wget not found"
 
 	# check if dll files exist, if not, display error
-	if ! [ -f "dll/Bytescout.PDFRenderer.dll" ]; then
-		echo "### File \"dll/Bytescout.PDFRenderer.dll\" not exist"
-		exit 1
-	fi
-
 	if ! [ -f "dll/PdfSharp.dll" ]; then
 		echo "### File \"dll/PdfSharp.dll\" not exist"
 		exit 1
@@ -67,11 +68,6 @@ else
 	echo "### Command wget found"
 
 	# check if dll files exist, if not, download them
-	if ! [ -f "dll/Bytescout.PDFRenderer.dll" ]; then
-		echo "### Downloading \"Bytescout.PDFRenderer.dll\" from archive..."
-		wget http://archive.aculo.pl/card-designer/lib/Bytescout.PDFRenderer-v5.20.1870.dll \
-			-O dll/Bytescout.PDFRenderer.dll
-	fi
 	if ! [ -f "dll/PdfSharp.dll" ]; then
 		echo "### Downloading \"PDFSharp.dll\" from archive..."
 		wget http://archive.aculo.pl/card-designer/lib/PdfSharp-v1.32.2608.dll \
@@ -82,9 +78,7 @@ fi
 # compile application using csc or mono-csc
 echo "### Compiling application"
 $csc /reference:dll/PdfSharp.dll \
-	/reference:System.Windows.Forms \
-	/reference:System.Drawing \
-	/reference:System.Data \
+	$references \
 	/out:build/CDesigner.exe \
 	/resource:obj/CDesigner.Main.resources \
 	/resource:obj/CDesigner.NewPattern.resources \
@@ -109,9 +103,7 @@ echo "### Copying images and dlls"
 
 # copy image and dll files
 cp -f resources/noimage.png build/noimage.png
-cp -f dll/Bytescout.PDFRenderer.dll build/Bytescout.PDFRenderer.dll
 cp -f dll/PdfSharp.dll build/PdfSharp.dll
 
 echo "### Finished"
 exit 0
->>>>>>> c2deddd... Update compiling script for Linux

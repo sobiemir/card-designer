@@ -47,10 +47,6 @@ if %ERRORLEVEL% neq 0 (
 	echo ### Command wget not found
 	
 	:: check if dll files exist, if not, display error
-	if not exist dll/Bytescout.PDFRenderer.dll (
-		echo ### File "dll/Bytescout.PDFRenderer.dll" not exist
-		exit /B 1
-	)
 	if not exist dll/PdfSharp.dll (
 		echo ### File "dll/PdfSharp.dll" not exist
 		exit /B 1
@@ -59,11 +55,6 @@ if %ERRORLEVEL% neq 0 (
 	echo ### Command wget found
 	
 	:: check if dll files exist, if not, download them
-	if not exist dll/Bytescout.PDFRenderer.dll (
-		echo ### Downloading "Bytescout.PDFRenderer.dll" from archive...
-		wget http://archive.aculo.pl/card-designer/lib/Bytescout.PDFRenderer-v5.20.1870.dll ^
-			-O dll/Bytescout.PDFRenderer.dll
-	)
 	if not exist dll/PdfSharp.dll (
 		echo ### Downloading "PDFSharp.dll" from archive...
 		wget http://archive.aculo.pl/card-designer/lib/PdfSharp-v1.32.2608.dll ^
@@ -75,8 +66,7 @@ if %ERRORLEVEL% neq 0 (
 echo ### Compiling application...
 @echo on
 
-csc /reference:dll/Bytescout.PDFRenderer.dll ^
-	/reference:dll/PdfSharp.dll ^
+csc /reference:dll/PdfSharp.dll ^
 	/out:build/CDesigner.exe ^
 	/resource:obj/CDesigner.Main.resources ^
 	/resource:obj/CDesigner.NewPattern.resources ^
@@ -98,7 +88,6 @@ echo ### Copy images and dlls
 
 :: copying image and dll files
 copy /Y resources\noimage.png build
-copy /Y dll\Bytescout.PDFRenderer.dll build
 copy /Y dll\PdfSharp.dll build
 
 echo ### Finished
