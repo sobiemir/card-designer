@@ -38,7 +38,7 @@ resgen /useSourcePath \
 	/compile \
 		resx/Main.resx,obj/CDesigner.Main.resources \
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources \
-        resx/SetColumns.resx,obj/CDesigner.SetColumns.resources \
+        resx/DataReader.resx,obj/CDesigner.DataReader.resources \
 		properties/Resources.resx,obj/CDesigner.Properties.Resources.resources
 
 # create dll and build directory
@@ -82,7 +82,7 @@ $csc /reference:dll/PdfSharp.dll \
 	/out:build/CDesigner.exe \
 	/resource:obj/CDesigner.Main.resources \
 	/resource:obj/CDesigner.NewPattern.resources \
-    /resource:obj/CDesigner.SetColumns.resources \
+    /resource:obj/CDesigner.DataReader.resources \
 	/resource:obj/CDesigner.Properties.Resources.resources \
 	/target:winexe \
 	/utf8output \
@@ -94,16 +94,28 @@ $csc /reference:dll/PdfSharp.dll \
 		designer/NewPattern.Designer.cs \
         src/PatternEditor.cs \
 		src/Program.cs \
-        src/SetColumns.cs \
-        designer/SetColumns.Designer.cs \
+		src/Structs.cs \
+        src/DataReader.cs \
+        designer/DataReader.Designer.cs \
 		properties/AssemblyInfo.cs \
 		properties/Resources.Designer.cs \
+
+if ! [ -d "build/icons" ]; then
+	echo "### Creating \"build/icons\" directory..."
+	mkdir build/icons
+fi
 
 echo "### Copying images and dlls"
 
 # copy image and dll files
 cp -f resources/noimage.png build/noimage.png
 cp -f dll/PdfSharp.dll build/PdfSharp.dll
+cp -f resources/icons/format-a4.png build/icons/format-a4.png
+cp -f resources/icons/format-a5.png build/icons/format-a5.png
+cp -f resources/icons/format-error.png build/icons/format-error.png
+cp -f resources/icons/format-unknown.png build/icons/format-unknown.png
+cp -f resources/icons/image-field.png build/icons/image-field.png
+cp -f resources/icons/text-field.png build/icons/text-field.png
 
 echo "### Finished"
 exit 0

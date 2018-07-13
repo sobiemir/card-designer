@@ -13,33 +13,53 @@ namespace CDesigner
 {
     public partial class NewPattern : Form
     {
-        // nazwy formatów papieru
-        public static string[] pf_names = 
+        private static string[] _format_names = 
         {
             "A4",
             "A5"
         };
-        // wymiary formatów papieru
-        public static int[,] pf_dims =
+        private static int[,] _format_dims =
         {
             { 210, 297 },
             { 148, 210 }
         };
+		private string _pattern_name = "";
+
+		// ------------------------------------------------------------- FormatNames ----------------------------------
+		
+		public static string[] FormatNames
+		{
+			get { return NewPattern._format_names; }
+		}
+
+		// ------------------------------------------------------------- FormatDims -----------------------------------
+		
+		public static int[,] FormatDims
+		{
+			get { return NewPattern._format_dims; }
+		}
+
+		// ------------------------------------------------------------- PatternName ----------------------------------
+
+		public string PatternName
+		{
+			get { return this._pattern_name; }
+		}
 
 		// ------------------------------------------------------------- NewPattern -----------------------------------
 		
         public NewPattern( )
         {
-            InitializeComponent( );
+            this.InitializeComponent();
 
             // wyświetlanie nazw aktualnych wzorów
             string[] patterns = Directory.GetDirectories( "patterns" );
             foreach( string pattern in patterns )
-                cbCopyFrom.Items.Add( pattern.Replace("patterns\\", "") );
+                this.cbCopyFrom.Items.Add( pattern.Replace("patterns\\", "") );
 
             // wyświetlanie nazw dostępnych formatów
-            foreach( string pf_name in NewPattern.pf_names )
-                cbPaperFormat.Items.Add( pf_name );
+            foreach( string format_name in NewPattern._format_names )
+                this.cbPaperFormat.Items.Add( format_name );
         }
 
 		// ------------------------------------------------------------- bCreate_Click --------------------------------
@@ -47,19 +67,21 @@ namespace CDesigner
         private void bCreate_Click( object sender, EventArgs ev )
         {
             // brak nazwy wzoru...
-            if( tbPatternName.Text == "" )
+            if( this.tbPatternName.Text == "" )
             {
                 MessageBox.Show( this, "Musisz podać nazwę wzoru.", "Błąd danych" );
                 return;
             }
-            // wzór o tej nazwie już istnieje
-            if( Directory.Exists("patterns/" + tbPatternName.Text) )
+            
+			// wzór o tej nazwie już istnieje
+            if( Directory.Exists("patterns/" + this.tbPatternName.Text) )
             {
                 MessageBox.Show( this, "Wzór o tej nazwie już istnieje.", "Błąd danych" );
                 return;
             }
+
             // zerowe wymiary papieru...
-            if( nHeight.Value == 0 || nWidth.Value == 0 )
+            if( this.nHeight.Value == 0 || this.nWidth.Value == 0 )
             {
                 MessageBox.Show( this, "Musisz podać wymiary papieru w mm.", "Błąd danych" );
                 return;
@@ -74,7 +96,7 @@ namespace CDesigner
 
             // zamknij formulatrz
             this.DialogResult = DialogResult.OK;
-            this.Close( );
+            this.Close();
         }
 
 		// ------------------------------------------------------------- cbPaperFormat_SelectedIndexChanged -----------
@@ -82,21 +104,22 @@ namespace CDesigner
         private void cbPaperFormat_SelectedIndexChanged( object sender, EventArgs ev )
         {
             // wybrano format papieru
-            if( cbPaperFormat.SelectedIndex > 0 )
+            if( this.cbPaperFormat.SelectedIndex > 0 )
             {
                 // uzupełnij wartości w polach numerycznych
-                nWidth.Value  = NewPattern.pf_dims[cbPaperFormat.SelectedIndex - 1, 0];
-                nHeight.Value = NewPattern.pf_dims[cbPaperFormat.SelectedIndex - 1, 1];
+                this.nWidth.Value  = NewPattern._format_dims[this.cbPaperFormat.SelectedIndex - 1, 0];
+                this.nHeight.Value = NewPattern._format_dims[this.cbPaperFormat.SelectedIndex - 1, 1];
 
                 // zablokuj pola
-                nWidth.Enabled  = false;
-                nHeight.Enabled = false;
+                this.nWidth.Enabled  = false;
+                this.nHeight.Enabled = false;
 
                 return;
             }
+
             // odblokuj pola numeryczne
-            nWidth.Enabled  = true;
-            nHeight.Enabled = true;
+            this.nWidth.Enabled  = true;
+            this.nHeight.Enabled = true;
         }
     }
 }

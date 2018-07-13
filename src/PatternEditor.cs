@@ -16,7 +16,7 @@ namespace CDesigner
 
 		public int PrintColor;
 		public int PrintImage;
-	}
+	};
 
 	public struct DBPageFields
 	{
@@ -26,21 +26,28 @@ namespace CDesigner
 		public int[] Column;
 		public bool[] Preview;
 		public int Fields;
-	}
+	};
 
-	class PatternEditor
+
+	public class PatternEditor
 	{
-		public static string last_created = "";
+		private static string _last_created  = "";
+		private static double _pixel_per_dpi = 3.938095238095238;
 
-		// ------------------------------------------------------------- Create ---------------------------------------
+
+		// ------------------------------------------------------------- LastCreated ----------------------------------
 		
-		public static void Create( string name, short width, short height )
+		public static string LastCreated
 		{
-			// @TODO - dodać informacje o treści dynamicznej
+			get { return PatternEditor._last_created; }
+		}
 
-            // utwórz plik konfiguracyjny
-            FileStream file = new FileStream( "patterns/" + name + "/config.cfg", FileMode.OpenOrCreate );
-            BinaryWriter writer = new BinaryWriter( file );
+		// ------------------------------------------------------------- CreatePattern --------------------------------
+		
+		public static void Create( string pattern, short width, short height )
+		{
+			FileStream file = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
+			BinaryWriter writer = new BinaryWriter( file );
 
 			/**
 			 * Struktura wzoru:
@@ -51,7 +58,7 @@ namespace CDesigner
 			 * 1 | Treść dynamiczna
 			 * ===================== LOOP =================
 			 *   1 | Ilość kontrolek na stronie
-			 *   1 | Obraz lub kolor tła ('i' lub 'c')
+			 *   1 | Użycie obrazu tła
 			 *   4 | Kolor strony
 			 * +++++++++++++++++++++ FIELD LOOP +++++++++++
 			 *     ? | Nazwa pola
@@ -61,7 +68,7 @@ namespace CDesigner
 			 *     2 | Wysokość pola
 			 *     1 | Grubość ramki
 			 *     4 | Kolor ramki
-			 *     1 | Obraz lub kolor tła ('i' lub 'c')
+			 *     1 | Użycie obrazu tła
 			 *     4 | Kolor tła
 			 *     4 | Kolor czcionki
 			 *     ? | Nazwa czcionki
@@ -88,7 +95,7 @@ namespace CDesigner
 			writer.Write( (byte)1 );
 			writer.Write( (byte)0 );
 			writer.Write( (byte)0 );
-			writer.Write( 'c' );
+			writer.Write( (byte)0 );
 			writer.Write( SystemColors.Window.ToArgb() );
 			writer.Write( (byte)0 );
 			writer.Write( (byte)0 );
@@ -96,140 +103,497 @@ namespace CDesigner
             // zamknij uchwyty
             writer.Close( );
             file.Close( );
-
-			// zapisz nazwę ostatnio utworzonego wzoru
-			PatternEditor.last_created = name;
 		}
 
-		// ------------------------------------------------------------- Open -----------------------------------------
+		// ------------------------------------------------------------- LoadFromFile ---------------------------------
 		
-		public static int Open( string name, ref Size size, Panel container )
+		public static PatternData ReadPattern( string pattern, bool only_header = false )
 		{
-			FileStream file = new FileStream( "patterns/" + name + "/config.cfg", FileMode.OpenOrCreate );
+			FileStream   file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
 			BinaryReader reader = new BinaryReader( file );
+			PatternData  data   = new PatternData();
 
-			// wczytaj dane z pliku
-			size.Width = reader.ReadInt16();
-			size.Height	= reader.ReadInt16();
-			int pages = reader.ReadByte();
-			reader.ReadByte();
+			// odczytaj opcje podstawowe wzoru
+			data.name    = pattern;
+			data.size    = new Size( reader.ReadInt16(), reader.ReadInt16() );
+			data.pages   = reader.ReadByte();
+			data.dynamic = reader.ReadByte() == 1;
 
-			// wyczyść kontrolki
-			container.Controls.Clear( );
-
-			if( pages == 0 )
-				return 0;
-
-			// rysuj strony
-			for( int x = 0; x < pages; ++x )
+			// tylko nagłówek
+			if( only_header )
 			{
-				Panel panel = new Panel( );
+				data.page = null;
 
-				// ilość kontrolek na stronie
-				int controls = (int)reader.ReadByte( );
+				reader.Close();
+				file.Close();
 
-				// obraz strony
-				if( reader.ReadByte( ) == 'i' && File.Exists("patterns/" + name + "/images/page" + x + ".jpg") )
-					using( Image image = Image.FromFile("patterns/" + name + "/images/page" + x + ".jpg") )
+				return data;
+			}
+			else
+				data.page = new PageData[data.pages];
+
+			PageData  page_data;
+			FieldData field_data;
+
+			// odczytaj dane strony
+			for( int x = 0; x < data.pages; ++x )
+			{
+				page_data = new PageData();
+			
+				// dane podstawowe
+				page_data.fields     = reader.ReadByte();
+				page_data.image      = reader.ReadByte() == 1;
+				page_data.color      = Color.FromArgb( reader.ReadInt32() );
+				page_data.field      = new FieldData[page_data.fields];
+				page_data.image_path = null;
+
+				// odczytaj dane kontrolki
+				for( int y = 0; y < page_data.fields; ++y )
+				{
+					field_data = new FieldData();
+
+					// dane podstawowe
+					field_data.name         = reader.ReadString();
+					field_data.bounds       = new Rectangle( reader.ReadInt16(), reader.ReadInt16(), reader.ReadInt16(), reader.ReadInt16() );
+					field_data.border_size  = reader.ReadByte();
+					field_data.border_color = Color.FromArgb( reader.ReadInt32() );
+					field_data.image        = reader.ReadByte() == 1;
+					field_data.image_path   = null;
+					field_data.color        = Color.FromArgb( reader.ReadInt32() );
+					field_data.font_color   = Color.FromArgb( reader.ReadInt32() );
+					field_data.font_name    = reader.ReadString();
+					field_data.font_style   = (FontStyle)reader.ReadByte();
+					field_data.font_size    = reader.ReadSingle();
+					field_data.text_align   = (ContentAlignment)reader.ReadByte();
+					field_data.padding      = new Padding( reader.ReadByte() );
+
+					// dane dodatkowe
+					field_data.extra = new FieldExtraData();
+					field_data.extra.image_from_db = reader.ReadByte() == 1;
+					field_data.extra.print_color   = reader.ReadByte() == 1;
+					field_data.extra.print_image   = reader.ReadByte() == 1;
+					field_data.extra.text_from_db  = reader.ReadByte() == 1;
+					field_data.extra.print_text    = reader.ReadByte() == 1;
+					field_data.extra.print_border  = reader.ReadByte() == 1;
+					field_data.extra.column        = -1;
+					
+					page_data.field[y] = field_data;
+				}
+
+				// dane dodatkowe
+				page_data.extra = new PageExtraData();
+				page_data.extra.print_color = reader.ReadByte() == 1;
+				page_data.extra.print_image = reader.ReadByte() == 1;
+
+				data.page[x] = page_data;
+			}
+
+			// zamknij strumienie
+			reader.Close();
+			file.Close();
+
+			return data;
+		}
+
+		// ------------------------------------------------------------- DrawPreview ----------------------------------
+		
+		public static void DrawPreview( PatternData data, Panel panel, double scale )
+		{
+			// wyczyść strony i pola
+			panel.Controls.Clear();
+			GC.Collect();
+
+			// brak stron...
+			if( data.pages == 0 )
+				return;
+
+			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
+			Size   pp_size = new Size
+			(
+				(int)((double)data.size.Width * dpi_pxs),
+				(int)((double)data.size.Height * dpi_pxs)
+			);
+
+			PageData  page_data;
+			FieldData field_data;
+
+			// dodawaj strony
+			for( int x = 0; x < data.pages; ++x )
+			{
+				Panel page = new Panel();
+				page_data = data.page[x];
+
+				// tło strony
+				if( page_data.image && File.Exists("patterns/" + data.name + "/images/page" + x + ".jpg" ) )
+					using( Image image = Image.FromFile("patterns/" + data.name + "/images/page" + x + ".jpg" ) )
 					{
-						if( panel.BackgroundImage != null )
-							panel.BackgroundImage.Dispose( );
+						Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
+						using( Graphics canvas = Graphics.FromImage(new_image) )
+							canvas.DrawImageUnscaled( image, 0, 0 );
 
-						// skopiuj obraz do pamięci
-						Image new_image = new Bitmap( image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
-						using( var canavas = Graphics.FromImage(new_image) )
-							canavas.DrawImageUnscaled( image, 0, 0 );
-						panel.BackgroundImage = new_image;
-
-						image.Dispose( );
+						page.BackgroundImage = new_image;
+						image.Dispose();
 					}
 				else
-					panel.BackgroundImage = null;
+					page.BackgroundImage = null;
 
 				// kolor strony
-				panel.BackColor = Color.FromArgb( reader.ReadInt32() );
+				page.BackColor             = page_data.color;
+				page.BackgroundImageLayout = ImageLayout.Stretch;
 
-				for( int y = 0; y < controls; ++y )
+				// skalowanie
+				page.Location = new Point(0);
+				page.Margin   = new Padding( 0, 0, 0, 0 );
+				page.Size     = pp_size;
+
+				if( x != 0 )
+					page.Hide();
+
+				// dodawaj pola
+				for( int y = 0; y < page_data.fields; ++y )
 				{
-					CDField label = new CDField( );
+					PageField field = new PageField();
+					field_data = page_data.field[y];
 
-					label.Text = reader.ReadString( );
+					// wygląd pola
+					field.Text          = field_data.name;
+					field.DPIBounds     = field_data.bounds;
+					field.DPIBorderSize = field_data.border_size;
+					field.BorderColor   = field_data.border_color;
 
-					// położenie pola
-					label.DPILeft = reader.ReadInt16( );
-					label.DPITop = reader.ReadInt16( );
-					label.DPIWidth = reader.ReadInt16( );
-					label.DPIHeight = reader.ReadInt16( );
-
-					// wygląd
-					label.DPIBorderSize = reader.ReadByte( );
-					label.BorderColor = Color.FromArgb( reader.ReadInt32() );
-					
-					if( reader.ReadByte() == 'i' && File.Exists("patterns/" + name + "/images/field" + y + "_" + x + ".jpg") )
-						using( Image image = Image.FromFile("patterns/" + name + "/images/field" + y + "_" + x + ".jpg") )
+					// tło pola
+					if( field_data.image && File.Exists("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg") )
+						using( Image image = Image.FromFile("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg" ) )
 						{
-							if( label.BackImage != null )
-								label.BackImage.Dispose( );
-
-							// skopiuj obraz do pamięci
 							Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
-							using( var canavas = Graphics.FromImage(new_image) )
-								canavas.DrawImageUnscaled( image, 0, 0 );
-							label.BackImage = new_image;
+							using( Graphics canvas = Graphics.FromImage(new_image) )
+								canvas.DrawImageUnscaled( image, 0, 0 );
 
-							image.Dispose( );
+							field.BackImage = new_image;
+							field.BackImagePath = "patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg";
+
+							image.Dispose();
 						}
 					else
-						label.BackImage = null;
+					{
+						field.BackImage = null;
+						field.BackImagePath = "";
+					}
 
-					label.BackColor = Color.FromArgb( reader.ReadInt32() );
-					label.ForeColor = Color.FromArgb( reader.ReadInt32() );
+					// kolory
+					field.BackColor = field_data.color;
+					field.ForeColor = field_data.font_color;
 
 					// czcionka
 					FontFamily font_family;
-
-					try { font_family = new FontFamily( reader.ReadString() ); }
+					try   { font_family = new FontFamily( field_data.font_name ); }
 					catch { font_family = new FontFamily( "Arial" ); }
 
-					label.Font = new Font( font_family, 8.25f, (FontStyle)reader.ReadByte(), GraphicsUnit.Point );
-					label.DPIFontSize = (double)reader.ReadSingle( );
-					label.TextAlignment = (int)reader.ReadByte( );
-					label.DPIPadding = (int)reader.ReadByte( );
+					field.Font        = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.Point );
+					field.DPIFontSize = field_data.font_size;
+					field.TextAlign   = field_data.text_align;
+					field.DPIPadding  = field_data.padding.All;
+					
+					// skalowanie
+					field.DPIScale = scale;
+					field.Margin   = new Padding(0);
 
-					// informacje dodatkowe
-					CustomLabelDetails ext;
+					// dodatkowe informacje
+					field.Tag = field_data;
 
-					ext.ImageFromDB = reader.ReadByte( ) == 1;
-					ext.PrintColor = reader.ReadByte( ) == 1;
-					ext.PrintImage = reader.ReadByte( ) == 1;
-					ext.TextFromDB = reader.ReadByte( ) == 1;
-					ext.PrintText = reader.ReadByte( ) == 1;
-					ext.PrintBorder = reader.ReadByte( ) == 1;
-					label.Tag = ext;
-
-					// dodaj do panelu
-					panel.Controls.Add( label );
+					page.Controls.Add( field );
 				}
 
-				// informacje dodatkowe
-				PageDetails tag = new PageDetails( );
-				tag.PrintColor = (int)reader.ReadByte( );
-				tag.PrintImage = (int)reader.ReadByte( );
-				panel.Tag = tag;
+				// dodatkowe informacje
+				page.Tag = page_data;
 
-				// dodaj panel do kontenera
-				container.Controls.Add( panel );
+				panel.Controls.Add( page );
 			}
+		}
 
-			// zamknij plik
-			reader.Close( );
-			file.Close( );
+		// ------------------------------------------------------------- DrawSketch -----------------------------------
+		
+		public static void DrawSketch( PatternData data, Panel panel, double scale )
+		{
+			// wyczyść strony i pola
+			panel.Controls.Clear();
+			GC.Collect();
 
-			return pages;
+			// brak stron...
+			if( data.pages == 0 )
+				return;
+
+			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
+			Size   pp_size = new Size
+			(
+				(int)((double)data.size.Width * dpi_pxs),
+				(int)((double)data.size.Height * dpi_pxs)
+			);
+
+			PageData  page_data;
+			FieldData field_data;
+
+			// dodawaj strony
+			for( int x = 0; x < data.pages; ++x )
+			{
+				Panel page = new Panel();
+				page_data = data.page[x];
+
+				// tło strony
+				if( page_data.extra.print_image && page_data.image && File.Exists("patterns/" + data.name + "/images/page" + x + ".jpg" ) )
+					using( Image image = Image.FromFile("patterns/" + data.name + "/images/page" + x + ".jpg" ) )
+					{
+						Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
+						using( Graphics canvas = Graphics.FromImage(new_image) )
+							canvas.DrawImageUnscaled( image, 0, 0 );
+
+						page.BackgroundImage = new_image;
+						image.Dispose();
+					}
+				else
+					page.BackgroundImage = null;
+
+				// kolor strony
+				page.BackColor             = (page_data.extra.print_color) ? page_data.color : SystemColors.Window;
+				page.BackgroundImageLayout = ImageLayout.Stretch;
+
+				// skalowanie
+				page.Location = new Point(0);
+				page.Margin   = new Padding( 0, 0, 0, 0 );
+				page.Size     = pp_size;
+
+				if( x != 0 )
+					page.Hide();
+
+				// dodawaj pola
+				for( int y = 0; y < page_data.fields; ++y )
+				{
+					PageField field = new PageField();
+					field_data = page_data.field[y];
+
+					// wygląd pola
+					field.Text          = field_data.extra.print_text ? field_data.name : "";
+					field.DPIBounds     = field_data.bounds;
+					field.DPIBorderSize = field_data.extra.print_border ? field_data.border_size : 0;
+					field.BorderColor   = field_data.border_color;
+
+					// tło pola
+					if( field_data.extra.print_image && field_data.image && File.Exists("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg") )
+						using( Image image = Image.FromFile("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg" ) )
+						{
+							Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
+							using( Graphics canvas = Graphics.FromImage(new_image) )
+								canvas.DrawImageUnscaled( image, 0, 0 );
+
+							field.BackImage = new_image;
+							field.BackImagePath = "patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg";
+
+							image.Dispose();
+						}
+					else
+					{
+						field.BackImage = null;
+						field.BackImagePath = "";
+					}
+
+					// kolory
+					field.BackColor = field_data.extra.print_color ? field_data.color : Color.Transparent;
+					field.ForeColor = field_data.font_color;
+
+					// czcionka
+					FontFamily font_family;
+					try   { font_family = new FontFamily( field_data.font_name ); }
+					catch { font_family = new FontFamily( "Arial" ); }
+
+					field.Font        = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.Point );
+					field.DPIFontSize = field_data.font_size;
+					field.TextAlign   = field_data.text_align;
+					field.DPIPadding  = field_data.padding.All;
+					
+					// skalowanie
+					field.DPIScale = scale;
+					field.Margin   = new Padding(0);
+
+					// dodatkowe informacje
+					field.Tag = field_data;
+
+					page.Controls.Add( field );
+				}
+
+				// dodatkowe informacje
+				page.Tag = page_data;
+
+				panel.Controls.Add( page );
+			}
+		}
+
+		// ------------------------------------------------------------- DrawRow --------------------------------------
+		
+		public static void DrawRow( Panel panel, DataContent data_content, int row )
+		{
+			Panel     page;
+			PageField field;
+
+			// zmień wartości pól
+			for( int x = 0; x < panel.Controls.Count; ++x )
+			{
+				page = (Panel)panel.Controls[x];
+				for( int y = 0; y < page.Controls.Count; ++y )
+				{
+					field = (PageField)page.Controls[y];
+					int replace = ((FieldData)field.Tag).extra.column;
+
+					// sprawdź czy pola można zmienić i czy wartości są im przypisane
+					if( ((FieldData)field.Tag).extra.text_from_db && replace != -1 )
+						field.Text = data_content.row[row,replace];
+					else if( ((FieldData)field.Tag).extra.image_from_db && replace != -1 )
+					{
+						// @TODO obrazek z bazy danych...
+					}
+				}
+			}
+		}
+
+		// ------------------------------------------------------------- ChangeScale ----------------------------------
+		
+		public static void ChangeScale( PatternData data, Panel panel, double scale )
+		{
+			// oblicz wymiary strony
+			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
+			Size   pp_size = new Size
+			(
+				(int)((double)data.size.Width * dpi_pxs),
+				(int)((double)data.size.Height * dpi_pxs)
+			);
+
+			Panel     page;
+			PageField field;
+
+			// zmieniaj skale stron i pól
+			for( int x = 0; x < panel.Controls.Count; ++x )
+			{
+				page = (Panel)panel.Controls[x];
+				page.Size = pp_size;
+
+				for( int y = 0; y < page.Controls.Count; ++y )
+				{
+					field = (PageField)page.Controls[y];
+					field.DPIScale = scale;
+				}
+			}
+		}
+
+		// ------------------------------------------------------------- GeneratePreview ------------------------------
+		
+		public static void GeneratePreview( PatternData data, Panel panel, double scale )
+		{
+			double dpi_pxs = PatternEditor._pixel_per_dpi * scale;
+			int    width   = (int)((double)data.size.Width * dpi_pxs);
+			int    height  = (int)((double)data.size.Height * dpi_pxs);
+
+			// rysuj strony
+			for( int x = 0; x < data.pages; ++x )
+			{
+				Bitmap   bmp  = new Bitmap( width, height );
+				Graphics gfx  = Graphics.FromImage( bmp );
+				Panel    page = (Panel)panel.Controls[x];
+
+				// obraz lub wypełnienie
+				if( page.BackgroundImage != null )
+					gfx.DrawImage( page.BackgroundImage, 0, 0, width, height );
+				else
+				{
+					SolidBrush brush = new SolidBrush( page.BackColor );
+					gfx.FillRectangle( brush, 0, 0, width, height );
+				}
+
+				// rysuj pola
+				for( int y = 0; y < page.Controls.Count; ++y )
+				{
+					PageField field  = (PageField)page.Controls[y];
+					Rectangle bounds = field.DPIBounds;
+					
+					bounds.X      = (int)((double)bounds.X * dpi_pxs);
+					bounds.Y      = (int)((double)bounds.Y * dpi_pxs);
+					bounds.Width  = (int)((double)bounds.Width * dpi_pxs);
+					bounds.Height = (int)((double)bounds.Height * dpi_pxs);
+
+					// koloruj lub rysuj obraz
+					if( field.BackImage != null )
+						gfx.DrawImage( field.BackImage, bounds );
+					else
+					{
+						SolidBrush brush = new SolidBrush( field.BackColor );
+						gfx.FillRectangle( brush, bounds );
+					}
+
+					// utwórz czcionkę
+					Font font = new Font
+					(
+						field.Font.FontFamily,
+						(float)(field.DPIFontSize * scale),
+						field.Font.Style,
+						GraphicsUnit.Point,
+						field.Font.GdiCharSet,
+						field.Font.GdiVerticalFont
+					);
+
+					SolidBrush   lbrush = new SolidBrush( field.ForeColor );
+					StringFormat format = new StringFormat();
+
+					// margines wewnętrzny
+					int        pad = (int)((double)field.DPIPadding * scale);
+					RectangleF box = new RectangleF( bounds.X + pad, bounds.Y + pad, bounds.Width - pad * 2, bounds.Height - pad * 2 );
+
+					// rozmieszczenie tekstu
+					if( ((int)field.TextAlign & 0x111) != 0 )
+						format.Alignment = StringAlignment.Near;
+					else if( ((int)field.TextAlign & 0x222) != 0 )
+						format.Alignment = StringAlignment.Center;
+					else
+						format.Alignment = StringAlignment.Far;
+
+					if( ((int)field.TextAlign & 0x7) != 0 )
+						format.LineAlignment = StringAlignment.Near;
+					else if( ((int)field.TextAlign & 0x70) != 0 )
+						format.LineAlignment = StringAlignment.Center;
+					else
+						format.LineAlignment = StringAlignment.Far;
+
+					// rysuj tekst
+					gfx.DrawString( field.Text, font, lbrush, box, format );
+
+					int border_size = (int)((double)field.DPIBorderSize * scale);
+					Pen border_pen  = new Pen( field.BorderColor );
+
+					// wartości są zmniejszane, bo ramka wychodzi 1px poza prostokąt
+					bounds.Width--;
+					bounds.Height--;
+
+					// rysuj ramkę
+					for( int z = 0; z < border_size; ++z )
+						gfx.DrawRectangle( border_pen, bounds.X + z, bounds.Y + z, bounds.Width - z * 2, bounds.Height - z * 2 );
+				}
+
+				// zapisz do pliku
+				bmp.Save( "patterns/" + data.name + "/preview" + x + ".jpg" );
+			}
 		}
 
 		// ------------------------------------------------------------- Save -----------------------------------------
 		
+		public static void Save( PatternData data, Panel panel )
+		{
+			FileStream   file   = new FileStream( "patterns/" + data.name + "/config.cfg", FileMode.OpenOrCreate );
+			BinaryWriter writer = new BinaryWriter( file );
+
+			//writer.Write( (short)data.size.Width );
+			//writer.Write( (short)data.size.Height );
+			//writer.Write( (byte)panel.Controls.Count );
+
+			writer.Close();
+			file.Close();
+			/*
 		public static void Save( string name, Size size, Panel container )
 		{
 			FileStream file = new FileStream( "patterns/" + name + "/config.cfg", FileMode.OpenOrCreate );
@@ -337,216 +701,7 @@ namespace CDesigner
             writer.Close( );
             file.Close( );
 		}
-
-		// ------------------------------------------------------------- DrawPreview ----------------------------------
-		
-		public static void DrawPreview( string name, Size size, Panel container, double scale )
-		{
-			double dpi_px_scale = 3.938095238095238 * scale;
-			int width = (int)((double)size.Width * dpi_px_scale),
-				height = (int)((double)size.Height * dpi_px_scale);
-
-			// rysuj strony
-			for( int x = 0; x < container.Controls.Count; ++x )
-			{
-				Bitmap bmp = new Bitmap( width, height );
-				Graphics gfx = Graphics.FromImage( bmp );
-				Panel panel = (Panel)container.Controls[x];
-
-				// obraz lub wypełnienie
-				if( panel.BackgroundImage != null )
-					gfx.DrawImage( panel.BackgroundImage, 0, 0, width, height );
-				else
-				{
-					SolidBrush brush = new SolidBrush( panel.BackColor );
-					gfx.FillRectangle( brush, 0, 0, width, height );
-				}
-
-				// rysuj kontrolki
-				for( int y = 0; y < panel.Controls.Count; ++y )
-				{
-					CDField label = (CDField)panel.Controls[y];
-					int label_width = (int)((double)label.DPIWidth * dpi_px_scale),
-						label_height = (int)((double)label.DPIHeight * dpi_px_scale),
-						label_left = (int)((double)label.DPILeft * dpi_px_scale),
-						label_top = (int)((double)label.DPITop * dpi_px_scale);
-
-					// koloruj lub rysuj obraz
-					if( label.BackImage != null )
-						gfx.DrawImage( label.BackImage, label_left, label_top, label_width, label_height );
-					else
-					{
-						SolidBrush brush = new SolidBrush( label.BackColor );
-						gfx.FillRectangle( brush, label_left, label_top, label_width, label_height );
-					}
-
-					// utwórz czcionkę z nowym rozmiarem
-					Font font = new Font
-					(
-						label.Font.FontFamily,
-						(float)(label.DPIFontSize * scale),
-						label.Font.Style,
-						GraphicsUnit.Point,
-						label.Font.GdiCharSet,
-						label.Font.GdiVerticalFont
-					);
-
-					SolidBrush label_brush = new SolidBrush( label.ForeColor );
-					StringFormat format = new StringFormat( );
-
-					// margines wewnętrzny
-					int padding = (int)((double)label.DPIPadding * scale);
-					RectangleF label_box = new RectangleF
-					(
-						label_left + padding,
-						label_top + padding,
-						label_width - padding * 2,
-						label_height - padding * 2
-					);
-
-					// wykryj przyleganie tekstu
-					switch( label.TextAlignment )
-					{
-					case 0:
-						format.LineAlignment = StringAlignment.Near;
-						format.Alignment = StringAlignment.Near;
-					break;
-					case 1:
-						format.LineAlignment = StringAlignment.Near;
-						format.Alignment = StringAlignment.Center;
-					break;
-					case 2:
-						format.LineAlignment = StringAlignment.Near;
-						format.Alignment = StringAlignment.Far;
-					break;
-					case 3:
-						format.LineAlignment = StringAlignment.Center;
-						format.Alignment = StringAlignment.Near;
-					break;
-					case 4:
-						format.LineAlignment = StringAlignment.Center;
-						format.Alignment = StringAlignment.Center;
-					break;
-					case 5:
-						format.LineAlignment = StringAlignment.Center;
-						format.Alignment = StringAlignment.Far;
-					break;
-					case 6:
-						format.LineAlignment = StringAlignment.Far;
-						format.Alignment = StringAlignment.Near;
-					break;
-					case 7:
-						format.LineAlignment = StringAlignment.Far;
-						format.Alignment = StringAlignment.Center;
-					break;
-					case 8:
-						format.LineAlignment = StringAlignment.Far;
-						format.Alignment = StringAlignment.Far;
-					break;
-					}
-					// rysuj napis na polu
-					gfx.DrawString( label.Text, font, label_brush, label_box, format );
-
-					int border_size = (int)((double)label.DPIBorderSize * scale);
-					Pen border_pen = new Pen( label.BorderColor );
-					
-					// wychodzi o 1px poza główny prostokąt, dlatego wartości należy zmniejszyć
-					label_width--;
-					label_height--;
-
-					// rysuj ramkę
-					for( int z = 0; z < border_size; z++ )
-						gfx.DrawRectangle( border_pen, label_left + z, label_top + z, label_width - z * 2, label_height - z * 2 );
-				}
-				// zapisz stronę
-				bmp.Save( "patterns/" + name + "/preview" + x + ".jpg" );
-			}
-		}
-
-		// ------------------------------------------------------------- Copy -----------------------------------------
-		
-		public static void Copy( string pat1, string pat2 )
-		{
-		}
-
-		// ------------------------------------------------------------- GetFields ------------------------------------
-		
-		public static int GetPagesFields( string pattern, ref DBPageFields[] fields )
-		{
-			FileStream file = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
-			BinaryReader reader = new BinaryReader( file );
-
-			// wysokość i szerokość...
-			reader.ReadInt16( );
-			reader.ReadInt16( );
-			int pages = reader.ReadByte( );
-			reader.ReadByte( );
-
-			if( pages == 0 )
-				return 0;
-
-			fields = new DBPageFields[pages];
-
-			// lista stron
-			for( int x = 0; x < pages; ++x )
-			{
-				// przydziel pamięć na dane
-				fields[x] = new DBPageFields( );
-				fields[x].Fields = (int)reader.ReadByte( );
-				fields[x].Name = new string[fields[x].Fields];
-				fields[x].Column = new int[fields[x].Fields];
-				fields[x].ImageFromDB = new bool[fields[x].Fields];
-				fields[x].TextFromDB = new bool[fields[x].Fields];
-				fields[x].Preview = new bool[fields[x].Fields];
-
-				// śmieci...
-				reader.ReadByte( );
-				reader.ReadInt32( );
-
-				// lista kontrolek na stronie
-				for( int y = 0; y < fields[x].Fields; ++y )
-				{
-					// nazwa kontrolki
-					fields[x].Name[y] = reader.ReadString( );
-					fields[x].Column[y] = -1;
-					fields[x].Preview[y] = false;
-
-					// śmieci
-					reader.ReadInt16( );
-					reader.ReadInt16( );
-					reader.ReadInt16( );
-					reader.ReadInt16( );
-					reader.ReadByte( );
-					reader.ReadInt32( );
-					reader.ReadByte( );
-					reader.ReadInt32( );
-					reader.ReadInt32( );
-
-					reader.ReadString( );
-					reader.ReadByte( );
-					reader.ReadSingle( );
-					reader.ReadByte( );
-					reader.ReadByte( );
-
-					// informacje o treści dynamicznej
-					fields[x].ImageFromDB[y] = reader.ReadByte( ) == 1;
-					reader.ReadByte( );
-					reader.ReadByte( );
-					fields[x].TextFromDB[y] = reader.ReadByte( ) == 1;
-					reader.ReadByte( );
-					reader.ReadByte( );
-				}
-
-				// śmieci
-				reader.ReadByte( );
-				reader.ReadByte( );
-			}
-
-			// zamknij uchwyty do pliku
-			reader.Close( );
-			file.Close( );
-
-			return pages;
+		*/
 		}
 	}
 }

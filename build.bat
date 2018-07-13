@@ -25,7 +25,7 @@ resgen /useSourcePath ^
 	/compile ^
 		resx/Main.resx,obj/CDesigner.Main.resources ^
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources ^
-        resx/SetColumns.resx,obj/CDesigner.SetColumns.resources ^
+        resx/DataReader.resx,obj/CDesigner.DataReader.resources ^
 		properties/Resources.resx,obj/CDesigner.Properties.Resources.resources
 @echo off
 
@@ -71,7 +71,7 @@ csc /reference:dll/PdfSharp.dll ^
 	/out:build/CDesigner.exe ^
 	/resource:obj/CDesigner.Main.resources ^
 	/resource:obj/CDesigner.NewPattern.resources ^
-    /resource:obj/CDesigner.SetColumns.resources ^
+    /resource:obj/CDesigner.DataReader.resources ^
 	/resource:obj/CDesigner.Properties.Resources.resources ^
 	/target:winexe ^
 	/utf8output ^
@@ -83,17 +83,30 @@ csc /reference:dll/PdfSharp.dll ^
 		designer/NewPattern.Designer.cs ^
         src/PatternEditor.cs ^
 		src/Program.cs ^
-        src/SetColumns.cs ^
-        designer/SetColumns.Designer.cs ^
+		src/Structs.cs ^
+        src/DataReader.cs ^
+        designer/DataReader.Designer.cs ^
 		properties/AssemblyInfo.cs ^
 		properties/Resources.Designer.cs
 
 @echo off
+
+if not exist build\icons (
+	echo ### Creating "build\icons" directory...
+	mkdir build\icons
+)
+
 echo ### Copy images and dlls
 
 :: copying image and dll files
 copy /Y resources\noimage.png build
 copy /Y dll\PdfSharp.dll build
+copy /Y resources\icons\format-a4.png build\icons
+copy /Y resources\icons\format-a5.png build\icons
+copy /Y resources\icons\format-error.png build\icons
+copy /Y resources\icons\format-unknown.png build\icons
+copy /Y resources\icons\image-field.png build\icons
+copy /Y resources\icons\text-field.png build\icons
 
 echo ### Finished
 exit /B 0
