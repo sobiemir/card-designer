@@ -27,8 +27,6 @@ namespace CDesigner
 		private int			pPanelCounter	= 0;
 		private int			pCurrentPanelID	= -1;
 		private bool		pLocked			= false;
-		private Size		pPageSize;
-
 
 		private int			gThisContainer	= 1;
 		private bool		gEditChanged	= false;
@@ -46,7 +44,6 @@ namespace CDesigner
 
 		private PatternData dPatternData    = new PatternData();
 		private DataContent dDataContent    = new DataContent();
-		private string		dCurrentName    = null;
 		private bool        dSketchDrawed   = false;
 
 
@@ -647,7 +644,6 @@ namespace CDesigner
 			this.pcbScale.SelectedIndex = 2;
 			PatternData pattern_data = PatternEditor.ReadPattern( pattern );
 			PatternEditor.DrawPreview( pattern_data, this.ppPanelContainer, 1.0 );
-			this.pPageSize = pattern_data.size;
 
 			// ilość stron
 			this.pPanelCounter  = pattern_data.pages - 1;
@@ -789,7 +785,6 @@ namespace CDesigner
 			}
 			
 			// przejdź na strone z danymi
-			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.isData_Click( null, null );
 		}
 
@@ -1061,7 +1056,6 @@ namespace CDesigner
 			}
 			
 			// przejdź na strone z danymi
-			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.isData_Click( null, null );
 		}
 
