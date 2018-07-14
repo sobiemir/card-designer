@@ -24,19 +24,18 @@ using PdfSharp;
 using PdfSharp.Drawing;
 using System.Drawing.Printing;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 
 namespace CDesigner
 {
 	public partial class Main : Form
 	{
-		private AlignedPictureBox mpbPreview = null;
-		private FormWindowState   gLastState = FormWindowState.Normal;
+		private PictureBox mpbPreview = null;
 
 		private int         gThisContainer  = 1;
 		private bool        gEditChanged    = false;
 		private bool		pLocked			= false;
-		private Settings    gSettings       = null;
 		
 		private int         mSelectedID	    = -1;
 		private bool        mSelectedError  = false;
@@ -91,50 +90,20 @@ namespace CDesigner
 			this.InitializeComponent();
 
 			// podgląd wzoru na stronie głównej
-			this.mpbPreview = new AlignedPictureBox();
+			this.mpbPreview = new PictureBox();
 			
-			this.mpbPreview.Align      = 1;
 			this.mpbPreview.SizeMode   = PictureBoxSizeMode.AutoSize;
 			this.mpbPreview.MouseDown += new MouseEventHandler( mpPreview_MouseDown );
 			this.mpbPreview.Padding    = new Padding( 5 );
 
 			this.mpPreview.Controls.Add( this.mpbPreview );
 
-			// ustawienia
-			this.gSettings = new Settings();
-
 #		if DEBUG
 			Console.WriteLine( "Załadowano kontrolki." );
 #		endif
 
-			// ostatnio otwierane wzory
-			this.gmpRecent_RefreshList();
-
 			// odświeżenie listy wzorów
 			this.RefreshProjectList();
-		}
-
-		// ------------------------------------------------------------- Main_Resize ---------------------------------
-
-		private void Main_Resize( object sender, EventArgs ev )
-		{
-			if( this.WindowState == this.gLastState )
-				return;
-
-			this.gLastState = this.WindowState;
-
-			// wymuś odświeżenie i zmiane rozmiaru panelu po wróceniu do normalnego stanu
-			// w przeciwnym wypadku rodzic będzie za wielki dla obrazu (dziwne zjawisko...)
-			if( this.WindowState == FormWindowState.Normal )
-			{
-#			if DEBUG
-				Console.WriteLine( "Przejście z trybu maksymalizacji - odświeżanie kontrolek." );
-#			endif
-
-				this.mpPreview.Width = this.mpPreview.Width - 1;
-				this.ppPreview.Width = this.ppPreview.Width - 1;
-				this.dpPreview.Width = this.dpPreview.Width - 1;
-			}
 		}
 
 		// ------------------------------------------------------------- ProcessCmdKey --------------------------------
@@ -184,9 +153,6 @@ namespace CDesigner
 			break;
 
 			// skrót do ustawień
-			case Keys.Control | Keys.S:
-				this.issGeneral_Click( null, null );
-			break;
 			default:
 				return base.ProcessCmdKey( ref msg, keydata );
 			}
@@ -295,7 +261,6 @@ namespace CDesigner
 			this.pbBorderColor.Enabled = true;
 			this.pbFontName.Enabled    = true;
 			this.pbFontColor.Enabled   = true;
-			//this.pbBackImage.Enabled   = true;
 			this.pbBackColor.Enabled   = true;
 			this.pnBorderSize.Enabled  = true;
 			this.pnPositionX.Enabled   = true;
@@ -309,23 +274,10 @@ namespace CDesigner
 
 			this.pcbDrawColor.Enabled  = true;
 			this.pcbDynImage.Enabled   = true;
-			//this.pcbDynText.Enabled    = true;
 			this.pcbShowFrame.Enabled  = true;
-			//this.pcbStatImage.Enabled  = true;
 			this.pcbStatText.Enabled   = true;
 
 			this.pcbTextTransform.Enabled = true;
-			//this.pcxImageSet.Enabled         = true;
-			//this.pcbDrawFrameOutside.Enabled = true;
-			//this.pcbUseImageMargin.Enabled   = true;
-
-			//this.pcbpDrawColor.Enabled = true;
-			//this.pcbpDrawImage.Enabled = true;
-
-			//this.pcxpImageSet.Enabled  = true;
-			//this.pcbpApplyMargin.Enabled = true;
-			//this.pcbpDrawOutside.Enabled = true;
-
 			this.pcbMarginLR.Enabled   = true;
 			this.pcbMarginTB.Enabled   = true;
 			this.pcbdAddMargin.Enabled = true;
@@ -717,10 +669,7 @@ namespace CDesigner
 CD_mtvPatterns_AfterSelect:
 
 			// zmień obrazek
-			this.mpbPreview.Hide();
 			this.mpbPreview.Image = helper;
-			this.mpbPreview.CheckLocation();
-			this.mpbPreview.Show();
 			
 			// pozbieraj śmieci po poprzednim obrazku
 			if( trash != null )
@@ -798,10 +747,6 @@ CD_mtvPatterns_AfterSelect:
 			// przejście do edycji wzoru
 			string pattern = this.mSelectedName;
 
-			// dodaj do listy ostatnio otwieranych
-			this.gSettings.AddToLastPatterns( pattern );
-			this.gmpRecent_RefreshList();
-
 			// zapisz indeks i nazwę aktualnego wzoru
 			this.pCurrentName = pattern;
 
@@ -821,13 +766,13 @@ CD_mtvPatterns_AfterSelect:
 			this.pCurrentPanelID = 0;
 			this.pPatternData    = pattern_data;
 
-			AlignedPage page;
+			Panel page;
 			PageField   field;
 
 			// dodaj akcje do stron i pól
 			for( int x = 0; x < this.ppPreview.Controls.Count; ++x )
 			{
-				page = (AlignedPage)this.ppPreview.Controls[x];
+				page = (Panel)this.ppPreview.Controls[x];
 				page.ContextMenuStrip = this.icPage;
 				page.MouseDown += new MouseEventHandler( this.ppPanelContainer_MouseDown );
 
@@ -926,10 +871,6 @@ CD_mtvPatterns_AfterSelect:
 				);
 				return;
 			}
-
-			// usuń z listy ostatnio otwieranych (jeżeli się tam znajduje)
-			this.gSettings.RemoveFromLastPatterns( pattern );
-			this.gmpRecent_RefreshList();
 
 			// odśwież listę wzorów
 			this.RefreshProjectList();
@@ -1054,16 +995,6 @@ CD_mtvPatterns_AfterSelect:
 			}
 
 			this.Cursor = null;
-		}
-
-		// ------------------------------------------------------------- mpPreview_Resize ----------------------------
-		
-		private void mpPreview_Resize( object sender, EventArgs ev )
-		{
-			if( this.pLocked )
-				return;
-
-			this.mpbPreview.CheckLocation();
 		}
 
 		// ------------------------------------------------------------- mpPreview_MouseDown -------------------------
@@ -1805,9 +1736,7 @@ CD_mtvPatterns_AfterSelect:
 		
 		private void icpAddPage_Click( object sender, EventArgs ev )
 		{
-			AlignedPage page = new AlignedPage( );
-			page.Align = 1;
-
+			Panel page = new Panel( );
 			double scale = (double)Convert.ToInt32(this.pcbScale.Text) / 100.0;
 
 			// zablokuj operacje odświeżania
@@ -1840,8 +1769,6 @@ CD_mtvPatterns_AfterSelect:
 
 			// dodaj panel do kontenera
 			this.ppPreview.Controls.Add( page );
-
-			page.CheckLocation();
 			page.Show();
 
 			// odblokuj odświeżanie
@@ -1865,7 +1792,7 @@ CD_mtvPatterns_AfterSelect:
 				MessageBox.Show
 				(
 					this,
-					"Twój wzór zawiera tylko jedną stronę.\nW związku z tym nie możesz jej usunąć!",
+					"Twój wzór posiada tylko jedną stronę - nie możesz jej usunąć!",
 					"Usuń stronę",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Asterisk
@@ -2556,126 +2483,73 @@ CD_mtvPatterns_AfterSelect:
 			info.ShowDialog( this );
 		}
 
-		private void issGeneratePDF_Click(object sender, EventArgs e)
-		{
-			Settings options = new Settings( 2 );
-			options.ShowDialog( this );
-		}
+		ToolTip _tooltip      = new ToolTip();
+		bool    _tooltip_show = false;
 
-		private void issEditor_Click(object sender, EventArgs e)
-		{
-			Settings options = new Settings( 1 );
-			options.ShowDialog( this );
-		}
-
-		private void issGeneral_Click(object sender, EventArgs e)
-		{
-			Settings options = new Settings( 0 );
-			options.ShowDialog( this );
-		}
-
-
-
-
-
-
-		// ------------------------------------------------------------- gmprClearList_Click --------------------------
+		// ------------------------------------------------------------- ptbName_KeyPress ----------------------------
 		
-		private void gmprClearList_Click( object sender, EventArgs ev )
+		private void ptbName_KeyPress( object sender, KeyPressEventArgs ev )
 		{
-			// wyczyść ostatnio otwierane projekty
-			this.gSettings.LastPatterns = new List<string>();
+			string locale_chars = "ĘÓŁŚĄŻŹĆŃęółśążźćń";
 
-			// usuń pozycje w menu
-			while( this.gmpRecent.DropDownItems.Count > 2 )
-				this.gmpRecent.DropDownItems.RemoveAt( 0 );
+			if( ev.KeyChar == 8 || ModifierKeys == Keys.Control )
+				return;
 
-			// wyłącz pozycje w menu
-			this.gmpRecent.Enabled = false;
-			GC.Collect();
-		}
-
-		// ------------------------------------------------------------- gmpRecent_RefreshList ------------------------
-		
-		private void gmpRecent_RefreshList( )
-		{
-#		if DEBUG
-			Console.WriteLine( "Uzupełnianie listy ostatnio otwieranych wzorów." );
-#		endif
-
-			// usuń pozycje w menu
-			while( this.gmpRecent.DropDownItems.Count > 2 )
-				this.gmpRecent.DropDownItems.RemoveAt( 0 );
-
-			List<string> lpatterns = this.gSettings.LastPatterns;
-
-			// dodaj ostatnio używane wzory
-			if( lpatterns.Count > 0 )
+			Regex regex = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_]+$" );
+			if( !regex.IsMatch(ev.KeyChar.ToString()) )
 			{
-				this.gmpRecent.Enabled = true;
-				for( int x = 0; x < lpatterns.Count; ++x )
+				//this._tooltip.Popup += new PopupEventHandler( _tooltip_Popup );
+
+				if( !this._tooltip_show )
 				{
-					this.gmpRecent.DropDownItems.Insert( x, new ToolStripMenuItem((x+1) + ": " + lpatterns[x]) );
-					this.gmpRecent.DropDownItems[x].Click += new EventHandler( this.gmprItem_Click );
+					this._tooltip.Show
+					(
+						"Dopuszczalne znaki:\n" +
+						"Znaki alfabetu, cyfry, - + _ oraz spacja.",
+						this.ptbName,
+						new Point( -3, this.ptbName.Height + 2 )
+					);
+					this._tooltip_show = true;
 				}
-			}
-			// jeżeli brak, wyłącz pole
-			else
-				this.gmpRecent.Enabled = false;
 
-			GC.Collect();
-		}
-
-		// ------------------------------------------------------------- gmprItem_Click -------------------------------
-		
-		private void gmprItem_Click( object sender, EventArgs ev )
-		{
-			// wyszukaj wzór na liście
-			string pattern = ((ToolStripItem)sender).Text;
-			pattern = pattern.Substring( pattern.IndexOf(':') + 2 ).Trim();
-
-			// wyszukaj wzór na liście
-			int index = 0;
-			for( ; index < this.mtvPatterns.Nodes.Count; ++index )
-				if( this.mtvPatterns.Nodes[index].Text == pattern )
-					break;
-
-			// brak wzoru na liście
-			if( index == this.mtvPatterns.Nodes.Count )
-			{
-				MessageBox.Show
-				(
-					this,
-					"Wybrany wzór już nie istnieje!\nW związku z powyższym, zostanie on usunięty z listy.",
-					"Otwieranie wzoru",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Warning
-				);
-
-				// usuń wzór i odśwież elementy
-				this.gSettings.RemoveFromLastPatterns( pattern );
-				this.gmpRecent_RefreshList();
-
+				ev.Handled = true;
+				System.Media.SystemSounds.Beep.Play();
+				
 				return;
 			}
 
-			// zaznacz i edytuj wzór
-			this.mtvPatterns.SelectedNode = this.mtvPatterns.Nodes[index];
-			this.ictEdit_Click( null, null );
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.ptbName );
+				this._tooltip_show = false;
+			}
 		}
 
+		//private void _tooltip_Popup( object sender, PopupEventArgs ev )
+		//{
+		//	Console.WriteLine( ev.ToolTipSize.Width + " , " + ev.ToolTipSize.Height );
+		//}
 
-
-		private void ppPanelContainer_Resize( object sender, EventArgs ev )
+		// ------------------------------------------------------------- ptbName_Leave -------------------------------
+		
+		private void ptbName_Leave( object sender, EventArgs ev )
 		{
-			foreach( AlignedPage page in this.ppPreview.Controls )
-				page.CheckLocation();
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.ptbName );
+				this._tooltip_show = false;
+			}
 		}
 
-		private void dpPreview_Resize( object sender, EventArgs ev )
+		// ------------------------------------------------------------- Main_Move -----------------------------------
+		
+		private void Main_Move( object sender, EventArgs ev )
 		{
-			foreach( AlignedPage page in this.dpPreview.Controls )
-				page.CheckLocation();
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.ptbName );
+				this._tooltip_show = false;
+			}
 		}
 	}
 }

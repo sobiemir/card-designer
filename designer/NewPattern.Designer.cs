@@ -94,6 +94,8 @@
 			this.tbPatternName.Name = "tbPatternName";
 			this.tbPatternName.Size = new System.Drawing.Size(188, 20);
 			this.tbPatternName.TabIndex = 3;
+			this.tbPatternName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPatternName_KeyPress);
+			this.tbPatternName.Leave += new System.EventHandler(this.tbPatternName_Leave);
 			// 
 			// cbCopyFrom
 			// 
@@ -170,7 +172,7 @@
 			this.nWidth.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.nWidth.Location = new System.Drawing.Point(102, 84);
 			this.nWidth.Maximum = new decimal(new int[] {
-            5000,
+            1000,
             0,
             0,
             0});
@@ -183,7 +185,7 @@
 			this.nHeight.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.nHeight.Location = new System.Drawing.Point(198, 84);
 			this.nHeight.Maximum = new decimal(new int[] {
-            5000,
+            1000,
             0,
             0,
             0});
@@ -201,6 +203,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "NewPattern";
 			this.Text = "Nowy Wzór";
+			this.Move += new System.EventHandler(this.NewPattern_Move);
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.tableLayoutPanel1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.nWidth)).EndInit();

@@ -40,7 +40,6 @@ resgen /useSourcePath \
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources \
 		resx/DataReader.resx,obj/CDesigner.DataReader.resources \
 		resx/Info.resx,obj/CDesigner.Info.resources \
-		resx/Settings.resx,obj/CDesigner.Settings.resources \
 		properties/Resources.resx,obj/CDesigner.Properties.Resources.resources
 
 # create dll and build directory
@@ -86,21 +85,16 @@ $csc /reference:dll/PdfSharp.dll \
 	/resource:obj/CDesigner.NewPattern.resources \
 	/resource:obj/CDesigner.DataReader.resources \
 	/resource:obj/CDesigner.Info.resources \
-	/resource:obj/CDesigner.Settings.resources \
 	/resource:obj/CDesigner.Properties.Resources.resources \
 	/win32manifest:properties/app.manifest \
 	/win32icon:resources/cdesigner.ico \
 	/target:winexe \
 	/utf8output \
-		src/AlignedPage.cs \
-		src/AlignedPictureBox.cs \
 		src/PageField.cs \
 		src/Main.cs \
 		designer/Main.Designer.cs \
 		src/Info.cs \
 		designer/Info.Designer.cs \
-		src/Settings.cs \
-		designer/Settings.Designer.cs \
 		src/NewPattern.cs \
 		designer/NewPattern.Designer.cs \
 		src/PatternEditor.cs \
@@ -124,6 +118,7 @@ cp -f resources/noimage.png build/noimage.png
 cp -f dll/PdfSharp.dll build/PdfSharp.dll
 cp -f resources/icons/image-field.png build/icons/image-field.png
 cp -f resources/icons/text-field.png build/icons/text-field.png
+cp -f resources/icons/exit-application.png build/icons/exit-application.png
 cp -f resources/transparent.png build/transparent.png
 cp -f resources/cdrestore.ico build/cdrestore.ico
 cp -f resources/icons/cdrestore-512.png build/icons/cdrestore-512.png

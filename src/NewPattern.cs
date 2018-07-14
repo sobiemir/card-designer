@@ -12,18 +12,18 @@ using System.Text.RegularExpressions;
 
 namespace CDesigner
 {
-	public partial class NewPattern : Form
-	{
-		private static string[] _format_names = 
-		{
-			"A4",
-			"A5"
-		};
-		private static int[,] _format_dims =
-		{
-			{ 210, 297 },
-			{ 148, 210 }
-		};
+    public partial class NewPattern : Form
+    {
+        private static string[] _format_names = 
+        {
+            "A4",
+            "A5"
+        };
+        private static int[,] _format_dims =
+        {
+            { 210, 297 },
+            { 148, 210 }
+        };
 		private string _pattern_name = "";
 
 		// ------------------------------------------------------------- FormatNames ----------------------------------
@@ -71,33 +71,33 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- NewPattern -----------------------------------
 		
-		public NewPattern( )
-		{
-			this.InitializeComponent();
+        public NewPattern( )
+        {
+            this.InitializeComponent();
 
-			// wyświetlanie nazw aktualnych wzorów
-			string[] patterns = Directory.GetDirectories( "patterns" );
-			foreach( string pattern in patterns )
+            // wyświetlanie nazw aktualnych wzorów
+            string[] patterns = Directory.GetDirectories( "patterns" );
+            foreach( string pattern in patterns )
 			{
 				// brak pliku konfiguracji
 				if( !File.Exists(pattern + "/config.cfg") )
 					continue;
 
-				this.cbCopyFrom.Items.Add( pattern.Replace("patterns\\", "") );
+                this.cbCopyFrom.Items.Add( pattern.Replace("patterns\\", "") );
 			}
 
-			// wyświetlanie nazw dostępnych formatów
-			foreach( string format_name in NewPattern._format_names )
-				this.cbPaperFormat.Items.Add( format_name );
+            // wyświetlanie nazw dostępnych formatów
+            foreach( string format_name in NewPattern._format_names )
+                this.cbPaperFormat.Items.Add( format_name );
 
 			// zaznacz format: własny
 			this.cbPaperFormat.SelectedIndex = 0;
-		}
+        }
 
 		// ------------------------------------------------------------- bCreate_Click --------------------------------
 		
-		private void bCreate_Click( object sender, EventArgs ev )
-		{
+        private void bCreate_Click( object sender, EventArgs ev )
+        {
 			string locale_chars = "ĘÓŁŚĄŻŹĆŃęółśążźćń";
 
 			// wyczyść ze zbędnych spacji
@@ -105,10 +105,10 @@ namespace CDesigner
 			Regex regex = new Regex( @"[ ]{2,}", RegexOptions.None );
 			this.tbPatternName.Text = regex.Replace( this.tbPatternName.Text, " " );
 
-			// brak nazwy wzoru...
-			if( this.tbPatternName.Text == "" )
-			{
-				MessageBox.Show
+            // brak nazwy wzoru...
+            if( this.tbPatternName.Text == "" )
+            {
+                MessageBox.Show
 				(
 					this,
 					"Musisz podać nazwę wzoru.",
@@ -116,18 +116,18 @@ namespace CDesigner
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 				);
-				return;
-			}
+                return;
+            }
 
 			// przeskanuj pod kątem poprawności
 			regex = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_]+$" );
 			if( !regex.IsMatch(this.tbPatternName.Text) )
 			{
-				MessageBox.Show
+                MessageBox.Show
 				(
 					this,
-					"W nazwie wzoru nie może zawierać znaków innych niż:\n" +
-					"Znaki alfabetu, liczby, minus, plus, podkreślenie oraz spacje.",
+					"Nazwa wzoru nie może zawierać znaków innych niż:\n" +
+					"Znaki alfabetu, liczby, + - _ oraz spacja.",
 					"Nowy wzór",
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
@@ -136,9 +136,9 @@ namespace CDesigner
 			}
 
 			// wzór o tej nazwie już istnieje
-			if( Directory.Exists("patterns/" + this.tbPatternName.Text) )
-			{
-				MessageBox.Show
+            if( Directory.Exists("patterns/" + this.tbPatternName.Text) )
+            {
+                MessageBox.Show
 				(
 					this,
 					"Wzór o podanej nazwie już istnieje.",
@@ -146,13 +146,13 @@ namespace CDesigner
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 				);
-				return;
-			}
+                return;
+            }
 
-			// zerowe wymiary papieru...
-			if( this.nHeight.Value == 0 || this.nWidth.Value == 0 )
-			{
-				MessageBox.Show
+            // zerowe wymiary papieru...
+            if( this.nHeight.Value == 0 || this.nWidth.Value == 0 )
+            {
+                MessageBox.Show
 				(
 					this,
 					"Musisz podać wymiary papieru w milimetrach.",
@@ -160,8 +160,8 @@ namespace CDesigner
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 				);
-				return;
-			}
+                return;
+            }
 
 			// tworzenie wzoru
 			try
@@ -176,7 +176,7 @@ namespace CDesigner
 			catch
 			{
 				// brak uprawnień?
-				MessageBox.Show
+                MessageBox.Show
 				(
 					this,
 					"Nie można utworzyć wzoru w folderze głównym programu...\n" +
@@ -185,38 +185,100 @@ namespace CDesigner
 					MessageBoxButtons.OK,
 					MessageBoxIcon.Error
 				);
-				return;
+                return;
 			}
 
 			// zapisz aktualną nazwę szablonu
 			this._pattern_name = this.tbPatternName.Text;
 
-			// zamknij formulatrz
-			this.DialogResult = DialogResult.OK;
-			this.Close();
-		}
+            // zamknij formulatrz
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
 
 		// ------------------------------------------------------------- cbPaperFormat_SelectedIndexChanged -----------
 		
-		private void cbPaperFormat_SelectedIndexChanged( object sender, EventArgs ev )
+        private void cbPaperFormat_SelectedIndexChanged( object sender, EventArgs ev )
+        {
+            // wybrano format papieru
+            if( this.cbPaperFormat.SelectedIndex > 0 )
+            {
+                // uzupełnij wartości w polach numerycznych
+                this.nWidth.Value  = NewPattern._format_dims[this.cbPaperFormat.SelectedIndex - 1, 0];
+                this.nHeight.Value = NewPattern._format_dims[this.cbPaperFormat.SelectedIndex - 1, 1];
+
+                // zablokuj pola
+                this.nWidth.Enabled  = false;
+                this.nHeight.Enabled = false;
+
+                return;
+            }
+
+            // odblokuj pola numeryczne
+            this.nWidth.Enabled  = true;
+            this.nHeight.Enabled = true;
+        }
+
+		ToolTip _tooltip      = new ToolTip();
+		bool    _tooltip_show = false;
+
+		// ------------------------------------------------------------- tbPatternName_KeyPress ----------------------
+		
+		private void tbPatternName_KeyPress( object sender, KeyPressEventArgs ev )
 		{
-			// wybrano format papieru
-			if( this.cbPaperFormat.SelectedIndex > 0 )
+			string locale_chars = "ĘÓŁŚĄŻŹĆŃęółśążźćń";
+
+			if( ev.KeyChar == 8 || ModifierKeys == Keys.Control )
+				return;
+
+			Regex regex = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_#]+$" );
+			if( !regex.IsMatch(ev.KeyChar.ToString()) )
 			{
-				// uzupełnij wartości w polach numerycznych
-				this.nWidth.Value  = NewPattern._format_dims[this.cbPaperFormat.SelectedIndex - 1, 0];
-				this.nHeight.Value = NewPattern._format_dims[this.cbPaperFormat.SelectedIndex - 1, 1];
+				if( !this._tooltip_show )
+				{
+					this._tooltip.Show
+					(
+						"Dopuszczalne znaki:\n" +
+						"Znaki alfabetu, cyfry, - + _ # oraz spacja.",
+						this.tbPatternName,
+						new Point( -20, this.tbPatternName.Height + 2 )
+					);
+					this._tooltip_show = true;
+				}
 
-				// zablokuj pola
-				this.nWidth.Enabled  = false;
-				this.nHeight.Enabled = false;
-
+				ev.Handled = true;
+				System.Media.SystemSounds.Beep.Play();
+				
 				return;
 			}
 
-			// odblokuj pola numeryczne
-			this.nWidth.Enabled  = true;
-			this.nHeight.Enabled = true;
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.tbPatternName );
+				this._tooltip_show = false;
+			}
 		}
-	}
+
+		// ------------------------------------------------------------- tbPatternName_Leave -------------------------
+		
+		private void tbPatternName_Leave(object sender, EventArgs e)
+		{
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.tbPatternName );
+				this._tooltip_show = false;
+			}
+		}
+
+		// ------------------------------------------------------------- NewPattern_Move -----------------------------
+		
+		private void NewPattern_Move(object sender, EventArgs e)
+		{
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.tbPatternName );
+				this._tooltip_show = false;
+			}
+		}
+    }
 }

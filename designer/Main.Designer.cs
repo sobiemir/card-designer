@@ -131,24 +131,6 @@
 			this.icpmDetails = new System.Windows.Forms.ToolStripMenuItem();
 			this.icpmPageDetails = new System.Windows.Forms.ToolStripMenuItem();
 			this.ppDetailsPanel = new System.Windows.Forms.Panel();
-			this.ptDetails = new System.Windows.Forms.TableLayoutPanel();
-			this.pcbdAddMargin = new System.Windows.Forms.CheckBox();
-			this.pldAdditionalMargin = new System.Windows.Forms.Label();
-			this.pcbPosAlign = new System.Windows.Forms.ComboBox();
-			this.plStickPoint = new System.Windows.Forms.Label();
-			this.pcbUseImageMargin = new System.Windows.Forms.CheckBox();
-			this.pcbDrawFrameOutside = new System.Windows.Forms.CheckBox();
-			this.plImageSettings = new System.Windows.Forms.Label();
-			this.pcbDynImage = new System.Windows.Forms.CheckBox();
-			this.pcbStatText = new System.Windows.Forms.CheckBox();
-			this.pcbDrawColor = new System.Windows.Forms.CheckBox();
-			this.pcbDynText = new System.Windows.Forms.CheckBox();
-			this.plPDFGenerate = new System.Windows.Forms.Label();
-			this.pcbShowFrame = new System.Windows.Forms.CheckBox();
-			this.pcbStatImage = new System.Windows.Forms.CheckBox();
-			this.pcxImageSet = new System.Windows.Forms.ComboBox();
-			this.pcbMarginLR = new System.Windows.Forms.NumericUpDown();
-			this.pcbMarginTB = new System.Windows.Forms.NumericUpDown();
 			this.ptFieldDetails = new System.Windows.Forms.TableLayoutPanel();
 			this.pcbTextTransform = new System.Windows.Forms.ComboBox();
 			this.plTextTransform = new System.Windows.Forms.Label();
@@ -179,6 +161,24 @@
 			this.plBorderWidth = new System.Windows.Forms.Label();
 			this.pcbTextAlign = new System.Windows.Forms.ComboBox();
 			this.plPositionY = new System.Windows.Forms.Label();
+			this.ptDetails = new System.Windows.Forms.TableLayoutPanel();
+			this.pcbdAddMargin = new System.Windows.Forms.CheckBox();
+			this.pldAdditionalMargin = new System.Windows.Forms.Label();
+			this.pcbPosAlign = new System.Windows.Forms.ComboBox();
+			this.plStickPoint = new System.Windows.Forms.Label();
+			this.pcbUseImageMargin = new System.Windows.Forms.CheckBox();
+			this.pcbDrawFrameOutside = new System.Windows.Forms.CheckBox();
+			this.plImageSettings = new System.Windows.Forms.Label();
+			this.pcbDynImage = new System.Windows.Forms.CheckBox();
+			this.pcbStatText = new System.Windows.Forms.CheckBox();
+			this.pcbDrawColor = new System.Windows.Forms.CheckBox();
+			this.pcbDynText = new System.Windows.Forms.CheckBox();
+			this.plPDFGenerate = new System.Windows.Forms.Label();
+			this.pcbShowFrame = new System.Windows.Forms.CheckBox();
+			this.pcbStatImage = new System.Windows.Forms.CheckBox();
+			this.pcxImageSet = new System.Windows.Forms.ComboBox();
+			this.pcbMarginLR = new System.Windows.Forms.NumericUpDown();
+			this.pcbMarginTB = new System.Windows.Forms.NumericUpDown();
 			this.ptPageDetails = new System.Windows.Forms.TableLayoutPanel();
 			this.pcbPageLook = new System.Windows.Forms.Label();
 			this.ptbPageImage = new System.Windows.Forms.TextBox();
@@ -227,9 +227,6 @@
 			this.ptPatternDetails.SuspendLayout();
 			this.icPatMenu.SuspendLayout();
 			this.ppDetailsPanel.SuspendLayout();
-			this.ptDetails.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pcbMarginLR)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pcbMarginTB)).BeginInit();
 			this.ptFieldDetails.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnBorderSize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnPadding)).BeginInit();
@@ -237,6 +234,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.pnPositionX)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnWidth)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnHeight)).BeginInit();
+			this.ptDetails.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pcbMarginLR)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pcbMarginTB)).BeginInit();
 			this.ptPageDetails.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.scData)).BeginInit();
 			this.scData.Panel1.SuspendLayout();
@@ -276,7 +276,6 @@
 			this.mpPreview.Size = new System.Drawing.Size(416, 421);
 			this.mpPreview.TabIndex = 5;
 			this.mpPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mpPreview_MouseDown);
-			this.mpPreview.Resize += new System.EventHandler(this.mpPreview_Resize);
 			// 
 			// mtlStatusBar
 			// 
@@ -544,7 +543,6 @@
 			this.gmprClearList.ShortcutKeyDisplayString = "";
 			this.gmprClearList.Size = new System.Drawing.Size(187, 22);
 			this.gmprClearList.Text = "Wyczyść listę wzorów";
-			this.gmprClearList.Click += new System.EventHandler(this.gmprClearList_Click);
 			// 
 			// gmSeparator1
 			// 
@@ -580,6 +578,7 @@
 			// 
 			// gmpClose
 			// 
+			this.gmpClose.Image = ((System.Drawing.Image)(resources.GetObject("gmpClose.Image")));
 			this.gmpClose.Name = "gmpClose";
 			this.gmpClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
 			this.gmpClose.Size = new System.Drawing.Size(209, 22);
@@ -671,7 +670,6 @@
 			this.issGeneratePDF.Name = "issGeneratePDF";
 			this.issGeneratePDF.Size = new System.Drawing.Size(159, 22);
 			this.issGeneratePDF.Text = "Generator PDF...";
-			this.issGeneratePDF.Click += new System.EventHandler(this.issGeneratePDF_Click);
 			// 
 			// issEditor
 			// 
@@ -679,7 +677,6 @@
 			this.issEditor.Name = "issEditor";
 			this.issEditor.Size = new System.Drawing.Size(159, 22);
 			this.issEditor.Text = "Edytor...";
-			this.issEditor.Click += new System.EventHandler(this.issEditor_Click);
 			// 
 			// issGeneral
 			// 
@@ -687,7 +684,6 @@
 			this.issGeneral.Name = "issGeneral";
 			this.issGeneral.Size = new System.Drawing.Size(159, 22);
 			this.issGeneral.Text = "Ogólne...";
-			this.issGeneral.Click += new System.EventHandler(this.issGeneral_Click);
 			// 
 			// gmProgram
 			// 
@@ -976,7 +972,6 @@
 			this.dpPreview.Size = new System.Drawing.Size(406, 421);
 			this.dpPreview.TabIndex = 1;
 			this.dpPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dpPreview_MouseDown);
-			this.dpPreview.Resize += new System.EventHandler(this.dpPreview_Resize);
 			// 
 			// dtButtonTable
 			// 
@@ -1169,10 +1164,9 @@
 			this.ppPreview.Location = new System.Drawing.Point(0, 0);
 			this.ppPreview.Margin = new System.Windows.Forms.Padding(0);
 			this.ppPreview.Name = "ppPreview";
-			this.ppPreview.Size = new System.Drawing.Size(406, 421);
+			this.ppPreview.Size = new System.Drawing.Size(392, 421);
 			this.ppPreview.TabIndex = 1;
 			this.ppPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ppPanelContainer_MouseDown);
-			this.ppPreview.Resize += new System.EventHandler(this.ppPanelContainer_Resize);
 			// 
 			// ptPatternDetails
 			// 
@@ -1187,7 +1181,7 @@
 			this.ptPatternDetails.RowCount = 2;
 			this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
 			this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.ptPatternDetails.Size = new System.Drawing.Size(260, 421);
+			this.ptPatternDetails.Size = new System.Drawing.Size(274, 421);
 			this.ptPatternDetails.TabIndex = 5;
 			// 
 			// icPatMenu
@@ -1202,7 +1196,7 @@
 			this.icPatMenu.Location = new System.Drawing.Point(3, 3);
 			this.icPatMenu.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
 			this.icPatMenu.Name = "icPatMenu";
-			this.icPatMenu.Size = new System.Drawing.Size(254, 26);
+			this.icPatMenu.Size = new System.Drawing.Size(268, 26);
 			this.icPatMenu.TabIndex = 68;
 			this.icPatMenu.Text = "icPatMenu";
 			// 
@@ -1234,281 +1228,15 @@
 			// 
 			// ppDetailsPanel
 			// 
-			this.ppDetailsPanel.Controls.Add(this.ptDetails);
 			this.ppDetailsPanel.Controls.Add(this.ptFieldDetails);
+			this.ppDetailsPanel.Controls.Add(this.ptDetails);
 			this.ppDetailsPanel.Controls.Add(this.ptPageDetails);
 			this.ppDetailsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ppDetailsPanel.Location = new System.Drawing.Point(0, 35);
 			this.ppDetailsPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.ppDetailsPanel.Name = "ppDetailsPanel";
-			this.ppDetailsPanel.Size = new System.Drawing.Size(260, 386);
+			this.ppDetailsPanel.Size = new System.Drawing.Size(274, 386);
 			this.ppDetailsPanel.TabIndex = 69;
-			// 
-			// ptDetails
-			// 
-			this.ptDetails.ColumnCount = 2;
-			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.ptDetails.Controls.Add(this.pcbdAddMargin, 0, 11);
-			this.ptDetails.Controls.Add(this.pldAdditionalMargin, 0, 10);
-			this.ptDetails.Controls.Add(this.pcbPosAlign, 0, 9);
-			this.ptDetails.Controls.Add(this.plStickPoint, 0, 8);
-			this.ptDetails.Controls.Add(this.pcbUseImageMargin, 0, 7);
-			this.ptDetails.Controls.Add(this.pcbDrawFrameOutside, 0, 6);
-			this.ptDetails.Controls.Add(this.plImageSettings, 0, 4);
-			this.ptDetails.Controls.Add(this.pcbDynImage, 1, 3);
-			this.ptDetails.Controls.Add(this.pcbStatText, 0, 3);
-			this.ptDetails.Controls.Add(this.pcbDrawColor, 1, 1);
-			this.ptDetails.Controls.Add(this.pcbDynText, 0, 2);
-			this.ptDetails.Controls.Add(this.plPDFGenerate, 0, 0);
-			this.ptDetails.Controls.Add(this.pcbShowFrame, 0, 1);
-			this.ptDetails.Controls.Add(this.pcbStatImage, 1, 2);
-			this.ptDetails.Controls.Add(this.pcxImageSet, 0, 5);
-			this.ptDetails.Controls.Add(this.pcbMarginLR, 0, 12);
-			this.ptDetails.Controls.Add(this.pcbMarginTB, 1, 12);
-			this.ptDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ptDetails.Location = new System.Drawing.Point(0, 0);
-			this.ptDetails.Margin = new System.Windows.Forms.Padding(0);
-			this.ptDetails.Name = "ptDetails";
-			this.ptDetails.RowCount = 14;
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.Size = new System.Drawing.Size(260, 386);
-			this.ptDetails.TabIndex = 5;
-			this.ptDetails.Visible = false;
-			// 
-			// pcbdAddMargin
-			// 
-			this.pcbdAddMargin.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.pcbdAddMargin, 2);
-			this.pcbdAddMargin.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbdAddMargin.Location = new System.Drawing.Point(3, 260);
-			this.pcbdAddMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbdAddMargin.Name = "pcbdAddMargin";
-			this.pcbdAddMargin.Size = new System.Drawing.Size(254, 17);
-			this.pcbdAddMargin.TabIndex = 76;
-			this.pcbdAddMargin.Text = "Zastosuj dodatkowy margines tekstu";
-			this.pcbdAddMargin.UseVisualStyleBackColor = true;
-			this.pcbdAddMargin.Visible = false;
-			this.pcbdAddMargin.CheckedChanged += new System.EventHandler(this.pcbdAddMargin_CheckedChanged);
-			// 
-			// pldAdditionalMargin
-			// 
-			this.pldAdditionalMargin.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.pldAdditionalMargin, 2);
-			this.pldAdditionalMargin.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pldAdditionalMargin.Location = new System.Drawing.Point(3, 235);
-			this.pldAdditionalMargin.Name = "pldAdditionalMargin";
-			this.pldAdditionalMargin.Size = new System.Drawing.Size(254, 20);
-			this.pldAdditionalMargin.TabIndex = 71;
-			this.pldAdditionalMargin.Text = "Dodatkowy margines tekstu:";
-			this.pldAdditionalMargin.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-			this.pldAdditionalMargin.Visible = false;
-			// 
-			// pcbPosAlign
-			// 
-			this.ptDetails.SetColumnSpan(this.pcbPosAlign, 2);
-			this.pcbPosAlign.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbPosAlign.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.pcbPosAlign.Enabled = false;
-			this.pcbPosAlign.FormattingEnabled = true;
-			this.pcbPosAlign.Items.AddRange(new object[] {
-            "Góra-Lewo (lewy górny róg)",
-            "Góra-Prawo (prawy górny róg)",
-            "Dół-Lewo (lewy dolny róg)",
-            "Dół-Prawo (prawy dolny róg)"});
-			this.pcbPosAlign.Location = new System.Drawing.Point(3, 213);
-			this.pcbPosAlign.Name = "pcbPosAlign";
-			this.pcbPosAlign.Size = new System.Drawing.Size(254, 21);
-			this.pcbPosAlign.TabIndex = 69;
-			this.pcbPosAlign.SelectedIndexChanged += new System.EventHandler(this.pcbPosAlign_SelectedIndexChanged);
-			// 
-			// plStickPoint
-			// 
-			this.plStickPoint.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.plStickPoint, 2);
-			this.plStickPoint.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.plStickPoint.Location = new System.Drawing.Point(3, 190);
-			this.plStickPoint.Name = "plStickPoint";
-			this.plStickPoint.Size = new System.Drawing.Size(254, 20);
-			this.plStickPoint.TabIndex = 70;
-			this.plStickPoint.Text = "Punkt zaczepienia pola:";
-			this.plStickPoint.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-			// 
-			// pcbUseImageMargin
-			// 
-			this.pcbUseImageMargin.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.pcbUseImageMargin, 2);
-			this.pcbUseImageMargin.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbUseImageMargin.Location = new System.Drawing.Point(3, 170);
-			this.pcbUseImageMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbUseImageMargin.Name = "pcbUseImageMargin";
-			this.pcbUseImageMargin.Size = new System.Drawing.Size(254, 17);
-			this.pcbUseImageMargin.TabIndex = 12;
-			this.pcbUseImageMargin.Text = "Zastosuj margines do obrazu";
-			this.pcbUseImageMargin.UseVisualStyleBackColor = true;
-			// 
-			// pcbDrawFrameOutside
-			// 
-			this.pcbDrawFrameOutside.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.pcbDrawFrameOutside, 2);
-			this.pcbDrawFrameOutside.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbDrawFrameOutside.Location = new System.Drawing.Point(3, 145);
-			this.pcbDrawFrameOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbDrawFrameOutside.Name = "pcbDrawFrameOutside";
-			this.pcbDrawFrameOutside.Size = new System.Drawing.Size(254, 17);
-			this.pcbDrawFrameOutside.TabIndex = 11;
-			this.pcbDrawFrameOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
-			this.pcbDrawFrameOutside.UseVisualStyleBackColor = true;
-			// 
-			// plImageSettings
-			// 
-			this.plImageSettings.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.plImageSettings, 2);
-			this.plImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.plImageSettings.Location = new System.Drawing.Point(3, 95);
-			this.plImageSettings.Name = "plImageSettings";
-			this.plImageSettings.Size = new System.Drawing.Size(254, 20);
-			this.plImageSettings.TabIndex = 9;
-			this.plImageSettings.Text = "Ustawienia obrazu:";
-			this.plImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-			// 
-			// pcbDynImage
-			// 
-			this.pcbDynImage.AutoSize = true;
-			this.pcbDynImage.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbDynImage.Location = new System.Drawing.Point(133, 75);
-			this.pcbDynImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbDynImage.Name = "pcbDynImage";
-			this.pcbDynImage.Size = new System.Drawing.Size(124, 17);
-			this.pcbDynImage.TabIndex = 8;
-			this.pcbDynImage.Text = "Obraz dynamiczny";
-			this.pcbDynImage.UseVisualStyleBackColor = true;
-			this.pcbDynImage.CheckedChanged += new System.EventHandler(this.pcbDynImage_CheckedChanged);
-			// 
-			// pcbStatText
-			// 
-			this.pcbStatText.AutoSize = true;
-			this.pcbStatText.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbStatText.Location = new System.Drawing.Point(3, 75);
-			this.pcbStatText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbStatText.Name = "pcbStatText";
-			this.pcbStatText.Size = new System.Drawing.Size(124, 17);
-			this.pcbStatText.TabIndex = 7;
-			this.pcbStatText.Text = "Tekst statyczny";
-			this.pcbStatText.UseVisualStyleBackColor = true;
-			this.pcbStatText.CheckedChanged += new System.EventHandler(this.pcbStatText_CheckedChanged);
-			// 
-			// pcbDrawColor
-			// 
-			this.pcbDrawColor.AutoSize = true;
-			this.pcbDrawColor.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbDrawColor.Location = new System.Drawing.Point(133, 25);
-			this.pcbDrawColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbDrawColor.Name = "pcbDrawColor";
-			this.pcbDrawColor.Size = new System.Drawing.Size(124, 17);
-			this.pcbDrawColor.TabIndex = 6;
-			this.pcbDrawColor.Text = "Rysuj kolor pola";
-			this.pcbDrawColor.UseVisualStyleBackColor = true;
-			this.pcbDrawColor.CheckedChanged += new System.EventHandler(this.pcbDrawColor_CheckedChanged);
-			// 
-			// pcbDynText
-			// 
-			this.pcbDynText.AutoSize = true;
-			this.pcbDynText.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbDynText.Location = new System.Drawing.Point(3, 50);
-			this.pcbDynText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbDynText.Name = "pcbDynText";
-			this.pcbDynText.Size = new System.Drawing.Size(124, 17);
-			this.pcbDynText.TabIndex = 3;
-			this.pcbDynText.Text = "Tekst dynamiczny";
-			this.pcbDynText.UseVisualStyleBackColor = true;
-			this.pcbDynText.CheckedChanged += new System.EventHandler(this.pcbDynText_CheckedChanged);
-			// 
-			// plPDFGenerate
-			// 
-			this.plPDFGenerate.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.plPDFGenerate, 2);
-			this.plPDFGenerate.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.plPDFGenerate.Location = new System.Drawing.Point(3, 0);
-			this.plPDFGenerate.Name = "plPDFGenerate";
-			this.plPDFGenerate.Size = new System.Drawing.Size(254, 20);
-			this.plPDFGenerate.TabIndex = 0;
-			this.plPDFGenerate.Text = "Generowanie do pliku PDF:";
-			this.plPDFGenerate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-			// 
-			// pcbShowFrame
-			// 
-			this.pcbShowFrame.AutoSize = true;
-			this.pcbShowFrame.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbShowFrame.Location = new System.Drawing.Point(3, 25);
-			this.pcbShowFrame.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbShowFrame.Name = "pcbShowFrame";
-			this.pcbShowFrame.Size = new System.Drawing.Size(124, 17);
-			this.pcbShowFrame.TabIndex = 1;
-			this.pcbShowFrame.Text = "Wyświetlaj ramke";
-			this.pcbShowFrame.UseVisualStyleBackColor = true;
-			this.pcbShowFrame.CheckedChanged += new System.EventHandler(this.pcbShowFrame_CheckedChanged);
-			// 
-			// pcbStatImage
-			// 
-			this.pcbStatImage.AutoSize = true;
-			this.pcbStatImage.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbStatImage.Location = new System.Drawing.Point(133, 50);
-			this.pcbStatImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbStatImage.Name = "pcbStatImage";
-			this.pcbStatImage.Size = new System.Drawing.Size(124, 17);
-			this.pcbStatImage.TabIndex = 4;
-			this.pcbStatImage.Text = "Obraz statyczny";
-			this.pcbStatImage.UseVisualStyleBackColor = true;
-			this.pcbStatImage.CheckedChanged += new System.EventHandler(this.pcbStatImage_CheckedChanged);
-			// 
-			// pcxImageSet
-			// 
-			this.ptDetails.SetColumnSpan(this.pcxImageSet, 2);
-			this.pcxImageSet.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcxImageSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.pcxImageSet.FormattingEnabled = true;
-			this.pcxImageSet.Items.AddRange(new object[] {
-            "Zostaw proporcje takie jakie są"});
-			this.pcxImageSet.Location = new System.Drawing.Point(3, 118);
-			this.pcxImageSet.Name = "pcxImageSet";
-			this.pcxImageSet.Size = new System.Drawing.Size(254, 21);
-			this.pcxImageSet.TabIndex = 10;
-			// 
-			// pcbMarginLR
-			// 
-			this.pcbMarginLR.DecimalPlaces = 1;
-			this.pcbMarginLR.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbMarginLR.Location = new System.Drawing.Point(3, 283);
-			this.pcbMarginLR.Name = "pcbMarginLR";
-			this.pcbMarginLR.Size = new System.Drawing.Size(124, 20);
-			this.pcbMarginLR.TabIndex = 74;
-			this.pcbMarginLR.Visible = false;
-			this.pcbMarginLR.ValueChanged += new System.EventHandler(this.pcbMarginLR_ValueChanged);
-			// 
-			// pcbMarginTB
-			// 
-			this.pcbMarginTB.DecimalPlaces = 1;
-			this.pcbMarginTB.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbMarginTB.Location = new System.Drawing.Point(133, 283);
-			this.pcbMarginTB.Name = "pcbMarginTB";
-			this.pcbMarginTB.Size = new System.Drawing.Size(124, 20);
-			this.pcbMarginTB.TabIndex = 73;
-			this.pcbMarginTB.Visible = false;
-			this.pcbMarginTB.ValueChanged += new System.EventHandler(this.pcbMarginTB_ValueChanged);
 			// 
 			// ptFieldDetails
 			// 
@@ -1570,7 +1298,7 @@
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptFieldDetails.Size = new System.Drawing.Size(260, 386);
+			this.ptFieldDetails.Size = new System.Drawing.Size(274, 386);
 			this.ptFieldDetails.TabIndex = 7;
 			// 
 			// pcbTextTransform
@@ -1586,7 +1314,7 @@
             "Kapitaliki"});
 			this.pcbTextTransform.Location = new System.Drawing.Point(3, 363);
 			this.pcbTextTransform.Name = "pcbTextTransform";
-			this.pcbTextTransform.Size = new System.Drawing.Size(124, 21);
+			this.pcbTextTransform.Size = new System.Drawing.Size(131, 21);
 			this.pcbTextTransform.TabIndex = 74;
 			this.pcbTextTransform.SelectedIndexChanged += new System.EventHandler(this.pcbTextTransform_SelectedIndexChanged);
 			// 
@@ -1597,7 +1325,7 @@
 			this.plTextTransform.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plTextTransform.Location = new System.Drawing.Point(3, 340);
 			this.plTextTransform.Name = "plTextTransform";
-			this.plTextTransform.Size = new System.Drawing.Size(124, 20);
+			this.plTextTransform.Size = new System.Drawing.Size(131, 20);
 			this.plTextTransform.TabIndex = 73;
 			this.plTextTransform.Text = "Wyświetlanie tekstu:";
 			this.plTextTransform.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1607,9 +1335,9 @@
 			this.plHeight.AutoSize = true;
 			this.plHeight.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plHeight.Location = new System.Drawing.Point(133, 70);
+			this.plHeight.Location = new System.Drawing.Point(140, 70);
 			this.plHeight.Name = "plHeight";
-			this.plHeight.Size = new System.Drawing.Size(124, 20);
+			this.plHeight.Size = new System.Drawing.Size(131, 20);
 			this.plHeight.TabIndex = 72;
 			this.plHeight.Text = "Wysokość:";
 			this.plHeight.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1624,14 +1352,14 @@
             0,
             0,
             65536});
-			this.pnBorderSize.Location = new System.Drawing.Point(133, 363);
+			this.pnBorderSize.Location = new System.Drawing.Point(140, 363);
 			this.pnBorderSize.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
 			this.pnBorderSize.Name = "pnBorderSize";
-			this.pnBorderSize.Size = new System.Drawing.Size(124, 20);
+			this.pnBorderSize.Size = new System.Drawing.Size(131, 20);
 			this.pnBorderSize.TabIndex = 65;
 			this.pnBorderSize.ValueChanged += new System.EventHandler(this.pnBorderSize_ValueChanged);
 			// 
@@ -1645,14 +1373,14 @@
             0,
             0,
             65536});
-			this.pnPadding.Location = new System.Drawing.Point(133, 318);
+			this.pnPadding.Location = new System.Drawing.Point(140, 318);
 			this.pnPadding.Maximum = new decimal(new int[] {
             20,
             0,
             0,
             0});
 			this.pnPadding.Name = "pnPadding";
-			this.pnPadding.Size = new System.Drawing.Size(124, 20);
+			this.pnPadding.Size = new System.Drawing.Size(131, 20);
 			this.pnPadding.TabIndex = 63;
 			this.pnPadding.ValueChanged += new System.EventHandler(this.pnPadding_ValueChanged);
 			// 
@@ -1661,9 +1389,9 @@
 			this.plPadding.AutoSize = true;
 			this.plPadding.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plPadding.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plPadding.Location = new System.Drawing.Point(133, 295);
+			this.plPadding.Location = new System.Drawing.Point(140, 295);
 			this.plPadding.Name = "plPadding";
-			this.plPadding.Size = new System.Drawing.Size(124, 20);
+			this.plPadding.Size = new System.Drawing.Size(131, 20);
 			this.plPadding.TabIndex = 61;
 			this.plPadding.Text = "Margines:";
 			this.plPadding.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1675,7 +1403,7 @@
 			this.plTextPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plTextPosition.Location = new System.Drawing.Point(3, 295);
 			this.plTextPosition.Name = "plTextPosition";
-			this.plTextPosition.Size = new System.Drawing.Size(124, 20);
+			this.plTextPosition.Size = new System.Drawing.Size(131, 20);
 			this.plTextPosition.TabIndex = 60;
 			this.plTextPosition.Text = "Położenie tekstu:";
 			this.plTextPosition.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1685,10 +1413,10 @@
 			this.pbFontName.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbFontName.Enabled = false;
 			this.pbFontName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbFontName.Location = new System.Drawing.Point(133, 242);
+			this.pbFontName.Location = new System.Drawing.Point(140, 242);
 			this.pbFontName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbFontName.Name = "pbFontName";
-			this.pbFontName.Size = new System.Drawing.Size(124, 23);
+			this.pbFontName.Size = new System.Drawing.Size(131, 23);
 			this.pbFontName.TabIndex = 59;
 			this.pbFontName.Text = "Nazwa";
 			this.pbFontName.UseVisualStyleBackColor = true;
@@ -1701,7 +1429,7 @@
 			this.ptbFontName.Location = new System.Drawing.Point(3, 244);
 			this.ptbFontName.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbFontName.Name = "ptbFontName";
-			this.ptbFontName.Size = new System.Drawing.Size(124, 20);
+			this.ptbFontName.Size = new System.Drawing.Size(131, 20);
 			this.ptbFontName.TabIndex = 57;
 			// 
 			// pbBackImage
@@ -1709,10 +1437,10 @@
 			this.pbBackImage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBackImage.Enabled = false;
 			this.pbBackImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBackImage.Location = new System.Drawing.Point(133, 194);
+			this.pbBackImage.Location = new System.Drawing.Point(140, 194);
 			this.pbBackImage.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBackImage.Name = "pbBackImage";
-			this.pbBackImage.Size = new System.Drawing.Size(124, 23);
+			this.pbBackImage.Size = new System.Drawing.Size(131, 23);
 			this.pbBackImage.TabIndex = 52;
 			this.pbBackImage.Text = "Obraz";
 			this.pbBackImage.UseVisualStyleBackColor = true;
@@ -1725,7 +1453,7 @@
 			this.ptbBackImage.Location = new System.Drawing.Point(3, 196);
 			this.ptbBackImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBackImage.Name = "ptbBackImage";
-			this.ptbBackImage.Size = new System.Drawing.Size(124, 20);
+			this.ptbBackImage.Size = new System.Drawing.Size(131, 20);
 			this.ptbBackImage.TabIndex = 51;
 			// 
 			// pbBackColor
@@ -1733,10 +1461,10 @@
 			this.pbBackColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBackColor.Enabled = false;
 			this.pbBackColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBackColor.Location = new System.Drawing.Point(133, 166);
+			this.pbBackColor.Location = new System.Drawing.Point(140, 166);
 			this.pbBackColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBackColor.Name = "pbBackColor";
-			this.pbBackColor.Size = new System.Drawing.Size(124, 23);
+			this.pbBackColor.Size = new System.Drawing.Size(131, 23);
 			this.pbBackColor.TabIndex = 50;
 			this.pbBackColor.Text = "Kolor";
 			this.pbBackColor.UseVisualStyleBackColor = true;
@@ -1749,7 +1477,7 @@
 			this.ptbBackColor.Location = new System.Drawing.Point(3, 168);
 			this.ptbBackColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBackColor.Name = "ptbBackColor";
-			this.ptbBackColor.Size = new System.Drawing.Size(124, 20);
+			this.ptbBackColor.Size = new System.Drawing.Size(131, 20);
 			this.ptbBackColor.TabIndex = 49;
 			// 
 			// pbFontColor
@@ -1757,10 +1485,10 @@
 			this.pbFontColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbFontColor.Enabled = false;
 			this.pbFontColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbFontColor.Location = new System.Drawing.Point(133, 270);
+			this.pbFontColor.Location = new System.Drawing.Point(140, 270);
 			this.pbFontColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbFontColor.Name = "pbFontColor";
-			this.pbFontColor.Size = new System.Drawing.Size(124, 23);
+			this.pbFontColor.Size = new System.Drawing.Size(131, 23);
 			this.pbFontColor.TabIndex = 35;
 			this.pbFontColor.Text = "Kolor";
 			this.pbFontColor.UseVisualStyleBackColor = true;
@@ -1773,7 +1501,7 @@
 			this.ptbFontColor.Location = new System.Drawing.Point(3, 272);
 			this.ptbFontColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbFontColor.Name = "ptbFontColor";
-			this.ptbFontColor.Size = new System.Drawing.Size(124, 20);
+			this.ptbFontColor.Size = new System.Drawing.Size(131, 20);
 			this.ptbFontColor.TabIndex = 34;
 			// 
 			// ptbName
@@ -1784,23 +1512,25 @@
 			this.ptbName.Location = new System.Drawing.Point(3, 3);
 			this.ptbName.MaxLength = 127;
 			this.ptbName.Name = "ptbName";
-			this.ptbName.Size = new System.Drawing.Size(254, 20);
+			this.ptbName.Size = new System.Drawing.Size(268, 20);
 			this.ptbName.TabIndex = 0;
 			this.ptbName.TextChanged += new System.EventHandler(this.ptbName_TextChanged);
+			this.ptbName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ptbName_KeyPress);
+			this.ptbName.Leave += new System.EventHandler(this.ptbName_Leave);
 			// 
 			// pnPositionY
 			// 
 			this.pnPositionY.DecimalPlaces = 1;
 			this.pnPositionY.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnPositionY.Enabled = false;
-			this.pnPositionY.Location = new System.Drawing.Point(133, 48);
+			this.pnPositionY.Location = new System.Drawing.Point(140, 48);
 			this.pnPositionY.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
 			this.pnPositionY.Name = "pnPositionY";
-			this.pnPositionY.Size = new System.Drawing.Size(124, 20);
+			this.pnPositionY.Size = new System.Drawing.Size(131, 20);
 			this.pnPositionY.TabIndex = 2;
 			this.pnPositionY.ValueChanged += new System.EventHandler(this.pnPositionY_ValueChanged);
 			// 
@@ -1816,7 +1546,7 @@
             0,
             0});
 			this.pnPositionX.Name = "pnPositionX";
-			this.pnPositionX.Size = new System.Drawing.Size(124, 20);
+			this.pnPositionX.Size = new System.Drawing.Size(131, 20);
 			this.pnPositionX.TabIndex = 1;
 			this.pnPositionX.ValueChanged += new System.EventHandler(this.pnPositionX_ValueChanged);
 			// 
@@ -1827,7 +1557,7 @@
 			this.plPositionX.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plPositionX.Location = new System.Drawing.Point(3, 25);
 			this.plPositionX.Name = "plPositionX";
-			this.plPositionX.Size = new System.Drawing.Size(124, 20);
+			this.plPositionX.Size = new System.Drawing.Size(131, 20);
 			this.plPositionX.TabIndex = 4;
 			this.plPositionX.Text = "Pozycja X:";
 			this.plPositionX.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1839,7 +1569,7 @@
 			this.plWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plWidth.Location = new System.Drawing.Point(3, 70);
 			this.plWidth.Name = "plWidth";
-			this.plWidth.Size = new System.Drawing.Size(124, 20);
+			this.plWidth.Size = new System.Drawing.Size(131, 20);
 			this.plWidth.TabIndex = 6;
 			this.plWidth.Text = "Szerokość:";
 			this.plWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1857,7 +1587,7 @@
             0,
             0});
 			this.pnWidth.Name = "pnWidth";
-			this.pnWidth.Size = new System.Drawing.Size(124, 20);
+			this.pnWidth.Size = new System.Drawing.Size(131, 20);
 			this.pnWidth.TabIndex = 3;
 			this.pnWidth.ValueChanged += new System.EventHandler(this.pnWidth_ValueChanged);
 			// 
@@ -1866,14 +1596,14 @@
 			this.pnHeight.DecimalPlaces = 1;
 			this.pnHeight.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnHeight.Enabled = false;
-			this.pnHeight.Location = new System.Drawing.Point(133, 93);
+			this.pnHeight.Location = new System.Drawing.Point(140, 93);
 			this.pnHeight.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
 			this.pnHeight.Name = "pnHeight";
-			this.pnHeight.Size = new System.Drawing.Size(124, 20);
+			this.pnHeight.Size = new System.Drawing.Size(131, 20);
 			this.pnHeight.TabIndex = 4;
 			this.pnHeight.ValueChanged += new System.EventHandler(this.pnHeight_ValueChanged);
 			// 
@@ -1885,7 +1615,7 @@
 			this.plBorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plBorderColor.Location = new System.Drawing.Point(3, 115);
 			this.plBorderColor.Name = "plBorderColor";
-			this.plBorderColor.Size = new System.Drawing.Size(254, 20);
+			this.plBorderColor.Size = new System.Drawing.Size(268, 20);
 			this.plBorderColor.TabIndex = 10;
 			this.plBorderColor.Text = "Wygląd:";
 			this.plBorderColor.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1897,7 +1627,7 @@
 			this.ptbBorderColor.Location = new System.Drawing.Point(3, 140);
 			this.ptbBorderColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBorderColor.Name = "ptbBorderColor";
-			this.ptbBorderColor.Size = new System.Drawing.Size(124, 20);
+			this.ptbBorderColor.Size = new System.Drawing.Size(131, 20);
 			this.ptbBorderColor.TabIndex = 5;
 			// 
 			// pbBorderColor
@@ -1905,10 +1635,10 @@
 			this.pbBorderColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBorderColor.Enabled = false;
 			this.pbBorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBorderColor.Location = new System.Drawing.Point(133, 138);
+			this.pbBorderColor.Location = new System.Drawing.Point(140, 138);
 			this.pbBorderColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBorderColor.Name = "pbBorderColor";
-			this.pbBorderColor.Size = new System.Drawing.Size(124, 23);
+			this.pbBorderColor.Size = new System.Drawing.Size(131, 23);
 			this.pbBorderColor.TabIndex = 6;
 			this.pbBorderColor.Text = "Ramka";
 			this.pbBorderColor.UseVisualStyleBackColor = true;
@@ -1922,7 +1652,7 @@
 			this.plFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plFont.Location = new System.Drawing.Point(3, 219);
 			this.plFont.Name = "plFont";
-			this.plFont.Size = new System.Drawing.Size(254, 20);
+			this.plFont.Size = new System.Drawing.Size(268, 20);
 			this.plFont.TabIndex = 53;
 			this.plFont.Text = "Czcionka:";
 			this.plFont.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1932,9 +1662,9 @@
 			this.plBorderWidth.AutoSize = true;
 			this.plBorderWidth.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plBorderWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plBorderWidth.Location = new System.Drawing.Point(133, 340);
+			this.plBorderWidth.Location = new System.Drawing.Point(140, 340);
 			this.plBorderWidth.Name = "plBorderWidth";
-			this.plBorderWidth.Size = new System.Drawing.Size(124, 20);
+			this.plBorderWidth.Size = new System.Drawing.Size(131, 20);
 			this.plBorderWidth.TabIndex = 64;
 			this.plBorderWidth.Text = "Grubość ramki:";
 			this.plBorderWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1957,7 +1687,7 @@
             "Dół-Prawo"});
 			this.pcbTextAlign.Location = new System.Drawing.Point(3, 318);
 			this.pcbTextAlign.Name = "pcbTextAlign";
-			this.pcbTextAlign.Size = new System.Drawing.Size(124, 21);
+			this.pcbTextAlign.Size = new System.Drawing.Size(131, 21);
 			this.pcbTextAlign.TabIndex = 68;
 			this.pcbTextAlign.SelectedIndexChanged += new System.EventHandler(this.pcbTextAlign_SelectedIndexChanged);
 			// 
@@ -1965,12 +1695,278 @@
 			// 
 			this.plPositionY.AutoSize = true;
 			this.plPositionY.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.plPositionY.Location = new System.Drawing.Point(133, 25);
+			this.plPositionY.Location = new System.Drawing.Point(140, 25);
 			this.plPositionY.Name = "plPositionY";
-			this.plPositionY.Size = new System.Drawing.Size(124, 20);
+			this.plPositionY.Size = new System.Drawing.Size(131, 20);
 			this.plPositionY.TabIndex = 71;
 			this.plPositionY.Text = "Pozycja Y:";
 			this.plPositionY.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// ptDetails
+			// 
+			this.ptDetails.ColumnCount = 2;
+			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptDetails.Controls.Add(this.pcbdAddMargin, 0, 11);
+			this.ptDetails.Controls.Add(this.pldAdditionalMargin, 0, 10);
+			this.ptDetails.Controls.Add(this.pcbPosAlign, 0, 9);
+			this.ptDetails.Controls.Add(this.plStickPoint, 0, 8);
+			this.ptDetails.Controls.Add(this.pcbUseImageMargin, 0, 7);
+			this.ptDetails.Controls.Add(this.pcbDrawFrameOutside, 0, 6);
+			this.ptDetails.Controls.Add(this.plImageSettings, 0, 4);
+			this.ptDetails.Controls.Add(this.pcbDynImage, 1, 3);
+			this.ptDetails.Controls.Add(this.pcbStatText, 0, 3);
+			this.ptDetails.Controls.Add(this.pcbDrawColor, 1, 1);
+			this.ptDetails.Controls.Add(this.pcbDynText, 0, 2);
+			this.ptDetails.Controls.Add(this.plPDFGenerate, 0, 0);
+			this.ptDetails.Controls.Add(this.pcbShowFrame, 0, 1);
+			this.ptDetails.Controls.Add(this.pcbStatImage, 1, 2);
+			this.ptDetails.Controls.Add(this.pcxImageSet, 0, 5);
+			this.ptDetails.Controls.Add(this.pcbMarginLR, 0, 12);
+			this.ptDetails.Controls.Add(this.pcbMarginTB, 1, 12);
+			this.ptDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptDetails.Location = new System.Drawing.Point(0, 0);
+			this.ptDetails.Margin = new System.Windows.Forms.Padding(0);
+			this.ptDetails.Name = "ptDetails";
+			this.ptDetails.RowCount = 14;
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.Size = new System.Drawing.Size(274, 386);
+			this.ptDetails.TabIndex = 5;
+			this.ptDetails.Visible = false;
+			// 
+			// pcbdAddMargin
+			// 
+			this.pcbdAddMargin.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.pcbdAddMargin, 2);
+			this.pcbdAddMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbdAddMargin.Location = new System.Drawing.Point(3, 260);
+			this.pcbdAddMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbdAddMargin.Name = "pcbdAddMargin";
+			this.pcbdAddMargin.Size = new System.Drawing.Size(268, 17);
+			this.pcbdAddMargin.TabIndex = 76;
+			this.pcbdAddMargin.Text = "Zastosuj dodatkowy margines tekstu";
+			this.pcbdAddMargin.UseVisualStyleBackColor = true;
+			this.pcbdAddMargin.Visible = false;
+			this.pcbdAddMargin.CheckedChanged += new System.EventHandler(this.pcbdAddMargin_CheckedChanged);
+			// 
+			// pldAdditionalMargin
+			// 
+			this.pldAdditionalMargin.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.pldAdditionalMargin, 2);
+			this.pldAdditionalMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pldAdditionalMargin.Location = new System.Drawing.Point(3, 235);
+			this.pldAdditionalMargin.Name = "pldAdditionalMargin";
+			this.pldAdditionalMargin.Size = new System.Drawing.Size(268, 20);
+			this.pldAdditionalMargin.TabIndex = 71;
+			this.pldAdditionalMargin.Text = "Dodatkowy margines tekstu:";
+			this.pldAdditionalMargin.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.pldAdditionalMargin.Visible = false;
+			// 
+			// pcbPosAlign
+			// 
+			this.ptDetails.SetColumnSpan(this.pcbPosAlign, 2);
+			this.pcbPosAlign.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbPosAlign.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.pcbPosAlign.Enabled = false;
+			this.pcbPosAlign.FormattingEnabled = true;
+			this.pcbPosAlign.Items.AddRange(new object[] {
+            "Góra-Lewo (lewy górny róg)",
+            "Góra-Prawo (prawy górny róg)",
+            "Dół-Lewo (lewy dolny róg)",
+            "Dół-Prawo (prawy dolny róg)"});
+			this.pcbPosAlign.Location = new System.Drawing.Point(3, 213);
+			this.pcbPosAlign.Name = "pcbPosAlign";
+			this.pcbPosAlign.Size = new System.Drawing.Size(268, 21);
+			this.pcbPosAlign.TabIndex = 69;
+			this.pcbPosAlign.SelectedIndexChanged += new System.EventHandler(this.pcbPosAlign_SelectedIndexChanged);
+			// 
+			// plStickPoint
+			// 
+			this.plStickPoint.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.plStickPoint, 2);
+			this.plStickPoint.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plStickPoint.Location = new System.Drawing.Point(3, 190);
+			this.plStickPoint.Name = "plStickPoint";
+			this.plStickPoint.Size = new System.Drawing.Size(268, 20);
+			this.plStickPoint.TabIndex = 70;
+			this.plStickPoint.Text = "Punkt zaczepienia pola:";
+			this.plStickPoint.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// pcbUseImageMargin
+			// 
+			this.pcbUseImageMargin.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.pcbUseImageMargin, 2);
+			this.pcbUseImageMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbUseImageMargin.Location = new System.Drawing.Point(3, 170);
+			this.pcbUseImageMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbUseImageMargin.Name = "pcbUseImageMargin";
+			this.pcbUseImageMargin.Size = new System.Drawing.Size(268, 17);
+			this.pcbUseImageMargin.TabIndex = 12;
+			this.pcbUseImageMargin.Text = "Zastosuj margines do obrazu";
+			this.pcbUseImageMargin.UseVisualStyleBackColor = true;
+			// 
+			// pcbDrawFrameOutside
+			// 
+			this.pcbDrawFrameOutside.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.pcbDrawFrameOutside, 2);
+			this.pcbDrawFrameOutside.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDrawFrameOutside.Location = new System.Drawing.Point(3, 145);
+			this.pcbDrawFrameOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDrawFrameOutside.Name = "pcbDrawFrameOutside";
+			this.pcbDrawFrameOutside.Size = new System.Drawing.Size(268, 17);
+			this.pcbDrawFrameOutside.TabIndex = 11;
+			this.pcbDrawFrameOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
+			this.pcbDrawFrameOutside.UseVisualStyleBackColor = true;
+			// 
+			// plImageSettings
+			// 
+			this.plImageSettings.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.plImageSettings, 2);
+			this.plImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plImageSettings.Location = new System.Drawing.Point(3, 95);
+			this.plImageSettings.Name = "plImageSettings";
+			this.plImageSettings.Size = new System.Drawing.Size(268, 20);
+			this.plImageSettings.TabIndex = 9;
+			this.plImageSettings.Text = "Ustawienia obrazu:";
+			this.plImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// pcbDynImage
+			// 
+			this.pcbDynImage.AutoSize = true;
+			this.pcbDynImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDynImage.Location = new System.Drawing.Point(140, 75);
+			this.pcbDynImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDynImage.Name = "pcbDynImage";
+			this.pcbDynImage.Size = new System.Drawing.Size(131, 17);
+			this.pcbDynImage.TabIndex = 8;
+			this.pcbDynImage.Text = "Obraz dynamiczny";
+			this.pcbDynImage.UseVisualStyleBackColor = true;
+			this.pcbDynImage.CheckedChanged += new System.EventHandler(this.pcbDynImage_CheckedChanged);
+			// 
+			// pcbStatText
+			// 
+			this.pcbStatText.AutoSize = true;
+			this.pcbStatText.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbStatText.Location = new System.Drawing.Point(3, 75);
+			this.pcbStatText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbStatText.Name = "pcbStatText";
+			this.pcbStatText.Size = new System.Drawing.Size(131, 17);
+			this.pcbStatText.TabIndex = 7;
+			this.pcbStatText.Text = "Tekst statyczny";
+			this.pcbStatText.UseVisualStyleBackColor = true;
+			this.pcbStatText.CheckedChanged += new System.EventHandler(this.pcbStatText_CheckedChanged);
+			// 
+			// pcbDrawColor
+			// 
+			this.pcbDrawColor.AutoSize = true;
+			this.pcbDrawColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDrawColor.Location = new System.Drawing.Point(140, 25);
+			this.pcbDrawColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDrawColor.Name = "pcbDrawColor";
+			this.pcbDrawColor.Size = new System.Drawing.Size(131, 17);
+			this.pcbDrawColor.TabIndex = 6;
+			this.pcbDrawColor.Text = "Rysuj kolor pola";
+			this.pcbDrawColor.UseVisualStyleBackColor = true;
+			this.pcbDrawColor.CheckedChanged += new System.EventHandler(this.pcbDrawColor_CheckedChanged);
+			// 
+			// pcbDynText
+			// 
+			this.pcbDynText.AutoSize = true;
+			this.pcbDynText.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDynText.Location = new System.Drawing.Point(3, 50);
+			this.pcbDynText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDynText.Name = "pcbDynText";
+			this.pcbDynText.Size = new System.Drawing.Size(131, 17);
+			this.pcbDynText.TabIndex = 3;
+			this.pcbDynText.Text = "Tekst dynamiczny";
+			this.pcbDynText.UseVisualStyleBackColor = true;
+			this.pcbDynText.CheckedChanged += new System.EventHandler(this.pcbDynText_CheckedChanged);
+			// 
+			// plPDFGenerate
+			// 
+			this.plPDFGenerate.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.plPDFGenerate, 2);
+			this.plPDFGenerate.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plPDFGenerate.Location = new System.Drawing.Point(3, 0);
+			this.plPDFGenerate.Name = "plPDFGenerate";
+			this.plPDFGenerate.Size = new System.Drawing.Size(268, 20);
+			this.plPDFGenerate.TabIndex = 0;
+			this.plPDFGenerate.Text = "Generowanie do pliku PDF:";
+			this.plPDFGenerate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// pcbShowFrame
+			// 
+			this.pcbShowFrame.AutoSize = true;
+			this.pcbShowFrame.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbShowFrame.Location = new System.Drawing.Point(3, 25);
+			this.pcbShowFrame.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbShowFrame.Name = "pcbShowFrame";
+			this.pcbShowFrame.Size = new System.Drawing.Size(131, 17);
+			this.pcbShowFrame.TabIndex = 1;
+			this.pcbShowFrame.Text = "Wyświetlaj ramke";
+			this.pcbShowFrame.UseVisualStyleBackColor = true;
+			this.pcbShowFrame.CheckedChanged += new System.EventHandler(this.pcbShowFrame_CheckedChanged);
+			// 
+			// pcbStatImage
+			// 
+			this.pcbStatImage.AutoSize = true;
+			this.pcbStatImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbStatImage.Location = new System.Drawing.Point(140, 50);
+			this.pcbStatImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbStatImage.Name = "pcbStatImage";
+			this.pcbStatImage.Size = new System.Drawing.Size(131, 17);
+			this.pcbStatImage.TabIndex = 4;
+			this.pcbStatImage.Text = "Obraz statyczny";
+			this.pcbStatImage.UseVisualStyleBackColor = true;
+			this.pcbStatImage.CheckedChanged += new System.EventHandler(this.pcbStatImage_CheckedChanged);
+			// 
+			// pcxImageSet
+			// 
+			this.ptDetails.SetColumnSpan(this.pcxImageSet, 2);
+			this.pcxImageSet.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcxImageSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.pcxImageSet.FormattingEnabled = true;
+			this.pcxImageSet.Items.AddRange(new object[] {
+            "Zostaw proporcje takie jakie są"});
+			this.pcxImageSet.Location = new System.Drawing.Point(3, 118);
+			this.pcxImageSet.Name = "pcxImageSet";
+			this.pcxImageSet.Size = new System.Drawing.Size(268, 21);
+			this.pcxImageSet.TabIndex = 10;
+			// 
+			// pcbMarginLR
+			// 
+			this.pcbMarginLR.DecimalPlaces = 1;
+			this.pcbMarginLR.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbMarginLR.Location = new System.Drawing.Point(3, 283);
+			this.pcbMarginLR.Name = "pcbMarginLR";
+			this.pcbMarginLR.Size = new System.Drawing.Size(131, 20);
+			this.pcbMarginLR.TabIndex = 74;
+			this.pcbMarginLR.Visible = false;
+			this.pcbMarginLR.ValueChanged += new System.EventHandler(this.pcbMarginLR_ValueChanged);
+			// 
+			// pcbMarginTB
+			// 
+			this.pcbMarginTB.DecimalPlaces = 1;
+			this.pcbMarginTB.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbMarginTB.Location = new System.Drawing.Point(140, 283);
+			this.pcbMarginTB.Name = "pcbMarginTB";
+			this.pcbMarginTB.Size = new System.Drawing.Size(131, 20);
+			this.pcbMarginTB.TabIndex = 73;
+			this.pcbMarginTB.Visible = false;
+			this.pcbMarginTB.ValueChanged += new System.EventHandler(this.pcbMarginTB_ValueChanged);
 			// 
 			// ptPageDetails
 			// 
@@ -2009,7 +2005,7 @@
 			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptPageDetails.Size = new System.Drawing.Size(260, 386);
+			this.ptPageDetails.Size = new System.Drawing.Size(274, 386);
 			this.ptPageDetails.TabIndex = 4;
 			this.ptPageDetails.Visible = false;
 			// 
@@ -2020,7 +2016,7 @@
 			this.pcbPageLook.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pcbPageLook.Location = new System.Drawing.Point(3, 45);
 			this.pcbPageLook.Name = "pcbPageLook";
-			this.pcbPageLook.Size = new System.Drawing.Size(254, 20);
+			this.pcbPageLook.Size = new System.Drawing.Size(268, 20);
 			this.pcbPageLook.TabIndex = 55;
 			this.pcbPageLook.Text = "Wygląd:";
 			this.pcbPageLook.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2031,7 +2027,7 @@
 			this.ptbPageImage.Enabled = false;
 			this.ptbPageImage.Location = new System.Drawing.Point(3, 93);
 			this.ptbPageImage.Name = "ptbPageImage";
-			this.ptbPageImage.Size = new System.Drawing.Size(124, 20);
+			this.ptbPageImage.Size = new System.Drawing.Size(131, 20);
 			this.ptbPageImage.TabIndex = 54;
 			// 
 			// pbPageImage
@@ -2039,10 +2035,10 @@
 			this.pbPageImage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbPageImage.Enabled = false;
 			this.pbPageImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbPageImage.Location = new System.Drawing.Point(133, 92);
+			this.pbPageImage.Location = new System.Drawing.Point(140, 92);
 			this.pbPageImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.pbPageImage.Name = "pbPageImage";
-			this.pbPageImage.Size = new System.Drawing.Size(124, 21);
+			this.pbPageImage.Size = new System.Drawing.Size(131, 21);
 			this.pbPageImage.TabIndex = 53;
 			this.pbPageImage.Text = "Obraz";
 			this.pbPageImage.UseVisualStyleBackColor = true;
@@ -2051,10 +2047,10 @@
 			// 
 			this.pbPageColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbPageColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbPageColor.Location = new System.Drawing.Point(133, 67);
+			this.pbPageColor.Location = new System.Drawing.Point(140, 67);
 			this.pbPageColor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.pbPageColor.Name = "pbPageColor";
-			this.pbPageColor.Size = new System.Drawing.Size(124, 21);
+			this.pbPageColor.Size = new System.Drawing.Size(131, 21);
 			this.pbPageColor.TabIndex = 52;
 			this.pbPageColor.Text = "Kolor";
 			this.pbPageColor.UseVisualStyleBackColor = true;
@@ -2066,7 +2062,7 @@
 			this.ptbPageColor.Enabled = false;
 			this.ptbPageColor.Location = new System.Drawing.Point(3, 68);
 			this.ptbPageColor.Name = "ptbPageColor";
-			this.ptbPageColor.Size = new System.Drawing.Size(124, 20);
+			this.ptbPageColor.Size = new System.Drawing.Size(131, 20);
 			this.ptbPageColor.TabIndex = 51;
 			// 
 			// pcbpDrawOutside
@@ -2077,7 +2073,7 @@
 			this.pcbpDrawOutside.Location = new System.Drawing.Point(3, 235);
 			this.pcbpDrawOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.pcbpDrawOutside.Name = "pcbpDrawOutside";
-			this.pcbpDrawOutside.Size = new System.Drawing.Size(254, 17);
+			this.pcbpDrawOutside.Size = new System.Drawing.Size(268, 17);
 			this.pcbpDrawOutside.TabIndex = 14;
 			this.pcbpDrawOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
 			this.pcbpDrawOutside.UseVisualStyleBackColor = true;
@@ -2090,7 +2086,7 @@
 			this.pcbpApplyMargin.Location = new System.Drawing.Point(3, 210);
 			this.pcbpApplyMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.pcbpApplyMargin.Name = "pcbpApplyMargin";
-			this.pcbpApplyMargin.Size = new System.Drawing.Size(254, 17);
+			this.pcbpApplyMargin.Size = new System.Drawing.Size(268, 17);
 			this.pcbpApplyMargin.TabIndex = 13;
 			this.pcbpApplyMargin.Text = "Zastosuj margines do obrazu";
 			this.pcbpApplyMargin.UseVisualStyleBackColor = true;
@@ -2105,7 +2101,7 @@
             "Zostaw proporcje takie jakie są"});
 			this.pcxpImageSet.Location = new System.Drawing.Point(3, 183);
 			this.pcxpImageSet.Name = "pcxpImageSet";
-			this.pcxpImageSet.Size = new System.Drawing.Size(254, 21);
+			this.pcxpImageSet.Size = new System.Drawing.Size(268, 21);
 			this.pcxpImageSet.TabIndex = 11;
 			// 
 			// plpImageSettings
@@ -2115,7 +2111,7 @@
 			this.plpImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plpImageSettings.Location = new System.Drawing.Point(3, 160);
 			this.plpImageSettings.Name = "plpImageSettings";
-			this.plpImageSettings.Size = new System.Drawing.Size(254, 20);
+			this.plpImageSettings.Size = new System.Drawing.Size(268, 20);
 			this.plpImageSettings.TabIndex = 10;
 			this.plpImageSettings.Text = "Ustawienia obrazu:";
 			this.plpImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2127,7 +2123,7 @@
 			this.pcbpDrawColor.Location = new System.Drawing.Point(3, 140);
 			this.pcbpDrawColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.pcbpDrawColor.Name = "pcbpDrawColor";
-			this.pcbpDrawColor.Size = new System.Drawing.Size(124, 17);
+			this.pcbpDrawColor.Size = new System.Drawing.Size(131, 17);
 			this.pcbpDrawColor.TabIndex = 8;
 			this.pcbpDrawColor.Text = "Rysuj kolor strony";
 			this.pcbpDrawColor.UseVisualStyleBackColor = true;
@@ -2138,10 +2134,10 @@
 			this.pcbpDrawImage.AutoSize = true;
 			this.pcbpDrawImage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pcbpDrawImage.Enabled = false;
-			this.pcbpDrawImage.Location = new System.Drawing.Point(133, 140);
+			this.pcbpDrawImage.Location = new System.Drawing.Point(140, 140);
 			this.pcbpDrawImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.pcbpDrawImage.Name = "pcbpDrawImage";
-			this.pcbpDrawImage.Size = new System.Drawing.Size(124, 17);
+			this.pcbpDrawImage.Size = new System.Drawing.Size(131, 17);
 			this.pcbpDrawImage.TabIndex = 7;
 			this.pcbpDrawImage.Text = "Rysuj obraz strony";
 			this.pcbpDrawImage.UseVisualStyleBackColor = true;
@@ -2153,16 +2149,16 @@
 			this.ptbpWidth.Enabled = false;
 			this.ptbpWidth.Location = new System.Drawing.Point(3, 23);
 			this.ptbpWidth.Name = "ptbpWidth";
-			this.ptbpWidth.Size = new System.Drawing.Size(124, 20);
+			this.ptbpWidth.Size = new System.Drawing.Size(131, 20);
 			this.ptbpWidth.TabIndex = 0;
 			// 
 			// ptbpHeight
 			// 
 			this.ptbpHeight.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ptbpHeight.Enabled = false;
-			this.ptbpHeight.Location = new System.Drawing.Point(133, 23);
+			this.ptbpHeight.Location = new System.Drawing.Point(140, 23);
 			this.ptbpHeight.Name = "ptbpHeight";
-			this.ptbpHeight.Size = new System.Drawing.Size(124, 20);
+			this.ptbpHeight.Size = new System.Drawing.Size(131, 20);
 			this.ptbpHeight.TabIndex = 1;
 			// 
 			// plpWidth
@@ -2171,7 +2167,7 @@
 			this.plpWidth.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plpWidth.Location = new System.Drawing.Point(3, 0);
 			this.plpWidth.Name = "plpWidth";
-			this.plpWidth.Size = new System.Drawing.Size(124, 20);
+			this.plpWidth.Size = new System.Drawing.Size(131, 20);
 			this.plpWidth.TabIndex = 2;
 			this.plpWidth.Text = "Szerokość:";
 			this.plpWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2180,9 +2176,9 @@
 			// 
 			this.plpHeight.AutoSize = true;
 			this.plpHeight.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.plpHeight.Location = new System.Drawing.Point(133, 0);
+			this.plpHeight.Location = new System.Drawing.Point(140, 0);
 			this.plpHeight.Name = "plpHeight";
-			this.plpHeight.Size = new System.Drawing.Size(124, 20);
+			this.plpHeight.Size = new System.Drawing.Size(131, 20);
 			this.plpHeight.TabIndex = 3;
 			this.plpHeight.Text = "Wysokość:";
 			this.plpHeight.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2194,7 +2190,7 @@
 			this.plpGeneratePDF.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plpGeneratePDF.Location = new System.Drawing.Point(3, 115);
 			this.plpGeneratePDF.Name = "plpGeneratePDF";
-			this.plpGeneratePDF.Size = new System.Drawing.Size(254, 20);
+			this.plpGeneratePDF.Size = new System.Drawing.Size(268, 20);
 			this.plpGeneratePDF.TabIndex = 4;
 			this.plpGeneratePDF.Text = "Generowanie do pliku PDF:";
 			this.plpGeneratePDF.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2459,7 +2455,7 @@
 			this.scPattern.Panel2.Controls.Add(this.ptPatternDetails);
 			this.scPattern.Panel2MinSize = 250;
 			this.scPattern.Size = new System.Drawing.Size(672, 421);
-			this.scPattern.SplitterDistance = 406;
+			this.scPattern.SplitterDistance = 392;
 			this.scPattern.SplitterWidth = 6;
 			this.scPattern.TabIndex = 0;
 			this.scPattern.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.scPattern_SplitterMoved);
@@ -2503,16 +2499,16 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(684, 482);
-			this.Controls.Add(this.tlMain);
 			this.Controls.Add(this.tPattern);
 			this.Controls.Add(this.tDataTable);
+			this.Controls.Add(this.tlMain);
 			this.Controls.Add(this.imMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(700, 520);
 			this.Name = "Main";
 			this.Text = "CDesigner - Kreator Dyplomów";
-			this.Resize += new System.EventHandler(this.Main_Resize);
+			this.Move += new System.EventHandler(this.Main_Move);
 			this.mtlStatusBar.ResumeLayout(false);
 			this.mtlStatusBar.PerformLayout();
 			this.mfPageLayout.ResumeLayout(false);
@@ -2535,10 +2531,6 @@
 			this.icPatMenu.PerformLayout();
 			this.ppDetailsPanel.ResumeLayout(false);
 			this.ppDetailsPanel.PerformLayout();
-			this.ptDetails.ResumeLayout(false);
-			this.ptDetails.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pcbMarginLR)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pcbMarginTB)).EndInit();
 			this.ptFieldDetails.ResumeLayout(false);
 			this.ptFieldDetails.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnBorderSize)).EndInit();
@@ -2547,6 +2539,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.pnPositionX)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnWidth)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnHeight)).EndInit();
+			this.ptDetails.ResumeLayout(false);
+			this.ptDetails.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pcbMarginLR)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pcbMarginTB)).EndInit();
 			this.ptPageDetails.ResumeLayout(false);
 			this.ptPageDetails.PerformLayout();
 			this.scData.Panel1.ResumeLayout(false);

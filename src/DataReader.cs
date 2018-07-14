@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace CDesigner
 {
@@ -421,6 +422,7 @@ namespace CDesigner
 		private void bSave_Click( object sender, EventArgs ev )
 		{
 			bool empty = this.tbSpaces.Text.Trim() == "";
+			string locale_chars = "ĘÓŁŚĄŻŹĆŃęółśążźćń";
 
 			this._checked_cols.Clear();
 
@@ -432,20 +434,103 @@ namespace CDesigner
 
 					if( this.tbSpaces.Text.IndexOf("#" + this._checked_cols.Count) < 0 || empty )
 					{
-						MessageBox.Show
+						DialogResult result = MessageBox.Show
 						(
 							this,
-							"Formatowanie kolumn nie zawiera zaznaczonej kolumny \"" + this.lvDBCols.Items[x].Text + "\"" +
-							" (#" + this._checked_cols.Count + ")",
-							"Błąd formatowania kolumn..."
+							"Formatowanie kolumn nie zawiera kolumny \"" + this.lvDBCols.Items[x].Text + "\"" +
+							" (#" + this._checked_cols.Count + ")." +
+							"\nCzy na pewno chcesz kontynuować?",
+							"Formatowanie kolumn",
+							MessageBoxButtons.YesNo,
+							MessageBoxIcon.Warning,
+							MessageBoxDefaultButton.Button2
 						);
-						return;
+						if( result == DialogResult.No )
+							return;
 					}
 				}
+
+			// przeskanuj pod kątem poprawności
+			Regex regex = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_#]*$" );
+			if( !regex.IsMatch(this.tbSpaces.Text) )
+			{
+                MessageBox.Show
+				(
+					this,
+					"Tekst formatujący nie może zawierać znaków innych niż:\n" +
+					"Znaki alfabetu, liczby, - + _ # oraz spacja.",
+					"Formatowanie tekstu",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Error
+				);
+				return;
+			}
 
 			// zamknij okno
             this.DialogResult = DialogResult.OK;
             this.Close( );
+		}
+
+		ToolTip _tooltip      = new ToolTip();
+		bool    _tooltip_show = false;
+
+		// ------------------------------------------------------------- tbSpaces_KeyPress ---------------------------
+		
+		private void tbSpaces_KeyPress( object sender, KeyPressEventArgs ev )
+		{
+			string locale_chars = "ĘÓŁŚĄŻŹĆŃęółśążźćń";
+
+			if( ev.KeyChar == 8 || ModifierKeys == Keys.Control )
+				return;
+
+			Regex regex = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_#\:\[\]\<\>]+$" );
+			if( !regex.IsMatch(ev.KeyChar.ToString()) )
+			{
+				if( !this._tooltip_show )
+				{
+					this._tooltip.Show
+					(
+						"Dopuszczalne znaki:\n" +
+						"Znaki alfabetu, cyfry, - + _ # : [ ] < > oraz spacja.",
+						this.tbSpaces,
+						new Point( 0, this.tbSpaces.Height + 2 )
+					);
+					this._tooltip_show = true;
+				}
+
+				ev.Handled = true;
+				System.Media.SystemSounds.Beep.Play();
+				
+				return;
+			}
+
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.tbSpaces );
+				this._tooltip_show = false;
+			}
+		}
+
+		// ------------------------------------------------------------- tbSpaces_Leave ------------------------------
+		
+		private void tbSpaces_Leave( object sender, EventArgs ev )
+		{
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.tbSpaces );
+				this._tooltip_show = false;
+			}
+		}
+
+		// ------------------------------------------------------------- DataReader_Move -----------------------------
+		
+		private void DataReader_Move( object sender, EventArgs ev )
+		{
+			if( this._tooltip_show )
+			{
+				this._tooltip.Hide( this.tbSpaces );
+				this._tooltip_show = false;
+			}
 		}
 	}
 }

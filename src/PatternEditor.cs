@@ -250,9 +250,7 @@ namespace CDesigner
 			// dodawaj strony
 			for( int x = 0; x < data.pages; ++x )
 			{
-				AlignedPage page = new AlignedPage();
-				page.Align = 1;
-
+				Panel page = new Panel();
 				page_data = data.page[x];
 
 				// tło strony
@@ -375,9 +373,7 @@ namespace CDesigner
 			// dodawaj strony
 			for( int x = 0; x < data.pages; ++x )
 			{
-				AlignedPage page = new AlignedPage();
-				page.Align = 1;
-
+				Panel page = new Panel();
 				page_data = data.page[x];
 
 				// tło strony
@@ -479,13 +475,13 @@ namespace CDesigner
 		// @TODO
 		public static void DrawRow( Panel panel, DataContent data_content, int row )
 		{
-			AlignedPage page;
+			Panel page;
 			PageField   field;
 
 			// zmień wartości pól
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				page = (AlignedPage)panel.Controls[x];
+				page = (Panel)panel.Controls[x];
 
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
@@ -515,13 +511,13 @@ namespace CDesigner
 				Convert.ToInt32((double)data.size.Height * dpi_pxs)
 			);
 
-			AlignedPage page;
+			Panel page;
 			PageField   field;
 
 			// zmieniaj skale stron i pól
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				page = (AlignedPage)panel.Controls[x];
+				page = (Panel)panel.Controls[x];
 				page.Size = pp_size;
 
 				for( int y = 0; y < page.Controls.Count; ++y )
@@ -545,7 +541,7 @@ namespace CDesigner
 			{
 				Bitmap      bmp  = new Bitmap( width, height );
 				Graphics    gfx  = Graphics.FromImage( bmp );
-				AlignedPage page = (AlignedPage)panel.Controls[x];
+				Panel page = (Panel)panel.Controls[x];
 
 				// obraz lub wypełnienie
 				if( page.BackgroundImage != null )
@@ -668,7 +664,7 @@ namespace CDesigner
 			// zapisz konfiguracje stron
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				AlignedPage page = (AlignedPage)panel.Controls[x];
+				Panel page = (Panel)panel.Controls[x];
 
 				// obraz strony
 				writer.Write( (byte)page.Controls.Count );
@@ -752,20 +748,19 @@ namespace CDesigner
 
 			for( int x = 0; x < data.rows; ++x )
 			{
-				PdfPage page = pdf.AddPage();
-
-				// rozmiary strony
-				page.Width  = XUnit.FromMillimeter( pdata.size.Width );
-				page.Height = XUnit.FromMillimeter( pdata.size.Height );
-
-				// oblicz skale powiększenia
-				scale = page.Width.Presentation / (pdata.size.Width * PatternEditor._pixel_per_dpi);
-
-				XGraphics gfx = XGraphics.FromPdfPage( page );
-				XPdfFontOptions foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
-
 				for( int y = 0; y < pdata.pages; ++y )
 				{
+					PdfPage page = pdf.AddPage();
+
+					// rozmiary strony
+					page.Width  = XUnit.FromMillimeter( pdata.size.Width );
+					page.Height = XUnit.FromMillimeter( pdata.size.Height );
+
+					// oblicz skale powiększenia
+					scale = page.Width.Presentation / (pdata.size.Width * PatternEditor._pixel_per_dpi);
+
+					XGraphics gfx = XGraphics.FromPdfPage( page );
+					XPdfFontOptions foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
 					PageData page_data = pdata.page[y];
 
 					for( int z = 0; z < page_data.fields; ++z )

@@ -332,7 +332,7 @@ namespace CDesigner
 					point.Y = this._dpi_bounds.Y;
 				break;
 				case 0x004:
-					point.X = this._dpi_bounds.X + this._dpi_bounds.Width;
+ 					point.X = this._dpi_bounds.X + this._dpi_bounds.Width;
 					point.Y = this._dpi_bounds.Y;
 				break;
 				case 0x100:
@@ -417,7 +417,7 @@ namespace CDesigner
 		public void RefreshLocation( )
 		{
 			this.DPIBounds = new RectangleF
-			(
+ 			(
 				(float)((double)this.Location.X / this._dpi_conv_scale),
 				(float)((double)this.Location.Y / this._dpi_conv_scale),
 				this.DPIBounds.Width,

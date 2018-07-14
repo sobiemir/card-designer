@@ -27,7 +27,6 @@ resgen /useSourcePath ^
 		resx\NewPattern.resx,obj\CDesigner.NewPattern.resources ^
         resx\DataReader.resx,obj\CDesigner.DataReader.resources ^
         resx\Info.resx,obj\CDesigner.Info.resources ^
-        resx\Settings.resx,obj\CDesigner.Settings.resources ^
 		properties\Resources.resx,obj\CDesigner.Properties.Resources.resources
 @echo off
 
@@ -75,14 +74,11 @@ csc /reference:dll\PdfSharp.dll ^
 	/resource:obj\CDesigner.NewPattern.resources ^
     /resource:obj\CDesigner.DataReader.resources ^
     /resource:obj\CDesigner.Info.resources ^
-    /resource:obj\CDesigner.Settings.resources ^
 	/resource:obj\CDesigner.Properties.Resources.resources ^
 	/win32manifest:properties\app.manifest ^
 	/win32icon:resources\cdesigner.ico ^
 	/target:winexe ^
 	/utf8output ^
-		src\AlignedPage.cs ^
-		src\AlignedPictureBox.cs ^
 		src\PageField.cs ^
 		src\Main.cs ^
 		designer\Main.Designer.cs ^
@@ -90,8 +86,6 @@ csc /reference:dll\PdfSharp.dll ^
 		designer\Info.Designer.cs ^
 		src\NewPattern.cs ^
 		designer\NewPattern.Designer.cs ^
-		src\Settings.cs ^
-		designer\Settings.Designer.cs ^
         src\PatternEditor.cs ^
 		src\Program.cs ^
 		src\Structs.cs ^
@@ -115,6 +109,7 @@ copy /Y resources\noimage.png build
 copy /Y dll\PdfSharp.dll build
 copy /Y resources\icons\image-field.png build\icons
 copy /Y resources\icons\text-field.png build\icons
+copy /Y resources\icons\exit-application.png build\icons
 copy /Y resources\transparent.png build
 copy /Y resources\cdrestore.ico build
 copy /Y resources\icons\cdrestore-512.png build\icons

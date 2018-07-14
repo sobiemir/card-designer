@@ -243,6 +243,8 @@
 			this.tbSpaces.Name = "tbSpaces";
 			this.tbSpaces.Size = new System.Drawing.Size(90, 20);
 			this.tbSpaces.TabIndex = 0;
+			this.tbSpaces.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbSpaces_KeyPress);
+			this.tbSpaces.Leave += new System.EventHandler(this.tbSpaces_Leave);
 			// 
 			// DataReader
 			// 
@@ -256,6 +258,7 @@
 			this.MaximizeBox = false;
 			this.Name = "DataReader";
 			this.Text = "Wybór kolumn";
+			this.Move += new System.EventHandler(this.DataReader_Move);
 			this.tMainPanel.ResumeLayout(false);
 			this.fPageContainer.ResumeLayout(false);
 			this.fPageContainer.PerformLayout();
