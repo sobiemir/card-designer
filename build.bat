@@ -1,3 +1,16 @@
+:: Kamil Biały <sobiemir>
+:: =====================================================================================================================
+:: CDesigner
+:: CDRestore
+:: =====================================================================================================================
+:: To compile, just use build.bat in console.
+:: You need to have installed CSC compiler.
+:: Additionally, you can download archives for pdfsharp from http://archive.aculo.pl/card-designer/lib
+:: and place it to dll folder, or download wget for windows, so, this script download this dll automatically for you.
+:: You can compile application, by using "build", "build d:console", "build d:trace", "build d:full", where d:console
+:: builds app with DEBUG flag and console view, d:trace save all logs to file, and d:full have it all.
+:: =====================================================================================================================
+
 @echo off
 
 :: check if resgen and csc commands exist in system
@@ -12,23 +25,36 @@ if %ERRORLEVEL% neq 0 (
 	exit /B 1
 )
 
-:: create obj directory for resources
+:: create obj directory for CDesigner resources
 if not exist obj (
 	echo ### Creating "obj" directory...
 	mkdir obj
 )
 
 :: generate resources using resgen
-echo ### Generating resources...
-@echo on
+echo ### Generating resources for CDesigner...
+
 resgen /useSourcePath ^
 	/compile ^
-		resx\Main.resx,obj\CDesigner.Main.resources ^
-		resx\NewPattern.resx,obj\CDesigner.NewPattern.resources ^
         resx\DataReader.resx,obj\CDesigner.DataReader.resources ^
-        resx\Info.resx,obj\CDesigner.Info.resources ^
+        resx\DBConnection.resx,obj\CDesigner.DBConnection.resources ^
+        resx\FileOpenForm.resx,obj\CDesigner.FileOpenForm.resources ^
+        resx\InfoForm.resx,obj\CDesigner.InfoForm.resources ^
+        resx\JoinColsForm.resx,obj\CDesigner.JoinColsForm.resources ^
+		resx\MainForm.resx,obj\CDesigner.MainForm.resources ^
+		resx\NewPattern.resx,obj\CDesigner.NewPattern.resources ^
+		resx\Settings.resx,obj\CDesigner.Settings.resources ^
+		resx\UpdateForm.resx,obj\CDesigner.UpdateForm.resources ^
 		properties\Resources.resx,obj\CDesigner.Properties.Resources.resources
-@echo off
+
+
+:: generate resources using resgen
+echo ### Generating resources for CDRestore...
+
+resgen /useSourcePath ^
+	/compile ^
+        resx\MainForm.resx,obj\CDRestore.MainForm.resources ^
+		properties\cdrestore\Resources.resx,obj\CDRestore.Properties.Resources.resources
 
 :: create dll and build directory
 if not exist dll (
@@ -64,37 +90,90 @@ if %ERRORLEVEL% neq 0 (
 	)
 )
 
-:: compile application using csc
-echo ### Compiling application...
-@echo on
+:: change target and definitions for debug
+set target=/target:winexe
+set define=
+
+if "%1" == "d:console" (
+	set target=/target:exe
+	set define=/define:DEBUG
+) else if "%1" == "d:trace" (
+	set define=/define:TRACE
+) else if "%1" == "d:full" (
+	set target=/target:exe
+	set define=/define:DEBUG;TRACE
+)
+
+:: compile CDesigner application using csc
+echo ### Compiling CDesigner application...
 
 csc /reference:dll\PdfSharp.dll ^
 	/out:build\CDesigner.exe ^
-	/resource:obj\CDesigner.Main.resources ^
+	/resource:obj\CDesigner.DataReader.resources ^
+	/resource:obj\CDesigner.DBConnection.resources ^
+	/resource:obj\CDesigner.FileOpenForm.resources ^
+    /resource:obj\CDesigner.InfoForm.resources ^
+	/resource:obj\CDesigner.JoinColsForm.resources ^
+    /resource:obj\CDesigner.MainForm.resources ^
 	/resource:obj\CDesigner.NewPattern.resources ^
-    /resource:obj\CDesigner.DataReader.resources ^
-    /resource:obj\CDesigner.Info.resources ^
+	/resource:obj\CDesigner.Settings.resources ^
+	/resource:obj\CDesigner.UpdateForm.resources ^
 	/resource:obj\CDesigner.Properties.Resources.resources ^
+	/appconfig:properties\app.config ^
 	/win32manifest:properties\app.manifest ^
 	/win32icon:resources\cdesigner.ico ^
-	/target:winexe ^
+	%target% ^
+	%define% ^
 	/utf8output ^
-		src\PageField.cs ^
-		src\Main.cs ^
-		designer\Main.Designer.cs ^
-		src\Info.cs ^
-		designer\Info.Designer.cs ^
+		src\AlignedPage.cs ^
+		src\AlignedPictureBox.cs ^
+		src\AssemblyLoader.cs ^
+		src\CBackupData.cs ^
+		src\DatabaseReader.cs ^
+		src\DataReader.cs ^
+		src\DBConnection.cs ^
+		src\FileOpenForm.cs ^
+		src\InfoForm.cs ^
+		src\JoinColsForm.cs ^
+		src\MainForm.cs ^
 		src\NewPattern.cs ^
-		designer\NewPattern.Designer.cs ^
-        src\PatternEditor.cs ^
+		src\PageField.cs ^
+		src\PatternEditor.cs ^
 		src\Program.cs ^
+		src\ProgressStream.cs ^
+		src\Settings.cs ^
 		src\Structs.cs ^
-        src\DataReader.cs ^
-        designer\DataReader.Designer.cs ^
+		src\UpdateForm.cs ^
+		designer\DataReader.Designer.cs ^
+		designer\DBConnection.Designer.cs ^
+		designer\FileOpenForm.Designer.cs ^
+		designer\InfoForm.Designer.cs ^
+		designer\JoinColsForm.Designer.cs ^
+		designer\MainForm.Designer.cs ^
+		designer\NewPattern.Designer.cs ^
+		designer\Settings.Designer.cs ^
+		designer\UpdateForm.Designer.cs ^
 		properties\AssemblyInfo.cs ^
 		properties\Resources.Designer.cs
 
-@echo off
+:: compile CDRestore application using csc
+echo ### Compiling CDRestore application...
+
+csc /out:build\CDRestore.exe ^
+    /resource:obj\CDRestore.MainForm.resources ^
+	/resource:obj\CDRestore.Properties.Resources.resources ^
+	/win32manifest:properties\cdrestore\app.manifest ^
+	/win32icon:resources\cdrestore.ico ^
+	%target% ^
+	%define% ^
+	/utf8output ^
+		src\cdrestore\CBackupData.cs ^
+		src\cdrestore\MainForm.cs ^
+		src\cdrestore\Program.cs ^
+		src\cdrestore\ProgressStream.cs ^
+		designer\cdrestore\MainForm.Designer.cs ^
+		properties\cdrestore\AssemblyInfo.cs ^
+		properties\cdrestore\Resources.Designer.cs
 
 :: create icons folder
 if not exist build\icons (
@@ -102,16 +181,48 @@ if not exist build\icons (
 	mkdir build\icons
 )
 
+:: create update folder
+if not exist build\update (
+	echo ### Creating "build\update" directory...
+	mkdir build\update
+)
+
+:: create libraries folder
+if not exist build\libraries (
+	echo ### Creating "build\libraries" directory...
+	mkdir build\libraries
+)
+
+:: create images folder
+if not exist build\images (
+	echo ### Creating "build\images" directory...
+	mkdir build\images
+)
+
+:: create patterns folder
+if not exist build\patterns (
+	echo ### Creating "build\patterns" directory...
+	mkdir build\patterns
+)
+
+:: create backup folder
+if not exist build\backup (
+	echo ### Creating "build\backup" directory...
+	mkdir build\backup
+)
+
 echo ### Copy images and dlls
 
 :: copying image and dll files
-copy /Y resources\noimage.png build
-copy /Y dll\PdfSharp.dll build
+copy /Y dll\PdfSharp.dll build\libraries
+copy /Y resources\noimage.png build\images
+copy /Y resources\transparent.png build\images
+copy /Y resources\cdrestore.ico build\icons
+copy /Y resources\cdesigner.ico build\icons
+copy /Y properties\cdrestore\update.lst build
 copy /Y resources\icons\image-field.png build\icons
 copy /Y resources\icons\text-field.png build\icons
 copy /Y resources\icons\exit-application.png build\icons
-copy /Y resources\transparent.png build
-copy /Y resources\cdrestore.ico build
 copy /Y resources\icons\cdrestore-512.png build\icons
 copy /Y resources\icons\cdrestore-256.png build\icons
 copy /Y resources\icons\cdrestore-128.png build\icons
@@ -120,7 +231,6 @@ copy /Y resources\icons\cdrestore-64.png build\icons
 copy /Y resources\icons\cdrestore-48.png build\icons
 copy /Y resources\icons\cdrestore-32.png build\icons
 copy /Y resources\icons\cdrestore-16.png build\icons
-copy /Y resources\cdesigner.ico build
 copy /Y resources\icons\cdesigner-512.png build\icons
 copy /Y resources\icons\cdesigner-256.png build\icons
 copy /Y resources\icons\cdesigner-128.png build\icons

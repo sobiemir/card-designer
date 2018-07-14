@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewPattern));
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.bCreate = new System.Windows.Forms.Button();
 			this.tbPatternName = new System.Windows.Forms.TextBox();
@@ -91,6 +90,7 @@
 			this.tableLayoutPanel1.SetColumnSpan(this.tbPatternName, 2);
 			this.tbPatternName.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tbPatternName.Location = new System.Drawing.Point(102, 6);
+			this.tbPatternName.MaxLength = 127;
 			this.tbPatternName.Name = "tbPatternName";
 			this.tbPatternName.Size = new System.Drawing.Size(188, 20);
 			this.tbPatternName.TabIndex = 3;
@@ -200,7 +200,6 @@
 			this.ClientSize = new System.Drawing.Size(296, 139);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "NewPattern";
 			this.Text = "Nowy Wzór";
 			this.Move += new System.EventHandler(this.NewPattern_Move);

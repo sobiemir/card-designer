@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataReader));
 			this.tMainPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.fPageContainer = new System.Windows.Forms.FlowLayoutPanel();
 			this.lPage = new System.Windows.Forms.Label();
@@ -192,6 +191,7 @@
 			// 
 			// cbEncoding
 			// 
+			this.cbEncoding.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.cbEncoding.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbEncoding.FormattingEnabled = true;
 			this.cbEncoding.Items.AddRange(new object[] {
@@ -215,6 +215,7 @@
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel1.Controls.Add(this.bSave, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.tbSpaces, 0, 0);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(382, 324);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -240,6 +241,7 @@
 			this.tbSpaces.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tbSpaces.Location = new System.Drawing.Point(3, 4);
 			this.tbSpaces.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+			this.tbSpaces.MaxLength = 127;
 			this.tbSpaces.Name = "tbSpaces";
 			this.tbSpaces.Size = new System.Drawing.Size(90, 20);
 			this.tbSpaces.TabIndex = 0;
@@ -253,7 +255,6 @@
 			this.ClientSize = new System.Drawing.Size(574, 352);
 			this.Controls.Add(this.tMainPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.Name = "DataReader";

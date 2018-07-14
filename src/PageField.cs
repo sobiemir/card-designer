@@ -20,6 +20,7 @@ namespace CDesigner
 		private double     _dpi_font_size   = 8.25;
 		private PointF     _dpi_text_margin = new PointF( 2.0f, 2.0f );
 		private float      _dpi_padding     = 0.0f;
+		private Point      _dpi_parent_size = new Point( -1, -1 );
 		private Image      _back_image      = null;
 		private double     _pixels_per_dpi  = 3.93714927048264;
 		private Size       _parent_bounds   = new Size(800, 600);
@@ -27,6 +28,7 @@ namespace CDesigner
 		private string     _original_text   = null;
 		private string     _current_text    = "";
 		private bool       _extra_margin    = false;
+		private PointF     _text_margin     = new PointF( 0.0f, 0.0f );
 
 		// ------------------------------------------------------------- DPIBorderSize --------------------------------
 		
@@ -87,25 +89,49 @@ namespace CDesigner
 				if( value.X < 0 )
 					value.X = this._dpi_bounds.X;
 				else
+				{
 					this.Left = Convert.ToInt32((double)value.X * this._dpi_conv_scale);
+				}
 
 				// pozycja Y
 				if( value.Y < 0 )
 					value.Y = this._dpi_bounds.Y;
 				else
+				{
 					this.Top = Convert.ToInt32((double)value.Y * this._dpi_conv_scale);
+				}
 
 				// szerokość
 				if( value.Width < 0 )
 					value.Width = this._dpi_bounds.Width;
 				else
-					this.Width = Convert.ToInt32((double)value.Width * this._dpi_conv_scale);
+				{
+					int width = Convert.ToInt32((double)value.Width * this._dpi_conv_scale);
+
+					// nie przekraczaj granicy
+					if( this._dpi_parent_size.X > -1 && this.Left + width > this._parent_bounds.Width )
+					{
+						width       = this.Width;
+						value.Width = this._dpi_bounds.Width;
+					}
+					this.Width = width;
+				}
 
 				// wysokość
 				if( value.Height < 0 )
 					value.Height = this._dpi_bounds.Height;
 				else
-					this.Height = Convert.ToInt32((double)value.Height * this._dpi_conv_scale);
+				{
+					int height = Convert.ToInt32((double)value.Height * this._dpi_conv_scale);
+
+					// nie przekraczaj granicy
+					if( this._dpi_parent_size.Y > -1 && this.Top + height > this._parent_bounds.Height )
+					{
+						height       = this.Height;
+						value.Height = this._dpi_bounds.Height;
+					}
+					this.Height = height;
+				}
 
 				this._dpi_bounds = value;
 			}
@@ -158,6 +184,7 @@ namespace CDesigner
 			set
 			{
 				this._dpi_text_margin = value;
+				this._text_margin = new PointF( (float)(value.X * this._dpi_scale), (float)(value.Y * this._dpi_scale) );
 			}
 		}
 
@@ -196,6 +223,7 @@ namespace CDesigner
 				this._dpi_conv_scale = this._pixels_per_dpi * value;
 
 				// odśwież wartości
+				this.SetParentBounds( this._dpi_parent_size.X, this._dpi_parent_size.Y );
 				this.DPIBounds     = this.DPIBounds;
 				this.DPIBorderSize = this.DPIBorderSize;
 				this.DPIFontSize   = this.DPIFontSize;
@@ -255,19 +283,12 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- DPIBorderSize --------------------------------
 		
-		public void SetParentBounds( int width, int height, bool conv )
+		public void SetParentBounds( int width, int height )
 		{
-			// konwersja z milimetrów
-			if( conv )
-			{
-				this._parent_bounds.Width  = Convert.ToInt32( (double)width * this._dpi_conv_scale );
-				this._parent_bounds.Height = Convert.ToInt32( (double)height * this._dpi_conv_scale );
-			}
-			else
-			{
-				this._parent_bounds.Width  = width;
-				this._parent_bounds.Height = height;
-			}
+			this._dpi_parent_size = new Point( width, height );
+
+			this._parent_bounds.Width  = Convert.ToInt32( (double)width * this._dpi_conv_scale );
+			this._parent_bounds.Height = Convert.ToInt32( (double)height * this._dpi_conv_scale );
 		}
 
 		// ------------------------------------------------------------- SetTextAlignment -----------------------------

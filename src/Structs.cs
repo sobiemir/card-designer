@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace CDesigner
 {
+
+
+
 	public class FieldExtraData
 	{
 		public bool image_from_db;
@@ -72,5 +75,25 @@ namespace CDesigner
 		public string[]  column;
 		public int       rows;
 		public string[,] row;
+	}
+	
+	public class SettingsInfo
+	{
+		// ustawienia ogólne
+		public int    g_def_scale;
+		public Color  g_back_color;
+		public int    g_padding;
+		public int    g_page_float;
+		public bool   g_ask_before_close;
+		public bool   g_save_sliders;
+		public bool   g_shortcuts_on;
+		public bool   g_show_status;
+		public double g_pixels_per_dpi;
+
+		// rozdzielczości
+		public int       r_min_res;
+		public int       r_max_res;
+		public List<int> r_list;
+		public bool      r_custom_res;
 	}
 }

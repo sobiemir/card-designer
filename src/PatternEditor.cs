@@ -250,7 +250,9 @@ namespace CDesigner
 			// dodawaj strony
 			for( int x = 0; x < data.pages; ++x )
 			{
-				Panel page = new Panel();
+				AlignedPage page = new AlignedPage();
+				page.Align = 1;
+
 				page_data = data.page[x];
 
 				// tło strony
@@ -293,7 +295,7 @@ namespace CDesigner
 					field.BorderColor   = field_data.border_color;
 
 					// granice rodzica
-					field.SetParentBounds( pp_size.Width, pp_size.Height, false );
+					field.SetParentBounds( data.size.Width, data.size.Height );
 
 					// tło pola
 					if( field_data.image && File.Exists("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg") )
@@ -373,7 +375,9 @@ namespace CDesigner
 			// dodawaj strony
 			for( int x = 0; x < data.pages; ++x )
 			{
-				Panel page = new Panel();
+				AlignedPage page = new AlignedPage();
+				page.Align = 1;
+
 				page_data = data.page[x];
 
 				// tło strony
@@ -415,7 +419,7 @@ namespace CDesigner
 					field.BorderColor   = field_data.border_color;
 
 					// granice rodzica
-					field.SetParentBounds( pp_size.Width, pp_size.Height, false );
+					field.SetParentBounds( data.size.Width, data.size.Height );
 
 					// tło pola
 					if( field_data.extra.print_image && field_data.image && File.Exists("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg") )
@@ -475,13 +479,13 @@ namespace CDesigner
 		// @TODO
 		public static void DrawRow( Panel panel, DataContent data_content, int row )
 		{
-			Panel page;
+			AlignedPage page;
 			PageField   field;
 
 			// zmień wartości pól
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				page = (Panel)panel.Controls[x];
+				page = (AlignedPage)panel.Controls[x];
 
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
@@ -511,13 +515,13 @@ namespace CDesigner
 				Convert.ToInt32((double)data.size.Height * dpi_pxs)
 			);
 
-			Panel page;
+			AlignedPage page;
 			PageField   field;
 
 			// zmieniaj skale stron i pól
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				page = (Panel)panel.Controls[x];
+				page = (AlignedPage)panel.Controls[x];
 				page.Size = pp_size;
 
 				for( int y = 0; y < page.Controls.Count; ++y )
@@ -541,7 +545,7 @@ namespace CDesigner
 			{
 				Bitmap      bmp  = new Bitmap( width, height );
 				Graphics    gfx  = Graphics.FromImage( bmp );
-				Panel page = (Panel)panel.Controls[x];
+				AlignedPage page = (AlignedPage)panel.Controls[x];
 
 				// obraz lub wypełnienie
 				if( page.BackgroundImage != null )
@@ -636,7 +640,7 @@ namespace CDesigner
 		
 		public static void Save( PatternData data, Panel panel )
 		{
-			FileStream   file   = new FileStream( "patterns/" + data.name + "/config.cfg", FileMode.OpenOrCreate );
+			FileStream   file   = new FileStream( "patterns/" + data.name + "/_config.cfg", FileMode.OpenOrCreate );
 			BinaryWriter writer = new BinaryWriter( file );
 
 			byte[] text = new byte[5] { (byte)'C', (byte)'D', (byte)'C', (byte)'F', (byte)'G' };
@@ -664,7 +668,7 @@ namespace CDesigner
 			// zapisz konfiguracje stron
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				Panel page = (Panel)panel.Controls[x];
+				AlignedPage page = (AlignedPage)panel.Controls[x];
 
 				// obraz strony
 				writer.Write( (byte)page.Controls.Count );
@@ -736,13 +740,20 @@ namespace CDesigner
 
 			writer.Close();
 			file.Close();
+
+			// usuń stary plik konfiguracyjny
+			if( File.Exists("patterns/" + data.name + "/config.cfg") )
+				File.Delete( "patterns/" + data.name + "/config.cfg" );
+
+			// przenieś (zmień nazwę) nowego pliku konfiguracyjnego
+			File.Move( "patterns/" + data.name + "/_config.cfg", "patterns/" + data.name + "/config.cfg" );
 		}
 
 		// ------------------------------------------------------------- GeneratePDF ----------------------------------
 		
 		public static void GeneratePDF( DataContent data, PatternData pdata )
 		{
-			double scale = 0.0;
+			double scale = 0.0, scalz = 0.0;
 
 			PdfDocument pdf = new PdfDocument();
 
@@ -758,6 +769,7 @@ namespace CDesigner
 
 					// oblicz skale powiększenia
 					scale = page.Width.Presentation / (pdata.size.Width * PatternEditor._pixel_per_dpi);
+					scalz = page.Width.Value / (pdata.size.Width * PatternEditor._pixel_per_dpi);
 
 					XGraphics gfx = XGraphics.FromPdfPage( page );
 					XPdfFontOptions foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
@@ -832,6 +844,7 @@ namespace CDesigner
 								}
 							}
 
+							double font_diff = (((double)((float)font.Height - font.Size) / 2.0) * scale);
 							bounds.Y      -= scale;
 							bounds.Height += scale * 2.0;
 
