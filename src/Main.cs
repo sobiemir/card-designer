@@ -56,7 +56,6 @@ namespace CDesigner
 
 		private PatternData dPatternData    = new PatternData();
 		private DataContent dDataContent    = new DataContent();
-		private string		dCurrentName    = null;
 		private bool        dSketchDrawed   = false;
 		private Panel       dCurrentPage    = null;
 
@@ -1000,7 +999,6 @@ CD_mtvPatterns_AfterSelect:
 			this.pLocked = false;
 
 			// przejdź na strone z danymi
-			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.gsData_Click( null, null );
 		}
 
@@ -1338,7 +1336,6 @@ CD_mtvPatterns_AfterSelect:
 			this.pLocked = false;
 
 			// przejdź na strone z danymi
-			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.gsData_Click( null, null );
 		}
 
@@ -2386,7 +2383,7 @@ CD_mtvPatterns_AfterSelect:
 		
 		private void dbScan_Click( object sender, EventArgs ev )
 		{
-			float width, height;
+			float width;
 			Graphics gfx = this.CreateGraphics();
 
 			// szukaj po rekordach
@@ -2402,8 +2399,7 @@ CD_mtvPatterns_AfterSelect:
 					{
 						FieldData field = page.field[z];
 
-						width  = PatternEditor.GetDimensionScale( field.bounds.Width, 1.0 );
-						height = PatternEditor.GetDimensionScale( field.bounds.Height, 1.0 );
+						width = PatternEditor.GetDimensionScale( field.bounds.Width, 1.0 );
 
 						if( !field.extra.print_text && !(field.extra.text_from_db && field.extra.column > -1) )
 							continue;

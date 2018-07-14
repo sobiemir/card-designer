@@ -746,7 +746,7 @@ namespace CDesigner
 		
 		public static void GeneratePDF( DataContent data, PatternData pdata )
 		{
-			double scale = 0.0, scalz = 0.0;
+			double scale = 0.0;
 
 			PdfDocument pdf = new PdfDocument();
 
@@ -760,7 +760,6 @@ namespace CDesigner
 
 				// oblicz skale powiększenia
 				scale = page.Width.Presentation / (pdata.size.Width * PatternEditor._pixel_per_dpi);
-				scalz = page.Width.Value / (pdata.size.Width * PatternEditor._pixel_per_dpi);
 
 				XGraphics gfx = XGraphics.FromPdfPage( page );
 				XPdfFontOptions foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
@@ -838,7 +837,6 @@ namespace CDesigner
 								}
 							}
 
-							double font_diff = (((double)((float)font.Height - font.Size) / 2.0) * scale);
 							bounds.Y      -= scale;
 							bounds.Height += scale * 2.0;
 

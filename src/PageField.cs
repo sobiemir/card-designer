@@ -27,7 +27,6 @@ namespace CDesigner
 		private string     _original_text   = null;
 		private string     _current_text    = "";
 		private bool       _extra_margin    = false;
-		private PointF     _text_margin     = new PointF( 0.0f, 0.0f );
 
 		// ------------------------------------------------------------- DPIBorderSize --------------------------------
 		
@@ -159,7 +158,6 @@ namespace CDesigner
 			set
 			{
 				this._dpi_text_margin = value;
-				this._text_margin = new PointF( (float)(value.X * this._dpi_scale), (float)(value.Y * this._dpi_scale) );
 			}
 		}
 
@@ -334,7 +332,7 @@ namespace CDesigner
 					point.Y = this._dpi_bounds.Y;
 				break;
 				case 0x004:
- 					point.X = this._dpi_bounds.X + this._dpi_bounds.Width;
+					point.X = this._dpi_bounds.X + this._dpi_bounds.Width;
 					point.Y = this._dpi_bounds.Y;
 				break;
 				case 0x100:
@@ -419,7 +417,7 @@ namespace CDesigner
 		public void RefreshLocation( )
 		{
 			this.DPIBounds = new RectangleF
- 			(
+			(
 				(float)((double)this.Location.X / this._dpi_conv_scale),
 				(float)((double)this.Location.Y / this._dpi_conv_scale),
 				this.DPIBounds.Width,
