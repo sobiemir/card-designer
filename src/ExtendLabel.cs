@@ -9,8 +9,6 @@ namespace CDesigner
 {
 	class ExtendLabel : Label
 	{
-
-
 		protected override void OnPaint( PaintEventArgs ev )
 		{
 			base.OnPaint( ev );

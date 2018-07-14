@@ -16,13 +16,14 @@ namespace CDesigner
 		public bool print_text;
 		public bool print_border;
 		public int  column;
+		public int  pos_align;
 	}
 
 	public class FieldData
 	{
 		public string           name;
-		public Rectangle        bounds;
-		public int              border_size;
+		public RectangleF       bounds;
+		public float            border_size;
 		public Color            border_color;
 		public bool             image;
 		public string           image_path;
@@ -32,22 +33,21 @@ namespace CDesigner
 		public FontStyle        font_style;
 		public float            font_size;
 		public ContentAlignment text_align;
-		public ContentAlignment pos_align;
-		public Padding          padding;
+		public float            padding;
 		public FieldExtraData   extra;
 	}
 
 	public class PageExtraData
 	{
-		public bool print_color;
-		public bool print_image;
+		public bool   print_color;
+		public bool   print_image;
+		public string image_path;
 	}
 
 	public class PageData
 	{
 		public int           fields;
 		public bool          image;
-		public string        image_path;
 		public Color         color;
 		public FieldData[]   field;
 		public PageExtraData extra;

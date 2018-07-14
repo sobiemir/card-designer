@@ -100,6 +100,8 @@
 			this.tDataPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.dpPreview = new System.Windows.Forms.Panel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.dbGeneratePDF = new System.Windows.Forms.Button();
+			this.dbScan = new System.Windows.Forms.Button();
 			this.dtvData = new System.Windows.Forms.TreeView();
 			this.gsDBase = new System.Windows.Forms.OpenFileDialog();
 			this.ptStatusBar = new System.Windows.Forms.TableLayoutPanel();
@@ -112,8 +114,27 @@
 			this.plStatus = new System.Windows.Forms.Label();
 			this.pcbScale = new System.Windows.Forms.ComboBox();
 			this.tPatternPanel = new System.Windows.Forms.TableLayoutPanel();
-			this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-			this.label5 = new System.Windows.Forms.Label();
+			this.ppPanelContainer = new System.Windows.Forms.Panel();
+			this.ptPatternDetails = new System.Windows.Forms.TableLayoutPanel();
+			this.icPatMenu = new System.Windows.Forms.MenuStrip();
+			this.icpmFieldDetails = new System.Windows.Forms.ToolStripMenuItem();
+			this.icpmDetails = new System.Windows.Forms.ToolStripMenuItem();
+			this.icpmPageDetails = new System.Windows.Forms.ToolStripMenuItem();
+			this.ppDetailsPanel = new System.Windows.Forms.Panel();
+			this.ptDetails = new System.Windows.Forms.TableLayoutPanel();
+			this.pcbUseImageMargin = new System.Windows.Forms.CheckBox();
+			this.pcbDrawFrameOutside = new System.Windows.Forms.CheckBox();
+			this.plImageSettings = new System.Windows.Forms.Label();
+			this.pcbDynImage = new System.Windows.Forms.CheckBox();
+			this.pcbStatText = new System.Windows.Forms.CheckBox();
+			this.pcbDrawColor = new System.Windows.Forms.CheckBox();
+			this.pcbDynText = new System.Windows.Forms.CheckBox();
+			this.plPDFGenerate = new System.Windows.Forms.Label();
+			this.pcbShowFrame = new System.Windows.Forms.CheckBox();
+			this.pcbStatImage = new System.Windows.Forms.CheckBox();
+			this.pcxImageSet = new System.Windows.Forms.ComboBox();
+			this.ptFieldDetails = new System.Windows.Forms.TableLayoutPanel();
+			this.plHeight = new System.Windows.Forms.Label();
 			this.pnBorderSize = new System.Windows.Forms.NumericUpDown();
 			this.pnPadding = new System.Windows.Forms.NumericUpDown();
 			this.plPadding = new System.Windows.Forms.Label();
@@ -136,17 +157,16 @@
 			this.plBorderColor = new System.Windows.Forms.Label();
 			this.ptbBorderColor = new System.Windows.Forms.TextBox();
 			this.pbBorderColor = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-			this.poleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.szczegółyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.stronaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.plFont = new System.Windows.Forms.Label();
+			this.plBorderWidth = new System.Windows.Forms.Label();
 			this.pcbTextAlign = new System.Windows.Forms.ComboBox();
 			this.pcbPosAlign = new System.Windows.Forms.ComboBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.ppPanelContainer = new System.Windows.Forms.Panel();
+			this.plStickPoint = new System.Windows.Forms.Label();
+			this.plPositionY = new System.Windows.Forms.Label();
+			this.ptPageDetails = new System.Windows.Forms.TableLayoutPanel();
+			this.gsPrint = new System.Windows.Forms.PrintDialog();
+			this.isPrintDoc = new System.Drawing.Printing.PrintDocument();
+			this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
 			this.tHomePanel.SuspendLayout();
 			this.mpPreview.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mibPreview)).BeginInit();
@@ -158,19 +178,23 @@
 			this.icPage.SuspendLayout();
 			this.icLabel.SuspendLayout();
 			this.tDataPanel.SuspendLayout();
+			this.tableLayoutPanel1.SuspendLayout();
 			this.ptStatusBar.SuspendLayout();
 			this.ptInfoControls.SuspendLayout();
 			this.pflPage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnPage)).BeginInit();
 			this.tPatternPanel.SuspendLayout();
-			this.tableLayoutPanel5.SuspendLayout();
+			this.ptPatternDetails.SuspendLayout();
+			this.icPatMenu.SuspendLayout();
+			this.ppDetailsPanel.SuspendLayout();
+			this.ptDetails.SuspendLayout();
+			this.ptFieldDetails.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnBorderSize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnPadding)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnPositionY)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnPositionX)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnWidth)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnHeight)).BeginInit();
-			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tHomePanel
@@ -609,7 +633,7 @@
 			// 
 			this.icpAddPage.Name = "icpAddPage";
 			this.icpAddPage.Size = new System.Drawing.Size(179, 22);
-			this.icpAddPage.Text = "Nowa strona";
+			this.icpAddPage.Text = "Dodaj stronę";
 			this.icpAddPage.Click += new System.EventHandler(this.icpAddPage_Click);
 			// 
 			// icpDeletePage
@@ -735,7 +759,6 @@
 			// 
 			// iclBorderColor
 			// 
-			this.iclBorderColor.CheckOnClick = true;
 			this.iclBorderColor.Name = "iclBorderColor";
 			this.iclBorderColor.Size = new System.Drawing.Size(183, 22);
 			this.iclBorderColor.Text = "Kolor ramki...";
@@ -797,17 +820,43 @@
 			// 
 			// tableLayoutPanel1
 			// 
-			this.tableLayoutPanel1.ColumnCount = 2;
+			this.tableLayoutPanel1.ColumnCount = 3;
 			this.tDataPanel.SetColumnSpan(this.tableLayoutPanel1, 2);
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
+			this.tableLayoutPanel1.Controls.Add(this.dbGeneratePDF, 2, 0);
+			this.tableLayoutPanel1.Controls.Add(this.dbScan, 1, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 433);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 430);
+			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(678, 22);
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(684, 28);
 			this.tableLayoutPanel1.TabIndex = 2;
+			// 
+			// dbGeneratePDF
+			// 
+			this.dbGeneratePDF.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dbGeneratePDF.Location = new System.Drawing.Point(583, 3);
+			this.dbGeneratePDF.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+			this.dbGeneratePDF.Name = "dbGeneratePDF";
+			this.dbGeneratePDF.Size = new System.Drawing.Size(95, 22);
+			this.dbGeneratePDF.TabIndex = 0;
+			this.dbGeneratePDF.Text = "Generuj PDF";
+			this.dbGeneratePDF.UseVisualStyleBackColor = true;
+			this.dbGeneratePDF.Click += new System.EventHandler(this.dbGeneratePDF_Click);
+			// 
+			// dbScan
+			// 
+			this.dbScan.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dbScan.Location = new System.Drawing.Point(481, 3);
+			this.dbScan.Name = "dbScan";
+			this.dbScan.Size = new System.Drawing.Size(96, 22);
+			this.dbScan.TabIndex = 1;
+			this.dbScan.Text = "Skanuj";
+			this.dbScan.UseVisualStyleBackColor = true;
 			// 
 			// dtvData
 			// 
@@ -858,6 +907,7 @@
 			this.pbSave.TabIndex = 5;
 			this.pbSave.Text = "Zapisz";
 			this.pbSave.UseVisualStyleBackColor = true;
+			this.pbSave.Click += new System.EventHandler(this.pbSave_Click);
 			// 
 			// pbLoadData
 			// 
@@ -868,6 +918,7 @@
 			this.pbLoadData.TabIndex = 4;
 			this.pbLoadData.Text = "Wczytaj dane";
 			this.pbLoadData.UseVisualStyleBackColor = true;
+			this.pbLoadData.Click += new System.EventHandler(this.pbLoadData_Click);
 			// 
 			// ptInfoControls
 			// 
@@ -935,6 +986,7 @@
 			// 
 			// plStatus
 			// 
+			this.plStatus.AutoEllipsis = true;
 			this.plStatus.AutoSize = true;
 			this.plStatus.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plStatus.Location = new System.Drawing.Point(83, 0);
@@ -962,15 +1014,17 @@
 			this.pcbScale.SelectedIndexChanged += new System.EventHandler(this.pcbScale_SelectedIndexChanged);
 			this.pcbScale.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pcbScale_KeyDown);
 			this.pcbScale.Leave += new System.EventHandler(this.pcbScale_Leave);
+			this.pcbScale.MouseEnter += new System.EventHandler(this.pcbScale_MouseEnter);
+			this.pcbScale.MouseLeave += new System.EventHandler(this.plStatus_ClearText);
 			// 
 			// tPatternPanel
 			// 
 			this.tPatternPanel.ColumnCount = 2;
 			this.tPatternPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tPatternPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-			this.tPatternPanel.Controls.Add(this.tableLayoutPanel5, 1, 0);
 			this.tPatternPanel.Controls.Add(this.ppPanelContainer, 0, 0);
 			this.tPatternPanel.Controls.Add(this.ptStatusBar, 0, 1);
+			this.tPatternPanel.Controls.Add(this.ptPatternDetails, 1, 0);
 			this.tPatternPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tPatternPanel.Location = new System.Drawing.Point(0, 24);
 			this.tPatternPanel.Name = "tPatternPanel";
@@ -982,110 +1036,375 @@
 			this.tPatternPanel.TabIndex = 2;
 			this.tPatternPanel.Visible = false;
 			// 
-			// tableLayoutPanel5
+			// ppPanelContainer
 			// 
-			this.tableLayoutPanel5.AutoSize = true;
-			this.tableLayoutPanel5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.tableLayoutPanel5.ColumnCount = 2;
-			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel5.Controls.Add(this.label5, 1, 4);
-			this.tableLayoutPanel5.Controls.Add(this.pnBorderSize, 1, 16);
-			this.tableLayoutPanel5.Controls.Add(this.pnPadding, 1, 14);
-			this.tableLayoutPanel5.Controls.Add(this.plPadding, 1, 13);
-			this.tableLayoutPanel5.Controls.Add(this.plTextPosition, 0, 13);
-			this.tableLayoutPanel5.Controls.Add(this.pbFontName, 1, 11);
-			this.tableLayoutPanel5.Controls.Add(this.ptbFontName, 0, 11);
-			this.tableLayoutPanel5.Controls.Add(this.pbBackImage, 1, 9);
-			this.tableLayoutPanel5.Controls.Add(this.ptbBackImage, 0, 9);
-			this.tableLayoutPanel5.Controls.Add(this.pbBackColor, 1, 8);
-			this.tableLayoutPanel5.Controls.Add(this.ptbBackColor, 0, 8);
-			this.tableLayoutPanel5.Controls.Add(this.pbFontColor, 1, 12);
-			this.tableLayoutPanel5.Controls.Add(this.ptbFontColor, 0, 12);
-			this.tableLayoutPanel5.Controls.Add(this.ptbName, 0, 1);
-			this.tableLayoutPanel5.Controls.Add(this.pnPositionY, 1, 3);
-			this.tableLayoutPanel5.Controls.Add(this.pnPositionX, 0, 3);
-			this.tableLayoutPanel5.Controls.Add(this.plPositionX, 0, 2);
-			this.tableLayoutPanel5.Controls.Add(this.plWidth, 0, 4);
-			this.tableLayoutPanel5.Controls.Add(this.pnWidth, 0, 5);
-			this.tableLayoutPanel5.Controls.Add(this.pnHeight, 1, 5);
-			this.tableLayoutPanel5.Controls.Add(this.plBorderColor, 0, 6);
-			this.tableLayoutPanel5.Controls.Add(this.ptbBorderColor, 0, 7);
-			this.tableLayoutPanel5.Controls.Add(this.pbBorderColor, 1, 7);
-			this.tableLayoutPanel5.Controls.Add(this.label1, 0, 10);
-			this.tableLayoutPanel5.Controls.Add(this.label2, 1, 15);
-			this.tableLayoutPanel5.Controls.Add(this.menuStrip1, 0, 0);
-			this.tableLayoutPanel5.Controls.Add(this.pcbTextAlign, 0, 14);
-			this.tableLayoutPanel5.Controls.Add(this.pcbPosAlign, 0, 16);
-			this.tableLayoutPanel5.Controls.Add(this.label3, 0, 15);
-			this.tableLayoutPanel5.Controls.Add(this.label4, 1, 2);
-			this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel5.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-			this.tableLayoutPanel5.Location = new System.Drawing.Point(437, 7);
-			this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(3, 7, 7, 3);
-			this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-			this.tableLayoutPanel5.RowCount = 19;
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel5.Size = new System.Drawing.Size(240, 420);
-			this.tableLayoutPanel5.TabIndex = 5;
+			this.ppPanelContainer.AutoScroll = true;
+			this.ppPanelContainer.BackColor = System.Drawing.SystemColors.ScrollBar;
+			this.ppPanelContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.ppPanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ppPanelContainer.Location = new System.Drawing.Point(6, 6);
+			this.ppPanelContainer.Margin = new System.Windows.Forms.Padding(6, 6, 3, 3);
+			this.ppPanelContainer.Name = "ppPanelContainer";
+			this.ppPanelContainer.Size = new System.Drawing.Size(425, 421);
+			this.ppPanelContainer.TabIndex = 1;
+			this.ppPanelContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ppPanelContainer_MouseDown);
 			// 
-			// label5
+			// ptPatternDetails
 			// 
-			this.label5.AutoSize = true;
-			this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label5.Location = new System.Drawing.Point(123, 105);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(114, 20);
-			this.label5.TabIndex = 72;
-			this.label5.Text = "Wysokość:";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.ptPatternDetails.ColumnCount = 1;
+			this.ptPatternDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.ptPatternDetails.Controls.Add(this.icPatMenu, 0, 0);
+			this.ptPatternDetails.Controls.Add(this.ppDetailsPanel, 0, 1);
+			this.ptPatternDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptPatternDetails.Location = new System.Drawing.Point(437, 6);
+			this.ptPatternDetails.Margin = new System.Windows.Forms.Padding(3, 6, 6, 3);
+			this.ptPatternDetails.Name = "ptPatternDetails";
+			this.ptPatternDetails.RowCount = 2;
+			this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+			this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.ptPatternDetails.Size = new System.Drawing.Size(241, 421);
+			this.ptPatternDetails.TabIndex = 5;
+			// 
+			// icPatMenu
+			// 
+			this.icPatMenu.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.ptPatternDetails.SetColumnSpan(this.icPatMenu, 2);
+			this.icPatMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.icPatMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.icpmFieldDetails,
+            this.icpmDetails,
+            this.icpmPageDetails});
+			this.icPatMenu.Location = new System.Drawing.Point(3, 3);
+			this.icPatMenu.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+			this.icPatMenu.Name = "icPatMenu";
+			this.icPatMenu.Size = new System.Drawing.Size(235, 26);
+			this.icPatMenu.TabIndex = 68;
+			this.icPatMenu.Text = "icPatMenu";
+			// 
+			// icpmFieldDetails
+			// 
+			this.icpmFieldDetails.Enabled = false;
+			this.icpmFieldDetails.Name = "icpmFieldDetails";
+			this.icpmFieldDetails.Size = new System.Drawing.Size(42, 22);
+			this.icpmFieldDetails.Text = "Pole";
+			this.icpmFieldDetails.Click += new System.EventHandler(this.icpmFieldDetails_Click);
+			// 
+			// icpmDetails
+			// 
+			this.icpmDetails.Name = "icpmDetails";
+			this.icpmDetails.Size = new System.Drawing.Size(70, 22);
+			this.icpmDetails.Text = "Szczegóły";
+			this.icpmDetails.Click += new System.EventHandler(this.icpmDetails_Click);
+			// 
+			// icpmPageDetails
+			// 
+			this.icpmPageDetails.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+			this.icpmPageDetails.Name = "icpmPageDetails";
+			this.icpmPageDetails.Size = new System.Drawing.Size(53, 22);
+			this.icpmPageDetails.Text = "Strona";
+			this.icpmPageDetails.Click += new System.EventHandler(this.icpmPageDetails_Click);
+			// 
+			// ppDetailsPanel
+			// 
+			this.ppDetailsPanel.Controls.Add(this.ptDetails);
+			this.ppDetailsPanel.Controls.Add(this.ptFieldDetails);
+			this.ppDetailsPanel.Controls.Add(this.ptPageDetails);
+			this.ppDetailsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ppDetailsPanel.Location = new System.Drawing.Point(0, 35);
+			this.ppDetailsPanel.Margin = new System.Windows.Forms.Padding(0);
+			this.ppDetailsPanel.Name = "ppDetailsPanel";
+			this.ppDetailsPanel.Size = new System.Drawing.Size(241, 386);
+			this.ppDetailsPanel.TabIndex = 69;
+			// 
+			// ptDetails
+			// 
+			this.ptDetails.ColumnCount = 2;
+			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptDetails.Controls.Add(this.pcbUseImageMargin, 0, 7);
+			this.ptDetails.Controls.Add(this.pcbDrawFrameOutside, 0, 6);
+			this.ptDetails.Controls.Add(this.plImageSettings, 0, 4);
+			this.ptDetails.Controls.Add(this.pcbDynImage, 1, 3);
+			this.ptDetails.Controls.Add(this.pcbStatText, 0, 3);
+			this.ptDetails.Controls.Add(this.pcbDrawColor, 1, 1);
+			this.ptDetails.Controls.Add(this.pcbDynText, 0, 2);
+			this.ptDetails.Controls.Add(this.plPDFGenerate, 0, 0);
+			this.ptDetails.Controls.Add(this.pcbShowFrame, 0, 1);
+			this.ptDetails.Controls.Add(this.pcbStatImage, 1, 2);
+			this.ptDetails.Controls.Add(this.pcxImageSet, 0, 5);
+			this.ptDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptDetails.Location = new System.Drawing.Point(0, 0);
+			this.ptDetails.Name = "ptDetails";
+			this.ptDetails.RowCount = 10;
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.Size = new System.Drawing.Size(241, 386);
+			this.ptDetails.TabIndex = 5;
+			this.ptDetails.Visible = false;
+			// 
+			// pcbUseImageMargin
+			// 
+			this.pcbUseImageMargin.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.pcbUseImageMargin, 2);
+			this.pcbUseImageMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbUseImageMargin.Location = new System.Drawing.Point(3, 170);
+			this.pcbUseImageMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbUseImageMargin.Name = "pcbUseImageMargin";
+			this.pcbUseImageMargin.Size = new System.Drawing.Size(235, 17);
+			this.pcbUseImageMargin.TabIndex = 12;
+			this.pcbUseImageMargin.Text = "Zastosuj margines do obrazu";
+			this.pcbUseImageMargin.UseVisualStyleBackColor = true;
+			// 
+			// pcbDrawFrameOutside
+			// 
+			this.pcbDrawFrameOutside.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.pcbDrawFrameOutside, 2);
+			this.pcbDrawFrameOutside.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDrawFrameOutside.Location = new System.Drawing.Point(3, 145);
+			this.pcbDrawFrameOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDrawFrameOutside.Name = "pcbDrawFrameOutside";
+			this.pcbDrawFrameOutside.Size = new System.Drawing.Size(235, 17);
+			this.pcbDrawFrameOutside.TabIndex = 11;
+			this.pcbDrawFrameOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
+			this.pcbDrawFrameOutside.UseVisualStyleBackColor = true;
+			// 
+			// plImageSettings
+			// 
+			this.plImageSettings.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.plImageSettings, 2);
+			this.plImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plImageSettings.Location = new System.Drawing.Point(3, 95);
+			this.plImageSettings.Name = "plImageSettings";
+			this.plImageSettings.Size = new System.Drawing.Size(235, 20);
+			this.plImageSettings.TabIndex = 9;
+			this.plImageSettings.Text = "Ustawienia obrazu:";
+			this.plImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// pcbDynImage
+			// 
+			this.pcbDynImage.AutoSize = true;
+			this.pcbDynImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDynImage.Location = new System.Drawing.Point(123, 75);
+			this.pcbDynImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDynImage.Name = "pcbDynImage";
+			this.pcbDynImage.Size = new System.Drawing.Size(115, 17);
+			this.pcbDynImage.TabIndex = 8;
+			this.pcbDynImage.Text = "Obraz dynamiczny";
+			this.pcbDynImage.UseVisualStyleBackColor = true;
+			this.pcbDynImage.CheckedChanged += new System.EventHandler(this.pcbDynImage_CheckedChanged);
+			// 
+			// pcbStatText
+			// 
+			this.pcbStatText.AutoSize = true;
+			this.pcbStatText.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbStatText.Location = new System.Drawing.Point(3, 75);
+			this.pcbStatText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbStatText.Name = "pcbStatText";
+			this.pcbStatText.Size = new System.Drawing.Size(114, 17);
+			this.pcbStatText.TabIndex = 7;
+			this.pcbStatText.Text = "Tekst statyczny";
+			this.pcbStatText.UseVisualStyleBackColor = true;
+			this.pcbStatText.CheckedChanged += new System.EventHandler(this.pcbStatText_CheckedChanged);
+			// 
+			// pcbDrawColor
+			// 
+			this.pcbDrawColor.AutoSize = true;
+			this.pcbDrawColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDrawColor.Location = new System.Drawing.Point(123, 25);
+			this.pcbDrawColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDrawColor.Name = "pcbDrawColor";
+			this.pcbDrawColor.Size = new System.Drawing.Size(115, 17);
+			this.pcbDrawColor.TabIndex = 6;
+			this.pcbDrawColor.Text = "Rysuj kolor pola";
+			this.pcbDrawColor.UseVisualStyleBackColor = true;
+			this.pcbDrawColor.CheckedChanged += new System.EventHandler(this.pcbDrawColor_CheckedChanged);
+			// 
+			// pcbDynText
+			// 
+			this.pcbDynText.AutoSize = true;
+			this.pcbDynText.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDynText.Location = new System.Drawing.Point(3, 50);
+			this.pcbDynText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDynText.Name = "pcbDynText";
+			this.pcbDynText.Size = new System.Drawing.Size(114, 17);
+			this.pcbDynText.TabIndex = 3;
+			this.pcbDynText.Text = "Tekst dynamiczny";
+			this.pcbDynText.UseVisualStyleBackColor = true;
+			this.pcbDynText.CheckedChanged += new System.EventHandler(this.pcbDynText_CheckedChanged);
+			// 
+			// plPDFGenerate
+			// 
+			this.plPDFGenerate.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.plPDFGenerate, 2);
+			this.plPDFGenerate.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plPDFGenerate.Location = new System.Drawing.Point(3, 0);
+			this.plPDFGenerate.Name = "plPDFGenerate";
+			this.plPDFGenerate.Size = new System.Drawing.Size(235, 20);
+			this.plPDFGenerate.TabIndex = 0;
+			this.plPDFGenerate.Text = "Generowanie do pliku PDF:";
+			this.plPDFGenerate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// pcbShowFrame
+			// 
+			this.pcbShowFrame.AutoSize = true;
+			this.pcbShowFrame.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbShowFrame.Location = new System.Drawing.Point(3, 25);
+			this.pcbShowFrame.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbShowFrame.Name = "pcbShowFrame";
+			this.pcbShowFrame.Size = new System.Drawing.Size(114, 17);
+			this.pcbShowFrame.TabIndex = 1;
+			this.pcbShowFrame.Text = "Wyświetlaj ramke";
+			this.pcbShowFrame.UseVisualStyleBackColor = true;
+			this.pcbShowFrame.CheckedChanged += new System.EventHandler(this.pcbShowFrame_CheckedChanged);
+			// 
+			// pcbStatImage
+			// 
+			this.pcbStatImage.AutoSize = true;
+			this.pcbStatImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbStatImage.Location = new System.Drawing.Point(123, 50);
+			this.pcbStatImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbStatImage.Name = "pcbStatImage";
+			this.pcbStatImage.Size = new System.Drawing.Size(115, 17);
+			this.pcbStatImage.TabIndex = 4;
+			this.pcbStatImage.Text = "Obraz statyczny";
+			this.pcbStatImage.UseVisualStyleBackColor = true;
+			this.pcbStatImage.CheckedChanged += new System.EventHandler(this.pcbStatImage_CheckedChanged);
+			// 
+			// pcxImageSet
+			// 
+			this.ptDetails.SetColumnSpan(this.pcxImageSet, 2);
+			this.pcxImageSet.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcxImageSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.pcxImageSet.FormattingEnabled = true;
+			this.pcxImageSet.Items.AddRange(new object[] {
+            "Zostaw proporcje takie jakie są"});
+			this.pcxImageSet.Location = new System.Drawing.Point(3, 118);
+			this.pcxImageSet.Name = "pcxImageSet";
+			this.pcxImageSet.Size = new System.Drawing.Size(235, 21);
+			this.pcxImageSet.TabIndex = 10;
+			// 
+			// ptFieldDetails
+			// 
+			this.ptFieldDetails.AutoSize = true;
+			this.ptFieldDetails.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.ptFieldDetails.ColumnCount = 2;
+			this.ptFieldDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptFieldDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptFieldDetails.Controls.Add(this.plHeight, 1, 3);
+			this.ptFieldDetails.Controls.Add(this.pnBorderSize, 1, 15);
+			this.ptFieldDetails.Controls.Add(this.pnPadding, 1, 13);
+			this.ptFieldDetails.Controls.Add(this.plPadding, 1, 12);
+			this.ptFieldDetails.Controls.Add(this.plTextPosition, 0, 12);
+			this.ptFieldDetails.Controls.Add(this.pbFontName, 1, 10);
+			this.ptFieldDetails.Controls.Add(this.ptbFontName, 0, 10);
+			this.ptFieldDetails.Controls.Add(this.pbBackImage, 1, 8);
+			this.ptFieldDetails.Controls.Add(this.ptbBackImage, 0, 8);
+			this.ptFieldDetails.Controls.Add(this.pbBackColor, 1, 7);
+			this.ptFieldDetails.Controls.Add(this.ptbBackColor, 0, 7);
+			this.ptFieldDetails.Controls.Add(this.pbFontColor, 1, 11);
+			this.ptFieldDetails.Controls.Add(this.ptbFontColor, 0, 11);
+			this.ptFieldDetails.Controls.Add(this.ptbName, 0, 0);
+			this.ptFieldDetails.Controls.Add(this.pnPositionY, 1, 2);
+			this.ptFieldDetails.Controls.Add(this.pnPositionX, 0, 2);
+			this.ptFieldDetails.Controls.Add(this.plPositionX, 0, 1);
+			this.ptFieldDetails.Controls.Add(this.plWidth, 0, 3);
+			this.ptFieldDetails.Controls.Add(this.pnWidth, 0, 4);
+			this.ptFieldDetails.Controls.Add(this.pnHeight, 1, 4);
+			this.ptFieldDetails.Controls.Add(this.plBorderColor, 0, 5);
+			this.ptFieldDetails.Controls.Add(this.ptbBorderColor, 0, 6);
+			this.ptFieldDetails.Controls.Add(this.pbBorderColor, 1, 6);
+			this.ptFieldDetails.Controls.Add(this.plFont, 0, 9);
+			this.ptFieldDetails.Controls.Add(this.plBorderWidth, 1, 14);
+			this.ptFieldDetails.Controls.Add(this.pcbTextAlign, 0, 13);
+			this.ptFieldDetails.Controls.Add(this.pcbPosAlign, 0, 15);
+			this.ptFieldDetails.Controls.Add(this.plStickPoint, 0, 14);
+			this.ptFieldDetails.Controls.Add(this.plPositionY, 1, 1);
+			this.ptFieldDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptFieldDetails.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+			this.ptFieldDetails.Location = new System.Drawing.Point(0, 0);
+			this.ptFieldDetails.Margin = new System.Windows.Forms.Padding(0);
+			this.ptFieldDetails.Name = "ptFieldDetails";
+			this.ptFieldDetails.RowCount = 18;
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptFieldDetails.Size = new System.Drawing.Size(241, 386);
+			this.ptFieldDetails.TabIndex = 7;
+			// 
+			// plHeight
+			// 
+			this.plHeight.AutoSize = true;
+			this.plHeight.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.plHeight.Location = new System.Drawing.Point(123, 70);
+			this.plHeight.Name = "plHeight";
+			this.plHeight.Size = new System.Drawing.Size(115, 20);
+			this.plHeight.TabIndex = 72;
+			this.plHeight.Text = "Wysokość:";
+			this.plHeight.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// pnBorderSize
 			// 
+			this.pnBorderSize.DecimalPlaces = 1;
 			this.pnBorderSize.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnBorderSize.Enabled = false;
-			this.pnBorderSize.Location = new System.Drawing.Point(123, 398);
+			this.pnBorderSize.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+			this.pnBorderSize.Location = new System.Drawing.Point(123, 363);
 			this.pnBorderSize.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
 			this.pnBorderSize.Name = "pnBorderSize";
-			this.pnBorderSize.Size = new System.Drawing.Size(114, 20);
+			this.pnBorderSize.Size = new System.Drawing.Size(115, 20);
 			this.pnBorderSize.TabIndex = 65;
 			this.pnBorderSize.ValueChanged += new System.EventHandler(this.pnBorderSize_ValueChanged);
 			// 
 			// pnPadding
 			// 
+			this.pnPadding.DecimalPlaces = 1;
 			this.pnPadding.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnPadding.Enabled = false;
-			this.pnPadding.Location = new System.Drawing.Point(123, 353);
+			this.pnPadding.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+			this.pnPadding.Location = new System.Drawing.Point(123, 318);
 			this.pnPadding.Maximum = new decimal(new int[] {
             20,
             0,
             0,
             0});
 			this.pnPadding.Name = "pnPadding";
-			this.pnPadding.Size = new System.Drawing.Size(114, 20);
+			this.pnPadding.Size = new System.Drawing.Size(115, 20);
 			this.pnPadding.TabIndex = 63;
 			this.pnPadding.ValueChanged += new System.EventHandler(this.pnPadding_ValueChanged);
 			// 
@@ -1094,9 +1413,9 @@
 			this.plPadding.AutoSize = true;
 			this.plPadding.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plPadding.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plPadding.Location = new System.Drawing.Point(123, 330);
+			this.plPadding.Location = new System.Drawing.Point(123, 295);
 			this.plPadding.Name = "plPadding";
-			this.plPadding.Size = new System.Drawing.Size(114, 20);
+			this.plPadding.Size = new System.Drawing.Size(115, 20);
 			this.plPadding.TabIndex = 61;
 			this.plPadding.Text = "Margines:";
 			this.plPadding.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1106,7 +1425,7 @@
 			this.plTextPosition.AutoSize = true;
 			this.plTextPosition.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plTextPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plTextPosition.Location = new System.Drawing.Point(3, 330);
+			this.plTextPosition.Location = new System.Drawing.Point(3, 295);
 			this.plTextPosition.Name = "plTextPosition";
 			this.plTextPosition.Size = new System.Drawing.Size(114, 20);
 			this.plTextPosition.TabIndex = 60;
@@ -1118,10 +1437,10 @@
 			this.pbFontName.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbFontName.Enabled = false;
 			this.pbFontName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbFontName.Location = new System.Drawing.Point(123, 277);
+			this.pbFontName.Location = new System.Drawing.Point(123, 242);
 			this.pbFontName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbFontName.Name = "pbFontName";
-			this.pbFontName.Size = new System.Drawing.Size(114, 23);
+			this.pbFontName.Size = new System.Drawing.Size(115, 23);
 			this.pbFontName.TabIndex = 59;
 			this.pbFontName.Text = "Nazwa";
 			this.pbFontName.UseVisualStyleBackColor = true;
@@ -1131,7 +1450,7 @@
 			// 
 			this.ptbFontName.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ptbFontName.Enabled = false;
-			this.ptbFontName.Location = new System.Drawing.Point(3, 279);
+			this.ptbFontName.Location = new System.Drawing.Point(3, 244);
 			this.ptbFontName.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbFontName.Name = "ptbFontName";
 			this.ptbFontName.Size = new System.Drawing.Size(114, 20);
@@ -1142,10 +1461,10 @@
 			this.pbBackImage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBackImage.Enabled = false;
 			this.pbBackImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBackImage.Location = new System.Drawing.Point(123, 229);
+			this.pbBackImage.Location = new System.Drawing.Point(123, 194);
 			this.pbBackImage.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBackImage.Name = "pbBackImage";
-			this.pbBackImage.Size = new System.Drawing.Size(114, 23);
+			this.pbBackImage.Size = new System.Drawing.Size(115, 23);
 			this.pbBackImage.TabIndex = 52;
 			this.pbBackImage.Text = "Obraz";
 			this.pbBackImage.UseVisualStyleBackColor = true;
@@ -1155,7 +1474,7 @@
 			// 
 			this.ptbBackImage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ptbBackImage.Enabled = false;
-			this.ptbBackImage.Location = new System.Drawing.Point(3, 231);
+			this.ptbBackImage.Location = new System.Drawing.Point(3, 196);
 			this.ptbBackImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBackImage.Name = "ptbBackImage";
 			this.ptbBackImage.Size = new System.Drawing.Size(114, 20);
@@ -1166,10 +1485,10 @@
 			this.pbBackColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBackColor.Enabled = false;
 			this.pbBackColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBackColor.Location = new System.Drawing.Point(123, 201);
+			this.pbBackColor.Location = new System.Drawing.Point(123, 166);
 			this.pbBackColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBackColor.Name = "pbBackColor";
-			this.pbBackColor.Size = new System.Drawing.Size(114, 23);
+			this.pbBackColor.Size = new System.Drawing.Size(115, 23);
 			this.pbBackColor.TabIndex = 50;
 			this.pbBackColor.Text = "Kolor";
 			this.pbBackColor.UseVisualStyleBackColor = true;
@@ -1179,7 +1498,7 @@
 			// 
 			this.ptbBackColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ptbBackColor.Enabled = false;
-			this.ptbBackColor.Location = new System.Drawing.Point(3, 203);
+			this.ptbBackColor.Location = new System.Drawing.Point(3, 168);
 			this.ptbBackColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBackColor.Name = "ptbBackColor";
 			this.ptbBackColor.Size = new System.Drawing.Size(114, 20);
@@ -1190,10 +1509,10 @@
 			this.pbFontColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbFontColor.Enabled = false;
 			this.pbFontColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbFontColor.Location = new System.Drawing.Point(123, 305);
+			this.pbFontColor.Location = new System.Drawing.Point(123, 270);
 			this.pbFontColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbFontColor.Name = "pbFontColor";
-			this.pbFontColor.Size = new System.Drawing.Size(114, 23);
+			this.pbFontColor.Size = new System.Drawing.Size(115, 23);
 			this.pbFontColor.TabIndex = 35;
 			this.pbFontColor.Text = "Kolor";
 			this.pbFontColor.UseVisualStyleBackColor = true;
@@ -1203,7 +1522,7 @@
 			// 
 			this.ptbFontColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ptbFontColor.Enabled = false;
-			this.ptbFontColor.Location = new System.Drawing.Point(3, 307);
+			this.ptbFontColor.Location = new System.Drawing.Point(3, 272);
 			this.ptbFontColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbFontColor.Name = "ptbFontColor";
 			this.ptbFontColor.Size = new System.Drawing.Size(114, 20);
@@ -1211,35 +1530,37 @@
 			// 
 			// ptbName
 			// 
-			this.tableLayoutPanel5.SetColumnSpan(this.ptbName, 2);
+			this.ptFieldDetails.SetColumnSpan(this.ptbName, 2);
 			this.ptbName.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ptbName.Enabled = false;
-			this.ptbName.Location = new System.Drawing.Point(3, 38);
+			this.ptbName.Location = new System.Drawing.Point(3, 3);
 			this.ptbName.Name = "ptbName";
-			this.ptbName.Size = new System.Drawing.Size(234, 20);
+			this.ptbName.Size = new System.Drawing.Size(235, 20);
 			this.ptbName.TabIndex = 0;
 			this.ptbName.TextChanged += new System.EventHandler(this.ptbName_TextChanged);
 			// 
 			// pnPositionY
 			// 
+			this.pnPositionY.DecimalPlaces = 1;
 			this.pnPositionY.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnPositionY.Enabled = false;
-			this.pnPositionY.Location = new System.Drawing.Point(123, 83);
+			this.pnPositionY.Location = new System.Drawing.Point(123, 48);
 			this.pnPositionY.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
 			this.pnPositionY.Name = "pnPositionY";
-			this.pnPositionY.Size = new System.Drawing.Size(114, 20);
+			this.pnPositionY.Size = new System.Drawing.Size(115, 20);
 			this.pnPositionY.TabIndex = 2;
 			this.pnPositionY.ValueChanged += new System.EventHandler(this.pnPositionY_ValueChanged);
 			// 
 			// pnPositionX
 			// 
+			this.pnPositionX.DecimalPlaces = 1;
 			this.pnPositionX.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnPositionX.Enabled = false;
-			this.pnPositionX.Location = new System.Drawing.Point(3, 83);
+			this.pnPositionX.Location = new System.Drawing.Point(3, 48);
 			this.pnPositionX.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -1255,7 +1576,7 @@
 			this.plPositionX.AutoSize = true;
 			this.plPositionX.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plPositionX.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plPositionX.Location = new System.Drawing.Point(3, 60);
+			this.plPositionX.Location = new System.Drawing.Point(3, 25);
 			this.plPositionX.Name = "plPositionX";
 			this.plPositionX.Size = new System.Drawing.Size(114, 20);
 			this.plPositionX.TabIndex = 4;
@@ -1267,7 +1588,7 @@
 			this.plWidth.AutoSize = true;
 			this.plWidth.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plWidth.Location = new System.Drawing.Point(3, 105);
+			this.plWidth.Location = new System.Drawing.Point(3, 70);
 			this.plWidth.Name = "plWidth";
 			this.plWidth.Size = new System.Drawing.Size(114, 20);
 			this.plWidth.TabIndex = 6;
@@ -1276,10 +1597,11 @@
 			// 
 			// pnWidth
 			// 
+			this.pnWidth.DecimalPlaces = 1;
 			this.pnWidth.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnWidth.Enabled = false;
 			this.pnWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pnWidth.Location = new System.Drawing.Point(3, 128);
+			this.pnWidth.Location = new System.Drawing.Point(3, 93);
 			this.pnWidth.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -1292,28 +1614,29 @@
 			// 
 			// pnHeight
 			// 
+			this.pnHeight.DecimalPlaces = 1;
 			this.pnHeight.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnHeight.Enabled = false;
-			this.pnHeight.Location = new System.Drawing.Point(123, 128);
+			this.pnHeight.Location = new System.Drawing.Point(123, 93);
 			this.pnHeight.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
 			this.pnHeight.Name = "pnHeight";
-			this.pnHeight.Size = new System.Drawing.Size(114, 20);
+			this.pnHeight.Size = new System.Drawing.Size(115, 20);
 			this.pnHeight.TabIndex = 4;
 			this.pnHeight.ValueChanged += new System.EventHandler(this.pnHeight_ValueChanged);
 			// 
 			// plBorderColor
 			// 
 			this.plBorderColor.AutoSize = true;
-			this.tableLayoutPanel5.SetColumnSpan(this.plBorderColor, 2);
+			this.ptFieldDetails.SetColumnSpan(this.plBorderColor, 2);
 			this.plBorderColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plBorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plBorderColor.Location = new System.Drawing.Point(3, 150);
+			this.plBorderColor.Location = new System.Drawing.Point(3, 115);
 			this.plBorderColor.Name = "plBorderColor";
-			this.plBorderColor.Size = new System.Drawing.Size(234, 20);
+			this.plBorderColor.Size = new System.Drawing.Size(235, 20);
 			this.plBorderColor.TabIndex = 10;
 			this.plBorderColor.Text = "Wygląd:";
 			this.plBorderColor.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1322,7 +1645,7 @@
 			// 
 			this.ptbBorderColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ptbBorderColor.Enabled = false;
-			this.ptbBorderColor.Location = new System.Drawing.Point(3, 175);
+			this.ptbBorderColor.Location = new System.Drawing.Point(3, 140);
 			this.ptbBorderColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBorderColor.Name = "ptbBorderColor";
 			this.ptbBorderColor.Size = new System.Drawing.Size(114, 20);
@@ -1333,77 +1656,39 @@
 			this.pbBorderColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBorderColor.Enabled = false;
 			this.pbBorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBorderColor.Location = new System.Drawing.Point(123, 173);
+			this.pbBorderColor.Location = new System.Drawing.Point(123, 138);
 			this.pbBorderColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBorderColor.Name = "pbBorderColor";
-			this.pbBorderColor.Size = new System.Drawing.Size(114, 23);
+			this.pbBorderColor.Size = new System.Drawing.Size(115, 23);
 			this.pbBorderColor.TabIndex = 6;
 			this.pbBorderColor.Text = "Ramka";
 			this.pbBorderColor.UseVisualStyleBackColor = true;
 			this.pbBorderColor.Click += new System.EventHandler(this.pbBorderColor_Click);
 			// 
-			// label1
+			// plFont
 			// 
-			this.label1.AutoSize = true;
-			this.tableLayoutPanel5.SetColumnSpan(this.label1, 2);
-			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label1.Location = new System.Drawing.Point(3, 254);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(234, 20);
-			this.label1.TabIndex = 53;
-			this.label1.Text = "Czcionka:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.plFont.AutoSize = true;
+			this.ptFieldDetails.SetColumnSpan(this.plFont, 2);
+			this.plFont.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.plFont.Location = new System.Drawing.Point(3, 219);
+			this.plFont.Name = "plFont";
+			this.plFont.Size = new System.Drawing.Size(235, 20);
+			this.plFont.TabIndex = 53;
+			this.plFont.Text = "Czcionka:";
+			this.plFont.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
-			// label2
+			// plBorderWidth
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label2.Location = new System.Drawing.Point(123, 375);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(114, 20);
-			this.label2.TabIndex = 64;
-			this.label2.Text = "Grubość ramki:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-			// 
-			// menuStrip1
-			// 
-			this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.tableLayoutPanel5.SetColumnSpan(this.menuStrip1, 2);
-			this.menuStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.poleToolStripMenuItem,
-            this.szczegółyToolStripMenuItem,
-            this.stronaToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(3, 3);
-			this.menuStrip1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(234, 26);
-			this.menuStrip1.TabIndex = 67;
-			this.menuStrip1.Text = "menuStrip1";
-			// 
-			// poleToolStripMenuItem
-			// 
-			this.poleToolStripMenuItem.Enabled = false;
-			this.poleToolStripMenuItem.Name = "poleToolStripMenuItem";
-			this.poleToolStripMenuItem.Size = new System.Drawing.Size(42, 22);
-			this.poleToolStripMenuItem.Text = "Pole";
-			// 
-			// szczegółyToolStripMenuItem
-			// 
-			this.szczegółyToolStripMenuItem.Enabled = false;
-			this.szczegółyToolStripMenuItem.Name = "szczegółyToolStripMenuItem";
-			this.szczegółyToolStripMenuItem.Size = new System.Drawing.Size(70, 22);
-			this.szczegółyToolStripMenuItem.Text = "Szczegóły";
-			// 
-			// stronaToolStripMenuItem
-			// 
-			this.stronaToolStripMenuItem.Enabled = false;
-			this.stronaToolStripMenuItem.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-			this.stronaToolStripMenuItem.Name = "stronaToolStripMenuItem";
-			this.stronaToolStripMenuItem.Size = new System.Drawing.Size(53, 22);
-			this.stronaToolStripMenuItem.Text = "Strona";
+			this.plBorderWidth.AutoSize = true;
+			this.plBorderWidth.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plBorderWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.plBorderWidth.Location = new System.Drawing.Point(123, 340);
+			this.plBorderWidth.Name = "plBorderWidth";
+			this.plBorderWidth.Size = new System.Drawing.Size(115, 20);
+			this.plBorderWidth.TabIndex = 64;
+			this.plBorderWidth.Text = "Grubość ramki:";
+			this.plBorderWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// pcbTextAlign
 			// 
@@ -1421,7 +1706,7 @@
             "Dół-Lewo",
             "Dół-Środek",
             "Dół-Prawo"});
-			this.pcbTextAlign.Location = new System.Drawing.Point(3, 353);
+			this.pcbTextAlign.Location = new System.Drawing.Point(3, 318);
 			this.pcbTextAlign.Name = "pcbTextAlign";
 			this.pcbTextAlign.Size = new System.Drawing.Size(114, 21);
 			this.pcbTextAlign.TabIndex = 68;
@@ -1438,46 +1723,59 @@
             "Góra-Prawo",
             "Dół-Lewo",
             "Dół-Prawo"});
-			this.pcbPosAlign.Location = new System.Drawing.Point(3, 398);
+			this.pcbPosAlign.Location = new System.Drawing.Point(3, 363);
 			this.pcbPosAlign.Name = "pcbPosAlign";
 			this.pcbPosAlign.Size = new System.Drawing.Size(114, 21);
 			this.pcbPosAlign.TabIndex = 69;
 			this.pcbPosAlign.SelectedIndexChanged += new System.EventHandler(this.pcbPosAlign_SelectedIndexChanged);
 			// 
-			// label3
+			// plStickPoint
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label3.Location = new System.Drawing.Point(3, 375);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(114, 20);
-			this.label3.TabIndex = 70;
-			this.label3.Text = "Pozycja położenia:";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.plStickPoint.AutoSize = true;
+			this.plStickPoint.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plStickPoint.Location = new System.Drawing.Point(3, 340);
+			this.plStickPoint.Name = "plStickPoint";
+			this.plStickPoint.Size = new System.Drawing.Size(114, 20);
+			this.plStickPoint.TabIndex = 70;
+			this.plStickPoint.Text = "Punkt zaczepienia:";
+			this.plStickPoint.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
-			// label4
+			// plPositionY
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label4.Location = new System.Drawing.Point(123, 60);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(114, 20);
-			this.label4.TabIndex = 71;
-			this.label4.Text = "Pozycja Y:";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.plPositionY.AutoSize = true;
+			this.plPositionY.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plPositionY.Location = new System.Drawing.Point(123, 25);
+			this.plPositionY.Name = "plPositionY";
+			this.plPositionY.Size = new System.Drawing.Size(115, 20);
+			this.plPositionY.TabIndex = 71;
+			this.plPositionY.Text = "Pozycja Y:";
+			this.plPositionY.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
-			// ppPanelContainer
+			// ptPageDetails
 			// 
-			this.ppPanelContainer.AutoScroll = true;
-			this.ppPanelContainer.BackColor = System.Drawing.SystemColors.ScrollBar;
-			this.ppPanelContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.ppPanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ppPanelContainer.Location = new System.Drawing.Point(7, 7);
-			this.ppPanelContainer.Margin = new System.Windows.Forms.Padding(7, 7, 4, 3);
-			this.ppPanelContainer.Name = "ppPanelContainer";
-			this.ppPanelContainer.Size = new System.Drawing.Size(423, 420);
-			this.ppPanelContainer.TabIndex = 1;
-			this.ppPanelContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ppPanelContainer_MouseDown);
+			this.ptPageDetails.ColumnCount = 2;
+			this.ptPageDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptPageDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptPageDetails.Location = new System.Drawing.Point(0, 0);
+			this.ptPageDetails.Name = "ptPageDetails";
+			this.ptPageDetails.RowCount = 2;
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptPageDetails.Size = new System.Drawing.Size(200, 100);
+			this.ptPageDetails.TabIndex = 4;
+			this.ptPageDetails.Visible = false;
+			// 
+			// gsPrint
+			// 
+			this.gsPrint.AllowPrintToFile = false;
+			this.gsPrint.AllowSomePages = true;
+			this.gsPrint.Document = this.isPrintDoc;
+			this.gsPrint.UseEXDialog = true;
+			// 
+			// pageSetupDialog1
+			// 
+			this.pageSetupDialog1.Document = this.isPrintDoc;
+			this.pageSetupDialog1.EnableMetric = true;
 			// 
 			// Main
 			// 
@@ -1485,8 +1783,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(684, 482);
 			this.Controls.Add(this.tPatternPanel);
-			this.Controls.Add(this.tHomePanel);
 			this.Controls.Add(this.tDataPanel);
+			this.Controls.Add(this.tHomePanel);
 			this.Controls.Add(this.imMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
@@ -1508,6 +1806,7 @@
 			this.icPage.ResumeLayout(false);
 			this.icLabel.ResumeLayout(false);
 			this.tDataPanel.ResumeLayout(false);
+			this.tableLayoutPanel1.ResumeLayout(false);
 			this.ptStatusBar.ResumeLayout(false);
 			this.ptInfoControls.ResumeLayout(false);
 			this.ptInfoControls.PerformLayout();
@@ -1515,17 +1814,22 @@
 			this.pflPage.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnPage)).EndInit();
 			this.tPatternPanel.ResumeLayout(false);
-			this.tPatternPanel.PerformLayout();
-			this.tableLayoutPanel5.ResumeLayout(false);
-			this.tableLayoutPanel5.PerformLayout();
+			this.ptPatternDetails.ResumeLayout(false);
+			this.ptPatternDetails.PerformLayout();
+			this.icPatMenu.ResumeLayout(false);
+			this.icPatMenu.PerformLayout();
+			this.ppDetailsPanel.ResumeLayout(false);
+			this.ppDetailsPanel.PerformLayout();
+			this.ptDetails.ResumeLayout(false);
+			this.ptDetails.PerformLayout();
+			this.ptFieldDetails.ResumeLayout(false);
+			this.ptFieldDetails.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnBorderSize)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnPadding)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnPositionY)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnPositionX)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnWidth)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnHeight)).EndInit();
-			this.menuStrip1.ResumeLayout(false);
-			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1612,7 +1916,19 @@
 		private System.Windows.Forms.Label plPage;
 		private System.Windows.Forms.Label plStatus;
 		private System.Windows.Forms.ComboBox pcbScale;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+		private System.Windows.Forms.Panel ppPanelContainer;
+		private System.Windows.Forms.Panel mpPreview;
+		private System.Windows.Forms.PictureBox mibPreview;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+		private System.Windows.Forms.Button dbGeneratePDF;
+		private System.Windows.Forms.Button dbScan;
+		private System.Windows.Forms.TableLayoutPanel ptPatternDetails;
+		private System.Windows.Forms.MenuStrip icPatMenu;
+		private System.Windows.Forms.ToolStripMenuItem icpmFieldDetails;
+		private System.Windows.Forms.ToolStripMenuItem icpmPageDetails;
+		private System.Windows.Forms.Panel ppDetailsPanel;
+		private System.Windows.Forms.TableLayoutPanel ptFieldDetails;
+		private System.Windows.Forms.Label plHeight;
 		private System.Windows.Forms.NumericUpDown pnBorderSize;
 		private System.Windows.Forms.NumericUpDown pnPadding;
 		private System.Windows.Forms.Label plPadding;
@@ -1635,21 +1951,29 @@
 		private System.Windows.Forms.Label plBorderColor;
 		private System.Windows.Forms.TextBox ptbBorderColor;
 		private System.Windows.Forms.Button pbBorderColor;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.MenuStrip menuStrip1;
-		private System.Windows.Forms.ToolStripMenuItem poleToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem szczegółyToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem stronaToolStripMenuItem;
-		private System.Windows.Forms.Panel ppPanelContainer;
-		private System.Windows.Forms.Panel mpPreview;
-		private System.Windows.Forms.PictureBox mibPreview;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+		private System.Windows.Forms.Label plFont;
+		private System.Windows.Forms.Label plBorderWidth;
 		private System.Windows.Forms.ComboBox pcbTextAlign;
 		private System.Windows.Forms.ComboBox pcbPosAlign;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label plStickPoint;
+		private System.Windows.Forms.Label plPositionY;
+		private System.Windows.Forms.ToolStripMenuItem icpmDetails;
+		private System.Windows.Forms.PrintDialog gsPrint;
+		private System.Drawing.Printing.PrintDocument isPrintDoc;
+		private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+		private System.Windows.Forms.TableLayoutPanel ptDetails;
+		private System.Windows.Forms.TableLayoutPanel ptPageDetails;
+		private System.Windows.Forms.CheckBox pcbDynImage;
+		private System.Windows.Forms.CheckBox pcbStatText;
+		private System.Windows.Forms.CheckBox pcbDrawColor;
+		private System.Windows.Forms.CheckBox pcbDynText;
+		private System.Windows.Forms.Label plPDFGenerate;
+		private System.Windows.Forms.CheckBox pcbShowFrame;
+		private System.Windows.Forms.CheckBox pcbStatImage;
+		private System.Windows.Forms.Label plImageSettings;
+		private System.Windows.Forms.CheckBox pcbUseImageMargin;
+		private System.Windows.Forms.CheckBox pcbDrawFrameOutside;
+		private System.Windows.Forms.ComboBox pcxImageSet;
 
     }
 }

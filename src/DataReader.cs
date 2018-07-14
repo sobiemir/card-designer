@@ -109,15 +109,18 @@ namespace CDesigner
 					continue;
 
 				// dodaj pola
-				this.lvPageFields.Items.Add( field_data.name );
+				ListViewItem item = this.lvPageFields.Items.Add( field_data.name );
+				
+				// zapisz indeks...
+				item.Tag = (object)x;
 
 				// ustaw ikonki
 				if( field_data.extra.text_from_db )
-					this.lvPageFields.Items[x].ImageKey = "text-field";
+					item.ImageKey = "text-field";
 				else if( field_data.extra.image_from_db )
-					this.lvPageFields.Items[x].ImageKey = "image-field";
+					item.ImageKey = "image-field";
 
-				this.lvPageFields.Items[x].SubItems.Add("");
+				item.SubItems.Add("");
 			}
 
 			// ustaw maksymalną wartość dla pola numerycznego
@@ -399,7 +402,7 @@ namespace CDesigner
 				copy.BackColor = SystemColors.Window;
 
 			// zapisz indeks przeciąganej kolumny
-			this._pattern_data.page[this._current_page].field[item.Index].extra.column = copy.Index;
+			this._pattern_data.page[this._current_page].field[(int)item.Tag].extra.column = copy.Index;
 		}
 
 		// ------------------------------------------------------------- lvPageFields_KeyDown ------------------------

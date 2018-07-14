@@ -75,7 +75,7 @@ csc /reference:dll/PdfSharp.dll ^
 	/resource:obj/CDesigner.Properties.Resources.resources ^
 	/target:winexe ^
 	/utf8output ^
-		src/CustomLabel.cs ^
+		src/PageField.cs ^
         src/ExtendLabel.cs ^
 		src/Main.cs ^
 		designer/Main.Designer.cs ^

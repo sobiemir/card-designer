@@ -7,6 +7,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
 
 namespace CDesigner
 {
@@ -51,6 +54,7 @@ namespace CDesigner
 
 			/**
 			 * Struktura wzoru:
+			 * 5 | CDCFG
 			 * --------------------------------------------
 			 * 2 | Szerokość
 			 * 2 | Wysokość
@@ -62,11 +66,11 @@ namespace CDesigner
 			 *   4 | Kolor strony
 			 * +++++++++++++++++++++ FIELD LOOP +++++++++++
 			 *     ? | Nazwa pola
-			 *     2 | Pozycja X
-			 *     2 | Pozycja Y
-			 *     2 | Szerokość pola
-			 *     2 | Wysokość pola
-			 *     1 | Grubość ramki
+			 *     4 | Pozycja X
+			 *     4 | Pozycja Y
+			 *     4 | Szerokość pola
+			 *     4 | Wysokość pola
+			 *     4 | Grubość ramki
 			 *     4 | Kolor ramki
 			 *     1 | Użycie obrazu tła
 			 *     4 | Kolor tła
@@ -74,14 +78,15 @@ namespace CDesigner
 			 *     ? | Nazwa czcionki
 			 *     1 | Styl czcionki
 			 *     4 | Rozmiar czcionki
-			 *     1 | Położenie tekstu
-			 *     1 | Margines wewnętrzny
+			 *     4 | Położenie tekstu
+			 *     4 | Margines wewnętrzny
 			 *     1 | Tło z bazy danych
 			 *     1 | Drukuj kolor
 			 *     1 | Drukuj obraz
 			 *     1 | Napis z bazy danych
 			 *     1 | Drukuj tekst
 			 *     1 | Drukuj ramkę
+			 *     4 | Punkt zaczepienia
 			 * ++++++++++++++++++++++++++++++++++++++++++++
 			 *   1 | Drukuj kolor strony
 			 *   1 | Drukuj obraz strony
@@ -89,6 +94,9 @@ namespace CDesigner
 			 * ? | @TODO - opcje wzoru
 			 * --------------------------------------------
 			**/
+
+			byte[] text = new byte[5] { (byte)'C', (byte)'D', (byte)'C', (byte)'F', (byte)'G' };
+			writer.Write( text, 0, 5 );
 
             writer.Write( (short)width );
             writer.Write( (short)height );
@@ -112,6 +120,10 @@ namespace CDesigner
 			FileStream   file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
 			BinaryReader reader = new BinaryReader( file );
 			PatternData  data   = new PatternData();
+
+			byte[] bytes = reader.ReadBytes( 5 );
+			if( bytes[0] != 'C' || bytes[1] != 'D' || bytes[2] != 'C' || bytes[3] != 'F' || bytes[4] != 'G' )
+				return data;
 
 			// odczytaj opcje podstawowe wzoru
 			data.name    = pattern;
@@ -145,7 +157,6 @@ namespace CDesigner
 				page_data.image      = reader.ReadByte() == 1;
 				page_data.color      = Color.FromArgb( reader.ReadInt32() );
 				page_data.field      = new FieldData[page_data.fields];
-				page_data.image_path = null;
 
 				// odczytaj dane kontrolki
 				for( int y = 0; y < page_data.fields; ++y )
@@ -154,8 +165,8 @@ namespace CDesigner
 
 					// dane podstawowe
 					field_data.name         = reader.ReadString();
-					field_data.bounds       = new Rectangle( reader.ReadInt16(), reader.ReadInt16(), reader.ReadInt16(), reader.ReadInt16() );
-					field_data.border_size  = reader.ReadByte();
+					field_data.bounds       = new RectangleF( reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle() );
+					field_data.border_size  = reader.ReadSingle();
 					field_data.border_color = Color.FromArgb( reader.ReadInt32() );
 					field_data.image        = reader.ReadByte() == 1;
 					field_data.image_path   = null;
@@ -164,8 +175,8 @@ namespace CDesigner
 					field_data.font_name    = reader.ReadString();
 					field_data.font_style   = (FontStyle)reader.ReadByte();
 					field_data.font_size    = reader.ReadSingle();
-					field_data.text_align   = (ContentAlignment)reader.ReadByte();
-					field_data.padding      = new Padding( reader.ReadByte() );
+					field_data.text_align   = (ContentAlignment)reader.ReadInt32();
+					field_data.padding      = reader.ReadSingle();
 
 					// dane dodatkowe
 					field_data.extra = new FieldExtraData();
@@ -175,15 +186,17 @@ namespace CDesigner
 					field_data.extra.text_from_db  = reader.ReadByte() == 1;
 					field_data.extra.print_text    = reader.ReadByte() == 1;
 					field_data.extra.print_border  = reader.ReadByte() == 1;
+					field_data.extra.pos_align     = reader.ReadInt32();
 					field_data.extra.column        = -1;
 					
 					page_data.field[y] = field_data;
 				}
 
-				// dane dodatkowe
+				// informacje dodatkowe
 				page_data.extra = new PageExtraData();
 				page_data.extra.print_color = reader.ReadByte() == 1;
 				page_data.extra.print_image = reader.ReadByte() == 1;
+				page_data.extra.image_path  = null;
 
 				data.page[x] = page_data;
 			}
@@ -193,6 +206,14 @@ namespace CDesigner
 			file.Close();
 
 			return data;
+		}
+
+		// ------------------------------------------------------------- GetDPIPixelScale -----------------------------
+		
+		public static Size GetDPIPageSize( Size size, double scale )
+		{
+			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
+			return new Size( Convert.ToInt32(size.Width * dpi_pxs), Convert.ToInt32(size.Height * dpi_pxs) );
 		}
 
 		// ------------------------------------------------------------- DrawPreview ----------------------------------
@@ -210,8 +231,8 @@ namespace CDesigner
 			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
 			Size   pp_size = new Size
 			(
-				(int)((double)data.size.Width * dpi_pxs),
-				(int)((double)data.size.Height * dpi_pxs)
+				Convert.ToInt32((double)data.size.Width * dpi_pxs),
+				Convert.ToInt32((double)data.size.Height * dpi_pxs)
 			);
 
 			PageData  page_data;
@@ -230,6 +251,7 @@ namespace CDesigner
 						Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
 						using( Graphics canvas = Graphics.FromImage(new_image) )
 							canvas.DrawImageUnscaled( image, 0, 0 );
+						
 
 						page.BackgroundImage = new_image;
 						image.Dispose();
@@ -289,23 +311,23 @@ namespace CDesigner
 					try   { font_family = new FontFamily( field_data.font_name ); }
 					catch { font_family = new FontFamily( "Arial" ); }
 
-					field.Font        = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.Point );
+					field.Font        = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.World );
 					field.DPIFontSize = field_data.font_size;
 					field.TextAlign   = field_data.text_align;
-					field.DPIPadding  = field_data.padding.All;
+					field.DPIPadding  = field_data.padding;
 					
 					// skalowanie
 					field.DPIScale = scale;
 					field.Margin   = new Padding(0);
 
 					// dodatkowe informacje
-					field.Tag = field_data;
+					field.Tag = field_data.extra;
 
 					page.Controls.Add( field );
 				}
 
 				// dodatkowe informacje
-				page.Tag = page_data;
+				page.Tag = page_data.extra;
 
 				panel.Controls.Add( page );
 			}
@@ -326,8 +348,8 @@ namespace CDesigner
 			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
 			Size   pp_size = new Size
 			(
-				(int)((double)data.size.Width * dpi_pxs),
-				(int)((double)data.size.Height * dpi_pxs)
+				Convert.ToInt32((double)data.size.Width * dpi_pxs),
+				Convert.ToInt32((double)data.size.Height * dpi_pxs)
 			);
 
 			PageData  page_data;
@@ -383,7 +405,7 @@ namespace CDesigner
 						{
 							Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
 							using( Graphics canvas = Graphics.FromImage(new_image) )
-								canvas.DrawImageUnscaled( image, 0, 0 );
+								canvas.DrawImage( image, 0, 0 );
 
 							field.BackImage = new_image;
 							field.BackImagePath = "patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg";
@@ -408,20 +430,20 @@ namespace CDesigner
 					field.Font        = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.Point );
 					field.DPIFontSize = field_data.font_size;
 					field.TextAlign   = field_data.text_align;
-					field.DPIPadding  = field_data.padding.All;
+					field.DPIPadding  = field_data.padding;
 					
 					// skalowanie
 					field.DPIScale = scale;
 					field.Margin   = new Padding(0);
 
 					// dodatkowe informacje
-					field.Tag = field_data;
+					field.Tag = field_data.extra;
 
 					page.Controls.Add( field );
 				}
 
 				// dodatkowe informacje
-				page.Tag = page_data;
+				page.Tag = page_data.extra;
 
 				panel.Controls.Add( page );
 			}
@@ -429,6 +451,7 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- DrawRow --------------------------------------
 		
+		// @TODO
 		public static void DrawRow( Panel panel, DataContent data_content, int row )
 		{
 			Panel     page;
@@ -438,15 +461,16 @@ namespace CDesigner
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
 				page = (Panel)panel.Controls[x];
+
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
 					field = (PageField)page.Controls[y];
-					int replace = ((FieldData)field.Tag).extra.column;
+					int replace = ((FieldExtraData)field.Tag).column;
 
 					// sprawdź czy pola można zmienić i czy wartości są im przypisane
-					if( ((FieldData)field.Tag).extra.text_from_db && replace != -1 )
+					if( ((FieldExtraData)field.Tag).text_from_db && replace != -1 )
 						field.Text = data_content.row[row,replace];
-					else if( ((FieldData)field.Tag).extra.image_from_db && replace != -1 )
+					else if( ((FieldExtraData)field.Tag).image_from_db && replace != -1 )
 					{
 						// @TODO obrazek z bazy danych...
 					}
@@ -462,8 +486,8 @@ namespace CDesigner
 			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
 			Size   pp_size = new Size
 			(
-				(int)((double)data.size.Width * dpi_pxs),
-				(int)((double)data.size.Height * dpi_pxs)
+				Convert.ToInt32((double)data.size.Width * dpi_pxs),
+				Convert.ToInt32((double)data.size.Height * dpi_pxs)
 			);
 
 			Panel     page;
@@ -485,11 +509,12 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- GeneratePreview ------------------------------
 		
+		// @CHECK
 		public static void GeneratePreview( PatternData data, Panel panel, double scale )
 		{
 			double dpi_pxs = PatternEditor._pixel_per_dpi * scale;
-			int    width   = (int)((double)data.size.Width * dpi_pxs);
-			int    height  = (int)((double)data.size.Height * dpi_pxs);
+			int    width   = Convert.ToInt32((double)data.size.Width * dpi_pxs);
+			int    height  = Convert.ToInt32((double)data.size.Height * dpi_pxs);
 
 			// rysuj strony
 			for( int x = 0; x < data.pages; ++x )
@@ -510,13 +535,13 @@ namespace CDesigner
 				// rysuj pola
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
-					PageField field  = (PageField)page.Controls[y];
-					Rectangle bounds = field.DPIBounds;
+					PageField  field  = (PageField)page.Controls[y];
+					RectangleF bounds = field.DPIBounds;
 					
-					bounds.X      = (int)((double)bounds.X * dpi_pxs);
-					bounds.Y      = (int)((double)bounds.Y * dpi_pxs);
-					bounds.Width  = (int)((double)bounds.Width * dpi_pxs);
-					bounds.Height = (int)((double)bounds.Height * dpi_pxs);
+					bounds.X      = (float)((double)bounds.X * dpi_pxs);
+					bounds.Y      = (float)((double)bounds.Y * dpi_pxs);
+					bounds.Width  = (float)((double)bounds.Width * dpi_pxs);
+					bounds.Height = (float)((double)bounds.Height * dpi_pxs);
 
 					// koloruj lub rysuj obraz
 					if( field.BackImage != null )
@@ -542,7 +567,7 @@ namespace CDesigner
 					StringFormat format = new StringFormat();
 
 					// margines wewnętrzny
-					int        pad = (int)((double)field.DPIPadding * scale);
+					int        pad = Convert.ToInt32((double)field.DPIPadding * dpi_pxs);
 					RectangleF box = new RectangleF( bounds.X + pad, bounds.Y + pad, bounds.Width - pad * 2, bounds.Height - pad * 2 );
 
 					// rozmieszczenie tekstu
@@ -563,14 +588,17 @@ namespace CDesigner
 					// rysuj tekst
 					gfx.DrawString( field.Text, font, lbrush, box, format );
 
-					int border_size = (int)((double)field.DPIBorderSize * scale);
+					int border_size = Convert.ToInt32((double)field.DPIBorderSize * dpi_pxs);
 					Pen border_pen  = new Pen( field.BorderColor );
 
-					// wartości są zmniejszane, bo ramka wychodzi 1px poza prostokąt
-					bounds.Width--;
-					bounds.Height--;
+					if( field.DPIBorderSize > 0.0 && border_size == 0 )
+						border_size = 1;
 
 					// rysuj ramkę
+					// @TODO: poprawić
+					//bounds.Width--;
+					//bounds.Height--;
+
 					for( int z = 0; z < border_size; ++z )
 						gfx.DrawRectangle( border_pen, bounds.X + z, bounds.Y + z, bounds.Width - z * 2, bounds.Height - z * 2 );
 				}
@@ -587,121 +615,236 @@ namespace CDesigner
 			FileStream   file   = new FileStream( "patterns/" + data.name + "/config.cfg", FileMode.OpenOrCreate );
 			BinaryWriter writer = new BinaryWriter( file );
 
-			//writer.Write( (short)data.size.Width );
-			//writer.Write( (short)data.size.Height );
-			//writer.Write( (byte)panel.Controls.Count );
+			byte[] text = new byte[5] { (byte)'C', (byte)'D', (byte)'C', (byte)'F', (byte)'G' };
+			writer.Write( text, 0, 5 );
 
-			writer.Close();
-			file.Close();
-			/*
-		public static void Save( string name, Size size, Panel container )
-		{
-			FileStream file = new FileStream( "patterns/" + name + "/config.cfg", FileMode.OpenOrCreate );
-			BinaryWriter writer = new BinaryWriter( file );
+			writer.Write( (short)data.size.Width );
+			writer.Write( (short)data.size.Height );
+			writer.Write( (byte)panel.Controls.Count );
 
-			// podstawowe informacje
-			writer.Write( (short)size.Width );
-			writer.Write( (short)size.Height );
-			writer.Write( (byte)container.Controls.Count );
+			bool   dynamic = false;
+			string pattern = data.name;
 			
-			bool dynamic = false;
-
-			// przeszukaj kontrolki
-			foreach( Panel page in container.Controls )
-				foreach( CDField field in page.Controls )
+			foreach( Panel page in panel.Controls )
+				foreach( PageField field in page.Controls )
 				{
-					CustomLabelDetails details = (CustomLabelDetails)field.Tag;
- 					if( details.TextFromDB || details.ImageFromDB )
+					FieldExtraData field_extra = (FieldExtraData)field.Tag;
+					if( field_extra.text_from_db || field_extra.image_from_db )
 					{
 						dynamic = true;
 						break;
 					}
 				}
 
-			// treść dynamiczna
-			if( dynamic )
-				writer.Write( (byte)1 );
-			else
-				writer.Write( (byte)0 );
-
+			writer.Write( (byte)(dynamic ? 1 : 0) );
+			
 			// zapisz konfiguracje stron
-			for( int x = 0; x < container.Controls.Count; ++x )
+			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				Panel panel = (Panel)container.Controls[x];
-				
-				// ilość pól
-				writer.Write( (byte)panel.Controls.Count );
+				Panel page = (Panel)panel.Controls[x];
 
-				// informacja o tle strony
-				if( panel.BackgroundImage != null )
+				writer.Write( (byte)page.Controls.Count );
+				if( page.BackgroundImage != null )
 				{
-					panel.BackgroundImage.Save( "patterns/" + name + "/images/" + "page" + x + ".jpg" );
-					writer.Write('i');
+					page.BackgroundImage.Save( "patterns/" + pattern + "/images/page" + x + ".jpg" );
+					writer.Write( (byte)1 );
 				}
 				else
-					writer.Write('c');
+					writer.Write( (byte)0 );
 
-				// kolor strony
-				writer.Write( panel.BackColor.ToArgb() );
+				writer.Write( page.BackColor.ToArgb() );
 
-				for( int y = 0; y < panel.Controls.Count; ++y )
+				// zapisz konfiguracje pól na stronie
+				for( int y = 0; y < page.Controls.Count; ++y )
 				{
-					CDField label = (CDField)panel.Controls[y];
+					PageField field = (PageField)page.Controls[y];
 
-					// zapisz nazwę (tekst) pola
-					writer.Write( label.Text );
+					writer.Write( field.Text );
+					writer.Write( field.DPIBounds.X );
+					writer.Write( field.DPIBounds.Y );
+					writer.Write( field.DPIBounds.Width );
+					writer.Write( field.DPIBounds.Height );
 
-					// położenie pola
-					writer.Write( (short)label.DPILeft );
-					writer.Write( (short)label.DPITop );
-					writer.Write( (short)label.DPIWidth );
-					writer.Write( (short)label.DPIHeight );
+					writer.Write( field.DPIBorderSize );
+					writer.Write( field.BorderColor.ToArgb() );
 
-					// wygląd
-					writer.Write( (byte)label.DPIBorderSize );
-					writer.Write( label.BorderColor.ToArgb() );
-
-					if( label.BackImage != null )
+					if( field.BackImage != null )
 					{
-						label.BackImage.Save( "patterns/" + name + "/images/" + "field" + y + "_" + x + ".jpg" );
-						writer.Write('i');
+						field.BackImage.Save( "patterns/" + pattern + "/images/field" + y + "_" + x + ".jpg" );
+						writer.Write( (byte)1 );
 					}
 					else
-						writer.Write('c');
+						writer.Write( (byte)0 );
 
-					writer.Write( label.BackColor.ToArgb() );
-					writer.Write( label.ForeColor.ToArgb() );
+					writer.Write( field.BackColor.ToArgb() );
+					writer.Write( field.ForeColor.ToArgb() );
 
-					// czcionka
-					writer.Write( label.Font.Name );
-					writer.Write( (byte)label.Font.Style );
-					writer.Write( (float)label.DPIFontSize );
-					writer.Write( (byte)label.TextAlignment );
-					writer.Write( (byte)label.DPIPadding );
+					writer.Write( field.Font.Name );
+					writer.Write( (byte)field.Font.Style );
+					writer.Write( (float)field.DPIFontSize );
+					writer.Write( (int)field.TextAlign );
+					writer.Write( field.DPIPadding );
 
-					// informacje dodatkowe
-					CustomLabelDetails ext = (CustomLabelDetails)label.Tag;
+					FieldExtraData field_extra = (FieldExtraData)field.Tag;
 
-					writer.Write( (byte)(ext.ImageFromDB ? 1 : 0) );
-					writer.Write( (byte)(ext.PrintColor ? 1 : 0) );
-					writer.Write( (byte)(ext.PrintImage ? 1 : 0) );
-					writer.Write( (byte)(ext.TextFromDB ? 1 : 0) );
-					writer.Write( (byte)(ext.PrintText ? 1 : 0) );
-					writer.Write( (byte)(ext.PrintBorder ? 1 : 0) );
+					writer.Write( (byte)(field_extra.image_from_db ? 1 : 0) );
+					writer.Write( (byte)(field_extra.print_color ? 1 : 0) );
+					writer.Write( (byte)(field_extra.print_image ? 1 : 0) );
+					writer.Write( (byte)(field_extra.text_from_db ? 1 : 0) );
+					writer.Write( (byte)(field_extra.print_text ? 1 : 0) );
+					writer.Write( (byte)(field_extra.print_border ? 1 : 0) );
+					writer.Write( (int)field_extra.pos_align );
 				}
 
-				// zapisz dodatkowe informacje
-				PageDetails tag = (PageDetails)panel.Tag;
+				PageExtraData page_extra = (PageExtraData)page.Tag;
 
-				writer.Write( (byte)tag.PrintColor );
-				writer.Write( (byte)tag.PrintImage );
+				writer.Write( (byte)(page_extra.print_color ? 1 : 0) );
+				writer.Write( (byte)(page_extra.print_image ? 1 : 0) );
 			}
-			
-            // zamknij uchwyty
-            writer.Close( );
-            file.Close( );
+
+			writer.Close();
+			file.Close();
 		}
-		*/
+
+		// ------------------------------------------------------------- GeneratePDF ----------------------------------
+		
+		public static void GeneratePDF( DataContent data, PatternData pdata )
+		{
+			double scale = 0.0, scalz = 0.0;
+
+			PdfDocument pdf = new PdfDocument();
+
+			for( int x = 0; x < data.rows; ++x )
+			{
+				PdfPage page = pdf.AddPage();
+
+				// rozmiary strony
+				page.Width  = XUnit.FromMillimeter( pdata.size.Width );
+				page.Height = XUnit.FromMillimeter( pdata.size.Height );
+
+				// oblicz skale powiększenia
+				scale = page.Width.Presentation / (pdata.size.Width * PatternEditor._pixel_per_dpi);
+				scalz = page.Width.Value / (pdata.size.Width * PatternEditor._pixel_per_dpi);
+
+				XGraphics gfx = XGraphics.FromPdfPage( page );
+				XPdfFontOptions foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
+
+				for( int y = 0; y < pdata.pages; ++y )
+				{
+					PageData page_data = pdata.page[y];
+
+					for( int z = 0; z < page_data.fields; ++z )
+					{
+						// obszar cięcia
+						FieldData field_data = page_data.field[z];
+						XRect bounds = new XRect
+						(
+							XUnit.FromMillimeter( (double)field_data.bounds.X ),
+							XUnit.FromMillimeter( (double)field_data.bounds.Y ),
+							XUnit.FromMillimeter( (double)field_data.bounds.Width ),
+							XUnit.FromMillimeter( (double)field_data.bounds.Height )
+						);
+
+						// kolor pola 
+						if( field_data.extra.print_color )
+						{
+							XBrush brush = new XSolidBrush( (XColor)field_data.color );
+
+							if( field_data.extra.print_border )
+							{
+								double bfull   = XUnit.FromMillimeter( (double)field_data.border_size ),
+									   bhalf   = bfull * 0.5;
+								XRect  cbounds = new XRect( bounds.X + bhalf, bounds.Y + bhalf, bounds.Width - bfull, bounds.Height - bfull );
+								gfx.DrawRectangle( brush, cbounds );
+							}
+							else
+								gfx.DrawRectangle( brush, bounds );
+						}
+
+						// ramka pola
+						if( field_data.extra.print_border && field_data.border_size > 0.0 )
+						{
+							XPen   pen = new XPen( (XColor)field_data.border_color );
+							pen.Width  = XUnit.FromMillimeter( (double)field_data.border_size );
+							double prx = pen.Width / 2.0 - 0.01;
+
+							gfx.DrawLine( pen, bounds.X, bounds.Y + prx, bounds.X + bounds.Width, bounds.Y + prx );
+							gfx.DrawLine( pen, bounds.X + prx, bounds.Y, bounds.X + prx, bounds.Y + bounds.Height );
+							gfx.DrawLine( pen, bounds.X, bounds.Y + bounds.Height - prx, bounds.X + bounds.Width, bounds.Y + bounds.Height - prx );
+							gfx.DrawLine( pen, bounds.X + bounds.Width - prx, bounds.Y, bounds.X + bounds.Width - prx, bounds.Y + bounds.Height );
+						}
+
+						// rysuj tekst
+						if( field_data.extra.print_text || (field_data.extra.text_from_db && field_data.extra.column > -1) )
+						{
+							float  fsize  = (float)(field_data.font_size * scale);
+							XFont  font   = new XFont( field_data.font_name, fsize, (XFontStyle)field_data.font_style, foptions );
+							XBrush lbrush = new XSolidBrush( (XColor)field_data.font_color );
+
+							// pobierz napis
+							XTextFormatter tf = new XTextFormatter( gfx );
+							string text = field_data.extra.print_text
+								? field_data.name
+								: data.row[x,field_data.extra.column];
+
+							// margines wewnętrzny
+							if( field_data.padding > 0.0 )
+							{
+								double padding = XUnit.FromMillimeter( (double)field_data.padding ),
+									   pad2x   = padding * 2.0;
+
+								if( bounds.Width > pad2x && bounds.Height > pad2x )
+								{
+									bounds.X += padding;
+									bounds.Y += padding;
+									bounds.Width -= padding * 2.0;
+									bounds.Height -= padding * 2.0;
+								}
+							}
+
+							// sprawdź czy tekst nie jest pusty
+							string test = text.Trim();
+							if( test != "" && test != null )
+							{
+								XSize txtm = gfx.MeasureString( text, font );
+								
+								// rozmieszczenie tekstu
+								if( ((int)field_data.text_align & 0x111) != 0 )
+									tf.Alignment = XParagraphAlignment.Left;
+								else if( ((int)field_data.text_align & 0x222) != 0 )
+									tf.Alignment = XParagraphAlignment.Center;
+								else
+									tf.Alignment = XParagraphAlignment.Right;
+
+								// oblicz realną wysokość tekstu
+								int passes = 1;
+								for( double twidth = txtm.Width; twidth > bounds.Width; ++passes )
+									twidth -= bounds.Width;
+
+								// przyleganie tekstu w pionie
+								if( txtm.Height * (double)passes < bounds.Height )
+									// wycentrowanie linii
+									if( ((int)field_data.text_align & 0x70) != 0 )
+									{
+										double theight = (bounds.Height - txtm.Height * (double)passes) * 0.5;
+										bounds.Y += theight;
+									}
+									// przyleganie linii do dołu
+									else if( ((int)field_data.text_align & 0x700) != 0 )
+									{
+										double theight = (bounds.Height - txtm.Height * (double)passes);
+										bounds.Y += theight;
+									}
+
+								tf.DrawString( text, font, lbrush, bounds );
+							}
+						}
+					}
+				}
+			}
+
+			// zapisz plik pdf
+			pdf.Save( "output.pdf" );
 		}
 	}
 }
