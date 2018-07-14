@@ -24,11 +24,10 @@ namespace CDesigner
 		private CDField	pCurrentLabel	= null;
 
 		private Panel		pCurrentPage	= null;
-		private int			pLabelCounter	= 0;
 		private int			pPanelCounter	= 0;
 		private int			pCurrentPanelID	= -1;
 		private bool		pLocked			= false;
-		private Size		pPageSize;
+		private Size		pPageSize       = new Size();
 		private int			mCurrentPattern = -1;
 		private string		mCurrentName	= null;
 
@@ -44,10 +43,7 @@ namespace CDesigner
 
 
 		private PatternData gPatternData    = new PatternData();
-
 		private DataContent dDataContent    = new DataContent();
-		private string		dCurrentName    = null;
-
 		private PageField   pCurrentField   = null;
 
 /* ===============================================================================================================================
@@ -720,7 +716,6 @@ namespace CDesigner
 			}
 			
 			// przejdź na strone z danymi
-			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.isData_Click( null, null );
 		}
 #endregion
@@ -1544,23 +1539,15 @@ namespace CDesigner
 			this.pCurrentLabel.Tag = tag;
 		}
 
-		// ------------------------------------------------------------- iclPrintText_Click ---------------------------
+		// ------------------------------------------------------------- iclPrintBorder_Click -------------------------
 		
 		private void iclPrintBorder_Click(object sender, EventArgs e)
 		{
 			CustomLabelDetails tag = (CustomLabelDetails)this.pCurrentLabel.Tag;
 
-			tag.PrintText = this.iclPrintBorder.Checked;
+			tag.PrintBorder = this.iclPrintBorder.Checked;
 			this.pCurrentLabel.Tag = tag;
 		}
-
-
-
-
-
-
-
-
 
 		private void mbDelete_MouseEnter(object sender, EventArgs e)
 		{
@@ -1577,15 +1564,7 @@ namespace CDesigner
 			this.mlStatus.Text = "";
 		}
 
-
-
-
-
-
-
-
 		private bool dSketchDrawed = false;
-
 
 		// ------------------------------------------------------------- dtvData_AfterSelect --------------------------
 		

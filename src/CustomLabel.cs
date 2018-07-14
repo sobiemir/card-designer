@@ -202,12 +202,7 @@ namespace CDesigner
 					this._border_color, this._border_size, ButtonBorderStyle.Solid,
 					this._border_color, this._border_size, ButtonBorderStyle.Solid );
 		}
-	};
-
-
-
-
-
+	}
 
 	struct CustomLabelDetails
 	{
@@ -217,7 +212,7 @@ namespace CDesigner
 		public bool TextFromDB;
 		public bool PrintText;
 		public bool PrintBorder;
-	};
+	}
 
 	class CDField : Label
 	{

@@ -16,7 +16,7 @@ namespace CDesigner
 		public bool print_text;
 		public bool print_border;
 		public int  column;
-	};
+	}
 
 	public class FieldData
 	{
@@ -35,13 +35,13 @@ namespace CDesigner
 		public ContentAlignment pos_align;
 		public Padding          padding;
 		public FieldExtraData   extra;
-	};
+	}
 
 	public class PageExtraData
 	{
 		public bool print_color;
 		public bool print_image;
-	};
+	}
 
 	public class PageData
 	{
@@ -51,7 +51,7 @@ namespace CDesigner
 		public Color         color;
 		public FieldData[]   field;
 		public PageExtraData extra;
-	};
+	}
 
 	public class PatternData
 	{
@@ -60,7 +60,7 @@ namespace CDesigner
 		public int        pages;
 		public bool       dynamic;
 		public PageData[] page;
-	};
+	}
 
 	public class DataContent
 	{
@@ -68,5 +68,5 @@ namespace CDesigner
 		public string[]  column;
 		public int       rows;
 		public string[,] row;
-	};
+	}
 }

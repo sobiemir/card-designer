@@ -16,7 +16,7 @@ namespace CDesigner
 
 		public int PrintColor;
 		public int PrintImage;
-	};
+	}
 
 	public struct DBPageFields
 	{
@@ -26,7 +26,7 @@ namespace CDesigner
 		public int[] Column;
 		public bool[] Preview;
 		public int Fields;
-	};
+	}
 
 
 	public class PatternEditor

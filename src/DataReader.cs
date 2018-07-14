@@ -16,7 +16,7 @@ namespace CDesigner
 		public int rows;
 		public int columns;
 		public string[,] row;
-	};
+	}
 
 	public partial class DataReader : Form
 	{
