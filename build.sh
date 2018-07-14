@@ -38,9 +38,9 @@ resgen /useSourcePath \
 	/compile \
 		resx/Main.resx,obj/CDesigner.Main.resources \
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources \
-        resx/DataReader.resx,obj/CDesigner.DataReader.resources \
-        resx/Info.resx,obj/CDesigner.Info.resources \
-        resx/Settings.resx,obj/CDesigner.Settings.resources \
+		resx/DataReader.resx,obj/CDesigner.DataReader.resources \
+		resx/Info.resx,obj/CDesigner.Info.resources \
+		resx/Settings.resx,obj/CDesigner.Settings.resources \
 		properties/Resources.resx,obj/CDesigner.Properties.Resources.resources
 
 # create dll and build directory
@@ -84,15 +84,17 @@ $csc /reference:dll/PdfSharp.dll \
 	/out:build/CDesigner.exe \
 	/resource:obj/CDesigner.Main.resources \
 	/resource:obj/CDesigner.NewPattern.resources \
-    /resource:obj/CDesigner.DataReader.resources \
-    /resource:obj/CDesigner.Info.resources \
-    /resource:obj/CDesigner.Settings.resources \
+	/resource:obj/CDesigner.DataReader.resources \
+	/resource:obj/CDesigner.Info.resources \
+	/resource:obj/CDesigner.Settings.resources \
 	/resource:obj/CDesigner.Properties.Resources.resources \
+	/win32manifest:properties/app.manifest \
+	/win32icon:resources/cdesigner.ico \
 	/target:winexe \
 	/utf8output \
+		src/AlignedPage.cs \
 		src/AlignedPictureBox.cs \
 		src/PageField.cs \
-        src/ExtendLabel.cs \
 		src/Main.cs \
 		designer/Main.Designer.cs \
 		src/Info.cs \
@@ -101,14 +103,15 @@ $csc /reference:dll/PdfSharp.dll \
 		designer/Settings.Designer.cs \
 		src/NewPattern.cs \
 		designer/NewPattern.Designer.cs \
-        src/PatternEditor.cs \
+		src/PatternEditor.cs \
 		src/Program.cs \
 		src/Structs.cs \
-        src/DataReader.cs \
-        designer/DataReader.Designer.cs \
+		src/DataReader.cs \
+		designer/DataReader.Designer.cs \
 		properties/AssemblyInfo.cs \
-		properties/Resources.Designer.cs \
+		properties/Resources.Designer.cs
 
+# create icons folder
 if ! [ -d "build/icons" ]; then
 	echo "### Creating \"build/icons\" directory..."
 	mkdir build/icons
@@ -119,14 +122,28 @@ echo "### Copying images and dlls"
 # copy image and dll files
 cp -f resources/noimage.png build/noimage.png
 cp -f dll/PdfSharp.dll build/PdfSharp.dll
-cp -f resources/icons/format-a4.png build/icons/format-a4.png
-cp -f resources/icons/format-a5.png build/icons/format-a5.png
-cp -f resources/icons/format-error.png build/icons/format-error.png
-cp -f resources/icons/format-unknown.png build/icons/format-unknown.png
 cp -f resources/icons/image-field.png build/icons/image-field.png
 cp -f resources/icons/text-field.png build/icons/text-field.png
 cp -f resources/transparent.png build/transparent.png
-cp -f resources/logo.jpg build/logo.jpg
+cp -f resources/cdrestore.ico build/cdrestore.ico
+cp -f resources/icons/cdrestore-512.png build/icons/cdrestore-512.png
+cp -f resources/icons/cdrestore-256.png build/icons/cdrestore-256.png
+cp -f resources/icons/cdrestore-128.png build/icons/cdrestore-128.png
+cp -f resources/icons/cdrestore-96.png build/icons/cdrestore-96.png
+cp -f resources/icons/cdrestore-64.png build/icons/cdrestore-64.png
+cp -f resources/icons/cdrestore-48.png build/icons/cdrestore-48.png
+cp -f resources/icons/cdrestore-32.png build/icons/cdrestore-32.png
+cp -f resources/icons/cdrestore-16.png build/icons/cdrestore-16.png
+cp -f resources/cdesigner.ico build/cdesigner.ico
+cp -f resources/icons/cdesigner-512.png build/icons/cdesigner-512.png
+cp -f resources/icons/cdesigner-256.png build/icons/cdesigner-256.png
+cp -f resources/icons/cdesigner-128.png build/icons/cdesigner-128.png
+cp -f resources/icons/cdesigner-96.png build/icons/cdesigner-96.png
+cp -f resources/icons/cdesigner-64.png build/icons/cdesigner-64.png
+cp -f resources/icons/cdesigner-48.png build/icons/cdesigner-48.png
+cp -f resources/icons/cdesigner-32.png build/icons/cdesigner-32.png
+cp -f resources/icons/cdesigner-16.png build/icons/cdesigner-16.png
+cp -f resources/icons/add-pattern.png build/icons/add-pattern.png
 
 echo "### Finished"
 exit 0

@@ -33,6 +33,10 @@ namespace CDesigner
 		public FontStyle        font_style;
 		public float            font_size;
 		public ContentAlignment text_align;
+		public int              text_transform;
+		public float            text_leftpad;
+		public float            text_toppad;
+		public bool             text_add_margin;
 		public float            padding;
 		public FieldExtraData   extra;
 	}
@@ -84,9 +88,9 @@ namespace CDesigner
 		public double g_pixels_per_dpi;
 
 		// rozdzielczości
-		public int    r_min_res;
-		public int    r_max_res;
-		public int[]  r_list;
-		public bool   r_custom_res;
+		public int       r_min_res;
+		public int       r_max_res;
+		public List<int> r_list;
+		public bool      r_custom_res;
 	}
 }

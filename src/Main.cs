@@ -18,24 +18,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using System.IO;
 using PdfSharp.Pdf;
 using PdfSharp;
 using PdfSharp.Drawing;
 using System.Drawing.Printing;
+using System.Reflection;
+
 
 namespace CDesigner
 {
 	public partial class Main : Form
 	{
-		private AlignedPictureBox mibPreview = null;
+		private AlignedPictureBox mpbPreview = null;
 		private FormWindowState   gLastState = FormWindowState.Normal;
 
 		private int         gThisContainer  = 1;
 		private bool        gEditChanged    = false;
 		private bool		pLocked			= false;
-
+		private Settings    gSettings       = null;
+		
 		private int         mSelectedID	    = -1;
 		private bool        mSelectedError  = false;
 		private bool        mSelectedData   = false;
@@ -54,8 +56,10 @@ namespace CDesigner
 
 		private PatternData dPatternData    = new PatternData();
 		private DataContent dDataContent    = new DataContent();
+		private string		dCurrentName    = null;
 		private bool        dSketchDrawed   = false;
 		private Panel       dCurrentPage    = null;
+
 
 /* ===============================================================================================================================
  * Główne funkcje klasy:
@@ -74,23 +78,40 @@ namespace CDesigner
 		
 		public Main( )
 		{
+#		if DEBUG
+			Console.WriteLine( "Trwa uruchamianie programu CDesigner.\n" );
+			Console.WriteLine( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" );
+			Console.WriteLine( "+ CDesigner v1.0                                                              +" );
+			Console.WriteLine( "+ Autor: Kamil Biały.                                                         +" );
+			Console.WriteLine( "+ Copyright 2015. Wszystkie prawa zastrzeżone.                                +" );
+			Console.WriteLine( "+ Program do szybkiego wypełniania dyplomów.                                  +" );
+			Console.WriteLine( "+ Pozwala na utworzenie, edycje i uzupełnienie wzoru danymi z bazy danych.    +" );
+			Console.WriteLine( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" );
+#		endif
+
 			this.InitializeComponent();
 
-			// utwórz folder gdy nie istnieje
-			if( !Directory.Exists("patterns") )
-				Directory.CreateDirectory( "patterns" );
-
-			// dodaj zdarzenie do własnego panelu obrazu
-			this.mibPreview = new AlignedPictureBox();
+			// podgląd wzoru na stronie głównej
+			this.mpbPreview = new AlignedPictureBox();
 			
-			this.mibPreview.Align      = 1;
-			this.mibPreview.SizeMode   = PictureBoxSizeMode.AutoSize;
-			this.mibPreview.MouseDown += new MouseEventHandler( mpPreview_MouseDown );
-			this.mibPreview.Padding    = new Padding( 5 );
+			this.mpbPreview.Align      = 1;
+			this.mpbPreview.SizeMode   = PictureBoxSizeMode.AutoSize;
+			this.mpbPreview.MouseDown += new MouseEventHandler( mpPreview_MouseDown );
+			this.mpbPreview.Padding    = new Padding( 5 );
 
-			this.mpPreview.Controls.Add( this.mibPreview );
+			this.mpPreview.Controls.Add( this.mpbPreview );
 
-			// odśwież listę wzorów
+			// ustawienia
+			this.gSettings = new Settings();
+
+#		if DEBUG
+			Console.WriteLine( "Załadowano kontrolki." );
+#		endif
+
+			// ostatnio otwierane wzory
+			this.gmpRecent_RefreshList();
+
+			// odświeżenie listy wzorów
 			this.RefreshProjectList();
 		}
 
@@ -104,58 +125,71 @@ namespace CDesigner
 			this.gLastState = this.WindowState;
 
 			// wymuś odświeżenie i zmiane rozmiaru panelu po wróceniu do normalnego stanu
+			// w przeciwnym wypadku rodzic będzie za wielki dla obrazu (dziwne zjawisko...)
 			if( this.WindowState == FormWindowState.Normal )
-				this.mpPreview.Width  = this.mpPreview.Width - 1;
+			{
+#			if DEBUG
+				Console.WriteLine( "Przejście z trybu maksymalizacji - odświeżanie kontrolek." );
+#			endif
+
+				this.mpPreview.Width = this.mpPreview.Width - 1;
+				this.ppPreview.Width = this.ppPreview.Width - 1;
+				this.dpPreview.Width = this.dpPreview.Width - 1;
+			}
 		}
 
 		// ------------------------------------------------------------- ProcessCmdKey --------------------------------
 		
 		protected override bool ProcessCmdKey( ref Message msg, Keys keydata )
 		{
+			// @TODO - możliwość wyboru trybu rotacyjnego - po przekroczeniu limitu wraca na początek...
+
 			switch( keydata )
 			{
-				// zmień strone wzoru
-				case Keys.Control | Keys.Tab:
-					if( this.gThisContainer == 1 )
-					{
-						if( this.mnPage.Value < this.mnPage.Maximum )
-							this.mnPage.Value += 1;
-					}
-					else if( this.gThisContainer == 2 )
-					{
-						if( this.pnPage.Value < this.pnPage.Maximum )
-							this.pnPage.Value += 1;
-					}
-					else if( this.gThisContainer == 3 )
-					{
-						if( this.dnPage.Value < this.dnPage.Maximum )
-							this.dnPage.Value += 1;
-					}
-				break;
-				// zmień strone wzoru
-				case Keys.Shift | Keys.Tab:
-					if( this.gThisContainer == 1 )
-					{
-						if( this.mnPage.Value > this.mnPage.Minimum )
-							this.mnPage.Value -= 1;
-					}
-					else if( this.gThisContainer == 2 )
-					{
-						if( this.pnPage.Value > this.pnPage.Minimum )
-							this.pnPage.Value -= 1;
-					}
-					else if( this.gThisContainer == 3 )
-					{
-						if( this.dnPage.Value > this.dnPage.Minimum )
-							this.dnPage.Value -= 1;
-					}
-				break;
-				// skrót do ustawień
-				case Keys.Control | Keys.S:
-					this.issGeneral_Click( null, null );
-				break;
-				default:
-					return base.ProcessCmdKey( ref msg, keydata );
+			// przełącz stronę z wzorem do przodu
+			case Keys.Control | Keys.Tab:
+				if( this.gThisContainer == 1 )
+				{
+					if( this.mnPage.Value < this.mnPage.Maximum )
+						this.mnPage.Value += 1;
+				}
+				else if( this.gThisContainer == 2 )
+				{
+					if( this.pnPage.Value < this.pnPage.Maximum )
+						this.pnPage.Value += 1;
+				}
+				else if( this.gThisContainer == 3 )
+				{
+					if( this.dnPage.Value < this.dnPage.Maximum )
+						this.dnPage.Value += 1;
+				}
+			break;
+
+			// przełącz stronę z wzorem do tyłu
+			case Keys.Shift | Keys.Tab:
+				if( this.gThisContainer == 1 )
+				{
+					if( this.mnPage.Value > this.mnPage.Minimum )
+						this.mnPage.Value -= 1;
+				}
+				else if( this.gThisContainer == 2 )
+				{
+					if( this.pnPage.Value > this.pnPage.Minimum )
+						this.pnPage.Value -= 1;
+				}
+				else if( this.gThisContainer == 3 )
+				{
+					if( this.dnPage.Value > this.dnPage.Minimum )
+						this.dnPage.Value -= 1;
+				}
+			break;
+
+			// skrót do ustawień
+			case Keys.Control | Keys.S:
+				this.issGeneral_Click( null, null );
+			break;
+			default:
+				return base.ProcessCmdKey( ref msg, keydata );
 			}
 
 			return true;
@@ -165,8 +199,30 @@ namespace CDesigner
 		
 		private void RefreshProjectList( )
 		{
+#		if DEBUG
+			Console.WriteLine( "Wczytywanie i uzupełnianie listy wzorów." );
+#		endif
+
 			// wyczyść wszystkie dane
 			this.mtvPatterns.Nodes.Clear( );
+
+			// utwórz folder gdy nie istnieje
+			if( !Directory.Exists("patterns") )
+				try { Directory.CreateDirectory( "patterns" ); }
+				catch
+				{
+					// ten komunikat nigdy nie powinien się pojawić...
+					MessageBox.Show
+					(
+						this,
+						"Błąd tworzenia folderu głównego dla wzorów...\n" +
+						"Sprawdź czy posiadasz odpowiednie uprawnienia do zapisywania danych w katalogu programu.",
+						"Tworzenie folderu",
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Error
+					);
+					return;
+				}
 
 			// pobierz i dodaj katalogi do listy
 			string[] patterns = Directory.GetDirectories( "patterns" );
@@ -178,6 +234,9 @@ namespace CDesigner
 				// brak pliku konfiguracji
 				if( !File.Exists(pattern + "/config.cfg") )
 				{
+#				if DEBUG
+					Console.WriteLine( "Błąd: Wzór " + pattern + " nie zawiera pliku konfiguracyjnego." );
+#				endif
 					item.ForeColor = Color.OrangeRed;
 					continue;
 				}
@@ -212,7 +271,8 @@ namespace CDesigner
 			this.pcbShowFrame.Enabled  = false;
 			this.pcbStatImage.Enabled  = false;
 			this.pcbStatText.Enabled   = false;
-
+			
+			this.pcbTextTransform.Enabled    = false;
 			this.pcbDrawFrameOutside.Enabled = false;
 			this.pcbUseImageMargin.Enabled   = false;
 
@@ -223,6 +283,10 @@ namespace CDesigner
 			//this.pcbpDrawImage.Enabled   = false;
 			this.pcbpDrawOutside.Enabled = false;
 			this.pcxpImageSet.Enabled    = false;
+
+			this.pcbMarginLR.Enabled = false;
+			this.pcbMarginTB.Enabled = false;
+			this.pcbdAddMargin.Enabled = false;
 		}
 
 		// ------------------------------------------------------------- UnlockFieldLabels ----------------------------
@@ -251,6 +315,7 @@ namespace CDesigner
 			//this.pcbStatImage.Enabled  = true;
 			this.pcbStatText.Enabled   = true;
 
+			this.pcbTextTransform.Enabled = true;
 			//this.pcxImageSet.Enabled         = true;
 			//this.pcbDrawFrameOutside.Enabled = true;
 			//this.pcbUseImageMargin.Enabled   = true;
@@ -261,6 +326,10 @@ namespace CDesigner
 			//this.pcxpImageSet.Enabled  = true;
 			//this.pcbpApplyMargin.Enabled = true;
 			//this.pcbpDrawOutside.Enabled = true;
+
+			this.pcbMarginLR.Enabled   = true;
+			this.pcbMarginTB.Enabled   = true;
+			this.pcbdAddMargin.Enabled = true;
 		}
 
 		// ------------------------------------------------------------- FillFieldLabels ------------------------------
@@ -270,7 +339,7 @@ namespace CDesigner
 			this.pLocked = true;
 
 			// zmień nazwę
-			this.ptbName.Text = this.pCurrentField.Text;
+			this.ptbName.Text = this.pCurrentField.OriginalText;
 
 			PointF location = this.pCurrentField.GetPosByAlignPoint( (ContentAlignment)((FieldExtraData)this.pCurrentField.Tag).pos_align );
 
@@ -288,23 +357,26 @@ namespace CDesigner
 			color_r = this.pCurrentField.BorderColor.R.ToString("X2");
 			color_g = this.pCurrentField.BorderColor.G.ToString("X2");
 			color_b = this.pCurrentField.BorderColor.B.ToString("X2");
-			this.ptbBorderColor.Text = color_r + color_b + color_g;
+			this.ptbBorderColor.Text = "#" + color_r + color_b + color_g;
 
 			color_r = this.pCurrentField.BackColor.R.ToString("X2");
 			color_g = this.pCurrentField.BackColor.G.ToString("X2");
 			color_b = this.pCurrentField.BackColor.B.ToString("X2");
-			this.ptbBackColor.Text = color_r + color_g + color_b;
+			this.ptbBackColor.Text = "#" + color_r + color_g + color_b;
 
 			color_r = this.pCurrentField.ForeColor.R.ToString("X2");
 			color_g = this.pCurrentField.ForeColor.G.ToString("X2");
 			color_b = this.pCurrentField.ForeColor.B.ToString("X2");
-			this.ptbFontColor.Text = color_r + color_g + color_b;
+			this.ptbFontColor.Text = "#" + color_r + color_g + color_b;
 
 			// czcionka
 			Font   font = this.pCurrentField.Font;
 			string dets = (font.Bold ? "B" : "") + (font.Italic ? "I" : "") + (font.Strikeout ? "S" : "") + (font.Underline ? "U" : "");
 
 			this.ptbFontName.Text = font.Name + ", " + font.SizeInPoints + "pt " + dets;
+
+			// transformacja tekstu
+			this.pcbTextTransform.SelectedIndex = this.pCurrentField.TextTransform;
 
 			// pozycja tekstu...
 			switch( (int)this.pCurrentField.TextAlign )
@@ -343,6 +415,12 @@ namespace CDesigner
 			// nazwa / ścieżka obrazu
 			this.ptbBackImage.Text = this.pCurrentField.BackImagePath != null ? this.pCurrentField.BackImagePath : "";
 
+			PointF margin = this.pCurrentField.TextMargin;
+
+			this.pcbMarginLR.Value     = (decimal)margin.X;
+			this.pcbMarginTB.Value     = (decimal)margin.Y;
+			this.pcbdAddMargin.Checked = this.pCurrentField.ApplyTextMargin;
+
 			this.pLocked = false;
 		}
 
@@ -350,8 +428,8 @@ namespace CDesigner
 
 /* ===============================================================================================================================
  * Menu okna:
- * - ispNew_Click		[Menu/Button/Button]
- * - ispClose_Click		[Menu/Button/Button]
+ * - gmpNew_Click		[Menu/Button/Button]
+ * - gmpClose_Click		[Menu/Button/Button]
  * - isHome_Click		[Menu/Button]
  * - isPattern_Click	[Menu/Button]
  * - isData_Click		[Menu/Button]
@@ -359,11 +437,14 @@ namespace CDesigner
 
 #region Menu okna
 
-		// ------------------------------------------------------------- ispNew_Click ---------------------------------
+		// ------------------------------------------------------------- gmpNew_Click ---------------------------------
 		
-		private void ispNew_Click( object sender, EventArgs ev )
+		private void gmpNew_Click( object sender, EventArgs ev )
 		{
-			NewPattern window = new NewPattern( );
+#		if DEBUG
+			Console.WriteLine( "Otwieranie okna kreatora nowego wzoru." );
+#		endif
+			NewPattern window = new NewPattern();
 
 			// nowy wzór
 			if( window.ShowDialog(this) != DialogResult.OK )
@@ -374,10 +455,10 @@ namespace CDesigner
 			string pattern_name = window.PatternName;
 
 			// zaznacz nowy wzór
-			foreach( TreeNode node in this.mtvPatterns.Nodes )
-				if( node.Text == pattern_name )
+			for( int x = 0; x < this.mtvPatterns.Nodes.Count; ++x )
+				if( this.mtvPatterns.Nodes[x].Text == pattern_name )
 				{
-					this.mtvPatterns.SelectedNode = node;
+					this.mtvPatterns.SelectedNode = this.mtvPatterns.Nodes[x];
 					break;
 				}
 			
@@ -385,9 +466,9 @@ namespace CDesigner
 			this.ictEdit_Click( null, null );
 		}
 
-		// ------------------------------------------------------------- ispClose_Click -------------------------------
+		// ------------------------------------------------------------- gmpClose_Click -------------------------------
 		
-		private void ispClose_Click( object sender, EventArgs ev )
+		private void gmpClose_Click( object sender, EventArgs ev )
 		{
 			GC.Collect();
 
@@ -397,23 +478,28 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- isHome_Click ---------------------------------
 		
-		private void isHome_Click( object sender, EventArgs ev )
+		private void gsMain_Click( object sender, EventArgs ev )
 		{
-			this.tHomeTable.Show();
-			this.isHome.Enabled = false;
+#		if DEBUG
+			Console.WriteLine( "Otwieranie strony głównej." );
+#		endif
 
+			this.tlMain.Show();
+			this.gsHome.Enabled = false;
+
+			// ukryj pozostałe panele
 			if( this.gThisContainer == 2 )
 			{
-				this.tPatternTable.Hide();
-				this.isPattern.Enabled = true;
+				this.tPattern.Hide();
+				this.gsPattern.Enabled = true;
 			}
 			else if( this.gThisContainer == 3 )
 			{
 				this.tDataTable.Hide();
-				this.isData.Enabled = true;
+				this.gsData.Enabled = true;
 			}
 
-			// odśwież podgląd
+			// automatycznie odśwież podgląd, gdy jego zawartość uległa zmianie
 			if( (this.pCurrentName == this.mSelectedName) && this.gEditChanged )
 				if( this.mtvPatterns.SelectedNode != null )
 				{
@@ -427,20 +513,25 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- isPattern_Click ------------------------------
 		
-		private void isPattern_Click( object sender, EventArgs ev )
+		private void gsPattern_Click( object sender, EventArgs ev )
 		{
-			this.tPatternTable.Show();
-			this.isPattern.Enabled = false;
+#		if DEBUG
+			Console.WriteLine( "Otwieranie edytora wzorów." );
+#		endif
 
+			this.tPattern.Show();
+			this.gsPattern.Enabled = false;
+
+			// ukryj pozostałe panele
 			if( this.gThisContainer == 1 )
 			{
-				this.tHomeTable.Hide();
-				this.isHome.Enabled = true;
+				this.tlMain.Hide();
+				this.gsHome.Enabled = true;
 			}
 			else if( this.gThisContainer == 3 )
 			{
 				this.tDataTable.Hide();
-				this.isData.Enabled = true;
+				this.gsData.Enabled = true;
 			}
 
 			this.gThisContainer = 2;
@@ -448,20 +539,23 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- isData_Click ---------------------------------
 		
-		private void isData_Click( object sender, EventArgs ev )
+		private void gsData_Click( object sender, EventArgs ev )
 		{
 			this.tDataTable.Show();
-			this.isData.Enabled = false;
+			this.gsData.Enabled = false;
 
+			// @TODO - automatyczne odświeżenie w razie zmiany
+
+			// ukryj pozostałe panele
 			if( this.gThisContainer == 1 )
 			{
-				this.tHomeTable.Hide();
-				this.isHome.Enabled = true;
+				this.tlMain.Hide();
+				this.gsHome.Enabled = true;
 			}
 			else if( this.gThisContainer == 2 )
 			{
-				this.tPatternTable.Hide();
-				this.isPattern.Enabled = true;
+				this.tPattern.Hide();
+				this.gsPattern.Enabled = true;
 			}
 
 			this.gThisContainer = 3;
@@ -530,19 +624,28 @@ namespace CDesigner
 
 			// nazwa zaznaczonego wzoru
 			string pattern = this.mSelectedName = this.mtvPatterns.SelectedNode.Text;
-			Image  helper  = null, trash = null;
-
+			Image  helper  = null,
+				   trash   = null;
+			
 			// sprawdź czy wzór posiada plik konfiguracyjny
 			if( !File.Exists("patterns/" + pattern + "/config.cfg") )
 			{
 				this.mSelectedError = true;
 
 				// obrazy
-				trash  = this.mibPreview.Image;
+				trash  = this.mpbPreview.Image;
 				helper = File.Exists("noimage.png") ? Image.FromFile("noimage.png") : null;
 
 				// informacja
-				//MessageBox.Show( this, "Wybrany wzór jest uszkodzony!", "Błąd przetwarzania..." );
+				MessageBox.Show
+				(
+					this,
+					"Wybrany wzór jest uszkodzony i nie posiada pliku konfiguracyjnego.\n" +
+					"W tym momencie możesz go tylko usunąć z listy.",
+					"Otwieranie wzoru",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Error
+				);
 				this.mlStatus.Text  = "Wybrany wzór jest uszkodzony!";
 				this.mnPage.Enabled = false;
 
@@ -568,9 +671,18 @@ namespace CDesigner
 			if( File.Exists("patterns/" + pattern + "/preview0.jpg") )
 			{
 				// wczytaj podgląd strony
-				trash  = this.mibPreview.Image;
-				helper = Image.FromFile( "patterns/" + pattern + "/preview0.jpg" );
+				trash = this.mpbPreview.Image;
 
+				// nie blokuj pliku... (dziadostwo blokuje plik)
+				using( Image image = Image.FromFile("patterns/" + pattern + "/preview0.jpg") )
+				{
+					// skopiuj obraz do pamięci
+					helper = new Bitmap( image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+					using( var canavas = Graphics.FromImage(helper) )
+						canavas.DrawImageUnscaled( image, 0, 0 );
+
+					image.Dispose();
+				}
 				this.mnPage.Enabled = true;
 
 				// aktualizuj status
@@ -588,18 +700,9 @@ namespace CDesigner
 
 			this.mSelectedData = false;
 
-			trash  = this.mibPreview.Image;
-			helper = File.Exists("noimage.png")
-				? Image.FromFile("noimage.png")
-				: null;
-
-			// zwolnij pamięć po obrazie
-			if( this.mibPreview.Image != null )
-				this.mibPreview.Image.Dispose();
-
 			// brak obrazka
 			helper = File.Exists( "noimage.png" ) ? Image.FromFile( "noimage.png" ) : null;
-			trash  = this.mibPreview.Image;
+			trash  = this.mpbPreview.Image;
 
 			this.mnPage.Enabled = false;
 			
@@ -615,10 +718,10 @@ namespace CDesigner
 CD_mtvPatterns_AfterSelect:
 
 			// zmień obrazek
-			this.mibPreview.Hide();
-			this.mibPreview.Image = helper;
-			this.mibPreview.CheckLocation();
-			this.mibPreview.Show();
+			this.mpbPreview.Hide();
+			this.mpbPreview.Image = helper;
+			this.mpbPreview.CheckLocation();
+			this.mpbPreview.Show();
 			
 			// pozbieraj śmieci po poprzednim obrazku
 			if( trash != null )
@@ -684,7 +787,7 @@ CD_mtvPatterns_AfterSelect:
 			// przełącz gdy wzór jest już załadowany
 			if( this.pCurrentName == this.mSelectedName )
 			{
-				this.isPattern_Click( null, null );
+				this.gsPattern_Click( null, null );
 				this.plStatus.Text = "Wzór \"" + this.pCurrentName + "\" jest gotowy do edycji.";
 				return;
 			}
@@ -696,13 +799,17 @@ CD_mtvPatterns_AfterSelect:
 			// przejście do edycji wzoru
 			string pattern = this.mSelectedName;
 
+			// dodaj do listy ostatnio otwieranych
+			this.gSettings.AddToLastPatterns( pattern );
+			this.gmpRecent_RefreshList();
+
 			// zapisz indeks i nazwę aktualnego wzoru
 			this.pCurrentName = pattern;
 
 			// wczytaj wzór
 			this.pcbScale.SelectedIndex = 2;
 			PatternData pattern_data = PatternEditor.ReadPattern( pattern );
-			PatternEditor.DrawPreview( pattern_data, this.ppPanelContainer, 1.0 );
+			PatternEditor.DrawPreview( pattern_data, this.ppPreview, 1.0 );
 			this.pPageSize = pattern_data.size;
 
 			// ilość stron
@@ -711,17 +818,17 @@ CD_mtvPatterns_AfterSelect:
 			this.pnPage.Value   = 1;
 
 			// aktualna strona
-			this.pCurrentPage    = (Panel)this.ppPanelContainer.Controls[0];
+			this.pCurrentPage    = (Panel)this.ppPreview.Controls[0];
 			this.pCurrentPanelID = 0;
 			this.pPatternData    = pattern_data;
 
-			Panel     page;
-			PageField field;
+			AlignedPage page;
+			PageField   field;
 
 			// dodaj akcje do stron i pól
-			for( int x = 0; x < this.ppPanelContainer.Controls.Count; ++x )
+			for( int x = 0; x < this.ppPreview.Controls.Count; ++x )
 			{
-				page = (Panel)this.ppPanelContainer.Controls[x];
+				page = (AlignedPage)this.ppPreview.Controls[x];
 				page.ContextMenuStrip = this.icPage;
 				page.MouseDown += new MouseEventHandler( this.ppPanelContainer_MouseDown );
 
@@ -747,9 +854,17 @@ CD_mtvPatterns_AfterSelect:
 
 			this.pcbpDrawColor.Checked = ptag.print_color;
 			this.pcbpDrawImage.Checked = ptag.print_image;
+
+			// kolor strony
+			string color_r, color_g, color_b;
+			
+			color_r = this.pCurrentPage.BackColor.R.ToString("X2");
+			color_g = this.pCurrentPage.BackColor.G.ToString("X2");
+			color_b = this.pCurrentPage.BackColor.B.ToString("X2");
+			this.ptbPageColor.Text = "#" + color_r + color_b + color_g;
 			
 			// przełącz na panel wzorów
-			this.isPattern_Click( null, null );
+			this.gsPattern_Click( null, null );
 			this.Cursor = null;
 			this.plStatus.Text = "Wzór \"" + pattern + "\" jest gotowy do edycji.";
 
@@ -772,9 +887,11 @@ CD_mtvPatterns_AfterSelect:
 			DialogResult result = MessageBox.Show
 			(
 				this,
-				"Czy na pewno chcesz usunąć wzór o nazwie: \"" + pattern + "\"?",
+				"Czy na pewno chcesz usunąć wzór o nazwie: \"" + pattern + "\"?\n",
 				"Usuwanie wzoru...",
-				MessageBoxButtons.YesNo
+				MessageBoxButtons.YesNo,
+				MessageBoxIcon.Question,
+				MessageBoxDefaultButton.Button2 // aktywny przycisk "Nie"
 			);
 			if( result == DialogResult.No )
 				return;
@@ -788,14 +905,34 @@ CD_mtvPatterns_AfterSelect:
 				this.pCurrentName = null;
 
 				// wyłącz możliwość edycji nieistniejącego już wzoru
-				this.isPattern.Enabled = false;
+				this.gsPattern.Enabled = false;
 			}
 			// brak wzoru, brak obrazka...
-			this.mibPreview.Image = null;
+			this.mpbPreview.Image = null;
 			this.mSelectedID      = -1;
 
 			// usuń pliki wzoru i odśwież liste
-			Directory.Delete( "patterns/" + pattern, true );
+			try { Directory.Delete( "patterns/" + pattern, true ); }
+			catch
+			{
+				// ten komunikat nigdy nie powinien się pojawić...
+				MessageBox.Show
+				(
+					this,
+					"Nie można usunąć wybranego wzoru...\n" +
+					"Sprawdź czy posiadasz odpowiednie uprawnienia do modyfikacji danych w katalogu programu.",
+					"Tworzenie folderu",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Error
+				);
+				return;
+			}
+
+			// usuń z listy ostatnio otwieranych (jeżeli się tam znajduje)
+			this.gSettings.RemoveFromLastPatterns( pattern );
+			this.gmpRecent_RefreshList();
+
+			// odśwież listę wzorów
 			this.RefreshProjectList();
 
 			this.mlStatus.Text = "Wybrany wzór został usunięty.";
@@ -863,7 +1000,8 @@ CD_mtvPatterns_AfterSelect:
 			this.pLocked = false;
 
 			// przejdź na strone z danymi
-			this.isData_Click( null, null );
+			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
+			this.gsData_Click( null, null );
 		}
 
 #endregion
@@ -882,9 +1020,13 @@ CD_mtvPatterns_AfterSelect:
 		
 		private void mnPage_ValueChanged( object sender, EventArgs ev )
 		{
+#		if	DEBUG
+			Console.WriteLine( "Zmiana strony wzoru na stronie głównej." );
+#		endif
+
 			// zmień status
 			this.mlStatus.Text = "Wczytywanie podglądu strony wzoru...";
-			this.mlStatus.Refresh( );
+			this.mlStatus.Refresh();
 			this.Cursor = Cursors.WaitCursor;
 
 			// otwórz podgląd wybranej strony wzoru
@@ -892,14 +1034,14 @@ CD_mtvPatterns_AfterSelect:
 			{
 				using( Image image = Image.FromFile("patterns/" + this.mSelectedName + "/preview" + (this.mnPage.Value - 1) + ".jpg") )
 				{
-					if( this.mibPreview.Image != null )
-						this.mibPreview.Image.Dispose();
+					if( this.mpbPreview.Image != null )
+						this.mpbPreview.Image.Dispose();
 
 					// skopiuj obraz do pamięci
 					Image new_image = new Bitmap( image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
 					using( var canavas = Graphics.FromImage(new_image) )
 						canavas.DrawImageUnscaled( image, 0, 0 );
-					this.mibPreview.Image = new_image;
+					this.mpbPreview.Image = new_image;
 
 					image.Dispose();
 				}
@@ -909,7 +1051,7 @@ CD_mtvPatterns_AfterSelect:
 			else
 			{
 				// @TODO - dodać jakiś inny obrazek :D
-				this.mibPreview.Image = null;
+				this.mpbPreview.Image = null;
 				this.mlStatus.Text = "Podgląd tej strony nie istnieje.";
 			}
 
@@ -923,7 +1065,7 @@ CD_mtvPatterns_AfterSelect:
 			if( this.pLocked )
 				return;
 
-			this.mibPreview.CheckLocation();
+			this.mpbPreview.CheckLocation();
 		}
 
 		// ------------------------------------------------------------- mpPreview_MouseDown -------------------------
@@ -937,9 +1079,9 @@ CD_mtvPatterns_AfterSelect:
 
 		private void scHome_SplitterMoved( object sender, SplitterEventArgs ev )
 		{
-			ColumnStyle col = this.sbHome.ColumnStyles[0];
+			ColumnStyle col = this.tlMainStatusBar.ColumnStyles[0];
 			col.SizeType = SizeType.Absolute;
-			col.Width = this.scHome.Panel1.Width + 7;
+			col.Width = this.scMain.Panel1.Width + 7;
 		}
 
 #endregion
@@ -1057,7 +1199,7 @@ CD_mtvPatterns_AfterSelect:
 			}
 			
 			// zmień skale wzoru
-			PatternEditor.ChangeScale( this.pPatternData, this.ppPanelContainer, (double)scale / 100.0 );
+			PatternEditor.ChangeScale( this.pPatternData, this.ppPreview, (double)scale / 100.0 );
 		}
 
 		// ------------------------------------------------------------- pcbScale_Leave -------------------------------
@@ -1079,21 +1221,29 @@ CD_mtvPatterns_AfterSelect:
 		
 		private void pnPage_ValueChanged( object sender, EventArgs ev )
 		{
-			((Panel)this.ppPanelContainer.Controls[(int)pnPage.Value - 1]).Show();
+			((Panel)this.ppPreview.Controls[(int)pnPage.Value - 1]).Show();
 			this.pCurrentPage.Hide();
-			this.pCurrentPage = (Panel)this.ppPanelContainer.Controls[(int)pnPage.Value - 1];
+			this.pCurrentPage = (Panel)this.ppPreview.Controls[(int)pnPage.Value - 1];
 
 			PageExtraData ptag = (PageExtraData)this.pCurrentPage.Tag;
 
 			this.pcbpDrawColor.Checked = ptag.print_color;
 			this.pcbpDrawImage.Checked = ptag.print_image;
+
+			// kolor strony
+			string color_r, color_g, color_b;
+
+			color_r = this.pCurrentPage.BackColor.R.ToString("X2");
+			color_g = this.pCurrentPage.BackColor.G.ToString("X2");
+			color_b = this.pCurrentPage.BackColor.B.ToString("X2");
+			this.ptbPageColor.Text = "#" + color_r + color_b + color_g;
 		}
 
 		// ------------------------------------------------------------- ppPanelContainer_MouseDown -------------------
 		
 		private void ppPanelContainer_MouseDown( object sender, MouseEventArgs ev )
 		{
-			this.ppPanelContainer.Focus();
+			this.ppPreview.Focus();
 		}
 
 		// ------------------------------------------------------------- pbSave_Click ---------------------------------
@@ -1119,8 +1269,8 @@ CD_mtvPatterns_AfterSelect:
 			}
 
 			// wygeneruj podgląd i zapisz
-			PatternEditor.GeneratePreview( this.pPatternData, this.ppPanelContainer, 1.0 );
-			PatternEditor.Save( this.pPatternData, this.ppPanelContainer );
+			PatternEditor.GeneratePreview( this.pPatternData, this.ppPreview, 1.0 );
+			PatternEditor.Save( this.pPatternData, this.ppPreview );
 
 			this.gEditChanged = true;
 
@@ -1188,7 +1338,8 @@ CD_mtvPatterns_AfterSelect:
 			this.pLocked = false;
 
 			// przejdź na strone z danymi
-			this.isData_Click( null, null );
+			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
+			this.gsData_Click( null, null );
 		}
 
 		// ------------------------------------------------------------- icpmDetails_Click ----------------------------
@@ -1234,20 +1385,20 @@ CD_mtvPatterns_AfterSelect:
 
 /* ===============================================================================================================================
  * Edycja wzoru - Menu "POLE":
- * - ptbName_TextChanged		        [TextBox]
- * - pnPositionX_ValueChanged           [NumericUpDown]
- * - pnPositionY_ValueChanged           [NumericUpDown]
- * - pnWidth_ValueChanged               [NumericUpDown]
- * - pnHeight_ValueChanged              [NumericUpDown]
- * - pbBorderColor_Click                [Button]
- * - pbBackColor_Click                  [Button]
- * - pbBackImage_Click                  [Button]
- * - pbFontName_Click                   [Button]
- * - pbFontColor_Click                  [Button]
- * - pcbTextAlign_SelectedIndexChanged  [ComboBox]
- * - pnPadding_ValueChanged             [NumericUpDown]
- * - pcbPosAlign_SelectedIndexChanged   [ComboBox]
- * - pnBorderSize_ValueChanged          [NumericUpDown]
+ * - ptbName_TextChanged		             [TextBox]
+ * - pnPositionX_ValueChanged                [NumericUpDown]
+ * - pnPositionY_ValueChanged                [NumericUpDown]
+ * - pnWidth_ValueChanged                    [NumericUpDown]
+ * - pnHeight_ValueChanged                   [NumericUpDown]
+ * - pbBorderColor_Click                     [Button]
+ * - pbBackColor_Click                       [Button]
+ * - pbBackImage_Click                       [Button]
+ * - pbFontName_Click                        [Button]
+ * - pbFontColor_Click                       [Button]
+ * - pcbTextAlign_SelectedIndexChanged       [ComboBox]
+ * - pnPadding_ValueChanged                  [NumericUpDown]
+ * - pcbTextTransform_SelectedIndexChanged   [ComboBox]
+ * - pnBorderSize_ValueChanged               [NumericUpDown]
  * =============================================================================================================================== */
 
 #region Edycja wzoru - Menu "POLE"
@@ -1337,7 +1488,7 @@ CD_mtvPatterns_AfterSelect:
 
 			// zmień kolor ramki
 			this.pCurrentField.BorderColor = color;
-			this.ptbBorderColor.Text = color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+			this.ptbBorderColor.Text = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
 
 			// odśwież kontrolke
 			this.pCurrentField.Refresh();
@@ -1354,7 +1505,7 @@ CD_mtvPatterns_AfterSelect:
 
 			// zmień kolor tła
 			this.pCurrentField.BackColor = color;
-			this.ptbBackColor.Text       = color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+			this.ptbBackColor.Text = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
 			
 			// odśwież kontrolke
 			this.pCurrentField.Refresh();
@@ -1386,6 +1537,7 @@ CD_mtvPatterns_AfterSelect:
 		
 		private void pbFontName_Click( object sender, EventArgs ev )
 		{
+			// @TODO - własne okienko do wybierania czcionek - to ma problem z czcionkami OpenType - otwiera tylko TrueType
 			if( this.pLocked || this.gsFont.ShowDialog(this) != DialogResult.OK )
 				return;
 
@@ -1413,7 +1565,7 @@ CD_mtvPatterns_AfterSelect:
 
 			// zmień kolor czcionki
 			this.pCurrentField.ForeColor = color;
-			this.ptbFontColor.Text       = color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+			this.ptbFontColor.Text = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
 
 			// odśwież kontrolke
 			this.pCurrentField.Refresh();
@@ -1439,34 +1591,14 @@ CD_mtvPatterns_AfterSelect:
 			this.pCurrentField.DPIPadding = (float)this.pnPadding.Value;
 		}
 
-		// ------------------------------------------------------------- pcbPosAlign_SelectedIndexChanged -------------
+		// ------------------------------------------------------------- pcbTextTransform_SelectedIndexChanged --------
 		
-		private void pcbPosAlign_SelectedIndexChanged( object sender, EventArgs ev )
+		private void pcbTextTransform_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			if( this.pLocked )
 				return;
 
-			// dobierz odpowiedni tryb przylegania
-			ContentAlignment align = ContentAlignment.TopLeft;
-			switch( this.pcbPosAlign.SelectedIndex )
-			{
-				case 0: align = ContentAlignment.TopLeft;     break;
-				case 1: align = ContentAlignment.TopRight;    break;
-				case 2: align = ContentAlignment.BottomLeft;  break;
-				case 4: align = ContentAlignment.BottomRight; break;
-			}
-
-			// zmień przyleganie
-			((FieldExtraData)this.pCurrentField.Tag).pos_align = (int)align;
-			PointF point = this.pCurrentField.GetPosByAlignPoint( align );
-
-			this.pLocked = true;
-
-			// zmień wartości w edytorze
-			this.pnPositionX.Value = (decimal)point.X;
-			this.pnPositionY.Value = (decimal)point.Y;
-
-			this.pLocked = false;
+			this.pCurrentField.TextTransform = this.pcbTextTransform.SelectedIndex;
 		}
 
 		// ------------------------------------------------------------- pnBorderSize_ValueChanged --------------------
@@ -1534,6 +1666,9 @@ CD_mtvPatterns_AfterSelect:
 			field.Margin        = new Padding(0);
 			field.Padding       = new Padding(0);
 			field.Location      = new Point( 0, 0 );
+			
+			field.ApplyTextMargin = false;
+			field.TextMargin      = new PointF( 2.0f, 2.0f );
 
 			field.SetParentBounds( this.pPageSize.Width, this.pPageSize.Height, true );
 
@@ -1590,6 +1725,9 @@ CD_mtvPatterns_AfterSelect:
 
 			this.pCurrentPage.BackgroundImage = null;
 			this.pCurrentPage.BackColor       = this.gsColor.Color;
+
+			Color color = this.gsColor.Color;
+			this.ptbPageColor.Text = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
 		}
 
 		// ------------------------------------------------------------- pbPageBack_Click -----------------------------
@@ -1670,7 +1808,9 @@ CD_mtvPatterns_AfterSelect:
 		
 		private void icpAddPage_Click( object sender, EventArgs ev )
 		{
-			Panel  page  = new Panel( );
+			AlignedPage page = new AlignedPage( );
+			page.Align = 1;
+
 			double scale = (double)Convert.ToInt32(this.pcbScale.Text) / 100.0;
 
 			// zablokuj operacje odświeżania
@@ -1699,8 +1839,13 @@ CD_mtvPatterns_AfterSelect:
 			// zwiększ licznik stron
 			++this.pPanelCounter;
 
+			page.Hide();
+
 			// dodaj panel do kontenera
-			this.ppPanelContainer.Controls.Add( page );
+			this.ppPreview.Controls.Add( page );
+
+			page.CheckLocation();
+			page.Show();
 
 			// odblokuj odświeżanie
 			this.pLocked = false;
@@ -1720,7 +1865,14 @@ CD_mtvPatterns_AfterSelect:
 			// nie można usunąć strony gdy jest tylko jedna
 			if( this.pPanelCounter < 1 )
 			{
-				MessageBox.Show( this, "Masz tylko jedną stronę. Nie możesz jej usunąć...", "Bład usuwania strony..." );
+				MessageBox.Show
+				(
+					this,
+					"Twój wzór zawiera tylko jedną stronę.\nW związku z tym nie możesz jej usunąć!",
+					"Usuń stronę",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Asterisk
+				);
 				return;
 			}
 
@@ -1734,7 +1886,7 @@ CD_mtvPatterns_AfterSelect:
 			this.icpPageClear_Click( null, null );
 
 			// usuń stronę
-			this.ppPanelContainer.Controls.RemoveAt( this.pCurrentPanelID );
+			this.ppPreview.Controls.RemoveAt( this.pCurrentPanelID );
 
 			// aktualizuj identyfikator
 			this.pCurrentPanelID = this.pCurrentPanelID > this.pPanelCounter
@@ -1744,7 +1896,7 @@ CD_mtvPatterns_AfterSelect:
 				: this.pCurrentPanelID - 1;
 
 			// ustaw nowe wartości zmiennych i pokaż stronę
-			this.pCurrentPage = (Panel)this.ppPanelContainer.Controls[this.pCurrentPanelID];
+			this.pCurrentPage = (Panel)this.ppPreview.Controls[this.pCurrentPanelID];
 			this.pCurrentPage.Visible = true;
 			this.pnPage.Value = this.pCurrentPanelID + 1;
 			this.pnPage.Maximum = this.pPanelCounter + 1;
@@ -1961,6 +2113,7 @@ CD_mtvPatterns_AfterSelect:
  * - pcbStatText_CheckedChanged         [CheckBox]
  * - pcbStatImage_CheckedChanged        [CheckBox]
  * - pcbDynImage_CheckedChanged         [CheckBox]
+ * - pcbPosAlign_SelectedIndexChanged   [ComboBox]
  * =============================================================================================================================== */
 
 #region Edycja wzoru - Menu "SZCZEGÓŁY"
@@ -2083,6 +2236,70 @@ CD_mtvPatterns_AfterSelect:
 			this.pLocked = false;
 		}
 
+		// ------------------------------------------------------------- pcbPosAlign_SelectedIndexChanged -------------
+		
+		private void pcbPosAlign_SelectedIndexChanged( object sender, EventArgs ev )
+		{
+			if( this.pLocked )
+				return;
+
+			// dobierz odpowiedni tryb przylegania
+			ContentAlignment align = ContentAlignment.TopLeft;
+			switch( this.pcbPosAlign.SelectedIndex )
+			{
+				case 0: align = ContentAlignment.TopLeft;     break;
+				case 1: align = ContentAlignment.TopRight;    break;
+				case 2: align = ContentAlignment.BottomLeft;  break;
+				case 4: align = ContentAlignment.BottomRight; break;
+			}
+
+			// zmień przyleganie
+			((FieldExtraData)this.pCurrentField.Tag).pos_align = (int)align;
+			PointF point = this.pCurrentField.GetPosByAlignPoint( align );
+
+			this.pLocked = true;
+
+			// zmień wartości w edytorze
+			this.pnPositionX.Value = (decimal)point.X;
+			this.pnPositionY.Value = (decimal)point.Y;
+
+			this.pLocked = false;
+		}
+
+		// ------------------------------------------------------------- pcbdAddMargin_CheckedChanged -----------------
+		
+		private void pcbdAddMargin_CheckedChanged( object sender, EventArgs ev )
+		{
+			if( this.pLocked )
+				return;
+
+			this.pCurrentField.ApplyTextMargin = this.pcbdAddMargin.Checked;
+		}
+
+		// ------------------------------------------------------------- pcbMarginLR_ValueChanged ---------------------
+		
+		private void pcbMarginLR_ValueChanged( object sender, EventArgs ev )
+		{
+			if( this.pLocked )
+				return;
+
+			PointF dpi_new = this.pCurrentField.TextMargin;
+			dpi_new.X = (float)this.pcbMarginLR.Value;
+			this.pCurrentField.TextMargin = dpi_new;
+		}
+
+		// ------------------------------------------------------------- pcbMarginTB_ValueChanged ---------------------
+		
+		private void pcbMarginTB_ValueChanged( object sender, EventArgs ev )
+		{
+			if( this.pLocked )
+				return;
+
+			PointF dpi_new = this.pCurrentField.TextMargin;
+			dpi_new.Y = (float)this.pcbMarginTB.Value;
+			this.pCurrentField.TextMargin = dpi_new;
+		}
+
 #endregion
 
 /* ===============================================================================================================================
@@ -2169,7 +2386,7 @@ CD_mtvPatterns_AfterSelect:
 		
 		private void dbScan_Click( object sender, EventArgs ev )
 		{
-			float width;
+			float width, height;
 			Graphics gfx = this.CreateGraphics();
 
 			// szukaj po rekordach
@@ -2186,6 +2403,7 @@ CD_mtvPatterns_AfterSelect:
 						FieldData field = page.field[z];
 
 						width  = PatternEditor.GetDimensionScale( field.bounds.Width, 1.0 );
+						height = PatternEditor.GetDimensionScale( field.bounds.Height, 1.0 );
 
 						if( !field.extra.print_text && !(field.extra.text_from_db && field.extra.column > -1) )
 							continue;
@@ -2358,6 +2576,110 @@ CD_mtvPatterns_AfterSelect:
 		{
 			Settings options = new Settings( 0 );
 			options.ShowDialog( this );
+		}
+
+
+
+
+
+
+		// ------------------------------------------------------------- gmprClearList_Click --------------------------
+		
+		private void gmprClearList_Click( object sender, EventArgs ev )
+		{
+			// wyczyść ostatnio otwierane projekty
+			this.gSettings.LastPatterns = new List<string>();
+
+			// usuń pozycje w menu
+			while( this.gmpRecent.DropDownItems.Count > 2 )
+				this.gmpRecent.DropDownItems.RemoveAt( 0 );
+
+			// wyłącz pozycje w menu
+			this.gmpRecent.Enabled = false;
+			GC.Collect();
+		}
+
+		// ------------------------------------------------------------- gmpRecent_RefreshList ------------------------
+		
+		private void gmpRecent_RefreshList( )
+		{
+#		if DEBUG
+			Console.WriteLine( "Uzupełnianie listy ostatnio otwieranych wzorów." );
+#		endif
+
+			// usuń pozycje w menu
+			while( this.gmpRecent.DropDownItems.Count > 2 )
+				this.gmpRecent.DropDownItems.RemoveAt( 0 );
+
+			List<string> lpatterns = this.gSettings.LastPatterns;
+
+			// dodaj ostatnio używane wzory
+			if( lpatterns.Count > 0 )
+			{
+				this.gmpRecent.Enabled = true;
+				for( int x = 0; x < lpatterns.Count; ++x )
+				{
+					this.gmpRecent.DropDownItems.Insert( x, new ToolStripMenuItem((x+1) + ": " + lpatterns[x]) );
+					this.gmpRecent.DropDownItems[x].Click += new EventHandler( this.gmprItem_Click );
+				}
+			}
+			// jeżeli brak, wyłącz pole
+			else
+				this.gmpRecent.Enabled = false;
+
+			GC.Collect();
+		}
+
+		// ------------------------------------------------------------- gmprItem_Click -------------------------------
+		
+		private void gmprItem_Click( object sender, EventArgs ev )
+		{
+			// wyszukaj wzór na liście
+			string pattern = ((ToolStripItem)sender).Text;
+			pattern = pattern.Substring( pattern.IndexOf(':') + 2 ).Trim();
+
+			// wyszukaj wzór na liście
+			int index = 0;
+			for( ; index < this.mtvPatterns.Nodes.Count; ++index )
+				if( this.mtvPatterns.Nodes[index].Text == pattern )
+					break;
+
+			// brak wzoru na liście
+			if( index == this.mtvPatterns.Nodes.Count )
+			{
+				MessageBox.Show
+				(
+					this,
+					"Wybrany wzór już nie istnieje!\nW związku z powyższym, zostanie on usunięty z listy.",
+					"Otwieranie wzoru",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Warning
+				);
+
+				// usuń wzór i odśwież elementy
+				this.gSettings.RemoveFromLastPatterns( pattern );
+				this.gmpRecent_RefreshList();
+
+				return;
+			}
+
+			// zaznacz i edytuj wzór
+			this.mtvPatterns.SelectedNode = this.mtvPatterns.Nodes[index];
+			this.ictEdit_Click( null, null );
+		}
+
+
+
+		private void ppPanelContainer_Resize( object sender, EventArgs ev )
+		{
+			foreach( AlignedPage page in this.ppPreview.Controls )
+				page.CheckLocation();
+		}
+
+		private void dpPreview_Resize( object sender, EventArgs ev )
+		{
+			foreach( AlignedPage page in this.dpPreview.Controls )
+				page.CheckLocation();
 		}
 	}
 }

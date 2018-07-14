@@ -35,7 +35,7 @@ namespace CDesigner
 	public class PatternEditor
 	{
 		private static string _last_created  = "";
-		private static double _pixel_per_dpi = 3.938095238095238;
+		private static double _pixel_per_dpi = 3.93714927048264;
 
 
 		// ------------------------------------------------------------- LastCreated ----------------------------------
@@ -79,6 +79,10 @@ namespace CDesigner
 			 *     1 | Styl czcionki
 			 *     4 | Rozmiar czcionki
 			 *     4 | Położenie tekstu
+			 *     1 | Transformacja tekstu
+			 *     1 | Margines tekstu
+			 *     4 | Margines lewy-prawy
+			 *     4 | Margines górny-dolny
 			 *     4 | Margines wewnętrzny
 			 *     1 | Tło z bazy danych
 			 *     1 | Drukuj kolor
@@ -91,22 +95,22 @@ namespace CDesigner
 			 *   1 | Drukuj kolor strony
 			 *   1 | Drukuj obraz strony
 			 * ============================================
-			 * ? | @TODO - opcje wzoru
 			 * --------------------------------------------
 			**/
 
+			// ciąg rozpoznawczy
 			byte[] text = new byte[5] { (byte)'C', (byte)'D', (byte)'C', (byte)'F', (byte)'G' };
 			writer.Write( text, 0, 5 );
 
-            writer.Write( (short)width );
-            writer.Write( (short)height );
+            writer.Write( width );
+            writer.Write( height );
 			writer.Write( (byte)1 );
+			writer.Write( false );
 			writer.Write( (byte)0 );
-			writer.Write( (byte)0 );
-			writer.Write( (byte)0 );
+			writer.Write( false );
 			writer.Write( SystemColors.Window.ToArgb() );
-			writer.Write( (byte)0 );
-			writer.Write( (byte)0 );
+			writer.Write( false );
+			writer.Write( false );
 
             // zamknij uchwyty
             writer.Close( );
@@ -121,6 +125,7 @@ namespace CDesigner
 			BinaryReader reader = new BinaryReader( file );
 			PatternData  data   = new PatternData();
 
+			// ciąg początkowy - rozpoznawczy CDCFG
 			byte[] bytes = reader.ReadBytes( 5 );
 			if( bytes[0] != 'C' || bytes[1] != 'D' || bytes[2] != 'C' || bytes[3] != 'F' || bytes[4] != 'G' )
 				return data;
@@ -129,7 +134,7 @@ namespace CDesigner
 			data.name    = pattern;
 			data.size    = new Size( reader.ReadInt16(), reader.ReadInt16() );
 			data.pages   = reader.ReadByte();
-			data.dynamic = reader.ReadByte() == 1;
+			data.dynamic = reader.ReadBoolean();
 
 			// tylko nagłówek
 			if( only_header )
@@ -154,7 +159,7 @@ namespace CDesigner
 			
 				// dane podstawowe
 				page_data.fields     = reader.ReadByte();
-				page_data.image      = reader.ReadByte() == 1;
+				page_data.image      = reader.ReadBoolean();
 				page_data.color      = Color.FromArgb( reader.ReadInt32() );
 				page_data.field      = new FieldData[page_data.fields];
 
@@ -164,28 +169,32 @@ namespace CDesigner
 					field_data = new FieldData();
 
 					// dane podstawowe
-					field_data.name         = reader.ReadString();
-					field_data.bounds       = new RectangleF( reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle() );
-					field_data.border_size  = reader.ReadSingle();
-					field_data.border_color = Color.FromArgb( reader.ReadInt32() );
-					field_data.image        = reader.ReadByte() == 1;
-					field_data.image_path   = null;
-					field_data.color        = Color.FromArgb( reader.ReadInt32() );
-					field_data.font_color   = Color.FromArgb( reader.ReadInt32() );
-					field_data.font_name    = reader.ReadString();
-					field_data.font_style   = (FontStyle)reader.ReadByte();
-					field_data.font_size    = reader.ReadSingle();
-					field_data.text_align   = (ContentAlignment)reader.ReadInt32();
-					field_data.padding      = reader.ReadSingle();
+					field_data.name            = reader.ReadString();
+					field_data.bounds          = new RectangleF( reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle() );
+					field_data.border_size     = reader.ReadSingle();
+					field_data.border_color    = Color.FromArgb( reader.ReadInt32() );
+					field_data.image           = reader.ReadBoolean();
+					field_data.image_path      = null;
+					field_data.color           = Color.FromArgb( reader.ReadInt32() );
+					field_data.font_color      = Color.FromArgb( reader.ReadInt32() );
+					field_data.font_name       = reader.ReadString();
+					field_data.font_style      = (FontStyle)reader.ReadByte();
+					field_data.font_size       = reader.ReadSingle();
+					field_data.text_align      = (ContentAlignment)reader.ReadInt32();
+					field_data.text_transform  = reader.ReadByte();
+					field_data.text_add_margin = reader.ReadBoolean();
+					field_data.text_leftpad    = reader.ReadSingle();
+					field_data.text_toppad     = reader.ReadSingle();
+					field_data.padding         = reader.ReadSingle();
 
 					// dane dodatkowe
 					field_data.extra = new FieldExtraData();
-					field_data.extra.image_from_db = reader.ReadByte() == 1;
-					field_data.extra.print_color   = reader.ReadByte() == 1;
-					field_data.extra.print_image   = reader.ReadByte() == 1;
-					field_data.extra.text_from_db  = reader.ReadByte() == 1;
-					field_data.extra.print_text    = reader.ReadByte() == 1;
-					field_data.extra.print_border  = reader.ReadByte() == 1;
+					field_data.extra.image_from_db = reader.ReadBoolean();
+					field_data.extra.print_color   = reader.ReadBoolean();
+					field_data.extra.print_image   = reader.ReadBoolean();
+					field_data.extra.text_from_db  = reader.ReadBoolean();
+					field_data.extra.print_text    = reader.ReadBoolean();
+					field_data.extra.print_border  = reader.ReadBoolean();
 					field_data.extra.pos_align     = reader.ReadInt32();
 					field_data.extra.column        = -1;
 					
@@ -194,8 +203,8 @@ namespace CDesigner
 
 				// informacje dodatkowe
 				page_data.extra = new PageExtraData();
-				page_data.extra.print_color = reader.ReadByte() == 1;
-				page_data.extra.print_image = reader.ReadByte() == 1;
+				page_data.extra.print_color = reader.ReadBoolean();
+				page_data.extra.print_image = reader.ReadBoolean();
 				page_data.extra.image_path  = null;
 
 				data.page[x] = page_data;
@@ -241,7 +250,9 @@ namespace CDesigner
 			// dodawaj strony
 			for( int x = 0; x < data.pages; ++x )
 			{
-				Panel page = new Panel();
+				AlignedPage page = new AlignedPage();
+				page.Align = 1;
+
 				page_data = data.page[x];
 
 				// tło strony
@@ -314,10 +325,13 @@ namespace CDesigner
 					try   { font_family = new FontFamily( field_data.font_name ); }
 					catch { font_family = new FontFamily( "Arial" ); }
 
-					field.Font        = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.World );
-					field.DPIFontSize = field_data.font_size;
-					field.TextAlign   = field_data.text_align;
-					field.DPIPadding  = field_data.padding;
+					field.Font            = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.World );
+					field.DPIFontSize     = field_data.font_size;
+					field.TextAlign       = field_data.text_align;
+					field.TextTransform   = field_data.text_transform;
+					field.DPIPadding      = field_data.padding;
+					field.TextMargin      = new PointF( field_data.text_leftpad, field_data.text_toppad );
+					field.ApplyTextMargin = field_data.text_add_margin;
 					
 					// skalowanie
 					field.DPIScale = scale;
@@ -361,7 +375,9 @@ namespace CDesigner
 			// dodawaj strony
 			for( int x = 0; x < data.pages; ++x )
 			{
-				Panel page = new Panel();
+				AlignedPage page = new AlignedPage();
+				page.Align = 1;
+
 				page_data = data.page[x];
 
 				// tło strony
@@ -433,10 +449,13 @@ namespace CDesigner
 					try   { font_family = new FontFamily( field_data.font_name ); }
 					catch { font_family = new FontFamily( "Arial" ); }
 
-					field.Font        = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.Point );
-					field.DPIFontSize = field_data.font_size;
-					field.TextAlign   = field_data.text_align;
-					field.DPIPadding  = field_data.padding;
+					field.Font            = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.Point );
+					field.DPIFontSize     = field_data.font_size;
+					field.TextAlign       = field_data.text_align;
+					field.TextTransform   = field_data.text_transform;
+					field.DPIPadding      = field_data.padding;
+					field.TextMargin      = new PointF( field_data.text_leftpad, field_data.text_toppad );
+					field.ApplyTextMargin = field_data.text_add_margin;
 					
 					// skalowanie
 					field.DPIScale = scale;
@@ -460,13 +479,13 @@ namespace CDesigner
 		// @TODO
 		public static void DrawRow( Panel panel, DataContent data_content, int row )
 		{
-			Panel     page;
-			PageField field;
+			AlignedPage page;
+			PageField   field;
 
 			// zmień wartości pól
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				page = (Panel)panel.Controls[x];
+				page = (AlignedPage)panel.Controls[x];
 
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
@@ -496,13 +515,13 @@ namespace CDesigner
 				Convert.ToInt32((double)data.size.Height * dpi_pxs)
 			);
 
-			Panel     page;
-			PageField field;
+			AlignedPage page;
+			PageField   field;
 
 			// zmieniaj skale stron i pól
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				page = (Panel)panel.Controls[x];
+				page = (AlignedPage)panel.Controls[x];
 				page.Size = pp_size;
 
 				for( int y = 0; y < page.Controls.Count; ++y )
@@ -524,9 +543,9 @@ namespace CDesigner
 			// rysuj strony
 			for( int x = 0; x < data.pages; ++x )
 			{
-				Bitmap   bmp  = new Bitmap( width, height );
-				Graphics gfx  = Graphics.FromImage( bmp );
-				Panel    page = (Panel)panel.Controls[x];
+				Bitmap      bmp  = new Bitmap( width, height );
+				Graphics    gfx  = Graphics.FromImage( bmp );
+				AlignedPage page = (AlignedPage)panel.Controls[x];
 
 				// obraz lub wypełnienie
 				if( page.BackgroundImage != null )
@@ -537,6 +556,7 @@ namespace CDesigner
 					gfx.FillRectangle( brush, 0, 0, width, height );
 				}
 
+				// @TODO - TextTransform
 				// rysuj pola
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
@@ -575,6 +595,10 @@ namespace CDesigner
 					int        pad = Convert.ToInt32((double)field.DPIPadding * dpi_pxs);
 					RectangleF box = new RectangleF( bounds.X + pad, bounds.Y + pad, bounds.Width - pad * 2, bounds.Height - pad * 2 );
 
+					// powięsz prostokąt dla czcionki
+					box.Height++;
+					box.Width++;
+
 					// rozmieszczenie tekstu
 					if( ((int)field.TextAlign & 0x111) != 0 )
 						format.Alignment = StringAlignment.Near;
@@ -590,8 +614,8 @@ namespace CDesigner
 					else
 						format.LineAlignment = StringAlignment.Far;
 
-					// rysuj tekst
 					gfx.DrawString( field.Text, font, lbrush, box, format );
+					//TextRenderer.DrawText( gfx, fiedl.Text, font, box, Color.Aqua, Color.Transparent, 
 
 					int border_size = Convert.ToInt32((double)field.DPIBorderSize * dpi_pxs);
 					Pen border_pen  = new Pen( field.BorderColor );
@@ -599,10 +623,9 @@ namespace CDesigner
 					if( field.DPIBorderSize > 0.0 && border_size == 0 )
 						border_size = 1;
 
-					// rysuj ramkę
-					// @TODO: poprawić
-					//bounds.Width--;
-					//bounds.Height--;
+					// rysuj ramkę (x i y liczony jest od lewego górnego rogu, dlatego odejmuje się 1)
+					bounds.Width--;
+					bounds.Height--;
 
 					for( int z = 0; z < border_size; ++z )
 						gfx.DrawRectangle( border_pen, bounds.X + z, bounds.Y + z, bounds.Width - z * 2, bounds.Height - z * 2 );
@@ -640,22 +663,22 @@ namespace CDesigner
 						break;
 					}
 				}
-
-			writer.Write( (byte)(dynamic ? 1 : 0) );
+			writer.Write( dynamic );
 			
 			// zapisz konfiguracje stron
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				Panel page = (Panel)panel.Controls[x];
+				AlignedPage page = (AlignedPage)panel.Controls[x];
 
+				// obraz strony
 				writer.Write( (byte)page.Controls.Count );
 				if( page.BackgroundImage != null )
 				{
 					page.BackgroundImage.Save( "patterns/" + pattern + "/images/page" + x + ".jpg" );
-					writer.Write( (byte)1 );
+					writer.Write( true );
 				}
 				else
-					writer.Write( (byte)0 );
+					writer.Write( false );
 
 				writer.Write( page.BackColor.ToArgb() );
 
@@ -664,7 +687,7 @@ namespace CDesigner
 				{
 					PageField field = (PageField)page.Controls[y];
 
-					writer.Write( field.Text );
+					writer.Write( field.OriginalText );
 					writer.Write( field.DPIBounds.X );
 					writer.Write( field.DPIBounds.Y );
 					writer.Write( field.DPIBounds.Width );
@@ -673,38 +696,46 @@ namespace CDesigner
 					writer.Write( field.DPIBorderSize );
 					writer.Write( field.BorderColor.ToArgb() );
 
+					// obraz podglądu lub statyczny
 					if( field.BackImage != null )
 					{
 						field.BackImage.Save( "patterns/" + pattern + "/images/field" + y + "_" + x + ".jpg" );
-						writer.Write( (byte)1 );
+						writer.Write( true );
 					}
 					else
-						writer.Write( (byte)0 );
+						writer.Write( false );
 
 					writer.Write( field.BackColor.ToArgb() );
 					writer.Write( field.ForeColor.ToArgb() );
 
+					// czcionka i tekst
 					writer.Write( field.Font.Name );
 					writer.Write( (byte)field.Font.Style );
 					writer.Write( (float)field.DPIFontSize );
 					writer.Write( (int)field.TextAlign );
+					writer.Write( (byte)field.TextTransform );
+					writer.Write( field.ApplyTextMargin );
+					writer.Write( field.TextMargin.X );
+					writer.Write( field.TextMargin.Y );
 					writer.Write( field.DPIPadding );
 
 					FieldExtraData field_extra = (FieldExtraData)field.Tag;
 
-					writer.Write( (byte)(field_extra.image_from_db ? 1 : 0) );
-					writer.Write( (byte)(field_extra.print_color ? 1 : 0) );
-					writer.Write( (byte)(field_extra.print_image ? 1 : 0) );
-					writer.Write( (byte)(field_extra.text_from_db ? 1 : 0) );
-					writer.Write( (byte)(field_extra.print_text ? 1 : 0) );
-					writer.Write( (byte)(field_extra.print_border ? 1 : 0) );
+					// informacje dodatkowe pola
+					writer.Write( field_extra.image_from_db );
+					writer.Write( field_extra.print_color );
+					writer.Write( field_extra.print_image );
+					writer.Write( field_extra.text_from_db );
+					writer.Write( field_extra.print_text );
+					writer.Write( field_extra.print_border );
 					writer.Write( (int)field_extra.pos_align );
 				}
 
 				PageExtraData page_extra = (PageExtraData)page.Tag;
 
-				writer.Write( (byte)(page_extra.print_color ? 1 : 0) );
-				writer.Write( (byte)(page_extra.print_image ? 1 : 0) );
+				// informacje dodatkowe strony
+				writer.Write( page_extra.print_color );
+				writer.Write( page_extra.print_image );
 			}
 
 			writer.Close();
@@ -715,7 +746,7 @@ namespace CDesigner
 		
 		public static void GeneratePDF( DataContent data, PatternData pdata )
 		{
-			double scale = 0.0;
+			double scale = 0.0, scalz = 0.0;
 
 			PdfDocument pdf = new PdfDocument();
 
@@ -729,6 +760,7 @@ namespace CDesigner
 
 				// oblicz skale powiększenia
 				scale = page.Width.Presentation / (pdata.size.Width * PatternEditor._pixel_per_dpi);
+				scalz = page.Width.Value / (pdata.size.Width * PatternEditor._pixel_per_dpi);
 
 				XGraphics gfx = XGraphics.FromPdfPage( page );
 				XPdfFontOptions foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
@@ -806,6 +838,10 @@ namespace CDesigner
 								}
 							}
 
+							double font_diff = (((double)((float)font.Height - font.Size) / 2.0) * scale);
+							bounds.Y      -= scale;
+							bounds.Height += scale * 2.0;
+
 							// sprawdź czy tekst nie jest pusty
 							string test = text.Trim();
 							if( test != "" && test != null )
@@ -851,7 +887,7 @@ namespace CDesigner
 			pdf.Save( "output.pdf" );
 		}
 
-		// ------------------------------------------------------------- GeneratePDF ----------------------------------
+		// ------------------------------------------------------------- GetDimensionScale ----------------------------
 		
 		public static float GetDimensionScale( float width, double scale )
 		{

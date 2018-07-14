@@ -16,23 +16,32 @@ namespace CDesigner
 		private RectangleF _dpi_bounds      = new RectangleF( 0.0f, 0.0f, 1.0f, 1.0f );
 		private float      _dpi_border_size = 0.0f;
 		private double     _dpi_scale       = 1.0;
-		private double     _dpi_conv_scale  = 3.938095238095238;
+		private double     _dpi_conv_scale  = 3.93714927048264;
 		private double     _dpi_font_size   = 8.25;
+		private PointF     _dpi_text_margin = new PointF( 2.0f, 2.0f );
 		private float      _dpi_padding     = 0.0f;
 		private Image      _back_image      = null;
-		private double     _pixels_per_dpi  = 3.938095238095238;
+		private double     _pixels_per_dpi  = 3.93714927048264;
 		private Size       _parent_bounds   = new Size(800, 600);
+		private int        _text_transform  = 0;
+		private string     _original_text   = null;
+		private string     _current_text    = "";
+		private bool       _extra_margin    = false;
+		private PointF     _text_margin     = new PointF( 0.0f, 0.0f );
 
 		// ------------------------------------------------------------- DPIBorderSize --------------------------------
 		
 		public float DPIBorderSize
 		{
+			// pobierz rozmiar ramki (w mm)
 			get { return this._dpi_border_size; }
+			// ustaw rozmiar ramki
 			set
 			{
 				this._dpi_border_size = value;
 				this._border_size = Convert.ToInt32( (double)this._dpi_border_size * this._dpi_conv_scale );
 
+				// ramka musi być widoczna, gdy jest włączona...
 				if( this._dpi_border_size > 0.0 && this._border_size == 0 )
 					this._border_size = 1;
 			}
@@ -42,7 +51,9 @@ namespace CDesigner
 		
 		public Color BorderColor
 		{
+			// pobierz kolor ramki
 			get { return this._border_color; }
+			// ustaw color ramki
 			set { this._border_color = value; }
 		}
 
@@ -50,7 +61,9 @@ namespace CDesigner
 		
 		public float DPIPadding
 		{
+			// pobierz wcięcie (w mm)
 			get { return this._dpi_padding; }
+			// ustaw wcięcie
 			set
 			{
 				this._dpi_padding = value;
@@ -66,7 +79,9 @@ namespace CDesigner
 
 		public RectangleF DPIBounds
 		{
+			// pobierz granice kontroki (w mm)
 			get { return this._dpi_bounds; }
+			// ustaw granice kontrolki
 			set
 			{
 				// pozycja X
@@ -101,7 +116,9 @@ namespace CDesigner
 
 		public double DPIFontSize
 		{
+			// pobierz rozmiar czcionki (rozmiar * skala)
 			get { return this._dpi_font_size; }
+			// ustaw rozmiar czcionki
 			set
 			{
 				// rozmiar czcionki nie może być mniejszy od 1...
@@ -128,15 +145,39 @@ namespace CDesigner
 
 		public Image BackImage
 		{
+			// pobierz obraz tła
 			get { return this._back_image; }
+			// ustaw obraz tła
 			set { this._back_image = value; }
+		}
+
+		// ------------------------------------------------------------- TextMargin -----------------------------------
+
+		public PointF TextMargin
+		{
+			get { return this._dpi_text_margin; }
+			set
+			{
+				this._dpi_text_margin = value;
+				this._text_margin = new PointF( (float)(value.X * this._dpi_scale), (float)(value.Y * this._dpi_scale) );
+			}
+		}
+
+		// ------------------------------------------------------------- ApplyTextMargin ------------------------------
+
+		public bool ApplyTextMargin
+		{
+			get { return this._extra_margin; }
+			set { this._extra_margin = value; }
 		}
 
 		// ------------------------------------------------------------- BackImagePath --------------------------------
 
 		public string BackImagePath
 		{
+			// pobierz ścieżkę do aktualnego obrazu
 			get { return this._image_path; }
+			// ustaw nową ścieżkę do obrazu
 			set { this._image_path = value; }
 		}
 
@@ -144,7 +185,10 @@ namespace CDesigner
 
 		public double DPIScale
 		{
+			// pobierz aktualną skalę DPI
 			get { return this._dpi_scale; }
+			// ustaw skalę DPI
+			// @TODO - ustawienia DPI
 			set
 			{
 				// od 50 do 300 DPI
@@ -160,11 +204,62 @@ namespace CDesigner
 				this.DPIPadding    = this.DPIPadding;
 			}
 		}
+
+		// ------------------------------------------------------------- TextTransform --------------------------------
 		
+		public int TextTransform
+		{
+			// pobierz transformacje tekstu
+			get { return this._text_transform; }
+			// ustaw transformacje tekstu
+			set
+			{
+				this._text_transform = value;
+				switch( this._text_transform )
+				{
+				case 0: this._current_text = this._original_text; break;
+				case 1: this._current_text = this._original_text.ToUpper(); break;
+				case 2: this._current_text = this._original_text.ToLower(); break;
+				case 3: this._current_text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase( this._original_text.ToLower() ); break;
+				}
+				this.Refresh();
+			}
+		}
+
+		// ------------------------------------------------------------- Text -----------------------------------------
+		
+		public override string Text
+		{
+			// pobierz tekst kontrolki
+			get { return this._current_text; }
+			// zmień tekst kontrolki
+			set
+			{
+				this._original_text = value;
+				switch( this._text_transform )
+				{
+				case 0: this._current_text = value; break;
+				case 1: this._current_text = value.ToUpper(); break;
+				case 2: this._current_text = value.ToLower(); break;
+				case 3: this._current_text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase( value.ToLower() ); break;
+				}
+				this.Refresh();
+			}
+		}
+
+		// ------------------------------------------------------------- OriginalText ---------------------------------
+		
+		public string OriginalText
+		{
+			// pobierz oryginalny tekst kontrolki (bez transformacji)
+			get { return this._original_text; }
+		}
+
 		// ------------------------------------------------------------- DPIBorderSize --------------------------------
 		
 		public void SetParentBounds( int width, int height, bool conv )
 		{
+			// konwersja z milimetrów
 			if( conv )
 			{
 				this._parent_bounds.Width  = Convert.ToInt32( (double)width * this._dpi_conv_scale );
@@ -351,5 +446,5 @@ namespace CDesigner
 					this._border_color, this._border_size, ButtonBorderStyle.Solid,
 					this._border_color, this._border_size, ButtonBorderStyle.Solid );
 		}
-	};
+	}
 }

@@ -15,7 +15,7 @@ namespace CDesigner
 		
 		public Info()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 
 		// ------------------------------------------------------------- bClose_Click ---------------------------------

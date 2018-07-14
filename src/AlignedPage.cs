@@ -1,15 +1,4 @@
-﻿/**
- * Rozszerzenie klasy PictureBox.
- * Dodaje przyleganie obrazu do rodzica względem podanej wartości.
- *
- * Copyright ⓒ 2015. Wszystkie prawa zastrzeżone.
- *
- * Autor  - Kamil Biały
- * Wersja - 1.0
- * Zmiana - 2015-06-01
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,23 +7,7 @@ using System.Drawing;
 
 namespace CDesigner
 {
-	/**
-	 * Rozszerzenie klasy PictureBox.
-	 * Pozwala na przyleganie obrazu do dowolnej części rodzica (lewo, prawo, środek...).
-	 * Używany na stronie początkowej (z listą wzorów).
-	 * 
-	 * Przyleganie i wartości zmiennej _align (Align):
-	 * 0 - lewo   - góra
-	 * 1 - środek - góra
-	 * 2 - prawo  - góra
-	 * 3 - lewo   - środek
-	 * 4 - środek - środek
-	 * 5 - prawo  - środek
-	 * 6 - lewo   - dół
-	 * 7 - środek - dół
-	 * 8 - prawo  - dół
-	 */
-	public class AlignedPictureBox : PictureBox
+	class AlignedPage : Panel
 	{
 		private int _align = 0;
 
@@ -53,8 +26,7 @@ namespace CDesigner
 			Panel parent   = (Panel)this.Parent;
 			Point location = this.Location;
 
-			// brak obrazka lub przyleganie do lewej
-			if( this.Image == null || parent == null || this._align == 0 )
+			if( parent == null || this._align == 0 )
 			{
 				this.Location = new Point( 0, 0 );
 				return;
@@ -105,5 +77,5 @@ namespace CDesigner
 
 			base.OnPaint( ev );
 		}
-	};
+	}
 }

@@ -23,12 +23,12 @@ echo ### Generating resources...
 @echo on
 resgen /useSourcePath ^
 	/compile ^
-		resx/Main.resx,obj/CDesigner.Main.resources ^
-		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources ^
-        resx/DataReader.resx,obj/CDesigner.DataReader.resources ^
-        resx/Info.resx,obj/CDesigner.Info.resources ^
-        resx/Settings.resx,obj/CDesigner.Settings.resources ^
-		properties/Resources.resx,obj/CDesigner.Properties.Resources.resources
+		resx\Main.resx,obj\CDesigner.Main.resources ^
+		resx\NewPattern.resx,obj\CDesigner.NewPattern.resources ^
+        resx\DataReader.resx,obj\CDesigner.DataReader.resources ^
+        resx\Info.resx,obj\CDesigner.Info.resources ^
+        resx\Settings.resx,obj\CDesigner.Settings.resources ^
+		properties\Resources.resx,obj\CDesigner.Properties.Resources.resources
 @echo off
 
 :: create dll and build directory
@@ -69,37 +69,40 @@ if %ERRORLEVEL% neq 0 (
 echo ### Compiling application...
 @echo on
 
-csc /reference:dll/PdfSharp.dll ^
-	/out:build/CDesigner.exe ^
-	/resource:obj/CDesigner.Main.resources ^
-	/resource:obj/CDesigner.NewPattern.resources ^
-    /resource:obj/CDesigner.DataReader.resources ^
-    /resource:obj/CDesigner.Info.resources ^
-    /resource:obj/CDesigner.Settings.resources ^
-	/resource:obj/CDesigner.Properties.Resources.resources ^
+csc /reference:dll\PdfSharp.dll ^
+	/out:build\CDesigner.exe ^
+	/resource:obj\CDesigner.Main.resources ^
+	/resource:obj\CDesigner.NewPattern.resources ^
+    /resource:obj\CDesigner.DataReader.resources ^
+    /resource:obj\CDesigner.Info.resources ^
+    /resource:obj\CDesigner.Settings.resources ^
+	/resource:obj\CDesigner.Properties.Resources.resources ^
+	/win32manifest:properties\app.manifest ^
+	/win32icon:resources\cdesigner.ico ^
 	/target:winexe ^
 	/utf8output ^
-		src/AlignedPictureBox.cs ^
-		src/PageField.cs ^
-        src/ExtendLabel.cs ^
-		src/Main.cs ^
-		designer/Main.Designer.cs ^
-		src/Info.cs ^
-		designer/Info.Designer.cs ^
-		src/NewPattern.cs ^
-		designer/NewPattern.Designer.cs ^
-		src/Settings.cs ^
-		designer/Settings.Designer.cs ^
-        src/PatternEditor.cs ^
-		src/Program.cs ^
-		src/Structs.cs ^
-        src/DataReader.cs ^
-        designer/DataReader.Designer.cs ^
-		properties/AssemblyInfo.cs ^
-		properties/Resources.Designer.cs
+		src\AlignedPage.cs ^
+		src\AlignedPictureBox.cs ^
+		src\PageField.cs ^
+		src\Main.cs ^
+		designer\Main.Designer.cs ^
+		src\Info.cs ^
+		designer\Info.Designer.cs ^
+		src\NewPattern.cs ^
+		designer\NewPattern.Designer.cs ^
+		src\Settings.cs ^
+		designer\Settings.Designer.cs ^
+        src\PatternEditor.cs ^
+		src\Program.cs ^
+		src\Structs.cs ^
+        src\DataReader.cs ^
+        designer\DataReader.Designer.cs ^
+		properties\AssemblyInfo.cs ^
+		properties\Resources.Designer.cs
 
 @echo off
 
+:: create icons folder
 if not exist build\icons (
 	echo ### Creating "build\icons" directory...
 	mkdir build\icons
@@ -110,14 +113,28 @@ echo ### Copy images and dlls
 :: copying image and dll files
 copy /Y resources\noimage.png build
 copy /Y dll\PdfSharp.dll build
-copy /Y resources\icons\format-a4.png build\icons
-copy /Y resources\icons\format-a5.png build\icons
-copy /Y resources\icons\format-error.png build\icons
-copy /Y resources\icons\format-unknown.png build\icons
 copy /Y resources\icons\image-field.png build\icons
 copy /Y resources\icons\text-field.png build\icons
 copy /Y resources\transparent.png build
-copy /Y resources\logo.jpg build
+copy /Y resources\cdrestore.ico build
+copy /Y resources\icons\cdrestore-512.png build\icons
+copy /Y resources\icons\cdrestore-256.png build\icons
+copy /Y resources\icons\cdrestore-128.png build\icons
+copy /Y resources\icons\cdrestore-96.png build\icons
+copy /Y resources\icons\cdrestore-64.png build\icons
+copy /Y resources\icons\cdrestore-48.png build\icons
+copy /Y resources\icons\cdrestore-32.png build\icons
+copy /Y resources\icons\cdrestore-16.png build\icons
+copy /Y resources\cdesigner.ico build
+copy /Y resources\icons\cdesigner-512.png build\icons
+copy /Y resources\icons\cdesigner-256.png build\icons
+copy /Y resources\icons\cdesigner-128.png build\icons
+copy /Y resources\icons\cdesigner-96.png build\icons
+copy /Y resources\icons\cdesigner-64.png build\icons
+copy /Y resources\icons\cdesigner-48.png build\icons
+copy /Y resources\icons\cdesigner-32.png build\icons
+copy /Y resources\icons\cdesigner-16.png build\icons
+copy /Y resources\icons\add-pattern.png build\icons
 
 echo ### Finished
 exit /B 0

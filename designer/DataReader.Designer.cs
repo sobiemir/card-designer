@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataReader));
 			this.tMainPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.fPageContainer = new System.Windows.Forms.FlowLayoutPanel();
 			this.lPage = new System.Windows.Forms.Label();
@@ -250,6 +251,7 @@
 			this.ClientSize = new System.Drawing.Size(574, 352);
 			this.Controls.Add(this.tMainPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.Name = "DataReader";

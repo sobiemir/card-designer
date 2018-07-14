@@ -28,20 +28,22 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Info));
 			this.tbTable = new System.Windows.Forms.TableLayoutPanel();
 			this.pPanel = new System.Windows.Forms.Panel();
-			this.pbImage = new System.Windows.Forms.PictureBox();
+			this.pbLogo = new System.Windows.Forms.PictureBox();
+			this.pbWho = new System.Windows.Forms.PictureBox();
 			this.lIT = new System.Windows.Forms.Label();
-			this.lUniv = new System.Windows.Forms.Label();
 			this.lProgram = new System.Windows.Forms.Label();
 			this.lCopyright = new System.Windows.Forms.Label();
 			this.lAuthor = new System.Windows.Forms.Label();
-			this.lVersion = new System.Windows.Forms.Label();
-			this.lName = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.bClose = new System.Windows.Forms.Button();
 			this.tbTable.SuspendLayout();
 			this.pPanel.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pbWho)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tbTable
@@ -56,111 +58,116 @@
 			this.tbTable.RowCount = 2;
 			this.tbTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tbTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-			this.tbTable.Size = new System.Drawing.Size(327, 300);
+			this.tbTable.Size = new System.Drawing.Size(398, 292);
 			this.tbTable.TabIndex = 0;
 			// 
 			// pPanel
 			// 
 			this.pPanel.BackColor = System.Drawing.SystemColors.Window;
 			this.pPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pPanel.Controls.Add(this.pbImage);
+			this.pPanel.Controls.Add(this.pbLogo);
+			this.pPanel.Controls.Add(this.pbWho);
 			this.pPanel.Controls.Add(this.lIT);
-			this.pPanel.Controls.Add(this.lUniv);
 			this.pPanel.Controls.Add(this.lProgram);
 			this.pPanel.Controls.Add(this.lCopyright);
 			this.pPanel.Controls.Add(this.lAuthor);
-			this.pPanel.Controls.Add(this.lVersion);
-			this.pPanel.Controls.Add(this.lName);
+			this.pPanel.Controls.Add(this.label2);
+			this.pPanel.Controls.Add(this.label1);
 			this.pPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.pPanel.Location = new System.Drawing.Point(5, 5);
 			this.pPanel.Margin = new System.Windows.Forms.Padding(5, 5, 5, 0);
 			this.pPanel.Name = "pPanel";
-			this.pPanel.Size = new System.Drawing.Size(317, 261);
+			this.pPanel.Size = new System.Drawing.Size(388, 253);
 			this.pPanel.TabIndex = 0;
 			// 
-			// pbImage
+			// pbLogo
 			// 
-			this.pbImage.Image = global::CDesigner.Properties.Resources.logoInfo;
-			this.pbImage.Location = new System.Drawing.Point(9, 178);
-			this.pbImage.Name = "pbImage";
-			this.pbImage.Size = new System.Drawing.Size(296, 74);
-			this.pbImage.TabIndex = 20;
-			this.pbImage.TabStop = false;
+			this.pbLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbLogo.Image")));
+			this.pbLogo.Location = new System.Drawing.Point(252, 6);
+			this.pbLogo.Name = "pbLogo";
+			this.pbLogo.Size = new System.Drawing.Size(128, 128);
+			this.pbLogo.TabIndex = 21;
+			this.pbLogo.TabStop = false;
+			// 
+			// pbWho
+			// 
+			this.pbWho.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pbWho.BackgroundImage")));
+			this.pbWho.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+			this.pbWho.Location = new System.Drawing.Point(6, 140);
+			this.pbWho.Name = "pbWho";
+			this.pbWho.Size = new System.Drawing.Size(374, 105);
+			this.pbWho.TabIndex = 20;
+			this.pbWho.TabStop = false;
 			// 
 			// lIT
 			// 
 			this.lIT.AutoSize = true;
-			this.lIT.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lIT.Location = new System.Drawing.Point(9, 78);
+			this.lIT.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lIT.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.lIT.Location = new System.Drawing.Point(6, 73);
 			this.lIT.Name = "lIT";
-			this.lIT.Size = new System.Drawing.Size(223, 18);
+			this.lIT.Size = new System.Drawing.Size(185, 13);
 			this.lIT.TabIndex = 19;
 			this.lIT.Text = "Instytut Politechniczny - Informatyka";
-			// 
-			// lUniv
-			// 
-			this.lUniv.AutoSize = true;
-			this.lUniv.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lUniv.Location = new System.Drawing.Point(9, 157);
-			this.lUniv.Name = "lUniv";
-			this.lUniv.Size = new System.Drawing.Size(299, 18);
-			this.lUniv.TabIndex = 18;
-			this.lUniv.Text = "Edukacyjne i obrony pracy inżynierskiej";
 			// 
 			// lProgram
 			// 
 			this.lProgram.AutoSize = true;
-			this.lProgram.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lProgram.Location = new System.Drawing.Point(9, 139);
+			this.lProgram.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lProgram.Location = new System.Drawing.Point(6, 119);
 			this.lProgram.Name = "lProgram";
-			this.lProgram.Size = new System.Drawing.Size(145, 18);
+			this.lProgram.Size = new System.Drawing.Size(207, 16);
 			this.lProgram.TabIndex = 17;
-			this.lProgram.Text = "Program stworzony na potrzeby:";
+			this.lProgram.Text = "Kopia programu przeznaczona dla:";
 			// 
 			// lCopyright
 			// 
 			this.lCopyright.AutoSize = true;
-			this.lCopyright.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lCopyright.Location = new System.Drawing.Point(9, 96);
+			this.lCopyright.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lCopyright.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.lCopyright.Location = new System.Drawing.Point(6, 89);
 			this.lCopyright.Name = "lCopyright";
-			this.lCopyright.Size = new System.Drawing.Size(281, 18);
+			this.lCopyright.Size = new System.Drawing.Size(247, 13);
 			this.lCopyright.TabIndex = 16;
-			this.lCopyright.Text = "Państwowa Wyższa Szkoła Zawodowa w Krośnie";
+			this.lCopyright.Text = "Copyright © 2015. Wszystkie prawa zastrzeżone.";
 			// 
 			// lAuthor
 			// 
 			this.lAuthor.AutoSize = true;
-			this.lAuthor.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lAuthor.Location = new System.Drawing.Point(9, 60);
+			this.lAuthor.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.lAuthor.Location = new System.Drawing.Point(6, 55);
 			this.lAuthor.Name = "lAuthor";
-			this.lAuthor.Size = new System.Drawing.Size(113, 18);
+			this.lAuthor.Size = new System.Drawing.Size(110, 16);
 			this.lAuthor.TabIndex = 15;
 			this.lAuthor.Text = "Autor: Kamil Biały";
 			// 
-			// lVersion
+			// label2
 			// 
-			this.lVersion.AutoSize = true;
-			this.lVersion.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lVersion.Location = new System.Drawing.Point(9, 24);
-			this.lVersion.Name = "lVersion";
-			this.lVersion.Size = new System.Drawing.Size(34, 18);
-			this.lVersion.TabIndex = 14;
-			this.lVersion.Text = "v0.4.0";
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.label2.ForeColor = System.Drawing.Color.Gray;
+			this.label2.Location = new System.Drawing.Point(7, 25);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(121, 13);
+			this.label2.TabIndex = 14;
+			this.label2.Text = "v1.0.0261-1433663926";
 			// 
-			// lName
+			// label1
 			// 
-			this.lName.AutoSize = true;
-			this.lName.Font = new System.Drawing.Font("Trebuchet MS", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lName.Location = new System.Drawing.Point(9, 6);
-			this.lName.Name = "lName";
-			this.lName.Size = new System.Drawing.Size(184, 18);
-			this.lName.TabIndex = 13;
-			this.lName.Text = "CDesigner - Kreator dyplomów";
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.label1.ForeColor = System.Drawing.Color.Black;
+			this.label1.Location = new System.Drawing.Point(6, 6);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(227, 19);
+			this.label1.TabIndex = 13;
+			this.label1.Text = "CDesigner - Kreator dyplomów";
 			// 
 			// bClose
 			// 
 			this.bClose.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.bClose.Location = new System.Drawing.Point(113, 271);
+			this.bClose.Location = new System.Drawing.Point(149, 263);
 			this.bClose.Name = "bClose";
 			this.bClose.Size = new System.Drawing.Size(100, 23);
 			this.bClose.TabIndex = 2;
@@ -173,9 +180,10 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
-			this.ClientSize = new System.Drawing.Size(327, 300);
+			this.ClientSize = new System.Drawing.Size(398, 292);
 			this.Controls.Add(this.tbTable);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "Info";
@@ -183,7 +191,8 @@
 			this.tbTable.ResumeLayout(false);
 			this.pPanel.ResumeLayout(false);
 			this.pPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbImage)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pbWho)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -192,15 +201,15 @@
 
 		private System.Windows.Forms.TableLayoutPanel tbTable;
 		private System.Windows.Forms.Panel pPanel;
-		private System.Windows.Forms.PictureBox pbImage;
+		private System.Windows.Forms.PictureBox pbWho;
 		private System.Windows.Forms.Label lIT;
-		private System.Windows.Forms.Label lUniv;
-		private System.Windows.Forms.Label lProgram;
 		private System.Windows.Forms.Label lCopyright;
 		private System.Windows.Forms.Label lAuthor;
-		private System.Windows.Forms.Label lVersion;
-		private System.Windows.Forms.Label lName;
 		private System.Windows.Forms.Button bClose;
+		private System.Windows.Forms.PictureBox pbLogo;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label lProgram;
 
 	}
 }

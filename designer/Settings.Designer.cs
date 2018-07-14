@@ -28,25 +28,19 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem("100");
-			System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem("150");
-			System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem("200");
-			System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem("300");
-			System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem("50");
-			System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem("75");
-			System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Rozdzielczości");
-			System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Ogólne", new System.Windows.Forms.TreeNode[] {
-            treeNode19});
-			System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Nowe pole");
-			System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Szczegóły pola");
-			System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Nowa strona");
-			System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Edytor", new System.Windows.Forms.TreeNode[] {
-            treeNode21,
-            treeNode22,
-            treeNode23});
-			System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Generowanie PDF");
-			System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Skróty klawiaturowe");
-			System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Formaty wzorów");
+			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Rozdzielczości");
+			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Ogólne", new System.Windows.Forms.TreeNode[] {
+            treeNode10});
+			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Nowe pole");
+			System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Szczegóły pola");
+			System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Nowa strona");
+			System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Edytor", new System.Windows.Forms.TreeNode[] {
+            treeNode12,
+            treeNode13,
+            treeNode14});
+			System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Generowanie PDF");
+			System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Skróty klawiaturowe");
+			System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Formaty wzorów");
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
 			this.tlMain = new System.Windows.Forms.TableLayoutPanel();
 			this.tlButtons = new System.Windows.Forms.TableLayoutPanel();
@@ -55,6 +49,29 @@
 			this.label16 = new System.Windows.Forms.Label();
 			this.tlContent = new System.Windows.Forms.TableLayoutPanel();
 			this.pContent = new System.Windows.Forms.Panel();
+			this.tlEditor = new System.Windows.Forms.TableLayoutPanel();
+			this.label13 = new System.Windows.Forms.Label();
+			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.button4 = new System.Windows.Forms.Button();
+			this.label12 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.checkBox10 = new System.Windows.Forms.CheckBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.checkBox9 = new System.Windows.Forms.CheckBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.checkBox8 = new System.Windows.Forms.CheckBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.checkBox7 = new System.Windows.Forms.CheckBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.checkBox6 = new System.Windows.Forms.CheckBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.checkBox5 = new System.Windows.Forms.CheckBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.checkBox3 = new System.Windows.Forms.CheckBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
 			this.tlGeneral = new System.Windows.Forms.TableLayoutPanel();
 			this.glPrevColor = new System.Windows.Forms.Label();
 			this.gnPixelsPerDPI = new System.Windows.Forms.NumericUpDown();
@@ -84,6 +101,22 @@
 			this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
 			this.gswNoImage = new System.Windows.Forms.CheckBox();
 			this.gbNoPreview = new System.Windows.Forms.Button();
+			this.tlResolutions = new System.Windows.Forms.TableLayoutPanel();
+			this.rlCustomRes = new System.Windows.Forms.Label();
+			this.rtlResEdit = new System.Windows.Forms.TableLayoutPanel();
+			this.rnResolution = new System.Windows.Forms.NumericUpDown();
+			this.rbAddRes = new System.Windows.Forms.Button();
+			this.rbChangeRes = new System.Windows.Forms.Button();
+			this.rbRemoveRes = new System.Windows.Forms.Button();
+			this.rlAvaliable = new System.Windows.Forms.Label();
+			this.rnMaxRes = new System.Windows.Forms.NumericUpDown();
+			this.rnMinRes = new System.Windows.Forms.NumericUpDown();
+			this.rlMaxRes = new System.Windows.Forms.Label();
+			this.rlMinRes = new System.Windows.Forms.Label();
+			this.rlvResList = new System.Windows.Forms.ListView();
+			this.rlvcDPI = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.rlvcResolution = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.rcbCustomRes = new System.Windows.Forms.CheckBox();
 			this.tlDefField = new System.Windows.Forms.TableLayoutPanel();
 			this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
@@ -93,45 +126,6 @@
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-			this.tlEditor = new System.Windows.Forms.TableLayoutPanel();
-			this.label13 = new System.Windows.Forms.Label();
-			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.button4 = new System.Windows.Forms.Button();
-			this.label12 = new System.Windows.Forms.Label();
-			this.label11 = new System.Windows.Forms.Label();
-			this.checkBox10 = new System.Windows.Forms.CheckBox();
-			this.label10 = new System.Windows.Forms.Label();
-			this.checkBox9 = new System.Windows.Forms.CheckBox();
-			this.label9 = new System.Windows.Forms.Label();
-			this.checkBox8 = new System.Windows.Forms.CheckBox();
-			this.label8 = new System.Windows.Forms.Label();
-			this.checkBox7 = new System.Windows.Forms.CheckBox();
-			this.label7 = new System.Windows.Forms.Label();
-			this.checkBox6 = new System.Windows.Forms.CheckBox();
-			this.label6 = new System.Windows.Forms.Label();
-			this.checkBox5 = new System.Windows.Forms.CheckBox();
-			this.label5 = new System.Windows.Forms.Label();
-			this.checkBox3 = new System.Windows.Forms.CheckBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
-			this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-			this.tlResolutions = new System.Windows.Forms.TableLayoutPanel();
-			this.label1 = new System.Windows.Forms.Label();
-			this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
-			this.rlAvaliable = new System.Windows.Forms.Label();
-			this.rnMaxRes = new System.Windows.Forms.NumericUpDown();
-			this.rnMinRes = new System.Windows.Forms.NumericUpDown();
-			this.rlMaxRes = new System.Windows.Forms.Label();
-			this.rlMinRes = new System.Windows.Forms.Label();
-			this.rlvResList = new System.Windows.Forms.ListView();
-			this.rlvcDPI = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.rlvcResolution = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.tlSidebar = new System.Windows.Forms.TableLayoutPanel();
 			this.tvList = new System.Windows.Forms.TreeView();
 			this.pPreview = new System.Windows.Forms.Panel();
@@ -144,25 +138,25 @@
 			this.tlButtons.SuspendLayout();
 			this.tlContent.SuspendLayout();
 			this.pContent.SuspendLayout();
+			this.tlEditor.SuspendLayout();
+			this.tableLayoutPanel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
 			this.tlGeneral.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gnPixelsPerDPI)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gnPadding)).BeginInit();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.tableLayoutPanel4.SuspendLayout();
 			this.tableLayoutPanel5.SuspendLayout();
+			this.tlResolutions.SuspendLayout();
+			this.rtlResEdit.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.rnResolution)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.rnMaxRes)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.rnMinRes)).BeginInit();
 			this.tlDefField.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-			this.tlEditor.SuspendLayout();
-			this.tableLayoutPanel2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-			this.tlResolutions.SuspendLayout();
-			this.tableLayoutPanel3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.rnMaxRes)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.rnMinRes)).BeginInit();
 			this.tlSidebar.SuspendLayout();
 			this.pPreview.SuspendLayout();
 			this.pPagePreview.SuspendLayout();
@@ -255,541 +249,14 @@
 			this.pContent.BackColor = System.Drawing.SystemColors.Window;
 			this.pContent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pContent.Controls.Add(this.tlGeneral);
+			this.pContent.Controls.Add(this.tlEditor);
 			this.pContent.Controls.Add(this.tlResolutions);
 			this.pContent.Controls.Add(this.tlDefField);
-			this.pContent.Controls.Add(this.tlEditor);
 			this.pContent.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pContent.Location = new System.Drawing.Point(186, 3);
 			this.pContent.Name = "pContent";
 			this.pContent.Size = new System.Drawing.Size(362, 345);
 			this.pContent.TabIndex = 3;
-			// 
-			// tlGeneral
-			// 
-			this.tlGeneral.AutoScroll = true;
-			this.tlGeneral.BackColor = System.Drawing.SystemColors.Window;
-			this.tlGeneral.ColumnCount = 2;
-			this.tlGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tlGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tlGeneral.Controls.Add(this.glPrevColor, 0, 1);
-			this.tlGeneral.Controls.Add(this.gnPixelsPerDPI, 1, 10);
-			this.tlGeneral.Controls.Add(this.glPixelsPerDPI, 0, 10);
-			this.tlGeneral.Controls.Add(this.glNoPreview, 0, 9);
-			this.tlGeneral.Controls.Add(this.glTransparent, 0, 4);
-			this.tlGeneral.Controls.Add(this.gcbPrevPos, 1, 3);
-			this.tlGeneral.Controls.Add(this.glPrevPos, 0, 3);
-			this.tlGeneral.Controls.Add(this.glAskBeforeClose, 0, 5);
-			this.tlGeneral.Controls.Add(this.gnPadding, 1, 2);
-			this.tlGeneral.Controls.Add(this.glPadding, 0, 2);
-			this.tlGeneral.Controls.Add(this.gcbResolution, 1, 0);
-			this.tlGeneral.Controls.Add(this.glDefaultRes, 0, 0);
-			this.tlGeneral.Controls.Add(this.gcbAskBeforeClose, 1, 5);
-			this.tlGeneral.Controls.Add(this.gcbInfoPanel, 1, 8);
-			this.tlGeneral.Controls.Add(this.glInfoPanel, 0, 8);
-			this.tlGeneral.Controls.Add(this.gcbShortcuts, 1, 7);
-			this.tlGeneral.Controls.Add(this.glShortcuts, 0, 7);
-			this.tlGeneral.Controls.Add(this.gcbSaveSlide, 1, 6);
-			this.tlGeneral.Controls.Add(this.glSaveSlide, 0, 6);
-			this.tlGeneral.Controls.Add(this.tableLayoutPanel1, 1, 1);
-			this.tlGeneral.Controls.Add(this.tableLayoutPanel4, 1, 4);
-			this.tlGeneral.Controls.Add(this.tableLayoutPanel5, 1, 9);
-			this.tlGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlGeneral.Location = new System.Drawing.Point(0, 0);
-			this.tlGeneral.Margin = new System.Windows.Forms.Padding(0);
-			this.tlGeneral.Name = "tlGeneral";
-			this.tlGeneral.Padding = new System.Windows.Forms.Padding(5);
-			this.tlGeneral.RowCount = 12;
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-			this.tlGeneral.Size = new System.Drawing.Size(360, 343);
-			this.tlGeneral.TabIndex = 0;
-			this.tlGeneral.Visible = false;
-			// 
-			// glPrevColor
-			// 
-			this.glPrevColor.AutoSize = true;
-			this.glPrevColor.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glPrevColor.Location = new System.Drawing.Point(8, 30);
-			this.glPrevColor.Name = "glPrevColor";
-			this.glPrevColor.Size = new System.Drawing.Size(169, 25);
-			this.glPrevColor.TabIndex = 41;
-			this.glPrevColor.Text = "Tło podglądu wzoru:";
-			this.glPrevColor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// gnPixelsPerDPI
-			// 
-			this.gnPixelsPerDPI.DecimalPlaces = 15;
-			this.gnPixelsPerDPI.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gnPixelsPerDPI.Location = new System.Drawing.Point(183, 258);
-			this.gnPixelsPerDPI.Maximum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-			this.gnPixelsPerDPI.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.gnPixelsPerDPI.Name = "gnPixelsPerDPI";
-			this.gnPixelsPerDPI.Size = new System.Drawing.Size(169, 20);
-			this.gnPixelsPerDPI.TabIndex = 40;
-			this.gnPixelsPerDPI.Value = new decimal(new int[] {
-            1069687174,
-            916909,
-            0,
-            983040});
-			this.gnPixelsPerDPI.ValueChanged += new System.EventHandler(this.gnPixelsPerDPI_ValueChanged);
-			// 
-			// glPixelsPerDPI
-			// 
-			this.glPixelsPerDPI.AutoSize = true;
-			this.glPixelsPerDPI.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glPixelsPerDPI.Location = new System.Drawing.Point(8, 255);
-			this.glPixelsPerDPI.Name = "glPixelsPerDPI";
-			this.glPixelsPerDPI.Size = new System.Drawing.Size(169, 25);
-			this.glPixelsPerDPI.TabIndex = 39;
-			this.glPixelsPerDPI.Text = "Ilość pikseli na DPI:";
-			this.glPixelsPerDPI.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// glNoPreview
-			// 
-			this.glNoPreview.AutoSize = true;
-			this.glNoPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glNoPreview.Location = new System.Drawing.Point(8, 230);
-			this.glNoPreview.Name = "glNoPreview";
-			this.glNoPreview.Size = new System.Drawing.Size(169, 25);
-			this.glNoPreview.TabIndex = 37;
-			this.glNoPreview.Text = "Brak podglądu wzoru:";
-			this.glNoPreview.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// glTransparent
-			// 
-			this.glTransparent.AutoSize = true;
-			this.glTransparent.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glTransparent.Location = new System.Drawing.Point(8, 105);
-			this.glTransparent.Name = "glTransparent";
-			this.glTransparent.Size = new System.Drawing.Size(169, 25);
-			this.glTransparent.TabIndex = 35;
-			this.glTransparent.Text = "Tło przezroczystości:";
-			this.glTransparent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// gcbPrevPos
-			// 
-			this.gcbPrevPos.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gcbPrevPos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.gcbPrevPos.FormattingEnabled = true;
-			this.gcbPrevPos.Items.AddRange(new object[] {
-            "Lewo",
-            "Środek",
-            "Prawo"});
-			this.gcbPrevPos.Location = new System.Drawing.Point(183, 82);
-			this.gcbPrevPos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
-			this.gcbPrevPos.Name = "gcbPrevPos";
-			this.gcbPrevPos.Size = new System.Drawing.Size(169, 21);
-			this.gcbPrevPos.TabIndex = 34;
-			this.gcbPrevPos.SelectedIndexChanged += new System.EventHandler(this.gcbPrevPos_SelectedIndexChanged);
-			// 
-			// glPrevPos
-			// 
-			this.glPrevPos.AutoSize = true;
-			this.glPrevPos.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glPrevPos.Location = new System.Drawing.Point(8, 80);
-			this.glPrevPos.Name = "glPrevPos";
-			this.glPrevPos.Size = new System.Drawing.Size(169, 25);
-			this.glPrevPos.TabIndex = 33;
-			this.glPrevPos.Text = "Położenie podglądu wzoru:";
-			this.glPrevPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// glAskBeforeClose
-			// 
-			this.glAskBeforeClose.AutoSize = true;
-			this.glAskBeforeClose.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glAskBeforeClose.Location = new System.Drawing.Point(8, 130);
-			this.glAskBeforeClose.Name = "glAskBeforeClose";
-			this.glAskBeforeClose.Size = new System.Drawing.Size(169, 25);
-			this.glAskBeforeClose.TabIndex = 32;
-			this.glAskBeforeClose.Text = "Pytaj zawsze przed zamykaniem:";
-			this.glAskBeforeClose.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// gnPadding
-			// 
-			this.gnPadding.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gnPadding.Location = new System.Drawing.Point(183, 58);
-			this.gnPadding.Maximum = new decimal(new int[] {
-            70,
-            0,
-            0,
-            0});
-			this.gnPadding.Name = "gnPadding";
-			this.gnPadding.Size = new System.Drawing.Size(169, 20);
-			this.gnPadding.TabIndex = 31;
-			this.gnPadding.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-			this.gnPadding.ValueChanged += new System.EventHandler(this.gnPadding_ValueChanged);
-			// 
-			// glPadding
-			// 
-			this.glPadding.AutoSize = true;
-			this.glPadding.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glPadding.Location = new System.Drawing.Point(8, 55);
-			this.glPadding.Name = "glPadding";
-			this.glPadding.Size = new System.Drawing.Size(169, 25);
-			this.glPadding.TabIndex = 30;
-			this.glPadding.Text = "Margines wewnętrzny podglądu:";
-			this.glPadding.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// gcbResolution
-			// 
-			this.gcbResolution.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gcbResolution.FormattingEnabled = true;
-			this.gcbResolution.Items.AddRange(new object[] {
-            "50",
-            "75",
-            "100",
-            "150",
-            "200",
-            "300"});
-			this.gcbResolution.Location = new System.Drawing.Point(183, 7);
-			this.gcbResolution.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
-			this.gcbResolution.Name = "gcbResolution";
-			this.gcbResolution.Size = new System.Drawing.Size(169, 21);
-			this.gcbResolution.TabIndex = 27;
-			this.gcbResolution.SelectedIndexChanged += new System.EventHandler(this.gcbResolution_SelectedIndexChanged);
-			// 
-			// glDefaultRes
-			// 
-			this.glDefaultRes.AutoSize = true;
-			this.glDefaultRes.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glDefaultRes.Location = new System.Drawing.Point(8, 5);
-			this.glDefaultRes.Name = "glDefaultRes";
-			this.glDefaultRes.Size = new System.Drawing.Size(169, 25);
-			this.glDefaultRes.TabIndex = 26;
-			this.glDefaultRes.Text = "Domyślna rozdzielczość:";
-			this.glDefaultRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// gcbAskBeforeClose
-			// 
-			this.gcbAskBeforeClose.AutoSize = true;
-			this.gcbAskBeforeClose.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gcbAskBeforeClose.Location = new System.Drawing.Point(183, 134);
-			this.gcbAskBeforeClose.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-			this.gcbAskBeforeClose.Name = "gcbAskBeforeClose";
-			this.gcbAskBeforeClose.Size = new System.Drawing.Size(169, 18);
-			this.gcbAskBeforeClose.TabIndex = 23;
-			this.gcbAskBeforeClose.UseVisualStyleBackColor = true;
-			this.gcbAskBeforeClose.CheckedChanged += new System.EventHandler(this.gcbAskBeforeClose_CheckedChanged);
-			// 
-			// gcbInfoPanel
-			// 
-			this.gcbInfoPanel.AutoSize = true;
-			this.gcbInfoPanel.Checked = true;
-			this.gcbInfoPanel.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.gcbInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gcbInfoPanel.Location = new System.Drawing.Point(183, 209);
-			this.gcbInfoPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-			this.gcbInfoPanel.Name = "gcbInfoPanel";
-			this.gcbInfoPanel.Size = new System.Drawing.Size(169, 18);
-			this.gcbInfoPanel.TabIndex = 14;
-			this.gcbInfoPanel.UseVisualStyleBackColor = true;
-			this.gcbInfoPanel.CheckedChanged += new System.EventHandler(this.gcbInfoPanel_CheckedChanged);
-			// 
-			// glInfoPanel
-			// 
-			this.glInfoPanel.AutoSize = true;
-			this.glInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glInfoPanel.Location = new System.Drawing.Point(8, 205);
-			this.glInfoPanel.Name = "glInfoPanel";
-			this.glInfoPanel.Size = new System.Drawing.Size(169, 25);
-			this.glInfoPanel.TabIndex = 13;
-			this.glInfoPanel.Text = "Włącz panel powiadomień:";
-			this.glInfoPanel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// gcbShortcuts
-			// 
-			this.gcbShortcuts.AutoSize = true;
-			this.gcbShortcuts.Checked = true;
-			this.gcbShortcuts.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.gcbShortcuts.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gcbShortcuts.Location = new System.Drawing.Point(183, 184);
-			this.gcbShortcuts.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-			this.gcbShortcuts.Name = "gcbShortcuts";
-			this.gcbShortcuts.Size = new System.Drawing.Size(169, 18);
-			this.gcbShortcuts.TabIndex = 11;
-			this.gcbShortcuts.UseVisualStyleBackColor = true;
-			this.gcbShortcuts.CheckedChanged += new System.EventHandler(this.gcbShortcuts_CheckedChanged);
-			// 
-			// glShortcuts
-			// 
-			this.glShortcuts.AutoSize = true;
-			this.glShortcuts.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glShortcuts.Location = new System.Drawing.Point(8, 180);
-			this.glShortcuts.Name = "glShortcuts";
-			this.glShortcuts.Size = new System.Drawing.Size(169, 25);
-			this.glShortcuts.TabIndex = 10;
-			this.glShortcuts.Text = "Włącz skróty klawiaturowe:";
-			this.glShortcuts.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// gcbSaveSlide
-			// 
-			this.gcbSaveSlide.AutoSize = true;
-			this.gcbSaveSlide.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gcbSaveSlide.Location = new System.Drawing.Point(183, 159);
-			this.gcbSaveSlide.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-			this.gcbSaveSlide.Name = "gcbSaveSlide";
-			this.gcbSaveSlide.Size = new System.Drawing.Size(169, 18);
-			this.gcbSaveSlide.TabIndex = 9;
-			this.gcbSaveSlide.UseVisualStyleBackColor = true;
-			this.gcbSaveSlide.CheckedChanged += new System.EventHandler(this.gcbSaveSlide_CheckedChanged);
-			// 
-			// glSaveSlide
-			// 
-			this.glSaveSlide.AutoSize = true;
-			this.glSaveSlide.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.glSaveSlide.Location = new System.Drawing.Point(8, 155);
-			this.glSaveSlide.Name = "glSaveSlide";
-			this.glSaveSlide.Size = new System.Drawing.Size(169, 25);
-			this.glSaveSlide.TabIndex = 8;
-			this.glSaveSlide.Text = "Zapisuj położenie suwaków:";
-			this.glSaveSlide.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.ColumnCount = 2;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
-			this.tableLayoutPanel1.Controls.Add(this.gbPrevColor, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.gswColor, 1, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(180, 30);
-			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 1;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(175, 25);
-			this.tableLayoutPanel1.TabIndex = 42;
-			// 
-			// gbPrevColor
-			// 
-			this.gbPrevColor.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gbPrevColor.Location = new System.Drawing.Point(3, 1);
-			this.gbPrevColor.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-			this.gbPrevColor.Name = "gbPrevColor";
-			this.gbPrevColor.Size = new System.Drawing.Size(141, 23);
-			this.gbPrevColor.TabIndex = 43;
-			this.gbPrevColor.Text = "Zmień kolor";
-			this.gbPrevColor.UseVisualStyleBackColor = true;
-			this.gbPrevColor.Click += new System.EventHandler(this.gbPrevColor_Click);
-			// 
-			// gswColor
-			// 
-			this.gswColor.AutoSize = true;
-			this.gswColor.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.gswColor.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gswColor.Location = new System.Drawing.Point(150, 5);
-			this.gswColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.gswColor.Name = "gswColor";
-			this.gswColor.Size = new System.Drawing.Size(22, 17);
-			this.gswColor.TabIndex = 44;
-			this.gswColor.UseVisualStyleBackColor = true;
-			this.gswColor.CheckedChanged += new System.EventHandler(this.gswColor_CheckedChanged);
-			// 
-			// tableLayoutPanel4
-			// 
-			this.tableLayoutPanel4.ColumnCount = 2;
-			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84F));
-			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
-			this.tableLayoutPanel4.Controls.Add(this.gswTransparent, 0, 0);
-			this.tableLayoutPanel4.Controls.Add(this.gbTransparent, 0, 0);
-			this.tableLayoutPanel4.Location = new System.Drawing.Point(180, 105);
-			this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-			this.tableLayoutPanel4.RowCount = 1;
-			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel4.Size = new System.Drawing.Size(175, 25);
-			this.tableLayoutPanel4.TabIndex = 43;
-			// 
-			// gswTransparent
-			// 
-			this.gswTransparent.AutoSize = true;
-			this.gswTransparent.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.gswTransparent.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gswTransparent.Location = new System.Drawing.Point(150, 5);
-			this.gswTransparent.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.gswTransparent.Name = "gswTransparent";
-			this.gswTransparent.Size = new System.Drawing.Size(22, 17);
-			this.gswTransparent.TabIndex = 45;
-			this.gswTransparent.UseVisualStyleBackColor = true;
-			this.gswTransparent.CheckedChanged += new System.EventHandler(this.gswTransparent_CheckedChanged);
-			// 
-			// gbTransparent
-			// 
-			this.gbTransparent.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gbTransparent.Location = new System.Drawing.Point(3, 1);
-			this.gbTransparent.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-			this.gbTransparent.Name = "gbTransparent";
-			this.gbTransparent.Size = new System.Drawing.Size(141, 23);
-			this.gbTransparent.TabIndex = 37;
-			this.gbTransparent.Text = "Zmień tło";
-			this.gbTransparent.UseVisualStyleBackColor = true;
-			this.gbTransparent.Click += new System.EventHandler(this.gbTransparent_Click);
-			// 
-			// tableLayoutPanel5
-			// 
-			this.tableLayoutPanel5.ColumnCount = 2;
-			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84F));
-			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
-			this.tableLayoutPanel5.Controls.Add(this.gswNoImage, 0, 0);
-			this.tableLayoutPanel5.Controls.Add(this.gbNoPreview, 0, 0);
-			this.tableLayoutPanel5.Location = new System.Drawing.Point(180, 230);
-			this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-			this.tableLayoutPanel5.RowCount = 1;
-			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel5.Size = new System.Drawing.Size(175, 25);
-			this.tableLayoutPanel5.TabIndex = 44;
-			// 
-			// gswNoImage
-			// 
-			this.gswNoImage.AutoSize = true;
-			this.gswNoImage.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.gswNoImage.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gswNoImage.Location = new System.Drawing.Point(150, 5);
-			this.gswNoImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.gswNoImage.Name = "gswNoImage";
-			this.gswNoImage.Size = new System.Drawing.Size(22, 17);
-			this.gswNoImage.TabIndex = 46;
-			this.gswNoImage.UseVisualStyleBackColor = true;
-			this.gswNoImage.CheckedChanged += new System.EventHandler(this.gswNoImage_CheckedChanged);
-			// 
-			// gbNoPreview
-			// 
-			this.gbNoPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.gbNoPreview.Location = new System.Drawing.Point(3, 1);
-			this.gbNoPreview.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-			this.gbNoPreview.Name = "gbNoPreview";
-			this.gbNoPreview.Size = new System.Drawing.Size(141, 23);
-			this.gbNoPreview.TabIndex = 39;
-			this.gbNoPreview.Text = "Zmień obraz";
-			this.gbNoPreview.UseVisualStyleBackColor = true;
-			this.gbNoPreview.Click += new System.EventHandler(this.gbNoPreview_Click);
-			// 
-			// tlDefField
-			// 
-			this.tlDefField.ColumnCount = 3;
-			this.tlDefField.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-			this.tlDefField.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-			this.tlDefField.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-			this.tlDefField.Controls.Add(this.numericUpDown7, 2, 2);
-			this.tlDefField.Controls.Add(this.numericUpDown6, 1, 2);
-			this.tlDefField.Controls.Add(this.label15, 0, 2);
-			this.tlDefField.Controls.Add(this.label14, 0, 1);
-			this.tlDefField.Controls.Add(this.label4, 0, 0);
-			this.tlDefField.Controls.Add(this.textBox1, 1, 0);
-			this.tlDefField.Controls.Add(this.numericUpDown4, 1, 1);
-			this.tlDefField.Controls.Add(this.numericUpDown5, 2, 1);
-			this.tlDefField.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlDefField.Location = new System.Drawing.Point(0, 0);
-			this.tlDefField.Name = "tlDefField";
-			this.tlDefField.Padding = new System.Windows.Forms.Padding(5);
-			this.tlDefField.RowCount = 7;
-			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlDefField.Size = new System.Drawing.Size(360, 343);
-			this.tlDefField.TabIndex = 2;
-			this.tlDefField.Visible = false;
-			// 
-			// numericUpDown7
-			// 
-			this.numericUpDown7.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.numericUpDown7.Location = new System.Drawing.Point(240, 58);
-			this.numericUpDown7.Name = "numericUpDown7";
-			this.numericUpDown7.Size = new System.Drawing.Size(112, 20);
-			this.numericUpDown7.TabIndex = 7;
-			// 
-			// numericUpDown6
-			// 
-			this.numericUpDown6.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.numericUpDown6.Location = new System.Drawing.Point(124, 58);
-			this.numericUpDown6.Name = "numericUpDown6";
-			this.numericUpDown6.Size = new System.Drawing.Size(110, 20);
-			this.numericUpDown6.TabIndex = 6;
-			// 
-			// label15
-			// 
-			this.label15.AutoSize = true;
-			this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label15.Location = new System.Drawing.Point(8, 55);
-			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(110, 25);
-			this.label15.TabIndex = 5;
-			this.label15.Text = "Rozmiar:";
-			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// label14
-			// 
-			this.label14.AutoSize = true;
-			this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label14.Location = new System.Drawing.Point(8, 30);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(110, 25);
-			this.label14.TabIndex = 2;
-			this.label14.Text = "Pozycja:";
-			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label4.Location = new System.Drawing.Point(8, 5);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(110, 25);
-			this.label4.TabIndex = 0;
-			this.label4.Text = "Nazwa pola:";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// textBox1
-			// 
-			this.tlDefField.SetColumnSpan(this.textBox1, 2);
-			this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBox1.Location = new System.Drawing.Point(124, 8);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(228, 20);
-			this.textBox1.TabIndex = 1;
-			// 
-			// numericUpDown4
-			// 
-			this.numericUpDown4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.numericUpDown4.Location = new System.Drawing.Point(124, 33);
-			this.numericUpDown4.Name = "numericUpDown4";
-			this.numericUpDown4.Size = new System.Drawing.Size(110, 20);
-			this.numericUpDown4.TabIndex = 3;
-			// 
-			// numericUpDown5
-			// 
-			this.numericUpDown5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.numericUpDown5.Location = new System.Drawing.Point(240, 33);
-			this.numericUpDown5.Name = "numericUpDown5";
-			this.numericUpDown5.Size = new System.Drawing.Size(112, 20);
-			this.numericUpDown5.TabIndex = 4;
 			// 
 			// tlEditor
 			// 
@@ -1094,6 +561,423 @@
             0,
             0});
 			// 
+			// tlGeneral
+			// 
+			this.tlGeneral.AutoScroll = true;
+			this.tlGeneral.BackColor = System.Drawing.SystemColors.Window;
+			this.tlGeneral.ColumnCount = 2;
+			this.tlGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tlGeneral.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tlGeneral.Controls.Add(this.glPrevColor, 0, 1);
+			this.tlGeneral.Controls.Add(this.gnPixelsPerDPI, 1, 10);
+			this.tlGeneral.Controls.Add(this.glPixelsPerDPI, 0, 10);
+			this.tlGeneral.Controls.Add(this.glNoPreview, 0, 9);
+			this.tlGeneral.Controls.Add(this.glTransparent, 0, 4);
+			this.tlGeneral.Controls.Add(this.gcbPrevPos, 1, 3);
+			this.tlGeneral.Controls.Add(this.glPrevPos, 0, 3);
+			this.tlGeneral.Controls.Add(this.glAskBeforeClose, 0, 5);
+			this.tlGeneral.Controls.Add(this.gnPadding, 1, 2);
+			this.tlGeneral.Controls.Add(this.glPadding, 0, 2);
+			this.tlGeneral.Controls.Add(this.gcbResolution, 1, 0);
+			this.tlGeneral.Controls.Add(this.glDefaultRes, 0, 0);
+			this.tlGeneral.Controls.Add(this.gcbAskBeforeClose, 1, 5);
+			this.tlGeneral.Controls.Add(this.gcbInfoPanel, 1, 8);
+			this.tlGeneral.Controls.Add(this.glInfoPanel, 0, 8);
+			this.tlGeneral.Controls.Add(this.gcbShortcuts, 1, 7);
+			this.tlGeneral.Controls.Add(this.glShortcuts, 0, 7);
+			this.tlGeneral.Controls.Add(this.gcbSaveSlide, 1, 6);
+			this.tlGeneral.Controls.Add(this.glSaveSlide, 0, 6);
+			this.tlGeneral.Controls.Add(this.tableLayoutPanel1, 1, 1);
+			this.tlGeneral.Controls.Add(this.tableLayoutPanel4, 1, 4);
+			this.tlGeneral.Controls.Add(this.tableLayoutPanel5, 1, 9);
+			this.tlGeneral.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tlGeneral.Location = new System.Drawing.Point(0, 0);
+			this.tlGeneral.Margin = new System.Windows.Forms.Padding(0);
+			this.tlGeneral.Name = "tlGeneral";
+			this.tlGeneral.Padding = new System.Windows.Forms.Padding(5);
+			this.tlGeneral.RowCount = 13;
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlGeneral.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+			this.tlGeneral.Size = new System.Drawing.Size(360, 343);
+			this.tlGeneral.TabIndex = 0;
+			this.tlGeneral.Visible = false;
+			// 
+			// glPrevColor
+			// 
+			this.glPrevColor.AutoSize = true;
+			this.glPrevColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glPrevColor.Location = new System.Drawing.Point(8, 30);
+			this.glPrevColor.Name = "glPrevColor";
+			this.glPrevColor.Size = new System.Drawing.Size(169, 25);
+			this.glPrevColor.TabIndex = 41;
+			this.glPrevColor.Text = "Tło podglądu wzoru:";
+			this.glPrevColor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// gnPixelsPerDPI
+			// 
+			this.gnPixelsPerDPI.DecimalPlaces = 14;
+			this.gnPixelsPerDPI.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gnPixelsPerDPI.Location = new System.Drawing.Point(183, 258);
+			this.gnPixelsPerDPI.Maximum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+			this.gnPixelsPerDPI.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.gnPixelsPerDPI.Name = "gnPixelsPerDPI";
+			this.gnPixelsPerDPI.Size = new System.Drawing.Size(169, 20);
+			this.gnPixelsPerDPI.TabIndex = 40;
+			this.gnPixelsPerDPI.Value = new decimal(new int[] {
+            1069687174,
+            916909,
+            0,
+            983040});
+			this.gnPixelsPerDPI.ValueChanged += new System.EventHandler(this.gnPixelsPerDPI_ValueChanged);
+			// 
+			// glPixelsPerDPI
+			// 
+			this.glPixelsPerDPI.AutoSize = true;
+			this.glPixelsPerDPI.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glPixelsPerDPI.Location = new System.Drawing.Point(8, 255);
+			this.glPixelsPerDPI.Name = "glPixelsPerDPI";
+			this.glPixelsPerDPI.Size = new System.Drawing.Size(169, 25);
+			this.glPixelsPerDPI.TabIndex = 39;
+			this.glPixelsPerDPI.Text = "Ilość pikseli na DPI:";
+			this.glPixelsPerDPI.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// glNoPreview
+			// 
+			this.glNoPreview.AutoSize = true;
+			this.glNoPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glNoPreview.Location = new System.Drawing.Point(8, 230);
+			this.glNoPreview.Name = "glNoPreview";
+			this.glNoPreview.Size = new System.Drawing.Size(169, 25);
+			this.glNoPreview.TabIndex = 37;
+			this.glNoPreview.Text = "Brak podglądu wzoru:";
+			this.glNoPreview.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// glTransparent
+			// 
+			this.glTransparent.AutoSize = true;
+			this.glTransparent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glTransparent.Location = new System.Drawing.Point(8, 105);
+			this.glTransparent.Name = "glTransparent";
+			this.glTransparent.Size = new System.Drawing.Size(169, 25);
+			this.glTransparent.TabIndex = 35;
+			this.glTransparent.Text = "Tło przezroczystości:";
+			this.glTransparent.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// gcbPrevPos
+			// 
+			this.gcbPrevPos.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gcbPrevPos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.gcbPrevPos.FormattingEnabled = true;
+			this.gcbPrevPos.Items.AddRange(new object[] {
+            "Lewo",
+            "Środek",
+            "Prawo"});
+			this.gcbPrevPos.Location = new System.Drawing.Point(183, 82);
+			this.gcbPrevPos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
+			this.gcbPrevPos.Name = "gcbPrevPos";
+			this.gcbPrevPos.Size = new System.Drawing.Size(169, 21);
+			this.gcbPrevPos.TabIndex = 34;
+			this.gcbPrevPos.SelectedIndexChanged += new System.EventHandler(this.gcbPrevPos_SelectedIndexChanged);
+			// 
+			// glPrevPos
+			// 
+			this.glPrevPos.AutoSize = true;
+			this.glPrevPos.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glPrevPos.Location = new System.Drawing.Point(8, 80);
+			this.glPrevPos.Name = "glPrevPos";
+			this.glPrevPos.Size = new System.Drawing.Size(169, 25);
+			this.glPrevPos.TabIndex = 33;
+			this.glPrevPos.Text = "Położenie podglądu wzoru:";
+			this.glPrevPos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// glAskBeforeClose
+			// 
+			this.glAskBeforeClose.AutoSize = true;
+			this.glAskBeforeClose.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glAskBeforeClose.Location = new System.Drawing.Point(8, 130);
+			this.glAskBeforeClose.Name = "glAskBeforeClose";
+			this.glAskBeforeClose.Size = new System.Drawing.Size(169, 25);
+			this.glAskBeforeClose.TabIndex = 32;
+			this.glAskBeforeClose.Text = "Pytaj zawsze przed zamykaniem:";
+			this.glAskBeforeClose.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// gnPadding
+			// 
+			this.gnPadding.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gnPadding.Location = new System.Drawing.Point(183, 58);
+			this.gnPadding.Maximum = new decimal(new int[] {
+            70,
+            0,
+            0,
+            0});
+			this.gnPadding.Name = "gnPadding";
+			this.gnPadding.Size = new System.Drawing.Size(169, 20);
+			this.gnPadding.TabIndex = 31;
+			this.gnPadding.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+			this.gnPadding.ValueChanged += new System.EventHandler(this.gnPadding_ValueChanged);
+			// 
+			// glPadding
+			// 
+			this.glPadding.AutoSize = true;
+			this.glPadding.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glPadding.Location = new System.Drawing.Point(8, 55);
+			this.glPadding.Name = "glPadding";
+			this.glPadding.Size = new System.Drawing.Size(169, 25);
+			this.glPadding.TabIndex = 30;
+			this.glPadding.Text = "Margines wewnętrzny podglądu:";
+			this.glPadding.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// gcbResolution
+			// 
+			this.gcbResolution.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gcbResolution.FormattingEnabled = true;
+			this.gcbResolution.Location = new System.Drawing.Point(183, 7);
+			this.gcbResolution.Margin = new System.Windows.Forms.Padding(3, 2, 3, 3);
+			this.gcbResolution.Name = "gcbResolution";
+			this.gcbResolution.Size = new System.Drawing.Size(169, 21);
+			this.gcbResolution.TabIndex = 27;
+			this.gcbResolution.SelectedIndexChanged += new System.EventHandler(this.gcbResolution_SelectedIndexChanged);
+			// 
+			// glDefaultRes
+			// 
+			this.glDefaultRes.AutoSize = true;
+			this.glDefaultRes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glDefaultRes.Location = new System.Drawing.Point(8, 5);
+			this.glDefaultRes.Name = "glDefaultRes";
+			this.glDefaultRes.Size = new System.Drawing.Size(169, 25);
+			this.glDefaultRes.TabIndex = 26;
+			this.glDefaultRes.Text = "Domyślna rozdzielczość:";
+			this.glDefaultRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// gcbAskBeforeClose
+			// 
+			this.gcbAskBeforeClose.AutoSize = true;
+			this.gcbAskBeforeClose.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gcbAskBeforeClose.Location = new System.Drawing.Point(183, 134);
+			this.gcbAskBeforeClose.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+			this.gcbAskBeforeClose.Name = "gcbAskBeforeClose";
+			this.gcbAskBeforeClose.Size = new System.Drawing.Size(169, 18);
+			this.gcbAskBeforeClose.TabIndex = 23;
+			this.gcbAskBeforeClose.UseVisualStyleBackColor = true;
+			this.gcbAskBeforeClose.CheckedChanged += new System.EventHandler(this.gcbAskBeforeClose_CheckedChanged);
+			// 
+			// gcbInfoPanel
+			// 
+			this.gcbInfoPanel.AutoSize = true;
+			this.gcbInfoPanel.Checked = true;
+			this.gcbInfoPanel.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.gcbInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gcbInfoPanel.Location = new System.Drawing.Point(183, 209);
+			this.gcbInfoPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+			this.gcbInfoPanel.Name = "gcbInfoPanel";
+			this.gcbInfoPanel.Size = new System.Drawing.Size(169, 18);
+			this.gcbInfoPanel.TabIndex = 14;
+			this.gcbInfoPanel.UseVisualStyleBackColor = true;
+			this.gcbInfoPanel.CheckedChanged += new System.EventHandler(this.gcbInfoPanel_CheckedChanged);
+			// 
+			// glInfoPanel
+			// 
+			this.glInfoPanel.AutoSize = true;
+			this.glInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glInfoPanel.Location = new System.Drawing.Point(8, 205);
+			this.glInfoPanel.Name = "glInfoPanel";
+			this.glInfoPanel.Size = new System.Drawing.Size(169, 25);
+			this.glInfoPanel.TabIndex = 13;
+			this.glInfoPanel.Text = "Włącz panel powiadomień:";
+			this.glInfoPanel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// gcbShortcuts
+			// 
+			this.gcbShortcuts.AutoSize = true;
+			this.gcbShortcuts.Checked = true;
+			this.gcbShortcuts.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.gcbShortcuts.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gcbShortcuts.Location = new System.Drawing.Point(183, 184);
+			this.gcbShortcuts.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+			this.gcbShortcuts.Name = "gcbShortcuts";
+			this.gcbShortcuts.Size = new System.Drawing.Size(169, 18);
+			this.gcbShortcuts.TabIndex = 11;
+			this.gcbShortcuts.UseVisualStyleBackColor = true;
+			this.gcbShortcuts.CheckedChanged += new System.EventHandler(this.gcbShortcuts_CheckedChanged);
+			// 
+			// glShortcuts
+			// 
+			this.glShortcuts.AutoSize = true;
+			this.glShortcuts.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glShortcuts.Location = new System.Drawing.Point(8, 180);
+			this.glShortcuts.Name = "glShortcuts";
+			this.glShortcuts.Size = new System.Drawing.Size(169, 25);
+			this.glShortcuts.TabIndex = 10;
+			this.glShortcuts.Text = "Włącz skróty klawiaturowe:";
+			this.glShortcuts.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// gcbSaveSlide
+			// 
+			this.gcbSaveSlide.AutoSize = true;
+			this.gcbSaveSlide.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gcbSaveSlide.Location = new System.Drawing.Point(183, 159);
+			this.gcbSaveSlide.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+			this.gcbSaveSlide.Name = "gcbSaveSlide";
+			this.gcbSaveSlide.Size = new System.Drawing.Size(169, 18);
+			this.gcbSaveSlide.TabIndex = 9;
+			this.gcbSaveSlide.UseVisualStyleBackColor = true;
+			this.gcbSaveSlide.CheckedChanged += new System.EventHandler(this.gcbSaveSlide_CheckedChanged);
+			// 
+			// glSaveSlide
+			// 
+			this.glSaveSlide.AutoSize = true;
+			this.glSaveSlide.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.glSaveSlide.Location = new System.Drawing.Point(8, 155);
+			this.glSaveSlide.Name = "glSaveSlide";
+			this.glSaveSlide.Size = new System.Drawing.Size(169, 25);
+			this.glSaveSlide.TabIndex = 8;
+			this.glSaveSlide.Text = "Zapisuj położenie suwaków:";
+			this.glSaveSlide.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// tableLayoutPanel1
+			// 
+			this.tableLayoutPanel1.ColumnCount = 2;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
+			this.tableLayoutPanel1.Controls.Add(this.gbPrevColor, 0, 0);
+			this.tableLayoutPanel1.Controls.Add(this.gswColor, 1, 0);
+			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(180, 30);
+			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+			this.tableLayoutPanel1.RowCount = 1;
+			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(175, 25);
+			this.tableLayoutPanel1.TabIndex = 42;
+			// 
+			// gbPrevColor
+			// 
+			this.gbPrevColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gbPrevColor.Location = new System.Drawing.Point(3, 1);
+			this.gbPrevColor.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+			this.gbPrevColor.Name = "gbPrevColor";
+			this.gbPrevColor.Size = new System.Drawing.Size(141, 23);
+			this.gbPrevColor.TabIndex = 43;
+			this.gbPrevColor.Text = "Zmień kolor";
+			this.gbPrevColor.UseVisualStyleBackColor = true;
+			this.gbPrevColor.Click += new System.EventHandler(this.gbPrevColor_Click);
+			// 
+			// gswColor
+			// 
+			this.gswColor.AutoSize = true;
+			this.gswColor.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.gswColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gswColor.Location = new System.Drawing.Point(150, 5);
+			this.gswColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.gswColor.Name = "gswColor";
+			this.gswColor.Size = new System.Drawing.Size(22, 17);
+			this.gswColor.TabIndex = 44;
+			this.gswColor.UseVisualStyleBackColor = true;
+			this.gswColor.CheckedChanged += new System.EventHandler(this.gswColor_CheckedChanged);
+			// 
+			// tableLayoutPanel4
+			// 
+			this.tableLayoutPanel4.ColumnCount = 2;
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84F));
+			this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
+			this.tableLayoutPanel4.Controls.Add(this.gswTransparent, 0, 0);
+			this.tableLayoutPanel4.Controls.Add(this.gbTransparent, 0, 0);
+			this.tableLayoutPanel4.Location = new System.Drawing.Point(180, 105);
+			this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+			this.tableLayoutPanel4.RowCount = 1;
+			this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel4.Size = new System.Drawing.Size(175, 25);
+			this.tableLayoutPanel4.TabIndex = 43;
+			// 
+			// gswTransparent
+			// 
+			this.gswTransparent.AutoSize = true;
+			this.gswTransparent.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.gswTransparent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gswTransparent.Location = new System.Drawing.Point(150, 5);
+			this.gswTransparent.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.gswTransparent.Name = "gswTransparent";
+			this.gswTransparent.Size = new System.Drawing.Size(22, 17);
+			this.gswTransparent.TabIndex = 45;
+			this.gswTransparent.UseVisualStyleBackColor = true;
+			this.gswTransparent.CheckedChanged += new System.EventHandler(this.gswTransparent_CheckedChanged);
+			// 
+			// gbTransparent
+			// 
+			this.gbTransparent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gbTransparent.Location = new System.Drawing.Point(3, 1);
+			this.gbTransparent.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+			this.gbTransparent.Name = "gbTransparent";
+			this.gbTransparent.Size = new System.Drawing.Size(141, 23);
+			this.gbTransparent.TabIndex = 37;
+			this.gbTransparent.Text = "Zmień tło";
+			this.gbTransparent.UseVisualStyleBackColor = true;
+			this.gbTransparent.Click += new System.EventHandler(this.gbTransparent_Click);
+			// 
+			// tableLayoutPanel5
+			// 
+			this.tableLayoutPanel5.ColumnCount = 2;
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 84F));
+			this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16F));
+			this.tableLayoutPanel5.Controls.Add(this.gswNoImage, 0, 0);
+			this.tableLayoutPanel5.Controls.Add(this.gbNoPreview, 0, 0);
+			this.tableLayoutPanel5.Location = new System.Drawing.Point(180, 230);
+			this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
+			this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+			this.tableLayoutPanel5.RowCount = 1;
+			this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel5.Size = new System.Drawing.Size(175, 25);
+			this.tableLayoutPanel5.TabIndex = 44;
+			// 
+			// gswNoImage
+			// 
+			this.gswNoImage.AutoSize = true;
+			this.gswNoImage.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.gswNoImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gswNoImage.Location = new System.Drawing.Point(150, 5);
+			this.gswNoImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.gswNoImage.Name = "gswNoImage";
+			this.gswNoImage.Size = new System.Drawing.Size(22, 17);
+			this.gswNoImage.TabIndex = 46;
+			this.gswNoImage.UseVisualStyleBackColor = true;
+			this.gswNoImage.CheckedChanged += new System.EventHandler(this.gswNoImage_CheckedChanged);
+			// 
+			// gbNoPreview
+			// 
+			this.gbNoPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.gbNoPreview.Location = new System.Drawing.Point(3, 1);
+			this.gbNoPreview.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+			this.gbNoPreview.Name = "gbNoPreview";
+			this.gbNoPreview.Size = new System.Drawing.Size(141, 23);
+			this.gbNoPreview.TabIndex = 39;
+			this.gbNoPreview.Text = "Zmień obraz";
+			this.gbNoPreview.UseVisualStyleBackColor = true;
+			this.gbNoPreview.Click += new System.EventHandler(this.gbNoPreview_Click);
+			// 
 			// tlResolutions
 			// 
 			this.tlResolutions.AutoScroll = true;
@@ -1101,15 +985,15 @@
 			this.tlResolutions.ColumnCount = 2;
 			this.tlResolutions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tlResolutions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tlResolutions.Controls.Add(this.label1, 0, 2);
-			this.tlResolutions.Controls.Add(this.tableLayoutPanel3, 0, 5);
+			this.tlResolutions.Controls.Add(this.rlCustomRes, 0, 2);
+			this.tlResolutions.Controls.Add(this.rtlResEdit, 0, 5);
 			this.tlResolutions.Controls.Add(this.rlAvaliable, 0, 3);
 			this.tlResolutions.Controls.Add(this.rnMaxRes, 1, 1);
 			this.tlResolutions.Controls.Add(this.rnMinRes, 1, 0);
 			this.tlResolutions.Controls.Add(this.rlMaxRes, 0, 1);
 			this.tlResolutions.Controls.Add(this.rlMinRes, 0, 0);
 			this.tlResolutions.Controls.Add(this.rlvResList, 0, 4);
-			this.tlResolutions.Controls.Add(this.checkBox1, 1, 2);
+			this.tlResolutions.Controls.Add(this.rcbCustomRes, 1, 2);
 			this.tlResolutions.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlResolutions.Location = new System.Drawing.Point(0, 0);
 			this.tlResolutions.Margin = new System.Windows.Forms.Padding(0);
@@ -1129,83 +1013,96 @@
 			this.tlResolutions.TabIndex = 1;
 			this.tlResolutions.Visible = false;
 			// 
-			// label1
+			// rlCustomRes
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.label1.Location = new System.Drawing.Point(8, 55);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(169, 25);
-			this.label1.TabIndex = 19;
-			this.label1.Text = "Pozwól na wpisywanie DPI:";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.rlCustomRes.AutoSize = true;
+			this.rlCustomRes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rlCustomRes.Location = new System.Drawing.Point(8, 55);
+			this.rlCustomRes.Name = "rlCustomRes";
+			this.rlCustomRes.Size = new System.Drawing.Size(169, 25);
+			this.rlCustomRes.TabIndex = 19;
+			this.rlCustomRes.Text = "Pozwól na wpisywanie DPI:";
+			this.rlCustomRes.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// tableLayoutPanel3
+			// rtlResEdit
 			// 
-			this.tableLayoutPanel3.ColumnCount = 4;
-			this.tlResolutions.SetColumnSpan(this.tableLayoutPanel3, 2);
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00063F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00063F));
-			this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.99813F));
-			this.tableLayoutPanel3.Controls.Add(this.numericUpDown1, 0, 0);
-			this.tableLayoutPanel3.Controls.Add(this.button1, 1, 0);
-			this.tableLayoutPanel3.Controls.Add(this.button2, 2, 0);
-			this.tableLayoutPanel3.Controls.Add(this.button3, 3, 0);
-			this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel3.Location = new System.Drawing.Point(5, 260);
-			this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-			this.tableLayoutPanel3.RowCount = 1;
-			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel3.Size = new System.Drawing.Size(350, 25);
-			this.tableLayoutPanel3.TabIndex = 17;
+			this.rtlResEdit.ColumnCount = 4;
+			this.tlResolutions.SetColumnSpan(this.rtlResEdit, 2);
+			this.rtlResEdit.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
+			this.rtlResEdit.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00063F));
+			this.rtlResEdit.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.00063F));
+			this.rtlResEdit.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.99813F));
+			this.rtlResEdit.Controls.Add(this.rnResolution, 0, 0);
+			this.rtlResEdit.Controls.Add(this.rbAddRes, 1, 0);
+			this.rtlResEdit.Controls.Add(this.rbChangeRes, 2, 0);
+			this.rtlResEdit.Controls.Add(this.rbRemoveRes, 3, 0);
+			this.rtlResEdit.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rtlResEdit.Location = new System.Drawing.Point(5, 260);
+			this.rtlResEdit.Margin = new System.Windows.Forms.Padding(0);
+			this.rtlResEdit.Name = "rtlResEdit";
+			this.rtlResEdit.RowCount = 1;
+			this.rtlResEdit.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.rtlResEdit.Size = new System.Drawing.Size(350, 25);
+			this.rtlResEdit.TabIndex = 17;
 			// 
-			// numericUpDown1
+			// rnResolution
 			// 
-			this.numericUpDown1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.numericUpDown1.Location = new System.Drawing.Point(3, 3);
-			this.numericUpDown1.Maximum = new decimal(new int[] {
+			this.rnResolution.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rnResolution.Location = new System.Drawing.Point(3, 3);
+			this.rnResolution.Maximum = new decimal(new int[] {
             3000,
             0,
             0,
             0});
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(81, 20);
-			this.numericUpDown1.TabIndex = 0;
+			this.rnResolution.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+			this.rnResolution.Name = "rnResolution";
+			this.rnResolution.Size = new System.Drawing.Size(81, 20);
+			this.rnResolution.TabIndex = 0;
+			this.rnResolution.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
 			// 
-			// button1
+			// rbAddRes
 			// 
-			this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.button1.Location = new System.Drawing.Point(90, 1);
-			this.button1.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(81, 23);
-			this.button1.TabIndex = 1;
-			this.button1.Text = "Dodaj";
-			this.button1.UseVisualStyleBackColor = true;
+			this.rbAddRes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rbAddRes.Location = new System.Drawing.Point(90, 1);
+			this.rbAddRes.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+			this.rbAddRes.Name = "rbAddRes";
+			this.rbAddRes.Size = new System.Drawing.Size(81, 23);
+			this.rbAddRes.TabIndex = 1;
+			this.rbAddRes.Text = "Dodaj";
+			this.rbAddRes.UseVisualStyleBackColor = true;
+			this.rbAddRes.Click += new System.EventHandler(this.rbAddRes_Click);
 			// 
-			// button2
+			// rbChangeRes
 			// 
-			this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.button2.Location = new System.Drawing.Point(177, 1);
-			this.button2.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(81, 23);
-			this.button2.TabIndex = 2;
-			this.button2.Text = "Zmień";
-			this.button2.UseVisualStyleBackColor = true;
+			this.rbChangeRes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rbChangeRes.Location = new System.Drawing.Point(177, 1);
+			this.rbChangeRes.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+			this.rbChangeRes.Name = "rbChangeRes";
+			this.rbChangeRes.Size = new System.Drawing.Size(81, 23);
+			this.rbChangeRes.TabIndex = 2;
+			this.rbChangeRes.Text = "Zmień";
+			this.rbChangeRes.UseVisualStyleBackColor = true;
+			this.rbChangeRes.Click += new System.EventHandler(this.rbChangeRes_Click);
 			// 
-			// button3
+			// rbRemoveRes
 			// 
-			this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.button3.Location = new System.Drawing.Point(264, 1);
-			this.button3.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(83, 23);
-			this.button3.TabIndex = 3;
-			this.button3.Text = "Usuń";
-			this.button3.UseVisualStyleBackColor = true;
+			this.rbRemoveRes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rbRemoveRes.Location = new System.Drawing.Point(264, 1);
+			this.rbRemoveRes.Margin = new System.Windows.Forms.Padding(3, 1, 3, 1);
+			this.rbRemoveRes.Name = "rbRemoveRes";
+			this.rbRemoveRes.Size = new System.Drawing.Size(83, 23);
+			this.rbRemoveRes.TabIndex = 3;
+			this.rbRemoveRes.Text = "Usuń";
+			this.rbRemoveRes.UseVisualStyleBackColor = true;
+			this.rbRemoveRes.Click += new System.EventHandler(this.rbRemoveRes_Click);
 			// 
 			// rlAvaliable
 			// 
@@ -1228,6 +1125,11 @@
             0,
             0,
             0});
+			this.rnMaxRes.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
 			this.rnMaxRes.Name = "rnMaxRes";
 			this.rnMaxRes.Size = new System.Drawing.Size(169, 20);
 			this.rnMaxRes.TabIndex = 14;
@@ -1236,6 +1138,7 @@
             0,
             0,
             0});
+			this.rnMaxRes.ValueChanged += new System.EventHandler(this.rnMaxRes_ValueChanged);
 			// 
 			// rnMinRes
 			// 
@@ -1243,6 +1146,11 @@
 			this.rnMinRes.Location = new System.Drawing.Point(183, 8);
 			this.rnMinRes.Maximum = new decimal(new int[] {
             300,
+            0,
+            0,
+            0});
+			this.rnMinRes.Minimum = new decimal(new int[] {
+            25,
             0,
             0,
             0});
@@ -1254,6 +1162,7 @@
             0,
             0,
             0});
+			this.rnMinRes.ValueChanged += new System.EventHandler(this.rnMinRes_ValueChanged);
 			// 
 			// rlMaxRes
 			// 
@@ -1288,13 +1197,6 @@
 			this.rlvResList.GridLines = true;
 			this.rlvResList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.rlvResList.HideSelection = false;
-			this.rlvResList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem13,
-            listViewItem14,
-            listViewItem15,
-            listViewItem16,
-            listViewItem17,
-            listViewItem18});
 			this.rlvResList.Location = new System.Drawing.Point(8, 103);
 			this.rlvResList.MultiSelect = false;
 			this.rlvResList.Name = "rlvResList";
@@ -1303,6 +1205,7 @@
 			this.rlvResList.TabIndex = 15;
 			this.rlvResList.UseCompatibleStateImageBehavior = false;
 			this.rlvResList.View = System.Windows.Forms.View.Details;
+			this.rlvResList.SelectedIndexChanged += new System.EventHandler(this.rlvResList_SelectedIndexChanged);
 			// 
 			// rlvcDPI
 			// 
@@ -1311,21 +1214,126 @@
 			// 
 			// rlvcResolution
 			// 
-			this.rlvcResolution.Text = "Rozdzielczość";
-			this.rlvcResolution.Width = 241;
+			this.rlvcResolution.Text = "Rozdzielczość - przykład dla formatu A4";
+			this.rlvcResolution.Width = 260;
 			// 
-			// checkBox1
+			// rcbCustomRes
 			// 
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Checked = true;
-			this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.checkBox1.Location = new System.Drawing.Point(183, 60);
-			this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(169, 17);
-			this.checkBox1.TabIndex = 20;
-			this.checkBox1.UseVisualStyleBackColor = true;
+			this.rcbCustomRes.AutoSize = true;
+			this.rcbCustomRes.Checked = true;
+			this.rcbCustomRes.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.rcbCustomRes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rcbCustomRes.Location = new System.Drawing.Point(183, 60);
+			this.rcbCustomRes.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.rcbCustomRes.Name = "rcbCustomRes";
+			this.rcbCustomRes.Size = new System.Drawing.Size(169, 17);
+			this.rcbCustomRes.TabIndex = 20;
+			this.rcbCustomRes.UseVisualStyleBackColor = true;
+			this.rcbCustomRes.CheckedChanged += new System.EventHandler(this.rcbCustomRes_CheckedChanged);
+			// 
+			// tlDefField
+			// 
+			this.tlDefField.ColumnCount = 3;
+			this.tlDefField.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this.tlDefField.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this.tlDefField.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+			this.tlDefField.Controls.Add(this.numericUpDown7, 2, 2);
+			this.tlDefField.Controls.Add(this.numericUpDown6, 1, 2);
+			this.tlDefField.Controls.Add(this.label15, 0, 2);
+			this.tlDefField.Controls.Add(this.label14, 0, 1);
+			this.tlDefField.Controls.Add(this.label4, 0, 0);
+			this.tlDefField.Controls.Add(this.textBox1, 1, 0);
+			this.tlDefField.Controls.Add(this.numericUpDown4, 1, 1);
+			this.tlDefField.Controls.Add(this.numericUpDown5, 2, 1);
+			this.tlDefField.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tlDefField.Location = new System.Drawing.Point(0, 0);
+			this.tlDefField.Name = "tlDefField";
+			this.tlDefField.Padding = new System.Windows.Forms.Padding(5);
+			this.tlDefField.RowCount = 7;
+			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tlDefField.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tlDefField.Size = new System.Drawing.Size(360, 343);
+			this.tlDefField.TabIndex = 2;
+			this.tlDefField.Visible = false;
+			// 
+			// numericUpDown7
+			// 
+			this.numericUpDown7.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.numericUpDown7.Location = new System.Drawing.Point(240, 58);
+			this.numericUpDown7.Name = "numericUpDown7";
+			this.numericUpDown7.Size = new System.Drawing.Size(112, 20);
+			this.numericUpDown7.TabIndex = 7;
+			// 
+			// numericUpDown6
+			// 
+			this.numericUpDown6.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.numericUpDown6.Location = new System.Drawing.Point(124, 58);
+			this.numericUpDown6.Name = "numericUpDown6";
+			this.numericUpDown6.Size = new System.Drawing.Size(110, 20);
+			this.numericUpDown6.TabIndex = 6;
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label15.Location = new System.Drawing.Point(8, 55);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(110, 25);
+			this.label15.TabIndex = 5;
+			this.label15.Text = "Rozmiar:";
+			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label14.Location = new System.Drawing.Point(8, 30);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(110, 25);
+			this.label14.TabIndex = 2;
+			this.label14.Text = "Pozycja:";
+			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label4.Location = new System.Drawing.Point(8, 5);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(110, 25);
+			this.label4.TabIndex = 0;
+			this.label4.Text = "Nazwa pola:";
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// textBox1
+			// 
+			this.tlDefField.SetColumnSpan(this.textBox1, 2);
+			this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBox1.Location = new System.Drawing.Point(124, 8);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(228, 20);
+			this.textBox1.TabIndex = 1;
+			// 
+			// numericUpDown4
+			// 
+			this.numericUpDown4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.numericUpDown4.Location = new System.Drawing.Point(124, 33);
+			this.numericUpDown4.Name = "numericUpDown4";
+			this.numericUpDown4.Size = new System.Drawing.Size(110, 20);
+			this.numericUpDown4.TabIndex = 3;
+			// 
+			// numericUpDown5
+			// 
+			this.numericUpDown5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.numericUpDown5.Location = new System.Drawing.Point(240, 33);
+			this.numericUpDown5.Name = "numericUpDown5";
+			this.numericUpDown5.Size = new System.Drawing.Size(112, 20);
+			this.numericUpDown5.TabIndex = 4;
 			// 
 			// tlSidebar
 			// 
@@ -1351,30 +1359,30 @@
 			this.tvList.HideSelection = false;
 			this.tvList.Location = new System.Drawing.Point(3, 3);
 			this.tvList.Name = "tvList";
-			treeNode19.Name = "2";
-			treeNode19.Text = "Rozdzielczości";
-			treeNode20.Name = "1";
-			treeNode20.Text = "Ogólne";
-			treeNode21.Name = "4";
-			treeNode21.Text = "Nowe pole";
-			treeNode22.Name = "5";
-			treeNode22.Text = "Szczegóły pola";
-			treeNode23.Name = "6";
-			treeNode23.Text = "Nowa strona";
-			treeNode24.Name = "3";
-			treeNode24.Text = "Edytor";
-			treeNode25.Name = "7";
-			treeNode25.Text = "Generowanie PDF";
-			treeNode26.Name = "9";
-			treeNode26.Text = "Skróty klawiaturowe";
-			treeNode27.Name = "10";
-			treeNode27.Text = "Formaty wzorów";
+			treeNode10.Name = "2";
+			treeNode10.Text = "Rozdzielczości";
+			treeNode11.Name = "1";
+			treeNode11.Text = "Ogólne";
+			treeNode12.Name = "4";
+			treeNode12.Text = "Nowe pole";
+			treeNode13.Name = "5";
+			treeNode13.Text = "Szczegóły pola";
+			treeNode14.Name = "6";
+			treeNode14.Text = "Nowa strona";
+			treeNode15.Name = "3";
+			treeNode15.Text = "Edytor";
+			treeNode16.Name = "7";
+			treeNode16.Text = "Generowanie PDF";
+			treeNode17.Name = "9";
+			treeNode17.Text = "Skróty klawiaturowe";
+			treeNode18.Name = "10";
+			treeNode18.Text = "Formaty wzorów";
 			this.tvList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode20,
-            treeNode24,
-            treeNode25,
-            treeNode26,
-            treeNode27});
+            treeNode11,
+            treeNode15,
+            treeNode16,
+            treeNode17,
+            treeNode18});
 			this.tvList.Size = new System.Drawing.Size(177, 187);
 			this.tvList.TabIndex = 1;
 			this.tvList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvList_AfterSelect);
@@ -1436,6 +1444,7 @@
 			this.ClientSize = new System.Drawing.Size(557, 385);
 			this.Controls.Add(this.tlMain);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "Settings";
@@ -1445,6 +1454,10 @@
 			this.tlButtons.PerformLayout();
 			this.tlContent.ResumeLayout(false);
 			this.pContent.ResumeLayout(false);
+			this.tlEditor.ResumeLayout(false);
+			this.tlEditor.PerformLayout();
+			this.tableLayoutPanel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
 			this.tlGeneral.ResumeLayout(false);
 			this.tlGeneral.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.gnPixelsPerDPI)).EndInit();
@@ -1455,22 +1468,18 @@
 			this.tableLayoutPanel4.PerformLayout();
 			this.tableLayoutPanel5.ResumeLayout(false);
 			this.tableLayoutPanel5.PerformLayout();
+			this.tlResolutions.ResumeLayout(false);
+			this.tlResolutions.PerformLayout();
+			this.rtlResEdit.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.rnResolution)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.rnMaxRes)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.rnMinRes)).EndInit();
 			this.tlDefField.ResumeLayout(false);
 			this.tlDefField.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-			this.tlEditor.ResumeLayout(false);
-			this.tlEditor.PerformLayout();
-			this.tableLayoutPanel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-			this.tlResolutions.ResumeLayout(false);
-			this.tlResolutions.PerformLayout();
-			this.tableLayoutPanel3.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.rnMaxRes)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.rnMinRes)).EndInit();
 			this.tlSidebar.ResumeLayout(false);
 			this.pPreview.ResumeLayout(false);
 			this.pPagePreview.ResumeLayout(false);
@@ -1531,12 +1540,12 @@
 		private System.Windows.Forms.ComboBox comboBox1;
 		private System.Windows.Forms.NumericUpDown numericUpDown3;
 		private System.Windows.Forms.TableLayoutPanel tlResolutions;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.Label rlCustomRes;
+		private System.Windows.Forms.TableLayoutPanel rtlResEdit;
+		private System.Windows.Forms.NumericUpDown rnResolution;
+		private System.Windows.Forms.Button rbAddRes;
+		private System.Windows.Forms.Button rbChangeRes;
+		private System.Windows.Forms.Button rbRemoveRes;
 		private System.Windows.Forms.Label rlAvaliable;
 		private System.Windows.Forms.NumericUpDown rnMaxRes;
 		private System.Windows.Forms.NumericUpDown rnMinRes;
@@ -1545,7 +1554,7 @@
 		private System.Windows.Forms.ListView rlvResList;
 		private System.Windows.Forms.ColumnHeader rlvcDPI;
 		private System.Windows.Forms.ColumnHeader rlvcResolution;
-		private System.Windows.Forms.CheckBox checkBox1;
+		private System.Windows.Forms.CheckBox rcbCustomRes;
 		private System.Windows.Forms.ComboBox gcbResolution;
 		private System.Windows.Forms.Label glDefaultRes;
 		private System.Windows.Forms.Label lPreview;
