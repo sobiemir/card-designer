@@ -240,7 +240,6 @@ namespace CDesigner
 			try // blok try/catch
 			{
 				List<string> files   = new List<string>();
-				List<int>    sizes   = new List<int>();
 				string       version = "";
 
 				// dodaj plik z listą skompresowanych plików

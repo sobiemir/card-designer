@@ -28,7 +28,6 @@ namespace CDesigner
 		private string     _original_text   = null;
 		private string     _current_text    = "";
 		private bool       _extra_margin    = false;
-		private PointF     _text_margin     = new PointF( 0.0f, 0.0f );
 
 		// ------------------------------------------------------------- DPIBorderSize --------------------------------
 		
@@ -184,7 +183,6 @@ namespace CDesigner
 			set
 			{
 				this._dpi_text_margin = value;
-				this._text_margin = new PointF( (float)(value.X * this._dpi_scale), (float)(value.Y * this._dpi_scale) );
 			}
 		}
 

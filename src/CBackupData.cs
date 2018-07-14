@@ -136,8 +136,8 @@ namespace CDesigner
 						using( StreamReader rstream = new StreamReader(
 							File.Open(output + names[0], FileMode.Open, FileAccess.Read)) )
 						{
-							string version = rstream.ReadLine();
-							string fname   = rstream.ReadLine();
+							rstream.ReadLine();
+							string fname = rstream.ReadLine();
 							
 							while( fname != null )
 							{
@@ -417,8 +417,8 @@ namespace CDesigner
 						// odczytaj nazwy plików
 						using( StreamReader rstream = new StreamReader(File.Open(output + names[0], FileMode.Open, FileAccess.Read)) )
 						{
-							string version = rstream.ReadLine();
-							string fname   = rstream.ReadLine();
+							rstream.ReadLine();
+							string fname = rstream.ReadLine();
 							
 							while( fname != null )
 							{

@@ -23,9 +23,6 @@ namespace CDesigner
 		/// Lista obsługiwanych rozszerzeń plików.
 		private string[] _supports = {"csv"};
 
-		/// Opis rozszerzeń.
-		private string[] _descriptions = { "Comma-Separated (.csv)" };
-
 		/// Ilość pobranych kolumny.
 		public int _columns = 0;
 

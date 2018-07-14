@@ -31,8 +31,6 @@ namespace CDesigner
 {
 	public partial class MainForm : Form
 	{
-		private List<string> _app_log = new List<string>( );
-
 		// ------------------------------------------------------------- gmpUpdate_Click ------------------------------
 		/// <summary>
 		/// Funkcja wywoływana po naciśnięciu przycisku Aktualizuj program
@@ -125,7 +123,6 @@ namespace CDesigner
 
 		private PatternData dPatternData    = new PatternData();
 		private DataContent dDataContent    = new DataContent();
-		private string		dCurrentName    = null;
 		private bool        dSketchDrawed   = false;
 		private Panel       dCurrentPage    = null;
 
@@ -1085,7 +1082,6 @@ CD_mtvPatterns_AfterSelect:
 			this.pLocked = false;
 
 			// przejdź na strone z danymi
-			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.gsData_Click( null, null );
 		}
 
@@ -1469,7 +1465,6 @@ CD_mtvPatterns_AfterSelect:
 			this.pLocked = false;
 
 			// przejdź na strone z danymi
-			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.gsData_Click( null, null );
 		}
 
@@ -1994,7 +1989,7 @@ CD_mtvPatterns_AfterSelect:
 			// nie można usunąć strony gdy jest tylko jedna
 			if( this.pPanelCounter < 1 )
 			{
-				DialogResult result = MessageBox.Show
+				MessageBox.Show
 				(
 					this,
 					"Twój wzór posiada tylko jedną stronę - nie możesz jej usunąć!",
@@ -2515,7 +2510,7 @@ CD_mtvPatterns_AfterSelect:
 		
 		private void dbScan_Click( object sender, EventArgs ev )
 		{
-			float width, height;
+			float width;
 			Graphics gfx = this.CreateGraphics();
 
 			// szukaj po rekordach
@@ -2531,8 +2526,7 @@ CD_mtvPatterns_AfterSelect:
 					{
 						FieldData field = page.field[z];
 
-						width  = PatternEditor.GetDimensionScale( field.bounds.Width, 1.0 );
-						height = PatternEditor.GetDimensionScale( field.bounds.Height, 1.0 );
+						width = PatternEditor.GetDimensionScale( field.bounds.Width, 1.0 );
 
 						if( !field.extra.print_text && !(field.extra.text_from_db && field.extra.column > -1) )
 							continue;
@@ -2889,7 +2883,6 @@ CD_mtvPatterns_AfterSelect:
 
 		private void gmtJoinCols_Click(object sender, EventArgs e)
 		{
-			JoinColsForm joiner = new JoinColsForm();
 		}
 	}
 }
