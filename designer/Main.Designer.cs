@@ -30,16 +30,14 @@
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-			this.tHomePanel = new System.Windows.Forms.TableLayoutPanel();
 			this.mpPreview = new System.Windows.Forms.Panel();
-			this.mibPreview = new System.Windows.Forms.PictureBox();
 			this.mtStatusBar = new System.Windows.Forms.TableLayoutPanel();
 			this.mlStatus = new System.Windows.Forms.Label();
-			this.mbDelete = new System.Windows.Forms.Button();
-			this.mbNew = new System.Windows.Forms.Button();
 			this.mfPageLayout = new System.Windows.Forms.FlowLayoutPanel();
 			this.mnPage = new System.Windows.Forms.NumericUpDown();
 			this.mlPage = new System.Windows.Forms.Label();
+			this.mbDelete = new System.Windows.Forms.Button();
+			this.mbNew = new System.Windows.Forms.Button();
 			this.mtvPatterns = new System.Windows.Forms.TreeView();
 			this.icPattern = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.ictNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,15 +52,22 @@
 			this.imMain = new System.Windows.Forms.MenuStrip();
 			this.mmPattern = new System.Windows.Forms.ToolStripMenuItem();
 			this.ispNew = new System.Windows.Forms.ToolStripMenuItem();
+			this.ispRecent = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.ispImport = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.ispExportAll = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
 			this.ispClose = new System.Windows.Forms.ToolStripMenuItem();
-			this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.informacjaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.pomocToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.isData = new System.Windows.Forms.ToolStripMenuItem();
 			this.isPattern = new System.Windows.Forms.ToolStripMenuItem();
 			this.isHome = new System.Windows.Forms.ToolStripMenuItem();
+			this.mmSettings = new System.Windows.Forms.ToolStripMenuItem();
+			this.issGeneratePDF = new System.Windows.Forms.ToolStripMenuItem();
+			this.issEditor = new System.Windows.Forms.ToolStripMenuItem();
+			this.issGeneral = new System.Windows.Forms.ToolStripMenuItem();
+			this.imProgram = new System.Windows.Forms.ToolStripMenuItem();
+			this.impInfo = new System.Windows.Forms.ToolStripMenuItem();
+			this.impHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.icPage = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.icpAddField = new System.Windows.Forms.ToolStripMenuItem();
 			this.icpDeleteFields = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,14 +102,12 @@
 			this.gsImage = new System.Windows.Forms.OpenFileDialog();
 			this.gsColor = new System.Windows.Forms.ColorDialog();
 			this.gsFont = new System.Windows.Forms.FontDialog();
-			this.tDataPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.dpPreview = new System.Windows.Forms.Panel();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+			this.dtButtonTable = new System.Windows.Forms.TableLayoutPanel();
 			this.dbGeneratePDF = new System.Windows.Forms.Button();
 			this.dbScan = new System.Windows.Forms.Button();
 			this.dtvData = new System.Windows.Forms.TreeView();
 			this.gsDBase = new System.Windows.Forms.OpenFileDialog();
-			this.ptStatusBar = new System.Windows.Forms.TableLayoutPanel();
 			this.pbSave = new System.Windows.Forms.Button();
 			this.pbLoadData = new System.Windows.Forms.Button();
 			this.ptInfoControls = new System.Windows.Forms.TableLayoutPanel();
@@ -113,7 +116,6 @@
 			this.plPage = new System.Windows.Forms.Label();
 			this.plStatus = new System.Windows.Forms.Label();
 			this.pcbScale = new System.Windows.Forms.ComboBox();
-			this.tPatternPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.ppPanelContainer = new System.Windows.Forms.Panel();
 			this.ptPatternDetails = new System.Windows.Forms.TableLayoutPanel();
 			this.icPatMenu = new System.Windows.Forms.MenuStrip();
@@ -121,18 +123,23 @@
 			this.icpmDetails = new System.Windows.Forms.ToolStripMenuItem();
 			this.icpmPageDetails = new System.Windows.Forms.ToolStripMenuItem();
 			this.ppDetailsPanel = new System.Windows.Forms.Panel();
-			this.ptDetails = new System.Windows.Forms.TableLayoutPanel();
-			this.pcbUseImageMargin = new System.Windows.Forms.CheckBox();
-			this.pcbDrawFrameOutside = new System.Windows.Forms.CheckBox();
-			this.plImageSettings = new System.Windows.Forms.Label();
-			this.pcbDynImage = new System.Windows.Forms.CheckBox();
-			this.pcbStatText = new System.Windows.Forms.CheckBox();
-			this.pcbDrawColor = new System.Windows.Forms.CheckBox();
-			this.pcbDynText = new System.Windows.Forms.CheckBox();
-			this.plPDFGenerate = new System.Windows.Forms.Label();
-			this.pcbShowFrame = new System.Windows.Forms.CheckBox();
-			this.pcbStatImage = new System.Windows.Forms.CheckBox();
-			this.pcxImageSet = new System.Windows.Forms.ComboBox();
+			this.ptPageDetails = new System.Windows.Forms.TableLayoutPanel();
+			this.pcbPageLook = new System.Windows.Forms.Label();
+			this.ptbPageImage = new System.Windows.Forms.TextBox();
+			this.pbPageImage = new System.Windows.Forms.Button();
+			this.pbPageColor = new System.Windows.Forms.Button();
+			this.ptbPageColor = new System.Windows.Forms.TextBox();
+			this.pcbpDrawOutside = new System.Windows.Forms.CheckBox();
+			this.pcbpApplyMargin = new System.Windows.Forms.CheckBox();
+			this.pcxpImageSet = new System.Windows.Forms.ComboBox();
+			this.plpImageSettings = new System.Windows.Forms.Label();
+			this.pcbpDrawColor = new System.Windows.Forms.CheckBox();
+			this.pcbpDrawImage = new System.Windows.Forms.CheckBox();
+			this.ptbpWidth = new System.Windows.Forms.TextBox();
+			this.ptbpHeight = new System.Windows.Forms.TextBox();
+			this.plpWidth = new System.Windows.Forms.Label();
+			this.plpHeight = new System.Windows.Forms.Label();
+			this.plpGeneratePDF = new System.Windows.Forms.Label();
 			this.ptFieldDetails = new System.Windows.Forms.TableLayoutPanel();
 			this.plHeight = new System.Windows.Forms.Label();
 			this.pnBorderSize = new System.Windows.Forms.NumericUpDown();
@@ -163,13 +170,38 @@
 			this.pcbPosAlign = new System.Windows.Forms.ComboBox();
 			this.plStickPoint = new System.Windows.Forms.Label();
 			this.plPositionY = new System.Windows.Forms.Label();
-			this.ptPageDetails = new System.Windows.Forms.TableLayoutPanel();
+			this.ptDetails = new System.Windows.Forms.TableLayoutPanel();
+			this.pcbUseImageMargin = new System.Windows.Forms.CheckBox();
+			this.pcbDrawFrameOutside = new System.Windows.Forms.CheckBox();
+			this.plImageSettings = new System.Windows.Forms.Label();
+			this.pcbDynImage = new System.Windows.Forms.CheckBox();
+			this.pcbStatText = new System.Windows.Forms.CheckBox();
+			this.pcbDrawColor = new System.Windows.Forms.CheckBox();
+			this.pcbDynText = new System.Windows.Forms.CheckBox();
+			this.plPDFGenerate = new System.Windows.Forms.Label();
+			this.pcbShowFrame = new System.Windows.Forms.CheckBox();
+			this.pcbStatImage = new System.Windows.Forms.CheckBox();
+			this.pcxImageSet = new System.Windows.Forms.ComboBox();
 			this.gsPrint = new System.Windows.Forms.PrintDialog();
 			this.isPrintDoc = new System.Drawing.Printing.PrintDocument();
 			this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
-			this.tHomePanel.SuspendLayout();
-			this.mpPreview.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.mibPreview)).BeginInit();
+			this.scData = new System.Windows.Forms.SplitContainer();
+			this.scHome = new System.Windows.Forms.SplitContainer();
+			this.mtButtonTable = new System.Windows.Forms.TableLayoutPanel();
+			this.tHomeTable = new System.Windows.Forms.TableLayoutPanel();
+			this.sbHome = new System.Windows.Forms.TableLayoutPanel();
+			this.tDataTable = new System.Windows.Forms.TableLayoutPanel();
+			this.sbData = new System.Windows.Forms.TableLayoutPanel();
+			this.dtInfoControls = new System.Windows.Forms.TableLayoutPanel();
+			this.dfPage = new System.Windows.Forms.FlowLayoutPanel();
+			this.dnPage = new System.Windows.Forms.NumericUpDown();
+			this.dlPage = new System.Windows.Forms.Label();
+			this.dlStatus = new System.Windows.Forms.Label();
+			this.dcbZoom = new System.Windows.Forms.ComboBox();
+			this.tPatternTable = new System.Windows.Forms.TableLayoutPanel();
+			this.scPattern = new System.Windows.Forms.SplitContainer();
+			this.sbPattern = new System.Windows.Forms.TableLayoutPanel();
+			this.ptStatusButtons = new System.Windows.Forms.TableLayoutPanel();
 			this.mtStatusBar.SuspendLayout();
 			this.mfPageLayout.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mnPage)).BeginInit();
@@ -177,17 +209,14 @@
 			this.imMain.SuspendLayout();
 			this.icPage.SuspendLayout();
 			this.icLabel.SuspendLayout();
-			this.tDataPanel.SuspendLayout();
-			this.tableLayoutPanel1.SuspendLayout();
-			this.ptStatusBar.SuspendLayout();
+			this.dtButtonTable.SuspendLayout();
 			this.ptInfoControls.SuspendLayout();
 			this.pflPage.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnPage)).BeginInit();
-			this.tPatternPanel.SuspendLayout();
 			this.ptPatternDetails.SuspendLayout();
 			this.icPatMenu.SuspendLayout();
 			this.ppDetailsPanel.SuspendLayout();
-			this.ptDetails.SuspendLayout();
+			this.ptPageDetails.SuspendLayout();
 			this.ptFieldDetails.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnBorderSize)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnPadding)).BeginInit();
@@ -195,116 +224,77 @@
 			((System.ComponentModel.ISupportInitialize)(this.pnPositionX)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnWidth)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnHeight)).BeginInit();
+			this.ptDetails.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.scData)).BeginInit();
+			this.scData.Panel1.SuspendLayout();
+			this.scData.Panel2.SuspendLayout();
+			this.scData.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.scHome)).BeginInit();
+			this.scHome.Panel1.SuspendLayout();
+			this.scHome.Panel2.SuspendLayout();
+			this.scHome.SuspendLayout();
+			this.mtButtonTable.SuspendLayout();
+			this.tHomeTable.SuspendLayout();
+			this.sbHome.SuspendLayout();
+			this.tDataTable.SuspendLayout();
+			this.sbData.SuspendLayout();
+			this.dtInfoControls.SuspendLayout();
+			this.dfPage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dnPage)).BeginInit();
+			this.tPatternTable.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.scPattern)).BeginInit();
+			this.scPattern.Panel1.SuspendLayout();
+			this.scPattern.Panel2.SuspendLayout();
+			this.scPattern.SuspendLayout();
+			this.sbPattern.SuspendLayout();
+			this.ptStatusButtons.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// tHomePanel
-			// 
-			this.tHomePanel.AutoScroll = true;
-			this.tHomePanel.ColumnCount = 2;
-			this.tHomePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.tHomePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-			this.tHomePanel.Controls.Add(this.mpPreview, 1, 0);
-			this.tHomePanel.Controls.Add(this.mtStatusBar, 0, 1);
-			this.tHomePanel.Controls.Add(this.mtvPatterns, 0, 0);
-			this.tHomePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tHomePanel.Location = new System.Drawing.Point(0, 24);
-			this.tHomePanel.Name = "tHomePanel";
-			this.tHomePanel.RowCount = 2;
-			this.tHomePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tHomePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tHomePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tHomePanel.Size = new System.Drawing.Size(684, 458);
-			this.tHomePanel.TabIndex = 0;
 			// 
 			// mpPreview
 			// 
 			this.mpPreview.AutoScroll = true;
 			this.mpPreview.BackColor = System.Drawing.SystemColors.ScrollBar;
 			this.mpPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.mpPreview.Controls.Add(this.mibPreview);
 			this.mpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mpPreview.Location = new System.Drawing.Point(208, 6);
-			this.mpPreview.Margin = new System.Windows.Forms.Padding(3, 6, 6, 3);
+			this.mpPreview.Location = new System.Drawing.Point(0, 0);
+			this.mpPreview.Margin = new System.Windows.Forms.Padding(1, 0, 0, 0);
 			this.mpPreview.Name = "mpPreview";
-			this.mpPreview.Size = new System.Drawing.Size(470, 421);
+			this.mpPreview.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.mpPreview.Size = new System.Drawing.Size(416, 421);
 			this.mpPreview.TabIndex = 5;
 			this.mpPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mpPreview_MouseDown);
 			this.mpPreview.Resize += new System.EventHandler(this.mpPreview_Resize);
 			// 
-			// mibPreview
-			// 
-			this.mibPreview.Location = new System.Drawing.Point(0, 0);
-			this.mibPreview.Margin = new System.Windows.Forms.Padding(0);
-			this.mibPreview.Name = "mibPreview";
-			this.mibPreview.Padding = new System.Windows.Forms.Padding(5);
-			this.mibPreview.Size = new System.Drawing.Size(100, 50);
-			this.mibPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-			this.mibPreview.TabIndex = 0;
-			this.mibPreview.TabStop = false;
-			this.mibPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mpPreview_MouseDown);
-			// 
 			// mtStatusBar
 			// 
-			this.mtStatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.mtStatusBar.ColumnCount = 4;
-			this.tHomePanel.SetColumnSpan(this.mtStatusBar, 2);
-			this.mtStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-			this.mtStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-			this.mtStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.mtStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.mtStatusBar.ColumnCount = 2;
+			this.mtStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 78.57143F));
+			this.mtStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.42857F));
+			this.mtStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.mtStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.mtStatusBar.Controls.Add(this.mlStatus, 0, 0);
-			this.mtStatusBar.Controls.Add(this.mbDelete, 0, 0);
-			this.mtStatusBar.Controls.Add(this.mbNew, 0, 0);
-			this.mtStatusBar.Controls.Add(this.mfPageLayout, 3, 0);
+			this.mtStatusBar.Controls.Add(this.mfPageLayout, 1, 0);
 			this.mtStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mtStatusBar.Location = new System.Drawing.Point(0, 430);
+			this.mtStatusBar.Location = new System.Drawing.Point(257, 0);
 			this.mtStatusBar.Margin = new System.Windows.Forms.Padding(0);
 			this.mtStatusBar.Name = "mtStatusBar";
 			this.mtStatusBar.Padding = new System.Windows.Forms.Padding(3);
 			this.mtStatusBar.RowCount = 1;
 			this.mtStatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.mtStatusBar.Size = new System.Drawing.Size(684, 28);
+			this.mtStatusBar.Size = new System.Drawing.Size(427, 28);
 			this.mtStatusBar.TabIndex = 6;
 			// 
 			// mlStatus
 			// 
 			this.mlStatus.AutoSize = true;
 			this.mlStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mlStatus.Location = new System.Drawing.Point(208, 3);
+			this.mlStatus.Location = new System.Drawing.Point(5, 3);
+			this.mlStatus.Margin = new System.Windows.Forms.Padding(2, 0, 3, 0);
 			this.mlStatus.Name = "mlStatus";
-			this.mlStatus.Size = new System.Drawing.Size(333, 22);
+			this.mlStatus.Size = new System.Drawing.Size(325, 22);
 			this.mlStatus.TabIndex = 22;
 			this.mlStatus.Text = "Proszę czekać...";
 			this.mlStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// mbDelete
-			// 
-			this.mbDelete.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mbDelete.Enabled = false;
-			this.mbDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.mbDelete.Location = new System.Drawing.Point(107, 3);
-			this.mbDelete.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-			this.mbDelete.Name = "mbDelete";
-			this.mbDelete.Size = new System.Drawing.Size(95, 22);
-			this.mbDelete.TabIndex = 18;
-			this.mbDelete.Text = "Usuń";
-			this.mbDelete.Click += new System.EventHandler(this.ictDelete_Click);
-			this.mbDelete.MouseEnter += new System.EventHandler(this.mbDelete_MouseEnter);
-			this.mbDelete.MouseLeave += new System.EventHandler(this.mlStatus_ClearText);
-			// 
-			// mbNew
-			// 
-			this.mbNew.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mbNew.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.mbNew.Location = new System.Drawing.Point(6, 3);
-			this.mbNew.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-			this.mbNew.Name = "mbNew";
-			this.mbNew.Size = new System.Drawing.Size(95, 22);
-			this.mbNew.TabIndex = 16;
-			this.mbNew.Text = "Nowy";
-			this.mbNew.Click += new System.EventHandler(this.ispNew_Click);
-			this.mbNew.MouseEnter += new System.EventHandler(this.mbNew_MouseEnter);
-			this.mbNew.MouseLeave += new System.EventHandler(this.mlStatus_ClearText);
 			// 
 			// mfPageLayout
 			// 
@@ -312,17 +302,17 @@
 			this.mfPageLayout.Controls.Add(this.mlPage);
 			this.mfPageLayout.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mfPageLayout.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.mfPageLayout.Location = new System.Drawing.Point(544, 3);
+			this.mfPageLayout.Location = new System.Drawing.Point(333, 3);
 			this.mfPageLayout.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this.mfPageLayout.Name = "mfPageLayout";
 			this.mfPageLayout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.mfPageLayout.Size = new System.Drawing.Size(134, 22);
+			this.mfPageLayout.Size = new System.Drawing.Size(88, 22);
 			this.mfPageLayout.TabIndex = 23;
 			// 
 			// mnPage
 			// 
 			this.mnPage.Enabled = false;
-			this.mnPage.Location = new System.Drawing.Point(99, 0);
+			this.mnPage.Location = new System.Drawing.Point(53, 0);
 			this.mnPage.Margin = new System.Windows.Forms.Padding(0);
 			this.mnPage.Maximum = new decimal(new int[] {
             1,
@@ -348,12 +338,41 @@
 			// 
 			this.mlPage.AutoSize = true;
 			this.mlPage.Dock = System.Windows.Forms.DockStyle.Right;
-			this.mlPage.Location = new System.Drawing.Point(55, 0);
+			this.mlPage.Location = new System.Drawing.Point(9, 0);
 			this.mlPage.Name = "mlPage";
 			this.mlPage.Size = new System.Drawing.Size(41, 20);
 			this.mlPage.TabIndex = 22;
 			this.mlPage.Text = "Strona:";
 			this.mlPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// mbDelete
+			// 
+			this.mbDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mbDelete.Enabled = false;
+			this.mbDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.mbDelete.Location = new System.Drawing.Point(129, 3);
+			this.mbDelete.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
+			this.mbDelete.Name = "mbDelete";
+			this.mbDelete.Size = new System.Drawing.Size(122, 22);
+			this.mbDelete.TabIndex = 18;
+			this.mbDelete.Text = "Usuń";
+			this.mbDelete.Click += new System.EventHandler(this.ictDelete_Click);
+			this.mbDelete.MouseEnter += new System.EventHandler(this.mbDelete_MouseEnter);
+			this.mbDelete.MouseLeave += new System.EventHandler(this.mlStatus_ClearText);
+			// 
+			// mbNew
+			// 
+			this.mbNew.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mbNew.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.mbNew.Location = new System.Drawing.Point(1, 3);
+			this.mbNew.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
+			this.mbNew.Name = "mbNew";
+			this.mbNew.Size = new System.Drawing.Size(122, 22);
+			this.mbNew.TabIndex = 16;
+			this.mbNew.Text = "Nowy";
+			this.mbNew.Click += new System.EventHandler(this.ispNew_Click);
+			this.mbNew.MouseEnter += new System.EventHandler(this.mbNew_MouseEnter);
+			this.mbNew.MouseLeave += new System.EventHandler(this.mlStatus_ClearText);
 			// 
 			// mtvPatterns
 			// 
@@ -361,13 +380,13 @@
 			this.mtvPatterns.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mtvPatterns.FullRowSelect = true;
 			this.mtvPatterns.HideSelection = false;
-			this.mtvPatterns.Location = new System.Drawing.Point(6, 6);
-			this.mtvPatterns.Margin = new System.Windows.Forms.Padding(6, 6, 3, 3);
+			this.mtvPatterns.Location = new System.Drawing.Point(0, 0);
+			this.mtvPatterns.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
 			this.mtvPatterns.Name = "mtvPatterns";
 			this.mtvPatterns.ShowLines = false;
 			this.mtvPatterns.ShowPlusMinus = false;
 			this.mtvPatterns.ShowRootLines = false;
-			this.mtvPatterns.Size = new System.Drawing.Size(196, 421);
+			this.mtvPatterns.Size = new System.Drawing.Size(250, 421);
 			this.mtvPatterns.TabIndex = 7;
 			this.mtvPatterns.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.mtvPatterns_AfterSelect);
 			this.mtvPatterns.DoubleClick += new System.EventHandler(this.ictEdit_Click);
@@ -422,12 +441,14 @@
 			// 
 			// ictImport
 			// 
+			this.ictImport.Enabled = false;
 			this.ictImport.Name = "ictImport";
 			this.ictImport.Size = new System.Drawing.Size(153, 22);
 			this.ictImport.Text = "Importuj...";
 			// 
 			// ictExport
 			// 
+			this.ictExport.Enabled = false;
 			this.ictExport.Name = "ictExport";
 			this.ictExport.Size = new System.Drawing.Size(153, 22);
 			this.ictExport.Text = "Eksportuj...";
@@ -449,10 +470,11 @@
 			this.imMain.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.imMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mmPattern,
-            this.programToolStripMenuItem,
             this.isData,
             this.isPattern,
-            this.isHome});
+            this.isHome,
+            this.mmSettings,
+            this.imProgram});
 			this.imMain.Location = new System.Drawing.Point(0, 0);
 			this.imMain.Name = "imMain";
 			this.imMain.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
@@ -464,8 +486,11 @@
 			// 
 			this.mmPattern.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ispNew,
+            this.ispRecent,
+            this.toolStripSeparator3,
             this.ispImport,
-            this.toolStripSeparator1,
+            this.ispExportAll,
+            this.toolStripSeparator13,
             this.ispClose});
 			this.mmPattern.Name = "mmPattern";
 			this.mmPattern.Size = new System.Drawing.Size(46, 20);
@@ -474,48 +499,47 @@
 			// ispNew
 			// 
 			this.ispNew.Name = "ispNew";
-			this.ispNew.Size = new System.Drawing.Size(142, 22);
-			this.ispNew.Text = "Nowy wzór...";
+			this.ispNew.Size = new System.Drawing.Size(175, 22);
+			this.ispNew.Text = "Nowy...";
 			this.ispNew.Click += new System.EventHandler(this.ispNew_Click);
+			// 
+			// ispRecent
+			// 
+			this.ispRecent.Enabled = false;
+			this.ispRecent.Name = "ispRecent";
+			this.ispRecent.Size = new System.Drawing.Size(175, 22);
+			this.ispRecent.Text = "Ostatnio otwarte";
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(172, 6);
 			// 
 			// ispImport
 			// 
+			this.ispImport.Enabled = false;
 			this.ispImport.Name = "ispImport";
-			this.ispImport.Size = new System.Drawing.Size(142, 22);
+			this.ispImport.Size = new System.Drawing.Size(175, 22);
 			this.ispImport.Text = "Importuj...";
 			// 
-			// toolStripSeparator1
+			// ispExportAll
 			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
+			this.ispExportAll.Enabled = false;
+			this.ispExportAll.Name = "ispExportAll";
+			this.ispExportAll.Size = new System.Drawing.Size(175, 22);
+			this.ispExportAll.Text = "Eksportuj wszystkie";
+			// 
+			// toolStripSeparator13
+			// 
+			this.toolStripSeparator13.Name = "toolStripSeparator13";
+			this.toolStripSeparator13.Size = new System.Drawing.Size(172, 6);
 			// 
 			// ispClose
 			// 
 			this.ispClose.Name = "ispClose";
-			this.ispClose.Size = new System.Drawing.Size(142, 22);
-			this.ispClose.Text = "Zamknij";
+			this.ispClose.Size = new System.Drawing.Size(175, 22);
+			this.ispClose.Text = "Zakończ program";
 			this.ispClose.Click += new System.EventHandler(this.ispClose_Click);
-			// 
-			// programToolStripMenuItem
-			// 
-			this.programToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.informacjaToolStripMenuItem,
-            this.pomocToolStripMenuItem});
-			this.programToolStripMenuItem.Name = "programToolStripMenuItem";
-			this.programToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
-			this.programToolStripMenuItem.Text = "Program";
-			// 
-			// informacjaToolStripMenuItem
-			// 
-			this.informacjaToolStripMenuItem.Name = "informacjaToolStripMenuItem";
-			this.informacjaToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-			this.informacjaToolStripMenuItem.Text = "Informacja";
-			// 
-			// pomocToolStripMenuItem
-			// 
-			this.pomocToolStripMenuItem.Name = "pomocToolStripMenuItem";
-			this.pomocToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-			this.pomocToolStripMenuItem.Text = "Pomoc";
 			// 
 			// isData
 			// 
@@ -543,6 +567,64 @@
 			this.isHome.Size = new System.Drawing.Size(59, 20);
 			this.isHome.Text = "Główna";
 			this.isHome.Click += new System.EventHandler(this.isHome_Click);
+			// 
+			// mmSettings
+			// 
+			this.mmSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.issGeneratePDF,
+            this.issEditor,
+            this.issGeneral});
+			this.mmSettings.Name = "mmSettings";
+			this.mmSettings.Size = new System.Drawing.Size(76, 20);
+			this.mmSettings.Text = "Ustawienia";
+			// 
+			// issGeneratePDF
+			// 
+			this.issGeneratePDF.Enabled = false;
+			this.issGeneratePDF.Name = "issGeneratePDF";
+			this.issGeneratePDF.Size = new System.Drawing.Size(159, 22);
+			this.issGeneratePDF.Text = "Generator PDF...";
+			this.issGeneratePDF.Click += new System.EventHandler(this.issGeneratePDF_Click);
+			// 
+			// issEditor
+			// 
+			this.issEditor.Enabled = false;
+			this.issEditor.Name = "issEditor";
+			this.issEditor.Size = new System.Drawing.Size(159, 22);
+			this.issEditor.Text = "Edytor...";
+			this.issEditor.Click += new System.EventHandler(this.issEditor_Click);
+			// 
+			// issGeneral
+			// 
+			this.issGeneral.Enabled = false;
+			this.issGeneral.Name = "issGeneral";
+			this.issGeneral.Size = new System.Drawing.Size(159, 22);
+			this.issGeneral.Text = "Ogólne...";
+			this.issGeneral.Click += new System.EventHandler(this.issGeneral_Click);
+			// 
+			// imProgram
+			// 
+			this.imProgram.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.impInfo,
+            this.impHelp});
+			this.imProgram.Name = "imProgram";
+			this.imProgram.Size = new System.Drawing.Size(65, 20);
+			this.imProgram.Text = "Program";
+			// 
+			// impInfo
+			// 
+			this.impInfo.Name = "impInfo";
+			this.impInfo.Size = new System.Drawing.Size(131, 22);
+			this.impInfo.Text = "Informacje";
+			this.impInfo.Click += new System.EventHandler(this.impInfo_Click);
+			// 
+			// impHelp
+			// 
+			this.impHelp.Enabled = false;
+			this.impHelp.Name = "impHelp";
+			this.impHelp.Size = new System.Drawing.Size(131, 22);
+			this.impHelp.Text = "Pomoc";
+			this.impHelp.Click += new System.EventHandler(this.impHelp_Click);
 			// 
 			// icPage
 			// 
@@ -591,6 +673,7 @@
 			// 
 			// icpPageBack
 			// 
+			this.icpPageBack.Enabled = false;
 			this.icpPageBack.Name = "icpPageBack";
 			this.icpPageBack.Size = new System.Drawing.Size(179, 22);
 			this.icpPageBack.Text = "Obraz tła strony...";
@@ -613,15 +696,16 @@
 			this.icpPrintColor.CheckOnClick = true;
 			this.icpPrintColor.Name = "icpPrintColor";
 			this.icpPrintColor.Size = new System.Drawing.Size(179, 22);
-			this.icpPrintColor.Text = "Drukuj kolor strony";
+			this.icpPrintColor.Text = "Rysuj kolor strony";
 			this.icpPrintColor.CheckedChanged += new System.EventHandler(this.icpPrintColor_CheckedChanged);
 			// 
 			// icpPrintImage
 			// 
 			this.icpPrintImage.CheckOnClick = true;
+			this.icpPrintImage.Enabled = false;
 			this.icpPrintImage.Name = "icpPrintImage";
 			this.icpPrintImage.Size = new System.Drawing.Size(179, 22);
-			this.icpPrintImage.Text = "Drukuj obraz strony";
+			this.icpPrintImage.Text = "Rysuj obraz strony";
 			this.icpPrintImage.CheckedChanged += new System.EventHandler(this.icpPrintImage_CheckedChanged);
 			// 
 			// toolStripSeparator7
@@ -664,75 +748,78 @@
             this.toolStripSeparator5,
             this.iclDeleteField});
 			this.icLabel.Name = "cmPrevLabel";
-			this.icLabel.Size = new System.Drawing.Size(184, 314);
+			this.icLabel.Size = new System.Drawing.Size(173, 314);
 			this.icLabel.Opening += new System.ComponentModel.CancelEventHandler(this.icLabel_Opening);
 			// 
 			// iclBackColor
 			// 
 			this.iclBackColor.Name = "iclBackColor";
-			this.iclBackColor.Size = new System.Drawing.Size(183, 22);
+			this.iclBackColor.Size = new System.Drawing.Size(172, 22);
 			this.iclBackColor.Text = "Kolor tła pola...";
 			this.iclBackColor.Click += new System.EventHandler(this.pbBackColor_Click);
 			// 
 			// iclBackImage
 			// 
+			this.iclBackImage.Enabled = false;
 			this.iclBackImage.Name = "iclBackImage";
-			this.iclBackImage.Size = new System.Drawing.Size(183, 22);
+			this.iclBackImage.Size = new System.Drawing.Size(172, 22);
 			this.iclBackImage.Text = "Obraz tła pola...";
 			this.iclBackImage.Click += new System.EventHandler(this.pbBackImage_Click);
 			// 
 			// iclClearBack
 			// 
 			this.iclClearBack.Name = "iclClearBack";
-			this.iclClearBack.Size = new System.Drawing.Size(183, 22);
+			this.iclClearBack.Size = new System.Drawing.Size(172, 22);
 			this.iclClearBack.Text = "Wyczyść tło";
 			this.iclClearBack.Click += new System.EventHandler(this.iclClearBack_Click);
 			// 
 			// toolStripSeparator6
 			// 
 			this.toolStripSeparator6.Name = "toolStripSeparator6";
-			this.toolStripSeparator6.Size = new System.Drawing.Size(180, 6);
+			this.toolStripSeparator6.Size = new System.Drawing.Size(169, 6);
 			// 
 			// iclBackFromDb
 			// 
 			this.iclBackFromDb.CheckOnClick = true;
+			this.iclBackFromDb.Enabled = false;
 			this.iclBackFromDb.Name = "iclBackFromDb";
-			this.iclBackFromDb.Size = new System.Drawing.Size(183, 22);
-			this.iclBackFromDb.Text = "Tło z bazy danych";
+			this.iclBackFromDb.Size = new System.Drawing.Size(172, 22);
+			this.iclBackFromDb.Text = "Obraz dynamiczny";
 			this.iclBackFromDb.Click += new System.EventHandler(this.iclBackFromDb_Click);
 			// 
 			// iclPrintColor
 			// 
 			this.iclPrintColor.CheckOnClick = true;
 			this.iclPrintColor.Name = "iclPrintColor";
-			this.iclPrintColor.Size = new System.Drawing.Size(183, 22);
-			this.iclPrintColor.Text = "Drukuj kolor pola";
+			this.iclPrintColor.Size = new System.Drawing.Size(172, 22);
+			this.iclPrintColor.Text = "Rysuj kolor pola";
 			this.iclPrintColor.Click += new System.EventHandler(this.iclPrintColor_Click);
 			// 
 			// iclPrintImage
 			// 
 			this.iclPrintImage.CheckOnClick = true;
+			this.iclPrintImage.Enabled = false;
 			this.iclPrintImage.Name = "iclPrintImage";
-			this.iclPrintImage.Size = new System.Drawing.Size(183, 22);
-			this.iclPrintImage.Text = "Drukuj obraz pola";
+			this.iclPrintImage.Size = new System.Drawing.Size(172, 22);
+			this.iclPrintImage.Text = "Obraz statyczny";
 			this.iclPrintImage.Click += new System.EventHandler(this.iclPrintImage_Click);
 			// 
 			// toolStripSeparator8
 			// 
 			this.toolStripSeparator8.Name = "toolStripSeparator8";
-			this.toolStripSeparator8.Size = new System.Drawing.Size(180, 6);
+			this.toolStripSeparator8.Size = new System.Drawing.Size(169, 6);
 			// 
 			// iclFontColor
 			// 
 			this.iclFontColor.Name = "iclFontColor";
-			this.iclFontColor.Size = new System.Drawing.Size(183, 22);
+			this.iclFontColor.Size = new System.Drawing.Size(172, 22);
 			this.iclFontColor.Text = "Kolor czcionki...";
 			this.iclFontColor.Click += new System.EventHandler(this.pbFontColor_Click);
 			// 
 			// iclFontName
 			// 
 			this.iclFontName.Name = "iclFontName";
-			this.iclFontName.Size = new System.Drawing.Size(183, 22);
+			this.iclFontName.Size = new System.Drawing.Size(172, 22);
 			this.iclFontName.Text = "Zmień czcionkę...";
 			this.iclFontName.Click += new System.EventHandler(this.pbFontName_Click);
 			// 
@@ -740,27 +827,27 @@
 			// 
 			this.iclTextFromDb.CheckOnClick = true;
 			this.iclTextFromDb.Name = "iclTextFromDb";
-			this.iclTextFromDb.Size = new System.Drawing.Size(183, 22);
-			this.iclTextFromDb.Text = "Napis z bazy danych";
+			this.iclTextFromDb.Size = new System.Drawing.Size(172, 22);
+			this.iclTextFromDb.Text = "Tekst dynamiczny";
 			this.iclTextFromDb.Click += new System.EventHandler(this.iclTextFromDb_Click);
 			// 
 			// iclPrintText
 			// 
 			this.iclPrintText.CheckOnClick = true;
 			this.iclPrintText.Name = "iclPrintText";
-			this.iclPrintText.Size = new System.Drawing.Size(183, 22);
-			this.iclPrintText.Text = "Drukuj napis na polu";
+			this.iclPrintText.Size = new System.Drawing.Size(172, 22);
+			this.iclPrintText.Text = "Tekst statyczny";
 			this.iclPrintText.Click += new System.EventHandler(this.iclPrintText_Click);
 			// 
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(180, 6);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
 			// 
 			// iclBorderColor
 			// 
 			this.iclBorderColor.Name = "iclBorderColor";
-			this.iclBorderColor.Size = new System.Drawing.Size(183, 22);
+			this.iclBorderColor.Size = new System.Drawing.Size(172, 22);
 			this.iclBorderColor.Text = "Kolor ramki...";
 			this.iclBorderColor.Click += new System.EventHandler(this.pbBorderColor_Click);
 			// 
@@ -768,19 +855,19 @@
 			// 
 			this.iclPrintBorder.CheckOnClick = true;
 			this.iclPrintBorder.Name = "iclPrintBorder";
-			this.iclPrintBorder.Size = new System.Drawing.Size(183, 22);
-			this.iclPrintBorder.Text = "Drukuj ramkę";
+			this.iclPrintBorder.Size = new System.Drawing.Size(172, 22);
+			this.iclPrintBorder.Text = "Wyświetlaj ramke";
 			this.iclPrintBorder.Click += new System.EventHandler(this.iclPrintBorder_Click);
 			// 
 			// toolStripSeparator5
 			// 
 			this.toolStripSeparator5.Name = "toolStripSeparator5";
-			this.toolStripSeparator5.Size = new System.Drawing.Size(180, 6);
+			this.toolStripSeparator5.Size = new System.Drawing.Size(169, 6);
 			// 
 			// iclDeleteField
 			// 
 			this.iclDeleteField.Name = "iclDeleteField";
-			this.iclDeleteField.Size = new System.Drawing.Size(183, 22);
+			this.iclDeleteField.Size = new System.Drawing.Size(172, 22);
 			this.iclDeleteField.Text = "Usuń";
 			this.iclDeleteField.Click += new System.EventHandler(this.iclDeleteField_Click);
 			// 
@@ -788,61 +875,44 @@
 			// 
 			this.gsImage.Filter = "JPEG (*.jpg)|*.jpg|PNG (*.png)|*.png|BMP (*.bmp)|*.bmp";
 			// 
-			// tDataPanel
-			// 
-			this.tDataPanel.ColumnCount = 2;
-			this.tDataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-			this.tDataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.tDataPanel.Controls.Add(this.dpPreview, 0, 0);
-			this.tDataPanel.Controls.Add(this.tableLayoutPanel1, 0, 1);
-			this.tDataPanel.Controls.Add(this.dtvData, 1, 0);
-			this.tDataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tDataPanel.Location = new System.Drawing.Point(0, 24);
-			this.tDataPanel.Name = "tDataPanel";
-			this.tDataPanel.RowCount = 2;
-			this.tDataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tDataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tDataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tDataPanel.Size = new System.Drawing.Size(684, 458);
-			this.tDataPanel.TabIndex = 3;
-			this.tDataPanel.Visible = false;
-			// 
 			// dpPreview
 			// 
+			this.dpPreview.AutoScroll = true;
 			this.dpPreview.BackColor = System.Drawing.SystemColors.ScrollBar;
 			this.dpPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.dpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dpPreview.Location = new System.Drawing.Point(6, 6);
-			this.dpPreview.Margin = new System.Windows.Forms.Padding(6, 6, 3, 3);
+			this.dpPreview.Location = new System.Drawing.Point(0, 0);
+			this.dpPreview.Margin = new System.Windows.Forms.Padding(0);
 			this.dpPreview.Name = "dpPreview";
-			this.dpPreview.Size = new System.Drawing.Size(469, 421);
+			this.dpPreview.Size = new System.Drawing.Size(400, 421);
 			this.dpPreview.TabIndex = 1;
+			this.dpPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dpPreview_MouseDown);
 			// 
-			// tableLayoutPanel1
+			// dtButtonTable
 			// 
-			this.tableLayoutPanel1.ColumnCount = 3;
-			this.tDataPanel.SetColumnSpan(this.tableLayoutPanel1, 2);
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
-			this.tableLayoutPanel1.Controls.Add(this.dbGeneratePDF, 2, 0);
-			this.tableLayoutPanel1.Controls.Add(this.dbScan, 1, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 430);
-			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 1;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(684, 28);
-			this.tableLayoutPanel1.TabIndex = 2;
+			this.dtButtonTable.ColumnCount = 2;
+			this.dtButtonTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.dtButtonTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.dtButtonTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.dtButtonTable.Controls.Add(this.dbGeneratePDF, 1, 0);
+			this.dtButtonTable.Controls.Add(this.dbScan, 0, 0);
+			this.dtButtonTable.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dtButtonTable.Location = new System.Drawing.Point(428, 0);
+			this.dtButtonTable.Margin = new System.Windows.Forms.Padding(1, 0, 6, 0);
+			this.dtButtonTable.Name = "dtButtonTable";
+			this.dtButtonTable.RowCount = 1;
+			this.dtButtonTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.dtButtonTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.dtButtonTable.Size = new System.Drawing.Size(250, 28);
+			this.dtButtonTable.TabIndex = 2;
 			// 
 			// dbGeneratePDF
 			// 
 			this.dbGeneratePDF.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dbGeneratePDF.Location = new System.Drawing.Point(583, 3);
-			this.dbGeneratePDF.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+			this.dbGeneratePDF.Location = new System.Drawing.Point(128, 3);
+			this.dbGeneratePDF.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
 			this.dbGeneratePDF.Name = "dbGeneratePDF";
-			this.dbGeneratePDF.Size = new System.Drawing.Size(95, 22);
+			this.dbGeneratePDF.Size = new System.Drawing.Size(122, 22);
 			this.dbGeneratePDF.TabIndex = 0;
 			this.dbGeneratePDF.Text = "Generuj PDF";
 			this.dbGeneratePDF.UseVisualStyleBackColor = true;
@@ -851,25 +921,27 @@
 			// dbScan
 			// 
 			this.dbScan.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dbScan.Location = new System.Drawing.Point(481, 3);
+			this.dbScan.Location = new System.Drawing.Point(0, 3);
+			this.dbScan.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this.dbScan.Name = "dbScan";
-			this.dbScan.Size = new System.Drawing.Size(96, 22);
+			this.dbScan.Size = new System.Drawing.Size(122, 22);
 			this.dbScan.TabIndex = 1;
-			this.dbScan.Text = "Skanuj";
+			this.dbScan.Text = "Szukaj błędów";
 			this.dbScan.UseVisualStyleBackColor = true;
+			this.dbScan.Click += new System.EventHandler(this.dbScan_Click);
 			// 
 			// dtvData
 			// 
 			this.dtvData.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dtvData.FullRowSelect = true;
 			this.dtvData.HideSelection = false;
-			this.dtvData.Location = new System.Drawing.Point(481, 6);
-			this.dtvData.Margin = new System.Windows.Forms.Padding(3, 6, 6, 3);
+			this.dtvData.Location = new System.Drawing.Point(0, 0);
+			this.dtvData.Margin = new System.Windows.Forms.Padding(0);
 			this.dtvData.Name = "dtvData";
 			this.dtvData.ShowLines = false;
 			this.dtvData.ShowPlusMinus = false;
 			this.dtvData.ShowRootLines = false;
-			this.dtvData.Size = new System.Drawing.Size(197, 421);
+			this.dtvData.Size = new System.Drawing.Size(266, 421);
 			this.dtvData.TabIndex = 3;
 			this.dtvData.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.dtvData_AfterSelect);
 			// 
@@ -877,33 +949,13 @@
 			// 
 			this.gsDBase.Filter = "CSV (*.csv)|*.csv";
 			// 
-			// ptStatusBar
-			// 
-			this.ptStatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.ptStatusBar.ColumnCount = 3;
-			this.tPatternPanel.SetColumnSpan(this.ptStatusBar, 2);
-			this.ptStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.ptStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 123F));
-			this.ptStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 127F));
-			this.ptStatusBar.Controls.Add(this.pbSave, 2, 0);
-			this.ptStatusBar.Controls.Add(this.pbLoadData, 1, 0);
-			this.ptStatusBar.Controls.Add(this.ptInfoControls, 0, 0);
-			this.ptStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ptStatusBar.Location = new System.Drawing.Point(0, 430);
-			this.ptStatusBar.Margin = new System.Windows.Forms.Padding(0);
-			this.ptStatusBar.Name = "ptStatusBar";
-			this.ptStatusBar.RowCount = 1;
-			this.ptStatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.ptStatusBar.Size = new System.Drawing.Size(684, 28);
-			this.ptStatusBar.TabIndex = 4;
-			// 
 			// pbSave
 			// 
 			this.pbSave.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pbSave.Location = new System.Drawing.Point(560, 3);
-			this.pbSave.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
+			this.pbSave.Location = new System.Drawing.Point(128, 3);
+			this.pbSave.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
 			this.pbSave.Name = "pbSave";
-			this.pbSave.Size = new System.Drawing.Size(118, 22);
+			this.pbSave.Size = new System.Drawing.Size(122, 22);
 			this.pbSave.TabIndex = 5;
 			this.pbSave.Text = "Zapisz";
 			this.pbSave.UseVisualStyleBackColor = true;
@@ -912,9 +964,10 @@
 			// pbLoadData
 			// 
 			this.pbLoadData.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pbLoadData.Location = new System.Drawing.Point(437, 3);
+			this.pbLoadData.Location = new System.Drawing.Point(0, 3);
+			this.pbLoadData.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
 			this.pbLoadData.Name = "pbLoadData";
-			this.pbLoadData.Size = new System.Drawing.Size(117, 22);
+			this.pbLoadData.Size = new System.Drawing.Size(122, 22);
 			this.pbLoadData.TabIndex = 4;
 			this.pbLoadData.Text = "Wczytaj dane";
 			this.pbLoadData.UseVisualStyleBackColor = true;
@@ -931,11 +984,11 @@
 			this.ptInfoControls.Controls.Add(this.pcbScale, 0, 0);
 			this.ptInfoControls.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ptInfoControls.Location = new System.Drawing.Point(0, 0);
-			this.ptInfoControls.Margin = new System.Windows.Forms.Padding(0);
+			this.ptInfoControls.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this.ptInfoControls.Name = "ptInfoControls";
 			this.ptInfoControls.RowCount = 1;
 			this.ptInfoControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.ptInfoControls.Size = new System.Drawing.Size(434, 28);
+			this.ptInfoControls.Size = new System.Drawing.Size(424, 28);
 			this.ptInfoControls.TabIndex = 0;
 			// 
 			// pflPage
@@ -944,7 +997,7 @@
 			this.pflPage.Controls.Add(this.plPage);
 			this.pflPage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pflPage.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-			this.pflPage.Location = new System.Drawing.Point(334, 0);
+			this.pflPage.Location = new System.Drawing.Point(324, 0);
 			this.pflPage.Margin = new System.Windows.Forms.Padding(0);
 			this.pflPage.Name = "pflPage";
 			this.pflPage.Size = new System.Drawing.Size(100, 28);
@@ -991,7 +1044,7 @@
 			this.plStatus.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plStatus.Location = new System.Drawing.Point(83, 0);
 			this.plStatus.Name = "plStatus";
-			this.plStatus.Size = new System.Drawing.Size(248, 28);
+			this.plStatus.Size = new System.Drawing.Size(238, 28);
 			this.plStatus.TabIndex = 11;
 			this.plStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -1017,35 +1070,16 @@
 			this.pcbScale.MouseEnter += new System.EventHandler(this.pcbScale_MouseEnter);
 			this.pcbScale.MouseLeave += new System.EventHandler(this.plStatus_ClearText);
 			// 
-			// tPatternPanel
-			// 
-			this.tPatternPanel.ColumnCount = 2;
-			this.tPatternPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tPatternPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-			this.tPatternPanel.Controls.Add(this.ppPanelContainer, 0, 0);
-			this.tPatternPanel.Controls.Add(this.ptStatusBar, 0, 1);
-			this.tPatternPanel.Controls.Add(this.ptPatternDetails, 1, 0);
-			this.tPatternPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tPatternPanel.Location = new System.Drawing.Point(0, 24);
-			this.tPatternPanel.Name = "tPatternPanel";
-			this.tPatternPanel.RowCount = 2;
-			this.tPatternPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tPatternPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tPatternPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tPatternPanel.Size = new System.Drawing.Size(684, 458);
-			this.tPatternPanel.TabIndex = 2;
-			this.tPatternPanel.Visible = false;
-			// 
 			// ppPanelContainer
 			// 
 			this.ppPanelContainer.AutoScroll = true;
 			this.ppPanelContainer.BackColor = System.Drawing.SystemColors.ScrollBar;
 			this.ppPanelContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.ppPanelContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ppPanelContainer.Location = new System.Drawing.Point(6, 6);
-			this.ppPanelContainer.Margin = new System.Windows.Forms.Padding(6, 6, 3, 3);
+			this.ppPanelContainer.Location = new System.Drawing.Point(0, 0);
+			this.ppPanelContainer.Margin = new System.Windows.Forms.Padding(0);
 			this.ppPanelContainer.Name = "ppPanelContainer";
-			this.ppPanelContainer.Size = new System.Drawing.Size(425, 421);
+			this.ppPanelContainer.Size = new System.Drawing.Size(402, 421);
 			this.ppPanelContainer.TabIndex = 1;
 			this.ppPanelContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ppPanelContainer_MouseDown);
 			// 
@@ -1056,13 +1090,13 @@
 			this.ptPatternDetails.Controls.Add(this.icPatMenu, 0, 0);
 			this.ptPatternDetails.Controls.Add(this.ppDetailsPanel, 0, 1);
 			this.ptPatternDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ptPatternDetails.Location = new System.Drawing.Point(437, 6);
+			this.ptPatternDetails.Location = new System.Drawing.Point(0, 0);
 			this.ptPatternDetails.Margin = new System.Windows.Forms.Padding(3, 6, 6, 3);
 			this.ptPatternDetails.Name = "ptPatternDetails";
 			this.ptPatternDetails.RowCount = 2;
 			this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
 			this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.ptPatternDetails.Size = new System.Drawing.Size(241, 421);
+			this.ptPatternDetails.Size = new System.Drawing.Size(264, 421);
 			this.ptPatternDetails.TabIndex = 5;
 			// 
 			// icPatMenu
@@ -1077,7 +1111,7 @@
 			this.icPatMenu.Location = new System.Drawing.Point(3, 3);
 			this.icPatMenu.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
 			this.icPatMenu.Name = "icPatMenu";
-			this.icPatMenu.Size = new System.Drawing.Size(235, 26);
+			this.icPatMenu.Size = new System.Drawing.Size(258, 26);
 			this.icPatMenu.TabIndex = 68;
 			this.icPatMenu.Text = "icPatMenu";
 			// 
@@ -1106,190 +1140,242 @@
 			// 
 			// ppDetailsPanel
 			// 
-			this.ppDetailsPanel.Controls.Add(this.ptDetails);
-			this.ppDetailsPanel.Controls.Add(this.ptFieldDetails);
 			this.ppDetailsPanel.Controls.Add(this.ptPageDetails);
+			this.ppDetailsPanel.Controls.Add(this.ptFieldDetails);
+			this.ppDetailsPanel.Controls.Add(this.ptDetails);
 			this.ppDetailsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ppDetailsPanel.Location = new System.Drawing.Point(0, 35);
 			this.ppDetailsPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.ppDetailsPanel.Name = "ppDetailsPanel";
-			this.ppDetailsPanel.Size = new System.Drawing.Size(241, 386);
+			this.ppDetailsPanel.Size = new System.Drawing.Size(264, 386);
 			this.ppDetailsPanel.TabIndex = 69;
 			// 
-			// ptDetails
+			// ptPageDetails
 			// 
-			this.ptDetails.ColumnCount = 2;
-			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.ptDetails.Controls.Add(this.pcbUseImageMargin, 0, 7);
-			this.ptDetails.Controls.Add(this.pcbDrawFrameOutside, 0, 6);
-			this.ptDetails.Controls.Add(this.plImageSettings, 0, 4);
-			this.ptDetails.Controls.Add(this.pcbDynImage, 1, 3);
-			this.ptDetails.Controls.Add(this.pcbStatText, 0, 3);
-			this.ptDetails.Controls.Add(this.pcbDrawColor, 1, 1);
-			this.ptDetails.Controls.Add(this.pcbDynText, 0, 2);
-			this.ptDetails.Controls.Add(this.plPDFGenerate, 0, 0);
-			this.ptDetails.Controls.Add(this.pcbShowFrame, 0, 1);
-			this.ptDetails.Controls.Add(this.pcbStatImage, 1, 2);
-			this.ptDetails.Controls.Add(this.pcxImageSet, 0, 5);
-			this.ptDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.ptDetails.Location = new System.Drawing.Point(0, 0);
-			this.ptDetails.Name = "ptDetails";
-			this.ptDetails.RowCount = 10;
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.Size = new System.Drawing.Size(241, 386);
-			this.ptDetails.TabIndex = 5;
-			this.ptDetails.Visible = false;
+			this.ptPageDetails.ColumnCount = 2;
+			this.ptPageDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptPageDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptPageDetails.Controls.Add(this.pcbPageLook, 0, 2);
+			this.ptPageDetails.Controls.Add(this.ptbPageImage, 0, 4);
+			this.ptPageDetails.Controls.Add(this.pbPageImage, 1, 4);
+			this.ptPageDetails.Controls.Add(this.pbPageColor, 1, 3);
+			this.ptPageDetails.Controls.Add(this.ptbPageColor, 0, 3);
+			this.ptPageDetails.Controls.Add(this.pcbpDrawOutside, 0, 10);
+			this.ptPageDetails.Controls.Add(this.pcbpApplyMargin, 0, 9);
+			this.ptPageDetails.Controls.Add(this.pcxpImageSet, 0, 8);
+			this.ptPageDetails.Controls.Add(this.plpImageSettings, 0, 7);
+			this.ptPageDetails.Controls.Add(this.pcbpDrawColor, 0, 6);
+			this.ptPageDetails.Controls.Add(this.pcbpDrawImage, 1, 6);
+			this.ptPageDetails.Controls.Add(this.ptbpWidth, 0, 1);
+			this.ptPageDetails.Controls.Add(this.ptbpHeight, 1, 1);
+			this.ptPageDetails.Controls.Add(this.plpWidth, 0, 0);
+			this.ptPageDetails.Controls.Add(this.plpHeight, 1, 0);
+			this.ptPageDetails.Controls.Add(this.plpGeneratePDF, 0, 5);
+			this.ptPageDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptPageDetails.Location = new System.Drawing.Point(0, 0);
+			this.ptPageDetails.Name = "ptPageDetails";
+			this.ptPageDetails.RowCount = 12;
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptPageDetails.Size = new System.Drawing.Size(264, 386);
+			this.ptPageDetails.TabIndex = 4;
+			this.ptPageDetails.Visible = false;
 			// 
-			// pcbUseImageMargin
+			// pcbPageLook
 			// 
-			this.pcbUseImageMargin.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.pcbUseImageMargin, 2);
-			this.pcbUseImageMargin.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbUseImageMargin.Location = new System.Drawing.Point(3, 170);
-			this.pcbUseImageMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbUseImageMargin.Name = "pcbUseImageMargin";
-			this.pcbUseImageMargin.Size = new System.Drawing.Size(235, 17);
-			this.pcbUseImageMargin.TabIndex = 12;
-			this.pcbUseImageMargin.Text = "Zastosuj margines do obrazu";
-			this.pcbUseImageMargin.UseVisualStyleBackColor = true;
+			this.pcbPageLook.AutoSize = true;
+			this.ptPageDetails.SetColumnSpan(this.pcbPageLook, 2);
+			this.pcbPageLook.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbPageLook.Location = new System.Drawing.Point(3, 45);
+			this.pcbPageLook.Name = "pcbPageLook";
+			this.pcbPageLook.Size = new System.Drawing.Size(258, 20);
+			this.pcbPageLook.TabIndex = 55;
+			this.pcbPageLook.Text = "Wygląd:";
+			this.pcbPageLook.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
-			// pcbDrawFrameOutside
+			// ptbPageImage
 			// 
-			this.pcbDrawFrameOutside.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.pcbDrawFrameOutside, 2);
-			this.pcbDrawFrameOutside.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbDrawFrameOutside.Location = new System.Drawing.Point(3, 145);
-			this.pcbDrawFrameOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbDrawFrameOutside.Name = "pcbDrawFrameOutside";
-			this.pcbDrawFrameOutside.Size = new System.Drawing.Size(235, 17);
-			this.pcbDrawFrameOutside.TabIndex = 11;
-			this.pcbDrawFrameOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
-			this.pcbDrawFrameOutside.UseVisualStyleBackColor = true;
+			this.ptbPageImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptbPageImage.Enabled = false;
+			this.ptbPageImage.Location = new System.Drawing.Point(3, 93);
+			this.ptbPageImage.Name = "ptbPageImage";
+			this.ptbPageImage.Size = new System.Drawing.Size(126, 20);
+			this.ptbPageImage.TabIndex = 54;
 			// 
-			// plImageSettings
+			// pbPageImage
 			// 
-			this.plImageSettings.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.plImageSettings, 2);
-			this.plImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.plImageSettings.Location = new System.Drawing.Point(3, 95);
-			this.plImageSettings.Name = "plImageSettings";
-			this.plImageSettings.Size = new System.Drawing.Size(235, 20);
-			this.plImageSettings.TabIndex = 9;
-			this.plImageSettings.Text = "Ustawienia obrazu:";
-			this.plImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.pbPageImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pbPageImage.Enabled = false;
+			this.pbPageImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.pbPageImage.Location = new System.Drawing.Point(135, 92);
+			this.pbPageImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.pbPageImage.Name = "pbPageImage";
+			this.pbPageImage.Size = new System.Drawing.Size(126, 21);
+			this.pbPageImage.TabIndex = 53;
+			this.pbPageImage.Text = "Obraz";
+			this.pbPageImage.UseVisualStyleBackColor = true;
 			// 
-			// pcbDynImage
+			// pbPageColor
 			// 
-			this.pcbDynImage.AutoSize = true;
-			this.pcbDynImage.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbDynImage.Location = new System.Drawing.Point(123, 75);
-			this.pcbDynImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbDynImage.Name = "pcbDynImage";
-			this.pcbDynImage.Size = new System.Drawing.Size(115, 17);
-			this.pcbDynImage.TabIndex = 8;
-			this.pcbDynImage.Text = "Obraz dynamiczny";
-			this.pcbDynImage.UseVisualStyleBackColor = true;
-			this.pcbDynImage.CheckedChanged += new System.EventHandler(this.pcbDynImage_CheckedChanged);
+			this.pbPageColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pbPageColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+			this.pbPageColor.Location = new System.Drawing.Point(135, 67);
+			this.pbPageColor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.pbPageColor.Name = "pbPageColor";
+			this.pbPageColor.Size = new System.Drawing.Size(126, 21);
+			this.pbPageColor.TabIndex = 52;
+			this.pbPageColor.Text = "Kolor";
+			this.pbPageColor.UseVisualStyleBackColor = true;
+			this.pbPageColor.Click += new System.EventHandler(this.icpPageColor_Click);
 			// 
-			// pcbStatText
+			// ptbPageColor
 			// 
-			this.pcbStatText.AutoSize = true;
-			this.pcbStatText.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbStatText.Location = new System.Drawing.Point(3, 75);
-			this.pcbStatText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbStatText.Name = "pcbStatText";
-			this.pcbStatText.Size = new System.Drawing.Size(114, 17);
-			this.pcbStatText.TabIndex = 7;
-			this.pcbStatText.Text = "Tekst statyczny";
-			this.pcbStatText.UseVisualStyleBackColor = true;
-			this.pcbStatText.CheckedChanged += new System.EventHandler(this.pcbStatText_CheckedChanged);
+			this.ptbPageColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptbPageColor.Enabled = false;
+			this.ptbPageColor.Location = new System.Drawing.Point(3, 68);
+			this.ptbPageColor.Name = "ptbPageColor";
+			this.ptbPageColor.Size = new System.Drawing.Size(126, 20);
+			this.ptbPageColor.TabIndex = 51;
 			// 
-			// pcbDrawColor
+			// pcbpDrawOutside
 			// 
-			this.pcbDrawColor.AutoSize = true;
-			this.pcbDrawColor.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbDrawColor.Location = new System.Drawing.Point(123, 25);
-			this.pcbDrawColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbDrawColor.Name = "pcbDrawColor";
-			this.pcbDrawColor.Size = new System.Drawing.Size(115, 17);
-			this.pcbDrawColor.TabIndex = 6;
-			this.pcbDrawColor.Text = "Rysuj kolor pola";
-			this.pcbDrawColor.UseVisualStyleBackColor = true;
-			this.pcbDrawColor.CheckedChanged += new System.EventHandler(this.pcbDrawColor_CheckedChanged);
+			this.pcbpDrawOutside.AutoSize = true;
+			this.ptPageDetails.SetColumnSpan(this.pcbpDrawOutside, 2);
+			this.pcbpDrawOutside.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbpDrawOutside.Location = new System.Drawing.Point(3, 235);
+			this.pcbpDrawOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbpDrawOutside.Name = "pcbpDrawOutside";
+			this.pcbpDrawOutside.Size = new System.Drawing.Size(258, 17);
+			this.pcbpDrawOutside.TabIndex = 14;
+			this.pcbpDrawOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
+			this.pcbpDrawOutside.UseVisualStyleBackColor = true;
 			// 
-			// pcbDynText
+			// pcbpApplyMargin
 			// 
-			this.pcbDynText.AutoSize = true;
-			this.pcbDynText.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbDynText.Location = new System.Drawing.Point(3, 50);
-			this.pcbDynText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbDynText.Name = "pcbDynText";
-			this.pcbDynText.Size = new System.Drawing.Size(114, 17);
-			this.pcbDynText.TabIndex = 3;
-			this.pcbDynText.Text = "Tekst dynamiczny";
-			this.pcbDynText.UseVisualStyleBackColor = true;
-			this.pcbDynText.CheckedChanged += new System.EventHandler(this.pcbDynText_CheckedChanged);
+			this.pcbpApplyMargin.AutoSize = true;
+			this.ptPageDetails.SetColumnSpan(this.pcbpApplyMargin, 2);
+			this.pcbpApplyMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbpApplyMargin.Location = new System.Drawing.Point(3, 210);
+			this.pcbpApplyMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbpApplyMargin.Name = "pcbpApplyMargin";
+			this.pcbpApplyMargin.Size = new System.Drawing.Size(258, 17);
+			this.pcbpApplyMargin.TabIndex = 13;
+			this.pcbpApplyMargin.Text = "Zastosuj margines do obrazu";
+			this.pcbpApplyMargin.UseVisualStyleBackColor = true;
 			// 
-			// plPDFGenerate
+			// pcxpImageSet
 			// 
-			this.plPDFGenerate.AutoSize = true;
-			this.ptDetails.SetColumnSpan(this.plPDFGenerate, 2);
-			this.plPDFGenerate.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.plPDFGenerate.Location = new System.Drawing.Point(3, 0);
-			this.plPDFGenerate.Name = "plPDFGenerate";
-			this.plPDFGenerate.Size = new System.Drawing.Size(235, 20);
-			this.plPDFGenerate.TabIndex = 0;
-			this.plPDFGenerate.Text = "Generowanie do pliku PDF:";
-			this.plPDFGenerate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-			// 
-			// pcbShowFrame
-			// 
-			this.pcbShowFrame.AutoSize = true;
-			this.pcbShowFrame.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbShowFrame.Location = new System.Drawing.Point(3, 25);
-			this.pcbShowFrame.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbShowFrame.Name = "pcbShowFrame";
-			this.pcbShowFrame.Size = new System.Drawing.Size(114, 17);
-			this.pcbShowFrame.TabIndex = 1;
-			this.pcbShowFrame.Text = "Wyświetlaj ramke";
-			this.pcbShowFrame.UseVisualStyleBackColor = true;
-			this.pcbShowFrame.CheckedChanged += new System.EventHandler(this.pcbShowFrame_CheckedChanged);
-			// 
-			// pcbStatImage
-			// 
-			this.pcbStatImage.AutoSize = true;
-			this.pcbStatImage.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcbStatImage.Location = new System.Drawing.Point(123, 50);
-			this.pcbStatImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-			this.pcbStatImage.Name = "pcbStatImage";
-			this.pcbStatImage.Size = new System.Drawing.Size(115, 17);
-			this.pcbStatImage.TabIndex = 4;
-			this.pcbStatImage.Text = "Obraz statyczny";
-			this.pcbStatImage.UseVisualStyleBackColor = true;
-			this.pcbStatImage.CheckedChanged += new System.EventHandler(this.pcbStatImage_CheckedChanged);
-			// 
-			// pcxImageSet
-			// 
-			this.ptDetails.SetColumnSpan(this.pcxImageSet, 2);
-			this.pcxImageSet.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pcxImageSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.pcxImageSet.FormattingEnabled = true;
-			this.pcxImageSet.Items.AddRange(new object[] {
+			this.ptPageDetails.SetColumnSpan(this.pcxpImageSet, 2);
+			this.pcxpImageSet.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcxpImageSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.pcxpImageSet.FormattingEnabled = true;
+			this.pcxpImageSet.Items.AddRange(new object[] {
             "Zostaw proporcje takie jakie są"});
-			this.pcxImageSet.Location = new System.Drawing.Point(3, 118);
-			this.pcxImageSet.Name = "pcxImageSet";
-			this.pcxImageSet.Size = new System.Drawing.Size(235, 21);
-			this.pcxImageSet.TabIndex = 10;
+			this.pcxpImageSet.Location = new System.Drawing.Point(3, 183);
+			this.pcxpImageSet.Name = "pcxpImageSet";
+			this.pcxpImageSet.Size = new System.Drawing.Size(258, 21);
+			this.pcxpImageSet.TabIndex = 11;
+			// 
+			// plpImageSettings
+			// 
+			this.plpImageSettings.AutoSize = true;
+			this.ptPageDetails.SetColumnSpan(this.plpImageSettings, 2);
+			this.plpImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plpImageSettings.Location = new System.Drawing.Point(3, 160);
+			this.plpImageSettings.Name = "plpImageSettings";
+			this.plpImageSettings.Size = new System.Drawing.Size(258, 20);
+			this.plpImageSettings.TabIndex = 10;
+			this.plpImageSettings.Text = "Ustawienia obrazu:";
+			this.plpImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// pcbpDrawColor
+			// 
+			this.pcbpDrawColor.AutoSize = true;
+			this.pcbpDrawColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbpDrawColor.Location = new System.Drawing.Point(3, 140);
+			this.pcbpDrawColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbpDrawColor.Name = "pcbpDrawColor";
+			this.pcbpDrawColor.Size = new System.Drawing.Size(126, 17);
+			this.pcbpDrawColor.TabIndex = 8;
+			this.pcbpDrawColor.Text = "Rysuj kolor strony";
+			this.pcbpDrawColor.UseVisualStyleBackColor = true;
+			this.pcbpDrawColor.CheckedChanged += new System.EventHandler(this.pcbpDrawColor_CheckedChanged);
+			// 
+			// pcbpDrawImage
+			// 
+			this.pcbpDrawImage.AutoSize = true;
+			this.pcbpDrawImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbpDrawImage.Enabled = false;
+			this.pcbpDrawImage.Location = new System.Drawing.Point(135, 140);
+			this.pcbpDrawImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbpDrawImage.Name = "pcbpDrawImage";
+			this.pcbpDrawImage.Size = new System.Drawing.Size(126, 17);
+			this.pcbpDrawImage.TabIndex = 7;
+			this.pcbpDrawImage.Text = "Rysuj obraz strony";
+			this.pcbpDrawImage.UseVisualStyleBackColor = true;
+			this.pcbpDrawImage.CheckedChanged += new System.EventHandler(this.pcbpDrawImage_CheckedChanged);
+			// 
+			// ptbpWidth
+			// 
+			this.ptbpWidth.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptbpWidth.Enabled = false;
+			this.ptbpWidth.Location = new System.Drawing.Point(3, 23);
+			this.ptbpWidth.Name = "ptbpWidth";
+			this.ptbpWidth.Size = new System.Drawing.Size(126, 20);
+			this.ptbpWidth.TabIndex = 0;
+			// 
+			// ptbpHeight
+			// 
+			this.ptbpHeight.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptbpHeight.Enabled = false;
+			this.ptbpHeight.Location = new System.Drawing.Point(135, 23);
+			this.ptbpHeight.Name = "ptbpHeight";
+			this.ptbpHeight.Size = new System.Drawing.Size(126, 20);
+			this.ptbpHeight.TabIndex = 1;
+			// 
+			// plpWidth
+			// 
+			this.plpWidth.AutoSize = true;
+			this.plpWidth.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plpWidth.Location = new System.Drawing.Point(3, 0);
+			this.plpWidth.Name = "plpWidth";
+			this.plpWidth.Size = new System.Drawing.Size(126, 20);
+			this.plpWidth.TabIndex = 2;
+			this.plpWidth.Text = "Szerokość:";
+			this.plpWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// plpHeight
+			// 
+			this.plpHeight.AutoSize = true;
+			this.plpHeight.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plpHeight.Location = new System.Drawing.Point(135, 0);
+			this.plpHeight.Name = "plpHeight";
+			this.plpHeight.Size = new System.Drawing.Size(126, 20);
+			this.plpHeight.TabIndex = 3;
+			this.plpHeight.Text = "Wysokość:";
+			this.plpHeight.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// plpGeneratePDF
+			// 
+			this.plpGeneratePDF.AutoSize = true;
+			this.ptPageDetails.SetColumnSpan(this.plpGeneratePDF, 2);
+			this.plpGeneratePDF.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plpGeneratePDF.Location = new System.Drawing.Point(3, 115);
+			this.plpGeneratePDF.Name = "plpGeneratePDF";
+			this.plpGeneratePDF.Size = new System.Drawing.Size(258, 20);
+			this.plpGeneratePDF.TabIndex = 4;
+			this.plpGeneratePDF.Text = "Generowanie do pliku PDF:";
+			this.plpGeneratePDF.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// ptFieldDetails
 			// 
@@ -1351,7 +1437,7 @@
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptFieldDetails.Size = new System.Drawing.Size(241, 386);
+			this.ptFieldDetails.Size = new System.Drawing.Size(264, 386);
 			this.ptFieldDetails.TabIndex = 7;
 			// 
 			// plHeight
@@ -1359,9 +1445,9 @@
 			this.plHeight.AutoSize = true;
 			this.plHeight.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plHeight.Location = new System.Drawing.Point(123, 70);
+			this.plHeight.Location = new System.Drawing.Point(135, 70);
 			this.plHeight.Name = "plHeight";
-			this.plHeight.Size = new System.Drawing.Size(115, 20);
+			this.plHeight.Size = new System.Drawing.Size(126, 20);
 			this.plHeight.TabIndex = 72;
 			this.plHeight.Text = "Wysokość:";
 			this.plHeight.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1376,14 +1462,14 @@
             0,
             0,
             65536});
-			this.pnBorderSize.Location = new System.Drawing.Point(123, 363);
+			this.pnBorderSize.Location = new System.Drawing.Point(135, 363);
 			this.pnBorderSize.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
 			this.pnBorderSize.Name = "pnBorderSize";
-			this.pnBorderSize.Size = new System.Drawing.Size(115, 20);
+			this.pnBorderSize.Size = new System.Drawing.Size(126, 20);
 			this.pnBorderSize.TabIndex = 65;
 			this.pnBorderSize.ValueChanged += new System.EventHandler(this.pnBorderSize_ValueChanged);
 			// 
@@ -1397,14 +1483,14 @@
             0,
             0,
             65536});
-			this.pnPadding.Location = new System.Drawing.Point(123, 318);
+			this.pnPadding.Location = new System.Drawing.Point(135, 318);
 			this.pnPadding.Maximum = new decimal(new int[] {
             20,
             0,
             0,
             0});
 			this.pnPadding.Name = "pnPadding";
-			this.pnPadding.Size = new System.Drawing.Size(115, 20);
+			this.pnPadding.Size = new System.Drawing.Size(126, 20);
 			this.pnPadding.TabIndex = 63;
 			this.pnPadding.ValueChanged += new System.EventHandler(this.pnPadding_ValueChanged);
 			// 
@@ -1413,9 +1499,9 @@
 			this.plPadding.AutoSize = true;
 			this.plPadding.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plPadding.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plPadding.Location = new System.Drawing.Point(123, 295);
+			this.plPadding.Location = new System.Drawing.Point(135, 295);
 			this.plPadding.Name = "plPadding";
-			this.plPadding.Size = new System.Drawing.Size(115, 20);
+			this.plPadding.Size = new System.Drawing.Size(126, 20);
 			this.plPadding.TabIndex = 61;
 			this.plPadding.Text = "Margines:";
 			this.plPadding.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1427,7 +1513,7 @@
 			this.plTextPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plTextPosition.Location = new System.Drawing.Point(3, 295);
 			this.plTextPosition.Name = "plTextPosition";
-			this.plTextPosition.Size = new System.Drawing.Size(114, 20);
+			this.plTextPosition.Size = new System.Drawing.Size(126, 20);
 			this.plTextPosition.TabIndex = 60;
 			this.plTextPosition.Text = "Położenie tekstu:";
 			this.plTextPosition.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1437,10 +1523,10 @@
 			this.pbFontName.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbFontName.Enabled = false;
 			this.pbFontName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbFontName.Location = new System.Drawing.Point(123, 242);
+			this.pbFontName.Location = new System.Drawing.Point(135, 242);
 			this.pbFontName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbFontName.Name = "pbFontName";
-			this.pbFontName.Size = new System.Drawing.Size(115, 23);
+			this.pbFontName.Size = new System.Drawing.Size(126, 23);
 			this.pbFontName.TabIndex = 59;
 			this.pbFontName.Text = "Nazwa";
 			this.pbFontName.UseVisualStyleBackColor = true;
@@ -1453,7 +1539,7 @@
 			this.ptbFontName.Location = new System.Drawing.Point(3, 244);
 			this.ptbFontName.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbFontName.Name = "ptbFontName";
-			this.ptbFontName.Size = new System.Drawing.Size(114, 20);
+			this.ptbFontName.Size = new System.Drawing.Size(126, 20);
 			this.ptbFontName.TabIndex = 57;
 			// 
 			// pbBackImage
@@ -1461,10 +1547,10 @@
 			this.pbBackImage.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBackImage.Enabled = false;
 			this.pbBackImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBackImage.Location = new System.Drawing.Point(123, 194);
+			this.pbBackImage.Location = new System.Drawing.Point(135, 194);
 			this.pbBackImage.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBackImage.Name = "pbBackImage";
-			this.pbBackImage.Size = new System.Drawing.Size(115, 23);
+			this.pbBackImage.Size = new System.Drawing.Size(126, 23);
 			this.pbBackImage.TabIndex = 52;
 			this.pbBackImage.Text = "Obraz";
 			this.pbBackImage.UseVisualStyleBackColor = true;
@@ -1477,7 +1563,7 @@
 			this.ptbBackImage.Location = new System.Drawing.Point(3, 196);
 			this.ptbBackImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBackImage.Name = "ptbBackImage";
-			this.ptbBackImage.Size = new System.Drawing.Size(114, 20);
+			this.ptbBackImage.Size = new System.Drawing.Size(126, 20);
 			this.ptbBackImage.TabIndex = 51;
 			// 
 			// pbBackColor
@@ -1485,10 +1571,10 @@
 			this.pbBackColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBackColor.Enabled = false;
 			this.pbBackColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBackColor.Location = new System.Drawing.Point(123, 166);
+			this.pbBackColor.Location = new System.Drawing.Point(135, 166);
 			this.pbBackColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBackColor.Name = "pbBackColor";
-			this.pbBackColor.Size = new System.Drawing.Size(115, 23);
+			this.pbBackColor.Size = new System.Drawing.Size(126, 23);
 			this.pbBackColor.TabIndex = 50;
 			this.pbBackColor.Text = "Kolor";
 			this.pbBackColor.UseVisualStyleBackColor = true;
@@ -1501,7 +1587,7 @@
 			this.ptbBackColor.Location = new System.Drawing.Point(3, 168);
 			this.ptbBackColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBackColor.Name = "ptbBackColor";
-			this.ptbBackColor.Size = new System.Drawing.Size(114, 20);
+			this.ptbBackColor.Size = new System.Drawing.Size(126, 20);
 			this.ptbBackColor.TabIndex = 49;
 			// 
 			// pbFontColor
@@ -1509,10 +1595,10 @@
 			this.pbFontColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbFontColor.Enabled = false;
 			this.pbFontColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbFontColor.Location = new System.Drawing.Point(123, 270);
+			this.pbFontColor.Location = new System.Drawing.Point(135, 270);
 			this.pbFontColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbFontColor.Name = "pbFontColor";
-			this.pbFontColor.Size = new System.Drawing.Size(115, 23);
+			this.pbFontColor.Size = new System.Drawing.Size(126, 23);
 			this.pbFontColor.TabIndex = 35;
 			this.pbFontColor.Text = "Kolor";
 			this.pbFontColor.UseVisualStyleBackColor = true;
@@ -1525,7 +1611,7 @@
 			this.ptbFontColor.Location = new System.Drawing.Point(3, 272);
 			this.ptbFontColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbFontColor.Name = "ptbFontColor";
-			this.ptbFontColor.Size = new System.Drawing.Size(114, 20);
+			this.ptbFontColor.Size = new System.Drawing.Size(126, 20);
 			this.ptbFontColor.TabIndex = 34;
 			// 
 			// ptbName
@@ -1535,7 +1621,7 @@
 			this.ptbName.Enabled = false;
 			this.ptbName.Location = new System.Drawing.Point(3, 3);
 			this.ptbName.Name = "ptbName";
-			this.ptbName.Size = new System.Drawing.Size(235, 20);
+			this.ptbName.Size = new System.Drawing.Size(258, 20);
 			this.ptbName.TabIndex = 0;
 			this.ptbName.TextChanged += new System.EventHandler(this.ptbName_TextChanged);
 			// 
@@ -1544,14 +1630,14 @@
 			this.pnPositionY.DecimalPlaces = 1;
 			this.pnPositionY.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnPositionY.Enabled = false;
-			this.pnPositionY.Location = new System.Drawing.Point(123, 48);
+			this.pnPositionY.Location = new System.Drawing.Point(135, 48);
 			this.pnPositionY.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
 			this.pnPositionY.Name = "pnPositionY";
-			this.pnPositionY.Size = new System.Drawing.Size(115, 20);
+			this.pnPositionY.Size = new System.Drawing.Size(126, 20);
 			this.pnPositionY.TabIndex = 2;
 			this.pnPositionY.ValueChanged += new System.EventHandler(this.pnPositionY_ValueChanged);
 			// 
@@ -1567,7 +1653,7 @@
             0,
             0});
 			this.pnPositionX.Name = "pnPositionX";
-			this.pnPositionX.Size = new System.Drawing.Size(114, 20);
+			this.pnPositionX.Size = new System.Drawing.Size(126, 20);
 			this.pnPositionX.TabIndex = 1;
 			this.pnPositionX.ValueChanged += new System.EventHandler(this.pnPositionX_ValueChanged);
 			// 
@@ -1578,7 +1664,7 @@
 			this.plPositionX.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plPositionX.Location = new System.Drawing.Point(3, 25);
 			this.plPositionX.Name = "plPositionX";
-			this.plPositionX.Size = new System.Drawing.Size(114, 20);
+			this.plPositionX.Size = new System.Drawing.Size(126, 20);
 			this.plPositionX.TabIndex = 4;
 			this.plPositionX.Text = "Pozycja X:";
 			this.plPositionX.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1590,7 +1676,7 @@
 			this.plWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plWidth.Location = new System.Drawing.Point(3, 70);
 			this.plWidth.Name = "plWidth";
-			this.plWidth.Size = new System.Drawing.Size(114, 20);
+			this.plWidth.Size = new System.Drawing.Size(126, 20);
 			this.plWidth.TabIndex = 6;
 			this.plWidth.Text = "Szerokość:";
 			this.plWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1608,7 +1694,7 @@
             0,
             0});
 			this.pnWidth.Name = "pnWidth";
-			this.pnWidth.Size = new System.Drawing.Size(114, 20);
+			this.pnWidth.Size = new System.Drawing.Size(126, 20);
 			this.pnWidth.TabIndex = 3;
 			this.pnWidth.ValueChanged += new System.EventHandler(this.pnWidth_ValueChanged);
 			// 
@@ -1617,14 +1703,14 @@
 			this.pnHeight.DecimalPlaces = 1;
 			this.pnHeight.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnHeight.Enabled = false;
-			this.pnHeight.Location = new System.Drawing.Point(123, 93);
+			this.pnHeight.Location = new System.Drawing.Point(135, 93);
 			this.pnHeight.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
 			this.pnHeight.Name = "pnHeight";
-			this.pnHeight.Size = new System.Drawing.Size(115, 20);
+			this.pnHeight.Size = new System.Drawing.Size(126, 20);
 			this.pnHeight.TabIndex = 4;
 			this.pnHeight.ValueChanged += new System.EventHandler(this.pnHeight_ValueChanged);
 			// 
@@ -1636,7 +1722,7 @@
 			this.plBorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plBorderColor.Location = new System.Drawing.Point(3, 115);
 			this.plBorderColor.Name = "plBorderColor";
-			this.plBorderColor.Size = new System.Drawing.Size(235, 20);
+			this.plBorderColor.Size = new System.Drawing.Size(258, 20);
 			this.plBorderColor.TabIndex = 10;
 			this.plBorderColor.Text = "Wygląd:";
 			this.plBorderColor.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1648,7 +1734,7 @@
 			this.ptbBorderColor.Location = new System.Drawing.Point(3, 140);
 			this.ptbBorderColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.ptbBorderColor.Name = "ptbBorderColor";
-			this.ptbBorderColor.Size = new System.Drawing.Size(114, 20);
+			this.ptbBorderColor.Size = new System.Drawing.Size(126, 20);
 			this.ptbBorderColor.TabIndex = 5;
 			// 
 			// pbBorderColor
@@ -1656,10 +1742,10 @@
 			this.pbBorderColor.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pbBorderColor.Enabled = false;
 			this.pbBorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.pbBorderColor.Location = new System.Drawing.Point(123, 138);
+			this.pbBorderColor.Location = new System.Drawing.Point(135, 138);
 			this.pbBorderColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
 			this.pbBorderColor.Name = "pbBorderColor";
-			this.pbBorderColor.Size = new System.Drawing.Size(115, 23);
+			this.pbBorderColor.Size = new System.Drawing.Size(126, 23);
 			this.pbBorderColor.TabIndex = 6;
 			this.pbBorderColor.Text = "Ramka";
 			this.pbBorderColor.UseVisualStyleBackColor = true;
@@ -1673,7 +1759,7 @@
 			this.plFont.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
 			this.plFont.Location = new System.Drawing.Point(3, 219);
 			this.plFont.Name = "plFont";
-			this.plFont.Size = new System.Drawing.Size(235, 20);
+			this.plFont.Size = new System.Drawing.Size(258, 20);
 			this.plFont.TabIndex = 53;
 			this.plFont.Text = "Czcionka:";
 			this.plFont.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1683,9 +1769,9 @@
 			this.plBorderWidth.AutoSize = true;
 			this.plBorderWidth.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plBorderWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.plBorderWidth.Location = new System.Drawing.Point(123, 340);
+			this.plBorderWidth.Location = new System.Drawing.Point(135, 340);
 			this.plBorderWidth.Name = "plBorderWidth";
-			this.plBorderWidth.Size = new System.Drawing.Size(115, 20);
+			this.plBorderWidth.Size = new System.Drawing.Size(126, 20);
 			this.plBorderWidth.TabIndex = 64;
 			this.plBorderWidth.Text = "Grubość ramki:";
 			this.plBorderWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1708,7 +1794,7 @@
             "Dół-Prawo"});
 			this.pcbTextAlign.Location = new System.Drawing.Point(3, 318);
 			this.pcbTextAlign.Name = "pcbTextAlign";
-			this.pcbTextAlign.Size = new System.Drawing.Size(114, 21);
+			this.pcbTextAlign.Size = new System.Drawing.Size(126, 21);
 			this.pcbTextAlign.TabIndex = 68;
 			this.pcbTextAlign.SelectedIndexChanged += new System.EventHandler(this.pcbTextAlign_SelectedIndexChanged);
 			// 
@@ -1725,7 +1811,7 @@
             "Dół-Prawo"});
 			this.pcbPosAlign.Location = new System.Drawing.Point(3, 363);
 			this.pcbPosAlign.Name = "pcbPosAlign";
-			this.pcbPosAlign.Size = new System.Drawing.Size(114, 21);
+			this.pcbPosAlign.Size = new System.Drawing.Size(126, 21);
 			this.pcbPosAlign.TabIndex = 69;
 			this.pcbPosAlign.SelectedIndexChanged += new System.EventHandler(this.pcbPosAlign_SelectedIndexChanged);
 			// 
@@ -1735,7 +1821,7 @@
 			this.plStickPoint.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.plStickPoint.Location = new System.Drawing.Point(3, 340);
 			this.plStickPoint.Name = "plStickPoint";
-			this.plStickPoint.Size = new System.Drawing.Size(114, 20);
+			this.plStickPoint.Size = new System.Drawing.Size(126, 20);
 			this.plStickPoint.TabIndex = 70;
 			this.plStickPoint.Text = "Punkt zaczepienia:";
 			this.plStickPoint.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1744,26 +1830,188 @@
 			// 
 			this.plPositionY.AutoSize = true;
 			this.plPositionY.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.plPositionY.Location = new System.Drawing.Point(123, 25);
+			this.plPositionY.Location = new System.Drawing.Point(135, 25);
 			this.plPositionY.Name = "plPositionY";
-			this.plPositionY.Size = new System.Drawing.Size(115, 20);
+			this.plPositionY.Size = new System.Drawing.Size(126, 20);
 			this.plPositionY.TabIndex = 71;
 			this.plPositionY.Text = "Pozycja Y:";
 			this.plPositionY.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
-			// ptPageDetails
+			// ptDetails
 			// 
-			this.ptPageDetails.ColumnCount = 2;
-			this.ptPageDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.ptPageDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.ptPageDetails.Location = new System.Drawing.Point(0, 0);
-			this.ptPageDetails.Name = "ptPageDetails";
-			this.ptPageDetails.RowCount = 2;
-			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.ptPageDetails.Size = new System.Drawing.Size(200, 100);
-			this.ptPageDetails.TabIndex = 4;
-			this.ptPageDetails.Visible = false;
+			this.ptDetails.ColumnCount = 2;
+			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptDetails.Controls.Add(this.pcbUseImageMargin, 0, 7);
+			this.ptDetails.Controls.Add(this.pcbDrawFrameOutside, 0, 6);
+			this.ptDetails.Controls.Add(this.plImageSettings, 0, 4);
+			this.ptDetails.Controls.Add(this.pcbDynImage, 1, 3);
+			this.ptDetails.Controls.Add(this.pcbStatText, 0, 3);
+			this.ptDetails.Controls.Add(this.pcbDrawColor, 1, 1);
+			this.ptDetails.Controls.Add(this.pcbDynText, 0, 2);
+			this.ptDetails.Controls.Add(this.plPDFGenerate, 0, 0);
+			this.ptDetails.Controls.Add(this.pcbShowFrame, 0, 1);
+			this.ptDetails.Controls.Add(this.pcbStatImage, 1, 2);
+			this.ptDetails.Controls.Add(this.pcxImageSet, 0, 5);
+			this.ptDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptDetails.Location = new System.Drawing.Point(0, 0);
+			this.ptDetails.Margin = new System.Windows.Forms.Padding(0);
+			this.ptDetails.Name = "ptDetails";
+			this.ptDetails.RowCount = 10;
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.ptDetails.Size = new System.Drawing.Size(264, 386);
+			this.ptDetails.TabIndex = 5;
+			this.ptDetails.Visible = false;
+			// 
+			// pcbUseImageMargin
+			// 
+			this.pcbUseImageMargin.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.pcbUseImageMargin, 2);
+			this.pcbUseImageMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbUseImageMargin.Location = new System.Drawing.Point(3, 170);
+			this.pcbUseImageMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbUseImageMargin.Name = "pcbUseImageMargin";
+			this.pcbUseImageMargin.Size = new System.Drawing.Size(258, 17);
+			this.pcbUseImageMargin.TabIndex = 12;
+			this.pcbUseImageMargin.Text = "Zastosuj margines do obrazu";
+			this.pcbUseImageMargin.UseVisualStyleBackColor = true;
+			// 
+			// pcbDrawFrameOutside
+			// 
+			this.pcbDrawFrameOutside.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.pcbDrawFrameOutside, 2);
+			this.pcbDrawFrameOutside.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDrawFrameOutside.Location = new System.Drawing.Point(3, 145);
+			this.pcbDrawFrameOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDrawFrameOutside.Name = "pcbDrawFrameOutside";
+			this.pcbDrawFrameOutside.Size = new System.Drawing.Size(258, 17);
+			this.pcbDrawFrameOutside.TabIndex = 11;
+			this.pcbDrawFrameOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
+			this.pcbDrawFrameOutside.UseVisualStyleBackColor = true;
+			// 
+			// plImageSettings
+			// 
+			this.plImageSettings.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.plImageSettings, 2);
+			this.plImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plImageSettings.Location = new System.Drawing.Point(3, 95);
+			this.plImageSettings.Name = "plImageSettings";
+			this.plImageSettings.Size = new System.Drawing.Size(258, 20);
+			this.plImageSettings.TabIndex = 9;
+			this.plImageSettings.Text = "Ustawienia obrazu:";
+			this.plImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// pcbDynImage
+			// 
+			this.pcbDynImage.AutoSize = true;
+			this.pcbDynImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDynImage.Location = new System.Drawing.Point(135, 75);
+			this.pcbDynImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDynImage.Name = "pcbDynImage";
+			this.pcbDynImage.Size = new System.Drawing.Size(126, 17);
+			this.pcbDynImage.TabIndex = 8;
+			this.pcbDynImage.Text = "Obraz dynamiczny";
+			this.pcbDynImage.UseVisualStyleBackColor = true;
+			this.pcbDynImage.CheckedChanged += new System.EventHandler(this.pcbDynImage_CheckedChanged);
+			// 
+			// pcbStatText
+			// 
+			this.pcbStatText.AutoSize = true;
+			this.pcbStatText.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbStatText.Location = new System.Drawing.Point(3, 75);
+			this.pcbStatText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbStatText.Name = "pcbStatText";
+			this.pcbStatText.Size = new System.Drawing.Size(126, 17);
+			this.pcbStatText.TabIndex = 7;
+			this.pcbStatText.Text = "Tekst statyczny";
+			this.pcbStatText.UseVisualStyleBackColor = true;
+			this.pcbStatText.CheckedChanged += new System.EventHandler(this.pcbStatText_CheckedChanged);
+			// 
+			// pcbDrawColor
+			// 
+			this.pcbDrawColor.AutoSize = true;
+			this.pcbDrawColor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDrawColor.Location = new System.Drawing.Point(135, 25);
+			this.pcbDrawColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDrawColor.Name = "pcbDrawColor";
+			this.pcbDrawColor.Size = new System.Drawing.Size(126, 17);
+			this.pcbDrawColor.TabIndex = 6;
+			this.pcbDrawColor.Text = "Rysuj kolor pola";
+			this.pcbDrawColor.UseVisualStyleBackColor = true;
+			this.pcbDrawColor.CheckedChanged += new System.EventHandler(this.pcbDrawColor_CheckedChanged);
+			// 
+			// pcbDynText
+			// 
+			this.pcbDynText.AutoSize = true;
+			this.pcbDynText.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbDynText.Location = new System.Drawing.Point(3, 50);
+			this.pcbDynText.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbDynText.Name = "pcbDynText";
+			this.pcbDynText.Size = new System.Drawing.Size(126, 17);
+			this.pcbDynText.TabIndex = 3;
+			this.pcbDynText.Text = "Tekst dynamiczny";
+			this.pcbDynText.UseVisualStyleBackColor = true;
+			this.pcbDynText.CheckedChanged += new System.EventHandler(this.pcbDynText_CheckedChanged);
+			// 
+			// plPDFGenerate
+			// 
+			this.plPDFGenerate.AutoSize = true;
+			this.ptDetails.SetColumnSpan(this.plPDFGenerate, 2);
+			this.plPDFGenerate.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.plPDFGenerate.Location = new System.Drawing.Point(3, 0);
+			this.plPDFGenerate.Name = "plPDFGenerate";
+			this.plPDFGenerate.Size = new System.Drawing.Size(258, 20);
+			this.plPDFGenerate.TabIndex = 0;
+			this.plPDFGenerate.Text = "Generowanie do pliku PDF:";
+			this.plPDFGenerate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			// 
+			// pcbShowFrame
+			// 
+			this.pcbShowFrame.AutoSize = true;
+			this.pcbShowFrame.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbShowFrame.Location = new System.Drawing.Point(3, 25);
+			this.pcbShowFrame.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbShowFrame.Name = "pcbShowFrame";
+			this.pcbShowFrame.Size = new System.Drawing.Size(126, 17);
+			this.pcbShowFrame.TabIndex = 1;
+			this.pcbShowFrame.Text = "Wyświetlaj ramke";
+			this.pcbShowFrame.UseVisualStyleBackColor = true;
+			this.pcbShowFrame.CheckedChanged += new System.EventHandler(this.pcbShowFrame_CheckedChanged);
+			// 
+			// pcbStatImage
+			// 
+			this.pcbStatImage.AutoSize = true;
+			this.pcbStatImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcbStatImage.Location = new System.Drawing.Point(135, 50);
+			this.pcbStatImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.pcbStatImage.Name = "pcbStatImage";
+			this.pcbStatImage.Size = new System.Drawing.Size(126, 17);
+			this.pcbStatImage.TabIndex = 4;
+			this.pcbStatImage.Text = "Obraz statyczny";
+			this.pcbStatImage.UseVisualStyleBackColor = true;
+			this.pcbStatImage.CheckedChanged += new System.EventHandler(this.pcbStatImage_CheckedChanged);
+			// 
+			// pcxImageSet
+			// 
+			this.ptDetails.SetColumnSpan(this.pcxImageSet, 2);
+			this.pcxImageSet.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pcxImageSet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.pcxImageSet.FormattingEnabled = true;
+			this.pcxImageSet.Items.AddRange(new object[] {
+            "Zostaw proporcje takie jakie są"});
+			this.pcxImageSet.Location = new System.Drawing.Point(3, 118);
+			this.pcxImageSet.Name = "pcxImageSet";
+			this.pcxImageSet.Size = new System.Drawing.Size(258, 21);
+			this.pcxImageSet.TabIndex = 10;
 			// 
 			// gsPrint
 			// 
@@ -1777,24 +2025,320 @@
 			this.pageSetupDialog1.Document = this.isPrintDoc;
 			this.pageSetupDialog1.EnableMetric = true;
 			// 
+			// scData
+			// 
+			this.scData.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scData.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.scData.Location = new System.Drawing.Point(6, 6);
+			this.scData.Margin = new System.Windows.Forms.Padding(6, 6, 6, 3);
+			this.scData.Name = "scData";
+			// 
+			// scData.Panel1
+			// 
+			this.scData.Panel1.Controls.Add(this.dpPreview);
+			this.scData.Panel1MinSize = 350;
+			// 
+			// scData.Panel2
+			// 
+			this.scData.Panel2.Controls.Add(this.dtvData);
+			this.scData.Panel2MinSize = 250;
+			this.scData.Size = new System.Drawing.Size(672, 421);
+			this.scData.SplitterDistance = 400;
+			this.scData.SplitterWidth = 6;
+			this.scData.TabIndex = 4;
+			this.scData.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.scData_SplitterMoved);
+			// 
+			// scHome
+			// 
+			this.scHome.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scHome.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.scHome.Location = new System.Drawing.Point(6, 6);
+			this.scHome.Margin = new System.Windows.Forms.Padding(6, 6, 6, 3);
+			this.scHome.Name = "scHome";
+			// 
+			// scHome.Panel1
+			// 
+			this.scHome.Panel1.Controls.Add(this.mtvPatterns);
+			this.scHome.Panel1MinSize = 250;
+			// 
+			// scHome.Panel2
+			// 
+			this.scHome.Panel2.Controls.Add(this.mpPreview);
+			this.scHome.Panel2MinSize = 350;
+			this.scHome.Size = new System.Drawing.Size(672, 421);
+			this.scHome.SplitterDistance = 250;
+			this.scHome.SplitterWidth = 6;
+			this.scHome.TabIndex = 5;
+			this.scHome.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.scHome_SplitterMoved);
+			// 
+			// mtButtonTable
+			// 
+			this.mtButtonTable.ColumnCount = 2;
+			this.mtButtonTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.mtButtonTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.mtButtonTable.Controls.Add(this.mbDelete, 0, 0);
+			this.mtButtonTable.Controls.Add(this.mbNew, 0, 0);
+			this.mtButtonTable.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mtButtonTable.Location = new System.Drawing.Point(5, 0);
+			this.mtButtonTable.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this.mtButtonTable.Name = "mtButtonTable";
+			this.mtButtonTable.RowCount = 1;
+			this.mtButtonTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.mtButtonTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.mtButtonTable.Size = new System.Drawing.Size(252, 28);
+			this.mtButtonTable.TabIndex = 8;
+			// 
+			// tHomeTable
+			// 
+			this.tHomeTable.ColumnCount = 1;
+			this.tHomeTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tHomeTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tHomeTable.Controls.Add(this.scHome, 0, 0);
+			this.tHomeTable.Controls.Add(this.sbHome, 0, 1);
+			this.tHomeTable.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tHomeTable.Location = new System.Drawing.Point(0, 24);
+			this.tHomeTable.Name = "tHomeTable";
+			this.tHomeTable.RowCount = 2;
+			this.tHomeTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tHomeTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tHomeTable.Size = new System.Drawing.Size(684, 458);
+			this.tHomeTable.TabIndex = 6;
+			// 
+			// sbHome
+			// 
+			this.sbHome.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.sbHome.ColumnCount = 2;
+			this.sbHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 257F));
+			this.sbHome.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.sbHome.Controls.Add(this.mtStatusBar, 0, 0);
+			this.sbHome.Controls.Add(this.mtButtonTable, 0, 0);
+			this.sbHome.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.sbHome.Location = new System.Drawing.Point(0, 430);
+			this.sbHome.Margin = new System.Windows.Forms.Padding(0);
+			this.sbHome.Name = "sbHome";
+			this.sbHome.RowCount = 1;
+			this.sbHome.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.sbHome.Size = new System.Drawing.Size(684, 28);
+			this.sbHome.TabIndex = 6;
+			// 
+			// tDataTable
+			// 
+			this.tDataTable.ColumnCount = 1;
+			this.tDataTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tDataTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tDataTable.Controls.Add(this.scData, 0, 0);
+			this.tDataTable.Controls.Add(this.sbData, 0, 1);
+			this.tDataTable.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tDataTable.Location = new System.Drawing.Point(0, 24);
+			this.tDataTable.Name = "tDataTable";
+			this.tDataTable.RowCount = 2;
+			this.tDataTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tDataTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tDataTable.Size = new System.Drawing.Size(684, 458);
+			this.tDataTable.TabIndex = 7;
+			this.tDataTable.Visible = false;
+			// 
+			// sbData
+			// 
+			this.sbData.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.sbData.ColumnCount = 2;
+			this.sbData.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.sbData.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 257F));
+			this.sbData.Controls.Add(this.dtInfoControls, 0, 0);
+			this.sbData.Controls.Add(this.dtButtonTable, 1, 0);
+			this.sbData.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.sbData.Location = new System.Drawing.Point(0, 430);
+			this.sbData.Margin = new System.Windows.Forms.Padding(0);
+			this.sbData.Name = "sbData";
+			this.sbData.RowCount = 1;
+			this.sbData.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.sbData.Size = new System.Drawing.Size(684, 28);
+			this.sbData.TabIndex = 5;
+			// 
+			// dtInfoControls
+			// 
+			this.dtInfoControls.ColumnCount = 3;
+			this.dtInfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+			this.dtInfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.dtInfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+			this.dtInfoControls.Controls.Add(this.dfPage, 0, 0);
+			this.dtInfoControls.Controls.Add(this.dlStatus, 0, 0);
+			this.dtInfoControls.Controls.Add(this.dcbZoom, 0, 0);
+			this.dtInfoControls.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dtInfoControls.Location = new System.Drawing.Point(0, 0);
+			this.dtInfoControls.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+			this.dtInfoControls.Name = "dtInfoControls";
+			this.dtInfoControls.RowCount = 1;
+			this.dtInfoControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.dtInfoControls.Size = new System.Drawing.Size(424, 28);
+			this.dtInfoControls.TabIndex = 3;
+			// 
+			// dfPage
+			// 
+			this.dfPage.Controls.Add(this.dnPage);
+			this.dfPage.Controls.Add(this.dlPage);
+			this.dfPage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dfPage.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+			this.dfPage.Location = new System.Drawing.Point(324, 0);
+			this.dfPage.Margin = new System.Windows.Forms.Padding(0);
+			this.dfPage.Name = "dfPage";
+			this.dfPage.Size = new System.Drawing.Size(100, 28);
+			this.dfPage.TabIndex = 12;
+			// 
+			// dnPage
+			// 
+			this.dnPage.Location = new System.Drawing.Point(62, 5);
+			this.dnPage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+			this.dnPage.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.dnPage.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.dnPage.Name = "dnPage";
+			this.dnPage.Size = new System.Drawing.Size(35, 20);
+			this.dnPage.TabIndex = 0;
+			this.dnPage.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.dnPage.ValueChanged += new System.EventHandler(this.dnPage_ValueChanged);
+			// 
+			// dlPage
+			// 
+			this.dlPage.AutoSize = true;
+			this.dlPage.Location = new System.Drawing.Point(18, 8);
+			this.dlPage.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
+			this.dlPage.Name = "dlPage";
+			this.dlPage.Size = new System.Drawing.Size(41, 13);
+			this.dlPage.TabIndex = 1;
+			this.dlPage.Text = "Strona:";
+			// 
+			// dlStatus
+			// 
+			this.dlStatus.AutoEllipsis = true;
+			this.dlStatus.AutoSize = true;
+			this.dlStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dlStatus.Location = new System.Drawing.Point(83, 0);
+			this.dlStatus.Name = "dlStatus";
+			this.dlStatus.Size = new System.Drawing.Size(238, 28);
+			this.dlStatus.TabIndex = 11;
+			this.dlStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// dcbZoom
+			// 
+			this.dcbZoom.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.dcbZoom.FormattingEnabled = true;
+			this.dcbZoom.Items.AddRange(new object[] {
+            "50",
+            "75",
+            "100",
+            "150",
+            "200",
+            "300"});
+			this.dcbZoom.Location = new System.Drawing.Point(6, 4);
+			this.dcbZoom.Margin = new System.Windows.Forms.Padding(6, 4, 3, 3);
+			this.dcbZoom.Name = "dcbZoom";
+			this.dcbZoom.Size = new System.Drawing.Size(71, 21);
+			this.dcbZoom.TabIndex = 10;
+			this.dcbZoom.SelectedIndexChanged += new System.EventHandler(this.dcbZoom_SelectedIndexChanged);
+			this.dcbZoom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dcbZoom_KeyDown);
+			this.dcbZoom.Leave += new System.EventHandler(this.dcbZoom_Leave);
+			// 
+			// tPatternTable
+			// 
+			this.tPatternTable.ColumnCount = 1;
+			this.tPatternTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tPatternTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+			this.tPatternTable.Controls.Add(this.scPattern, 0, 0);
+			this.tPatternTable.Controls.Add(this.sbPattern, 0, 1);
+			this.tPatternTable.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tPatternTable.Location = new System.Drawing.Point(0, 24);
+			this.tPatternTable.Name = "tPatternTable";
+			this.tPatternTable.RowCount = 2;
+			this.tPatternTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tPatternTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.tPatternTable.Size = new System.Drawing.Size(684, 458);
+			this.tPatternTable.TabIndex = 8;
+			this.tPatternTable.Visible = false;
+			// 
+			// scPattern
+			// 
+			this.scPattern.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scPattern.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.scPattern.Location = new System.Drawing.Point(6, 6);
+			this.scPattern.Margin = new System.Windows.Forms.Padding(6, 6, 6, 3);
+			this.scPattern.Name = "scPattern";
+			// 
+			// scPattern.Panel1
+			// 
+			this.scPattern.Panel1.Controls.Add(this.ppPanelContainer);
+			this.scPattern.Panel1MinSize = 350;
+			// 
+			// scPattern.Panel2
+			// 
+			this.scPattern.Panel2.Controls.Add(this.ptPatternDetails);
+			this.scPattern.Panel2MinSize = 250;
+			this.scPattern.Size = new System.Drawing.Size(672, 421);
+			this.scPattern.SplitterDistance = 402;
+			this.scPattern.SplitterWidth = 6;
+			this.scPattern.TabIndex = 0;
+			this.scPattern.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.scPattern_SplitterMoved);
+			// 
+			// sbPattern
+			// 
+			this.sbPattern.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.sbPattern.ColumnCount = 2;
+			this.sbPattern.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.sbPattern.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 257F));
+			this.sbPattern.Controls.Add(this.ptInfoControls, 0, 0);
+			this.sbPattern.Controls.Add(this.ptStatusButtons, 1, 0);
+			this.sbPattern.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.sbPattern.Location = new System.Drawing.Point(0, 430);
+			this.sbPattern.Margin = new System.Windows.Forms.Padding(0);
+			this.sbPattern.Name = "sbPattern";
+			this.sbPattern.RowCount = 1;
+			this.sbPattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.sbPattern.Size = new System.Drawing.Size(684, 28);
+			this.sbPattern.TabIndex = 1;
+			// 
+			// ptStatusButtons
+			// 
+			this.ptStatusButtons.ColumnCount = 2;
+			this.ptStatusButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptStatusButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.ptStatusButtons.Controls.Add(this.pbSave, 0, 0);
+			this.ptStatusButtons.Controls.Add(this.pbLoadData, 0, 0);
+			this.ptStatusButtons.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ptStatusButtons.Location = new System.Drawing.Point(428, 0);
+			this.ptStatusButtons.Margin = new System.Windows.Forms.Padding(1, 0, 6, 0);
+			this.ptStatusButtons.Name = "ptStatusButtons";
+			this.ptStatusButtons.RowCount = 1;
+			this.ptStatusButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.ptStatusButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+			this.ptStatusButtons.Size = new System.Drawing.Size(250, 28);
+			this.ptStatusButtons.TabIndex = 1;
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(684, 482);
-			this.Controls.Add(this.tPatternPanel);
-			this.Controls.Add(this.tDataPanel);
-			this.Controls.Add(this.tHomePanel);
+			this.Controls.Add(this.tHomeTable);
+			this.Controls.Add(this.tPatternTable);
+			this.Controls.Add(this.tDataTable);
 			this.Controls.Add(this.imMain);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.MinimumSize = new System.Drawing.Size(700, 520);
 			this.Name = "Main";
-			this.Text = "No Name";
-			this.tHomePanel.ResumeLayout(false);
-			this.mpPreview.ResumeLayout(false);
-			this.mpPreview.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.mibPreview)).EndInit();
+			this.Text = "CDesigner - Kreator Dyplomów";
+			this.Resize += new System.EventHandler(this.Main_Resize);
 			this.mtStatusBar.ResumeLayout(false);
 			this.mtStatusBar.PerformLayout();
 			this.mfPageLayout.ResumeLayout(false);
@@ -1805,23 +2349,20 @@
 			this.imMain.PerformLayout();
 			this.icPage.ResumeLayout(false);
 			this.icLabel.ResumeLayout(false);
-			this.tDataPanel.ResumeLayout(false);
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.ptStatusBar.ResumeLayout(false);
+			this.dtButtonTable.ResumeLayout(false);
 			this.ptInfoControls.ResumeLayout(false);
 			this.ptInfoControls.PerformLayout();
 			this.pflPage.ResumeLayout(false);
 			this.pflPage.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnPage)).EndInit();
-			this.tPatternPanel.ResumeLayout(false);
 			this.ptPatternDetails.ResumeLayout(false);
 			this.ptPatternDetails.PerformLayout();
 			this.icPatMenu.ResumeLayout(false);
 			this.icPatMenu.PerformLayout();
 			this.ppDetailsPanel.ResumeLayout(false);
 			this.ppDetailsPanel.PerformLayout();
-			this.ptDetails.ResumeLayout(false);
-			this.ptDetails.PerformLayout();
+			this.ptPageDetails.ResumeLayout(false);
+			this.ptPageDetails.PerformLayout();
 			this.ptFieldDetails.ResumeLayout(false);
 			this.ptFieldDetails.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pnBorderSize)).EndInit();
@@ -1830,6 +2371,33 @@
 			((System.ComponentModel.ISupportInitialize)(this.pnPositionX)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnWidth)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pnHeight)).EndInit();
+			this.ptDetails.ResumeLayout(false);
+			this.ptDetails.PerformLayout();
+			this.scData.Panel1.ResumeLayout(false);
+			this.scData.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.scData)).EndInit();
+			this.scData.ResumeLayout(false);
+			this.scHome.Panel1.ResumeLayout(false);
+			this.scHome.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.scHome)).EndInit();
+			this.scHome.ResumeLayout(false);
+			this.mtButtonTable.ResumeLayout(false);
+			this.tHomeTable.ResumeLayout(false);
+			this.sbHome.ResumeLayout(false);
+			this.tDataTable.ResumeLayout(false);
+			this.sbData.ResumeLayout(false);
+			this.dtInfoControls.ResumeLayout(false);
+			this.dtInfoControls.PerformLayout();
+			this.dfPage.ResumeLayout(false);
+			this.dfPage.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dnPage)).EndInit();
+			this.tPatternTable.ResumeLayout(false);
+			this.scPattern.Panel1.ResumeLayout(false);
+			this.scPattern.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.scPattern)).EndInit();
+			this.scPattern.ResumeLayout(false);
+			this.sbPattern.ResumeLayout(false);
+			this.ptStatusButtons.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1837,16 +2405,10 @@
 
         #endregion
 
-		private System.Windows.Forms.TableLayoutPanel tHomePanel;
-        private System.Windows.Forms.MenuStrip imMain;
+		private System.Windows.Forms.MenuStrip imMain;
         private System.Windows.Forms.ToolStripMenuItem mmPattern;
         private System.Windows.Forms.ToolStripMenuItem ispNew;
 		private System.Windows.Forms.ToolStripMenuItem ispImport;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem ispClose;
-        private System.Windows.Forms.ToolStripMenuItem programToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem informacjaToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem pomocToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem isPattern;
         private System.Windows.Forms.ToolStripMenuItem isHome;
 		private System.Windows.Forms.ToolStripMenuItem isData;
@@ -1883,7 +2445,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripMenuItem iclPrintColor;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-		private System.Windows.Forms.TableLayoutPanel tDataPanel;
 		private System.Windows.Forms.OpenFileDialog gsDBase;
 		private System.Windows.Forms.ContextMenuStrip icPattern;
 		private System.Windows.Forms.ToolStripMenuItem ictEdit;
@@ -1896,7 +2457,6 @@
 		private System.Windows.Forms.ToolStripMenuItem ictExport;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
 		private System.Windows.Forms.TableLayoutPanel mtStatusBar;
-		private System.Windows.Forms.Label mlStatus;
 		private System.Windows.Forms.Button mbDelete;
 		private System.Windows.Forms.Button mbNew;
 		private System.Windows.Forms.FlowLayoutPanel mfPageLayout;
@@ -1904,10 +2464,8 @@
 		private System.Windows.Forms.Label mlPage;
 		private System.Windows.Forms.Panel dpPreview;
 		private System.Windows.Forms.TreeView mtvPatterns;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel dtButtonTable;
 		private System.Windows.Forms.TreeView dtvData;
-		private System.Windows.Forms.TableLayoutPanel tPatternPanel;
-		private System.Windows.Forms.TableLayoutPanel ptStatusBar;
 		private System.Windows.Forms.Button pbSave;
 		private System.Windows.Forms.Button pbLoadData;
 		private System.Windows.Forms.TableLayoutPanel ptInfoControls;
@@ -1918,7 +2476,6 @@
 		private System.Windows.Forms.ComboBox pcbScale;
 		private System.Windows.Forms.Panel ppPanelContainer;
 		private System.Windows.Forms.Panel mpPreview;
-		private System.Windows.Forms.PictureBox mibPreview;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
 		private System.Windows.Forms.Button dbGeneratePDF;
 		private System.Windows.Forms.Button dbScan;
@@ -1974,6 +2531,52 @@
 		private System.Windows.Forms.CheckBox pcbUseImageMargin;
 		private System.Windows.Forms.CheckBox pcbDrawFrameOutside;
 		private System.Windows.Forms.ComboBox pcxImageSet;
+		private System.Windows.Forms.TextBox ptbpWidth;
+		private System.Windows.Forms.TextBox ptbpHeight;
+		private System.Windows.Forms.Label plpWidth;
+		private System.Windows.Forms.Label plpHeight;
+		private System.Windows.Forms.Label plpGeneratePDF;
+		private System.Windows.Forms.CheckBox pcbpDrawColor;
+		private System.Windows.Forms.CheckBox pcbpDrawImage;
+		private System.Windows.Forms.CheckBox pcbpDrawOutside;
+		private System.Windows.Forms.CheckBox pcbpApplyMargin;
+		private System.Windows.Forms.ComboBox pcxpImageSet;
+		private System.Windows.Forms.Label plpImageSettings;
+		private System.Windows.Forms.SplitContainer scData;
+		private System.Windows.Forms.SplitContainer scHome;
+		private System.Windows.Forms.TableLayoutPanel mtButtonTable;
+		private System.Windows.Forms.Label mlStatus;
+		private System.Windows.Forms.TableLayoutPanel tHomeTable;
+		private System.Windows.Forms.TableLayoutPanel sbHome;
+		private System.Windows.Forms.TableLayoutPanel tDataTable;
+		private System.Windows.Forms.TableLayoutPanel sbData;
+		private System.Windows.Forms.TableLayoutPanel tPatternTable;
+		private System.Windows.Forms.SplitContainer scPattern;
+		private System.Windows.Forms.TableLayoutPanel sbPattern;
+		private System.Windows.Forms.TableLayoutPanel ptStatusButtons;
+		private System.Windows.Forms.TableLayoutPanel dtInfoControls;
+		private System.Windows.Forms.FlowLayoutPanel dfPage;
+		private System.Windows.Forms.NumericUpDown dnPage;
+		private System.Windows.Forms.Label dlPage;
+		private System.Windows.Forms.ComboBox dcbZoom;
+		private System.Windows.Forms.Label dlStatus;
+		private System.Windows.Forms.ToolStripMenuItem ispRecent;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem ispExportAll;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+		private System.Windows.Forms.ToolStripMenuItem ispClose;
+		private System.Windows.Forms.ToolStripMenuItem mmSettings;
+		private System.Windows.Forms.ToolStripMenuItem issGeneratePDF;
+		private System.Windows.Forms.ToolStripMenuItem issEditor;
+		private System.Windows.Forms.ToolStripMenuItem issGeneral;
+		private System.Windows.Forms.ToolStripMenuItem imProgram;
+		private System.Windows.Forms.ToolStripMenuItem impInfo;
+		private System.Windows.Forms.ToolStripMenuItem impHelp;
+		private System.Windows.Forms.Button pbPageColor;
+		private System.Windows.Forms.TextBox ptbPageColor;
+		private System.Windows.Forms.Label pcbPageLook;
+		private System.Windows.Forms.TextBox ptbPageImage;
+		private System.Windows.Forms.Button pbPageImage;
 
     }
 }

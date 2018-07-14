@@ -100,6 +100,7 @@
 			this.tableLayoutPanel1.SetColumnSpan(this.cbCopyFrom, 2);
 			this.cbCopyFrom.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.cbCopyFrom.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbCopyFrom.Enabled = false;
 			this.cbCopyFrom.FormattingEnabled = true;
 			this.cbCopyFrom.Location = new System.Drawing.Point(102, 32);
 			this.cbCopyFrom.Name = "cbCopyFrom";

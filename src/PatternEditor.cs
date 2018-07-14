@@ -49,7 +49,7 @@ namespace CDesigner
 		
 		public static void Create( string pattern, short width, short height )
 		{
-			FileStream file = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
+			FileStream   file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
 			BinaryWriter writer = new BinaryWriter( file );
 
 			/**
@@ -283,6 +283,9 @@ namespace CDesigner
 					field.DPIBorderSize = field_data.border_size;
 					field.BorderColor   = field_data.border_color;
 
+					// granice rodzica
+					field.SetParentBounds( pp_size.Width, pp_size.Height, false );
+
 					// tło pola
 					if( field_data.image && File.Exists("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg") )
 						using( Image image = Image.FromFile("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg" ) )
@@ -399,6 +402,9 @@ namespace CDesigner
 					field.DPIBorderSize = field_data.extra.print_border ? field_data.border_size : 0;
 					field.BorderColor   = field_data.border_color;
 
+					// granice rodzica
+					field.SetParentBounds( pp_size.Width, pp_size.Height, false );
+
 					// tło pola
 					if( field_data.extra.print_image && field_data.image && File.Exists("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg") )
 						using( Image image = Image.FromFile("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg" ) )
@@ -509,7 +515,6 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- GeneratePreview ------------------------------
 		
-		// @CHECK
 		public static void GeneratePreview( PatternData data, Panel panel, double scale )
 		{
 			double dpi_pxs = PatternEditor._pixel_per_dpi * scale;
@@ -710,7 +715,7 @@ namespace CDesigner
 		
 		public static void GeneratePDF( DataContent data, PatternData pdata )
 		{
-			double scale = 0.0;
+			double scale = 0.0, scalz = 0.0;
 
 			PdfDocument pdf = new PdfDocument();
 
@@ -724,6 +729,7 @@ namespace CDesigner
 
 				// oblicz skale powiększenia
 				scale = page.Width.Presentation / (pdata.size.Width * PatternEditor._pixel_per_dpi);
+				scalz = page.Width.Value / (pdata.size.Width * PatternEditor._pixel_per_dpi);
 
 				XGraphics gfx = XGraphics.FromPdfPage( page );
 				XPdfFontOptions foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
@@ -844,6 +850,13 @@ namespace CDesigner
 
 			// zapisz plik pdf
 			pdf.Save( "output.pdf" );
+		}
+
+		// ------------------------------------------------------------- GeneratePDF ----------------------------------
+		
+		public static float GetDimensionScale( float width, double scale )
+		{
+			return (int)((double)width * (PatternEditor._pixel_per_dpi * scale));
 		}
 	}
 }

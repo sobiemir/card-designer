@@ -286,7 +286,7 @@ namespace CDesigner
 		{
 			// pobierz numer strony i wyczyść listę
 			int page = (int)this.nPage.Value - 1;
-			this.lvPageFields.Items.Clear( );
+			this.lvPageFields.Items.Clear();
 
 			PageData  page_data = this._pattern_data.page[page];
 			FieldData field_data;
@@ -314,6 +314,8 @@ namespace CDesigner
 				else
 					try { this.lvPageFields.Items[x].SubItems.Add( this._data_content.column[field_data.extra.column] ); }
 					catch { this.lvPageFields.Items[x].SubItems.Add( "brak kolumny..." ); }
+
+				this.lvPageFields.Items[x].Tag = (object)x;
 			}
 
 			// przypisz aktualną stronę
@@ -418,12 +420,28 @@ namespace CDesigner
 		
 		private void bSave_Click( object sender, EventArgs ev )
 		{
+			bool empty = this.tbSpaces.Text.Trim() == "";
+
 			this._checked_cols.Clear();
 
 			// pobierz zaznaczone
 			for( int x = 0; x < this.lvDBCols.Items.Count; ++x )
 				if( this.lvDBCols.Items[x].Checked )
+				{
 					this._checked_cols.Add(x);
+
+					if( this.tbSpaces.Text.IndexOf("#" + this._checked_cols.Count) < 0 || empty )
+					{
+						MessageBox.Show
+						(
+							this,
+							"Formatowanie kolumn nie zawiera zaznaczonej kolumny \"" + this.lvDBCols.Items[x].Text + "\"" +
+							" (#" + this._checked_cols.Count + ")",
+							"Błąd formatowania kolumn..."
+						);
+						return;
+					}
+				}
 
 			// zamknij okno
             this.DialogResult = DialogResult.OK;

@@ -26,6 +26,8 @@ resgen /useSourcePath ^
 		resx/Main.resx,obj/CDesigner.Main.resources ^
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources ^
         resx/DataReader.resx,obj/CDesigner.DataReader.resources ^
+        resx/Info.resx,obj/CDesigner.Info.resources ^
+        resx/Settings.resx,obj/CDesigner.Settings.resources ^
 		properties/Resources.resx,obj/CDesigner.Properties.Resources.resources
 @echo off
 
@@ -72,15 +74,22 @@ csc /reference:dll/PdfSharp.dll ^
 	/resource:obj/CDesigner.Main.resources ^
 	/resource:obj/CDesigner.NewPattern.resources ^
     /resource:obj/CDesigner.DataReader.resources ^
+    /resource:obj/CDesigner.Info.resources ^
+    /resource:obj/CDesigner.Settings.resources ^
 	/resource:obj/CDesigner.Properties.Resources.resources ^
 	/target:winexe ^
 	/utf8output ^
+		src/AlignedPictureBox.cs ^
 		src/PageField.cs ^
         src/ExtendLabel.cs ^
 		src/Main.cs ^
 		designer/Main.Designer.cs ^
+		src/Info.cs ^
+		designer/Info.Designer.cs ^
 		src/NewPattern.cs ^
 		designer/NewPattern.Designer.cs ^
+		src/Settings.cs ^
+		designer/Settings.Designer.cs ^
         src/PatternEditor.cs ^
 		src/Program.cs ^
 		src/Structs.cs ^
@@ -107,6 +116,8 @@ copy /Y resources\icons\format-error.png build\icons
 copy /Y resources\icons\format-unknown.png build\icons
 copy /Y resources\icons\image-field.png build\icons
 copy /Y resources\icons\text-field.png build\icons
+copy /Y resources\transparent.png build
+copy /Y resources\logo.jpg build
 
 echo ### Finished
 exit /B 0

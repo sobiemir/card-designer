@@ -1,4 +1,15 @@
-﻿using System;
+﻿/**
+ * Plik do obsługi głównego interfejsu graficznego.
+ * Zarządzanie kontrolkami i wzorami.
+ *
+ * Copyright ⓒ 2015. Wszystkie prawa zastrzeżone.
+ *
+ * Autor  - Kamil Biały
+ * Wersja - 1.0
+ * Zmiana - 2015-05-25
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,43 +25,44 @@ using PdfSharp;
 using PdfSharp.Drawing;
 using System.Drawing.Printing;
 
-
-// @TODO dodać do konfiguracji nowe pole z informacją o danych
-// @TODO jednak przerobić na struktury....
-
-
 namespace CDesigner
 {
 	public partial class Main : Form
 	{
-		private Panel		pCurrentPage	= null;
-		private int			pPanelCounter	= 0;
-		private int			pCurrentPanelID	= -1;
+		private AlignedPictureBox mibPreview = null;
+		private FormWindowState   gLastState = FormWindowState.Normal;
+
+		private int         gThisContainer  = 1;
+		private bool        gEditChanged    = false;
 		private bool		pLocked			= false;
 
-		private int			gThisContainer	= 1;
-		private bool		gEditChanged	= false;
-
-		private int			mSelectedID		= -1;
-		private bool		mSelectedError	= false;
-		private bool		mSelectedData	= false;
-		private string		mSelectedName	= null;
-		private bool		mNoImage		= false;
-
+		private int         mSelectedID	    = -1;
+		private bool        mSelectedError  = false;
+		private bool        mSelectedData   = false;
+		private string      mSelectedName   = null;
 
 		private PageField   pCurrentField   = null;
 		private string      pCurrentName    = null;
 		private PatternData pPatternData    = null;
+		private PageField   pMovingField    = null;
+		private int         pDiffX          = 0;
+		private int         pDiffY          = 0;
+		private Panel		pCurrentPage	= null;
+		private int			pPanelCounter	= 0;
+		private int			pCurrentPanelID	= -1;
+		private Size		pPageSize       = new Size();
 
 		private PatternData dPatternData    = new PatternData();
 		private DataContent dDataContent    = new DataContent();
+		private string		dCurrentName    = null;
 		private bool        dSketchDrawed   = false;
-
+		private Panel       dCurrentPage    = null;
 
 /* ===============================================================================================================================
  * Główne funkcje klasy:
  * - Main					[Public]
- * - ProcessCmdKey			[Protected]
+ * - Main_Resize            [Form]
+ * - ProcessCmdKey			[Form]
  * - RefreshProjectList		[Private]
  * - LockFieldLabels		[Private]
  * - UnlockFieldLabels		[Private]
@@ -64,13 +76,37 @@ namespace CDesigner
 		public Main( )
 		{
 			this.InitializeComponent();
-			
+
 			// utwórz folder gdy nie istnieje
 			if( !Directory.Exists("patterns") )
 				Directory.CreateDirectory( "patterns" );
 
+			// dodaj zdarzenie do własnego panelu obrazu
+			this.mibPreview = new AlignedPictureBox();
+			
+			this.mibPreview.Align      = 1;
+			this.mibPreview.SizeMode   = PictureBoxSizeMode.AutoSize;
+			this.mibPreview.MouseDown += new MouseEventHandler( mpPreview_MouseDown );
+			this.mibPreview.Padding    = new Padding( 5 );
+
+			this.mpPreview.Controls.Add( this.mibPreview );
+
 			// odśwież listę wzorów
 			this.RefreshProjectList();
+		}
+
+		// ------------------------------------------------------------- Main_Resize ---------------------------------
+
+		private void Main_Resize( object sender, EventArgs ev )
+		{
+			if( this.WindowState == this.gLastState )
+				return;
+
+			this.gLastState = this.WindowState;
+
+			// wymuś odświeżenie i zmiane rozmiaru panelu po wróceniu do normalnego stanu
+			if( this.WindowState == FormWindowState.Normal )
+				this.mpPreview.Width  = this.mpPreview.Width - 1;
 		}
 
 		// ------------------------------------------------------------- ProcessCmdKey --------------------------------
@@ -91,6 +127,11 @@ namespace CDesigner
 						if( this.pnPage.Value < this.pnPage.Maximum )
 							this.pnPage.Value += 1;
 					}
+					else if( this.gThisContainer == 3 )
+					{
+						if( this.dnPage.Value < this.dnPage.Maximum )
+							this.dnPage.Value += 1;
+					}
 				break;
 				// zmień strone wzoru
 				case Keys.Shift | Keys.Tab:
@@ -104,6 +145,15 @@ namespace CDesigner
 						if( this.pnPage.Value > this.pnPage.Minimum )
 							this.pnPage.Value -= 1;
 					}
+					else if( this.gThisContainer == 3 )
+					{
+						if( this.dnPage.Value > this.dnPage.Minimum )
+							this.dnPage.Value -= 1;
+					}
+				break;
+				// skrót do ustawień
+				case Keys.Control | Keys.S:
+					this.issGeneral_Click( null, null );
 				break;
 				default:
 					return base.ProcessCmdKey( ref msg, keydata );
@@ -166,6 +216,14 @@ namespace CDesigner
 
 			this.pcbDrawFrameOutside.Enabled = false;
 			this.pcbUseImageMargin.Enabled   = false;
+
+
+			// nie potrzeba ich blokować
+			this.pcbpApplyMargin.Enabled = false;
+			//this.pcbpDrawColor.Enabled   = false;
+			//this.pcbpDrawImage.Enabled   = false;
+			this.pcbpDrawOutside.Enabled = false;
+			this.pcxpImageSet.Enabled    = false;
 		}
 
 		// ------------------------------------------------------------- UnlockFieldLabels ----------------------------
@@ -175,7 +233,7 @@ namespace CDesigner
 			this.pbBorderColor.Enabled = true;
 			this.pbFontName.Enabled    = true;
 			this.pbFontColor.Enabled   = true;
-			this.pbBackImage.Enabled   = true;
+			//this.pbBackImage.Enabled   = true;
 			this.pbBackColor.Enabled   = true;
 			this.pnBorderSize.Enabled  = true;
 			this.pnPositionX.Enabled   = true;
@@ -187,16 +245,23 @@ namespace CDesigner
 			this.pcbTextAlign.Enabled  = true;
 			this.pcbPosAlign.Enabled   = true;
 
-			this.pcxImageSet.Enabled   = true;
 			this.pcbDrawColor.Enabled  = true;
 			this.pcbDynImage.Enabled   = true;
-			this.pcbDynText.Enabled    = true;
+			//this.pcbDynText.Enabled    = true;
 			this.pcbShowFrame.Enabled  = true;
-			this.pcbStatImage.Enabled  = true;
+			//this.pcbStatImage.Enabled  = true;
 			this.pcbStatText.Enabled   = true;
 
-			this.pcbDrawFrameOutside.Enabled = true;
-			this.pcbUseImageMargin.Enabled   = true;
+			//this.pcxImageSet.Enabled         = true;
+			//this.pcbDrawFrameOutside.Enabled = true;
+			//this.pcbUseImageMargin.Enabled   = true;
+
+			//this.pcbpDrawColor.Enabled = true;
+			//this.pcbpDrawImage.Enabled = true;
+
+			//this.pcxpImageSet.Enabled  = true;
+			//this.pcbpApplyMargin.Enabled = true;
+			//this.pcbpDrawOutside.Enabled = true;
 		}
 
 		// ------------------------------------------------------------- FillFieldLabels ------------------------------
@@ -208,9 +273,11 @@ namespace CDesigner
 			// zmień nazwę
 			this.ptbName.Text = this.pCurrentField.Text;
 
+			PointF location = this.pCurrentField.GetPosByAlignPoint( (ContentAlignment)((FieldExtraData)this.pCurrentField.Tag).pos_align );
+
 			// aktualizuj pola numeryczne
-			this.pnPositionX.Value  = (decimal)this.pCurrentField.DPIBounds.X;
-			this.pnPositionY.Value  = (decimal)this.pCurrentField.DPIBounds.Y;
+			this.pnPositionX.Value  = (decimal)location.X;
+			this.pnPositionY.Value  = (decimal)location.Y;
 			this.pnHeight.Value     = (decimal)this.pCurrentField.DPIBounds.Height;
 			this.pnWidth.Value      = (decimal)this.pCurrentField.DPIBounds.Width;
 			this.pnBorderSize.Value = (decimal)this.pCurrentField.DPIBorderSize;
@@ -333,17 +400,17 @@ namespace CDesigner
 		
 		private void isHome_Click( object sender, EventArgs ev )
 		{
-			this.tHomePanel.Show();
+			this.tHomeTable.Show();
 			this.isHome.Enabled = false;
 
 			if( this.gThisContainer == 2 )
 			{
-				this.tPatternPanel.Hide();
+				this.tPatternTable.Hide();
 				this.isPattern.Enabled = true;
 			}
 			else if( this.gThisContainer == 3 )
 			{
-				this.tDataPanel.Hide();
+				this.tDataTable.Hide();
 				this.isData.Enabled = true;
 			}
 
@@ -363,17 +430,17 @@ namespace CDesigner
 		
 		private void isPattern_Click( object sender, EventArgs ev )
 		{
-			this.tPatternPanel.Show();
+			this.tPatternTable.Show();
 			this.isPattern.Enabled = false;
 
 			if( this.gThisContainer == 1 )
 			{
-				this.tHomePanel.Hide();
+				this.tHomeTable.Hide();
 				this.isHome.Enabled = true;
 			}
 			else if( this.gThisContainer == 3 )
 			{
-				this.tDataPanel.Hide();
+				this.tDataTable.Hide();
 				this.isData.Enabled = true;
 			}
 
@@ -384,22 +451,23 @@ namespace CDesigner
 		
 		private void isData_Click( object sender, EventArgs ev )
 		{
-			this.tDataPanel.Show();
+			this.tDataTable.Show();
 			this.isData.Enabled = false;
 
 			if( this.gThisContainer == 1 )
 			{
-				this.tHomePanel.Hide();
+				this.tHomeTable.Hide();
 				this.isHome.Enabled = true;
 			}
 			else if( this.gThisContainer == 2 )
 			{
-				this.tPatternPanel.Hide();
+				this.tPatternTable.Hide();
 				this.isPattern.Enabled = true;
 			}
 
 			this.gThisContainer = 3;
 		}
+
 #endregion
 
 /* ===============================================================================================================================
@@ -438,6 +506,7 @@ namespace CDesigner
 			{
 				this.mnPage.Enabled   = false;
 				this.mbDelete.Enabled = false;
+
 				return;
 			}
 
@@ -445,133 +514,123 @@ namespace CDesigner
 			if( this.mSelectedID == this.mtvPatterns.SelectedNode.Index && !this.gEditChanged )
 				return;
 
-			// proszę czekać...
-			this.mlStatus.Text = "Wczytywanie podglądu wzoru...";
+			// odśwież status
+			this.mlStatus.Text = "Proszę czekać... wczytywanie podglądu wzoru...";
 			this.mlStatus.Refresh();
-			this.Cursor = Cursors.WaitCursor;
 
-			this.mSelectedID      = this.mtvPatterns.SelectedNode.Index;
-			this.mSelectedError   = false;
-			this.mSelectedData    = true;
+			// zmień kursor
+			this.Cursor  = Cursors.WaitCursor;
+			this.pLocked = true;
+
+			this.mSelectedID    = this.mtvPatterns.SelectedNode.Index;
+			this.mSelectedError = false;
+			this.mSelectedData  = false;
+			
+			// włącz możliwość usuwania
 			this.mbDelete.Enabled = true;
-			this.pLocked          = true;
 
-			// pobierz nazwę elementu
-			string pattern     = this.mtvPatterns.SelectedNode.Text;
-			this.mSelectedName = pattern;
+			// nazwa zaznaczonego wzoru
+			string pattern = this.mSelectedName = this.mtvPatterns.SelectedNode.Text;
+			Image  helper  = null, trash = null;
 
-			// sprawdź czy wzór nie jest uszkodzony
+			// sprawdź czy wzór posiada plik konfiguracyjny
 			if( !File.Exists("patterns/" + pattern + "/config.cfg") )
 			{
-				this.mNoImage       = true;
 				this.mSelectedError = true;
 
-				if( this.mibPreview.Image != null )
-					this.mibPreview.Image.Dispose();
+				// obrazy
+				trash  = this.mibPreview.Image;
+				helper = File.Exists("noimage.png") ? Image.FromFile("noimage.png") : null;
 
-				// brak obrazka
-				this.mibPreview.Image = File.Exists( "noimage.png" )
-					? Image.FromFile( "noimage.png" )
-					: null;
-
-				// dostosuj rozmiar
-				this.mpPreview_Resize( null, null );
-
-				this.mnPage.Enabled = false;
-				this.pLocked        = false;
-
+				// informacja
 				//MessageBox.Show( this, "Wybrany wzór jest uszkodzony!", "Błąd przetwarzania..." );
-				this.Cursor        = null;
-				this.mlStatus.Text = "Wybrany wzór jest uszkodzony!";
+				this.mlStatus.Text  = "Wybrany wzór jest uszkodzony!";
+				this.mnPage.Enabled = false;
 
-				return;
+				// przejdź na koniec
+				goto CD_mtvPatterns_AfterSelect;
 			}
 
 			// wczytaj nagłówek
-			PatternData data = PatternEditor.ReadPattern( pattern, true );
-			int format = -1;
+			PatternData data   = PatternEditor.ReadPattern( pattern, true );
+			int         format = -1;
 			
 			// treść dynamiczna
 			this.mSelectedData = data.dynamic;
 
 			// wykryj format wzoru
-			int[,] format_dims = NewPattern.FormatDims;
-
-			for( int x = 0; x < format_dims.GetLength(0); ++x )
-				if( format_dims[x,0] == data.size.Width && format_dims[x,1] == data.size.Height )
-				{
-					format = x;
-					break;
-				}
+			format = NewPattern.DetectFormat( data.size.Width, data.size.Height );
 
 			// ustaw wartości pola numerycznego
 			this.mnPage.Maximum = data.pages;
 			this.mnPage.Value = 1;
 
-			// podgląd stron
+			// podgląd strony
 			if( File.Exists("patterns/" + pattern + "/preview0.jpg") )
 			{
-				this.mNoImage = false;
+				// wczytaj podgląd strony
+				trash  = this.mibPreview.Image;
+				helper = Image.FromFile( "patterns/" + pattern + "/preview0.jpg" );
 
-				using( Image image = Image.FromFile("patterns/" + pattern + "/preview0.jpg") )
-				{
-					if( this.mibPreview.Image != null )
-						this.mibPreview.Image.Dispose();
-
-					// skopiuj obraz do pamięci
-					Image new_image = new Bitmap( image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
-					using( var canavas = Graphics.FromImage(new_image) )
-						canavas.DrawImageUnscaled( image, 0, 0 );
-					this.mibPreview.Image = new_image;
-
-					image.Dispose( );
-				}
-
-				// dostosuj rozmiar
-				this.mpPreview_Resize( null, null );
 				this.mnPage.Enabled = true;
-				
-				this.pLocked = false;
-				this.Cursor  = null;
 
 				// aktualizuj status
 				if( format == -1 )
 					this.mlStatus.Text = "Wzór " + pattern + ". Format własny: " + data.size.Width + " x " + data.size.Height + " mm. Ilość stron: " + data.pages + ".";
 				else
 				{
-					string[] format_names = NewPattern.FormatNames;
-					this.mlStatus.Text = "Wzór " + pattern + ". Format " + format_names[format] + ": " + data.size.Width + " x " + data.size.Height + " mm. Ilość stron: " + data.pages + ".";
+					string fname = NewPattern.FormatNames[format];
+					this.mlStatus.Text = "Wzór " + pattern + ". Format " + fname + ": " + data.size.Width + " x " + data.size.Height + " mm. Ilość stron: " + data.pages + ".";
 				}
-				return;
+
+				// przejdź na koniec
+				goto CD_mtvPatterns_AfterSelect;
 			}
 
-			this.mNoImage      = true;
 			this.mSelectedData = false;
+
+			trash  = this.mibPreview.Image;
+			helper = File.Exists("noimage.png")
+				? Image.FromFile("noimage.png")
+				: null;
 
 			// zwolnij pamięć po obrazie
 			if( this.mibPreview.Image != null )
 				this.mibPreview.Image.Dispose();
 
 			// brak obrazka
-			this.mibPreview.Image = File.Exists( "noimage.png" )
-				? Image.FromFile( "noimage.png" )
-				: null;
-
-			// dostosuj obraz
-			this.mpPreview_Resize( null, null );
+			helper = File.Exists( "noimage.png" ) ? Image.FromFile( "noimage.png" ) : null;
+			trash  = this.mibPreview.Image;
 
 			this.mnPage.Enabled = false;
-			this.pLocked        = false;
-
+			
 			// aktualizuj status
 			if( format == -1 )
 				this.mlStatus.Text = "Wzór " + pattern + ". Format własny: " + data.size.Width + " x " + data.size.Height + " mm. Brak podglądu.";
 			else
 			{
-				string[] format_names = NewPattern.FormatNames;
-				this.mlStatus.Text = "Wzór " + pattern + ". Format " + format_names[format] + ": " + data.size.Width + " x " + data.size.Height + " mm. Brak podglądu.";
+				string fname = NewPattern.FormatNames[format];
+				this.mlStatus.Text = "Wzór " + pattern + ". Format " + fname + ": " + data.size.Width + " x " + data.size.Height + " mm. Brak podglądu.";
 			}
-			this.Cursor = null;
+
+CD_mtvPatterns_AfterSelect:
+
+			// zmień obrazek
+			this.mibPreview.Hide();
+			this.mibPreview.Image = helper;
+			this.mibPreview.CheckLocation();
+			this.mibPreview.Show();
+			
+			// pozbieraj śmieci po poprzednim obrazku
+			if( trash != null )
+			{
+				trash.Dispose();
+				GC.Collect();
+			}
+
+			// odblokuj i zmień kursor
+			this.pLocked = false;
+			this.Cursor  = null;
 		}
 
 		// ------------------------------------------------------------- icPattern_Opening ----------------------------
@@ -582,8 +641,9 @@ namespace CDesigner
 			this.ictNew.Enabled      = true;
 			this.ictEdit.Enabled     = true;
 			this.ictLoadData.Enabled = true;
-			this.ictImport.Enabled   = true;
-			this.ictExport.Enabled   = true;
+			//@TODO
+			//this.ictImport.Enabled   = true;
+			//this.ictExport.Enabled   = true;
 			this.ictDelete.Enabled   = true;
 
 			// zablokuj gdy istnieje taka potrzeba
@@ -644,6 +704,7 @@ namespace CDesigner
 			this.pcbScale.SelectedIndex = 2;
 			PatternData pattern_data = PatternEditor.ReadPattern( pattern );
 			PatternEditor.DrawPreview( pattern_data, this.ppPanelContainer, 1.0 );
+			this.pPageSize = pattern_data.size;
 
 			// ilość stron
 			this.pPanelCounter  = pattern_data.pages - 1;
@@ -669,12 +730,24 @@ namespace CDesigner
 				{
 					field = (PageField)page.Controls[y];
 					field.ContextMenuStrip = this.icLabel;
-					field.Click += new EventHandler( this.plLabel_Click );
+					field.MouseDown += new MouseEventHandler( this.plLabel_MouseDown );
+					field.MouseUp   += new MouseEventHandler( this.plLabel_MouseUp );
+					field.MouseMove += new MouseEventHandler( this.plLabel_MouseMove );
 				}
 			}
 
 			// zablokuj pola
 			this.LockFieldLabels();
+
+			// rozmiar stron
+			this.ptbpWidth.Text  = this.pPageSize.Width + " mm";
+			this.ptbpHeight.Text = this.pPageSize.Height + " mm";
+
+			// ustaw kontroki
+			PageExtraData ptag = (PageExtraData)this.pCurrentPage.Tag;
+
+			this.pcbpDrawColor.Checked = ptag.print_color;
+			this.pcbpDrawImage.Checked = ptag.print_image;
 			
 			// przełącz na panel wzorów
 			this.isPattern_Click( null, null );
@@ -784,7 +857,14 @@ namespace CDesigner
 				this.dtvData.Nodes.Add( checked_help );
 			}
 			
+			// ustaw indeks początkowy dla pola
+			this.pLocked = true;
+			this.dcbZoom.SelectedIndex = 2;
+			this.dnPage.Maximum = this.dPatternData.pages;
+			this.pLocked = false;
+
 			// przejdź na strone z danymi
+			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.isData_Click( null, null );
 		}
 
@@ -795,6 +875,7 @@ namespace CDesigner
  * - mnPage_ValueChanged	[NumericUpDown]
  * - mpPreview_Resize		[Panel]
  * - mpPreview_MouseDown	[Panel]
+ * - scHome_SplitterMoved   [SplitContainer]
  * =============================================================================================================================== */
 
 #region Strona główna - Inne
@@ -839,34 +920,12 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- mpPreview_Resize ----------------------------
 		
-		// @TODO poprawić
 		private void mpPreview_Resize( object sender, EventArgs ev )
 		{
-			int   diff     = 0;
-			Point location = new Point( 0, 0 );
+			if( this.pLocked )
+				return;
 
-			// centruj obrazek w poziomie
-			if( this.mpPreview.VerticalScroll.Visible )
-				diff = (this.mpPreview.Width - SystemInformation.VerticalScrollBarWidth - this.mibPreview.Width) / 2;
-			else
-				diff = (this.mpPreview.Width - this.mibPreview.Width) / 2;
-
-			if( diff > 0 )
-				location.X = diff;
-
-			// centruj obrazek w pionie
-			if( this.mNoImage )
-			{
-				if( this.mpPreview.HorizontalScroll.Visible )
-					diff = (this.mpPreview.Height - SystemInformation.HorizontalScrollBarHeight - this.mibPreview.Height) / 2;
-				else
-					diff = (this.mpPreview.Height - this.mibPreview.Height) / 2;
-
-				if( diff > 0 )
-					location.Y = diff;
-			}
-
-			this.mibPreview.Location = location;
+			this.mibPreview.CheckLocation();
 		}
 
 		// ------------------------------------------------------------- mpPreview_MouseDown -------------------------
@@ -876,21 +935,98 @@ namespace CDesigner
 			this.mpPreview.Focus();
 		}
 
+		// ------------------------------------------------------------- scHome_SplitterMoved ------------------------
+
+		private void scHome_SplitterMoved( object sender, SplitterEventArgs ev )
+		{
+			ColumnStyle col = this.sbHome.ColumnStyles[0];
+			col.SizeType = SizeType.Absolute;
+			col.Width = this.scHome.Panel1.Width + 7;
+		}
+
 #endregion
 
 /* ===============================================================================================================================
  * Edycja wzoru - Inne:
+ * - plLabel_MouseDown              [Label]
+ * - plLabel_MouseUp                [Label]
+ * - plLabel_MouseMove              [Label]
+ * - scPattern_SplitterMoved        [SplitContainer]
  * - pcbScale_SelectedIndexChanged	[ComboBox]
  * - pcbScale_Leave					[ComboBox]
  * - pcbScale_KeyDown				[ComboBox]
  * - pnPage_ValueChanged			[NumericUpDown]
  * - ppPanelContainer_MouseDown		[Panel]
- * - plLabel_Click                  [Label]
  * - pbSave_Click                   [Button]
  * - pbLoadData_Click               [Button]
+ * - icpmDetails_Click              [ContextMenu/Button]
+ * - icpmFieldDetails_Click         [ContextMenu/Button]
+ * - icpmPageDetails_Click          [ContextMenu/Button]
  * =============================================================================================================================== */
 
 #region Edycja wzoru - Inne
+
+		// ------------------------------------------------------------- plLabel_MouseDown ----------------------------
+		
+		private void plLabel_MouseDown( object sender, MouseEventArgs ev )
+		{
+			if( ev.Button == MouseButtons.Left )
+			{
+				this.pMovingField = (PageField)sender;
+				this.pDiffX       = ev.X;
+				this.pDiffY       = ev.Y;
+			}
+
+			// aktualny obiekt
+			this.pCurrentField = (PageField)sender;
+			
+			// wypełnij pola i odblokuj je
+			this.FillFieldLabels();
+			this.UnlockFieldLabels();
+		}
+
+		// ------------------------------------------------------------- plLabel_MouseUp ------------------------------
+		
+		private void plLabel_MouseUp( object sender, MouseEventArgs ev )
+		{
+			if( ev.Button != MouseButtons.Left )
+				return;
+
+			this.pMovingField = null;
+		}
+
+		// ------------------------------------------------------------- plLabel_MouseMove ----------------------------
+		
+		private void plLabel_MouseMove( object sender, MouseEventArgs ev )
+		{
+			if( this.pMovingField == null )
+				return;
+
+			if( ModifierKeys != Keys.Control )
+				return;
+
+			PageField        field = (PageField)sender;
+			ContentAlignment align = (ContentAlignment)((FieldExtraData)field.Tag).pos_align;
+
+			field.SetPxLocation( field.Location.X + (ev.X - this.pDiffX), field.Location.Y + (ev.Y - this.pDiffY), align );
+			PointF location = field.GetPosByAlignPoint( align );
+
+			this.pLocked = true;
+			
+			this.pnPositionX.Value = (decimal)location.X;
+			this.pnPositionY.Value = (decimal)location.Y;
+
+			this.pLocked = false;
+		}
+
+		// ------------------------------------------------------------- scPattern_SplitterMoved ----------------------
+		
+		private void scPattern_SplitterMoved( object sender, SplitterEventArgs ev )
+		{
+			ColumnStyle col = this.sbPattern.ColumnStyles[1];
+			col.SizeType = SizeType.Absolute;
+			col.Width = this.scPattern.Panel2.Width + 5;
+		}
 
 		// ------------------------------------------------------------- pcbScale_SelectedIndexChanged ----------------
 		
@@ -948,6 +1084,11 @@ namespace CDesigner
 			((Panel)this.ppPanelContainer.Controls[(int)pnPage.Value - 1]).Show();
 			this.pCurrentPage.Hide();
 			this.pCurrentPage = (Panel)this.ppPanelContainer.Controls[(int)pnPage.Value - 1];
+
+			PageExtraData ptag = (PageExtraData)this.pCurrentPage.Tag;
+
+			this.pcbpDrawColor.Checked = ptag.print_color;
+			this.pcbpDrawImage.Checked = ptag.print_image;
 		}
 
 		// ------------------------------------------------------------- ppPanelContainer_MouseDown -------------------
@@ -955,18 +1096,6 @@ namespace CDesigner
 		private void ppPanelContainer_MouseDown( object sender, MouseEventArgs ev )
 		{
 			this.ppPanelContainer.Focus();
-		}
-
-		// ------------------------------------------------------------- plLabel_Click --------------------------------
-		
-		private void plLabel_Click( object sender, EventArgs ev )
-		{
-			// aktualny obiekt
-			this.pCurrentField = (PageField)sender;
-			
-			// wypełnij pola i odblokuj je
-			this.FillFieldLabels();
-			this.UnlockFieldLabels();
 		}
 
 		// ------------------------------------------------------------- pbSave_Click ---------------------------------
@@ -1054,9 +1183,54 @@ namespace CDesigner
 
 				this.dtvData.Nodes.Add( checked_help );
 			}
-			
+
+			// ustaw indeks początkowy dla pola
+			this.pLocked = true;
+			this.dcbZoom.SelectedIndex = 2;
+			this.pLocked = false;
+
 			// przejdź na strone z danymi
+			this.dCurrentName = this.mtvPatterns.SelectedNode.Text;
 			this.isData_Click( null, null );
+		}
+
+		// ------------------------------------------------------------- icpmDetails_Click ----------------------------
+		
+		private void icpmDetails_Click( object sender, EventArgs ev )
+		{
+			this.icpmDetails.Enabled      = false;
+			this.icpmFieldDetails.Enabled = true;
+			this.icpmPageDetails.Enabled  = true;
+
+			this.ptDetails.Show();
+			this.ptFieldDetails.Hide();
+			this.ptPageDetails.Hide();
+		}
+
+		// ------------------------------------------------------------- icpmFieldDetails_Click -----------------------
+		
+		private void icpmFieldDetails_Click( object sender, EventArgs ev )
+		{
+			this.icpmDetails.Enabled      = true;
+			this.icpmFieldDetails.Enabled = false;
+			this.icpmPageDetails.Enabled  = true;
+
+			this.ptFieldDetails.Show();
+			this.ptDetails.Hide();
+			this.ptPageDetails.Hide();
+		}
+
+		// ------------------------------------------------------------- icpmPageDetails_Click ------------------------
+		
+		private void icpmPageDetails_Click( object sender, EventArgs ev )
+		{
+			this.icpmDetails.Enabled      = true;
+			this.icpmFieldDetails.Enabled = true;
+			this.icpmPageDetails.Enabled  = false;
+			
+			this.ptPageDetails.Show();
+			this.ptDetails.Hide();
+			this.ptFieldDetails.Hide();
 		}
 
 #endregion
@@ -1123,6 +1297,15 @@ namespace CDesigner
 			RectangleF new_width = this.pCurrentField.DPIBounds;
 			new_width.Width = (float)pnWidth.Value;
 			this.pCurrentField.DPIBounds = new_width;
+
+			this.pLocked = true;
+			
+			ContentAlignment align = (ContentAlignment)((FieldExtraData)this.pCurrentField.Tag).pos_align;
+			PointF pos = this.pCurrentField.GetPosByAlignPoint( align );
+			this.pnPositionX.Value = (decimal)pos.X;
+			this.pnPositionY.Value = (decimal)pos.Y;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- pnHeight_ValueChanged ------------------------
@@ -1135,6 +1318,15 @@ namespace CDesigner
 			RectangleF new_height = this.pCurrentField.DPIBounds;
 			new_height.Height = (float)pnHeight.Value;
 			this.pCurrentField.DPIBounds = new_height;
+
+			this.pLocked = true;
+			
+			ContentAlignment align = (ContentAlignment)((FieldExtraData)this.pCurrentField.Tag).pos_align;
+			PointF pos = this.pCurrentField.GetPosByAlignPoint( align );
+			this.pnPositionX.Value = (decimal)pos.X;
+			this.pnPositionY.Value = (decimal)pos.Y;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- pbBorderColor_Click --------------------------
@@ -1317,8 +1509,12 @@ namespace CDesigner
 		{
 			PageExtraData tag = (PageExtraData)this.pCurrentPage.Tag;
 
+			this.pLocked = true;
+
 			this.icpPrintColor.Checked = tag.print_color;
 			this.icpPrintImage.Checked = tag.print_image;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- pbAddLabel_Click -----------------------------
@@ -1342,9 +1538,13 @@ namespace CDesigner
 			field.Padding       = new Padding(0);
 			field.Location      = new Point( 0, 0 );
 
+			field.SetParentBounds( this.pPageSize.Width, this.pPageSize.Height, true );
+
 			// przypisz zdarzenia
 			field.ContextMenuStrip = this.icLabel;
-			field.Click           += new EventHandler( this.plLabel_Click );
+			field.MouseDown += new MouseEventHandler( this.plLabel_MouseDown );
+			field.MouseUp   += new MouseEventHandler( this.plLabel_MouseUp );
+			field.MouseMove += new MouseEventHandler( this.plLabel_MouseMove );
 
 			// informacje dodatkowe
 			FieldExtraData field_extra = new FieldExtraData();
@@ -1435,18 +1635,38 @@ namespace CDesigner
 		
 		private void icpPrintColor_CheckedChanged( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
+			this.pLocked = true;
+
 			PageExtraData tag = (PageExtraData)this.pCurrentPage.Tag;
-			tag.print_color = icpPrintColor.Checked;
-			this.pCurrentPage.Tag = tag;
+			tag.print_color = this.icpPrintColor.Checked;
+			tag.print_image = false;
+			
+			this.pcbpDrawColor.Checked = this.icpPrintColor.Checked; 
+			this.pcbpDrawImage.Checked = false;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- icpPrintImage_CheckedChanged -----------------
 		
 		private void icpPrintImage_CheckedChanged( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
+			this.pLocked = true;
+
 			PageExtraData tag = (PageExtraData)this.pCurrentPage.Tag;
 			tag.print_image = icpPrintImage.Checked;
-			this.pCurrentPage.Tag = tag;
+			tag.print_color = false;
+
+			this.pcbpDrawColor.Checked = false;
+			this.pcbpDrawImage.Checked = this.icpPrintImage.Checked;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- icpAddPage_Click -----------------------------
@@ -1559,8 +1779,10 @@ namespace CDesigner
 		
 		private void icLabel_Opening( object sender, CancelEventArgs ev )
 		{
-			this.plLabel_Click( this.icLabel.SourceControl, ev );
+			//this.plLabel_Click( this.icLabel.SourceControl, ev );
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
+
+			this.pLocked = true;
 
 			// zaznacz lub odznacz elementy
 			this.iclBackFromDb.Checked  = tag.image_from_db;
@@ -1569,6 +1791,8 @@ namespace CDesigner
 			this.iclTextFromDb.Checked  = tag.text_from_db;
 			this.iclPrintText.Checked   = tag.print_text;
 			this.iclPrintBorder.Checked = tag.print_border;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- iclClearBack_Click ---------------------------
@@ -1594,6 +1818,9 @@ namespace CDesigner
 		
 		private void iclBackFromDb_Click( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
 			bool is_check = this.iclBackFromDb.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
@@ -1602,41 +1829,75 @@ namespace CDesigner
 			tag.print_color   = false;
 			tag.print_image   = false;
 
+			this.pLocked = true;
+
 			this.iclPrintColor.Checked = false;
 			this.iclPrintImage.Checked = false;
+
+			this.pcbDrawColor.Checked = false;
+			this.pcbStatImage.Checked = false;
+			this.pcbDynImage.Checked  = is_check;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- iclPrintColor_Click --------------------------
 		
 		private void iclPrintColor_Click( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
 			bool is_check = this.iclPrintColor.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
-			tag.image_from_db = false;
 			tag.print_color   = is_check;
+			tag.image_from_db = false;
+			tag.print_image   = false;
+
+			this.pLocked = true;
 
 			this.iclBackFromDb.Checked = false;
+			this.iclPrintImage.Checked = false;
+			this.pcbDynImage.Checked   = false;
+			this.pcbStatImage.Checked  = false;
+			this.pcbDrawColor.Checked  = is_check;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- iclPrintImage_Click --------------------------
 		
 		private void iclPrintImage_Click( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
 			bool is_check = this.iclPrintImage.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
 			tag.image_from_db = false;
 			tag.print_image   = is_check;
+			tag.print_color   = false;
+
+			this.pLocked = true;
 
 			this.iclBackFromDb.Checked = false;
 			this.iclPrintColor.Checked = false;
+			this.pcbDrawColor.Checked  = false;
+			this.pcbDynImage.Checked   = false;
+			this.pcbStatImage.Checked  = is_check;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- iclTextFromDb_Click --------------------------
 		
 		private void iclTextFromDb_Click( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
 			bool is_check = this.iclTextFromDb.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
@@ -1644,154 +1905,171 @@ namespace CDesigner
 			tag.image_from_db = false;
 			tag.print_text    = false;
 
+			this.pLocked = true;
+
 			this.iclPrintText.Checked  = false;
 			this.iclBackFromDb.Checked = false;
+			this.pcbStatText.Checked   = false;
+			this.pcbDynImage.Checked   = false;
+			this.pcbDynText.Checked    = is_check;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- iclPrintText_Click ---------------------------
 		
 		private void iclPrintText_Click( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
 			bool is_check = this.iclPrintText.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
 			tag.text_from_db = false;
 			tag.print_text   = is_check;
 
+			this.pLocked = true;
+
 			this.iclTextFromDb.Checked = false;
+			this.pcbDynImage.Checked   = false;
+			this.pcbStatText.Checked   = is_check;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- iclPrintText_Click ---------------------------
 		
 		private void iclPrintBorder_Click( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
+			this.pLocked = true;
+
 			((FieldExtraData)this.pCurrentField.Tag).print_border = this.iclPrintBorder.Checked;
+			this.pcbShowFrame.Checked = this.iclPrintBorder.Checked;
+
+			this.pLocked = false;
 		}
 
 #endregion
 
-		// ------------------------------------------------------------- icpmDetails_Click ----------------------------
-		
-		private void icpmDetails_Click( object sender, EventArgs ev )
-		{
-			this.icpmDetails.Enabled      = false;
-			this.icpmFieldDetails.Enabled = true;
-			this.icpmPageDetails.Enabled  = true;
+/* ===============================================================================================================================
+ * Edycja wzoru - Menu "SZCZEGÓŁY":
+ * - pcbShowFrame_CheckedChanged        [CheckBox]
+ * - pcbDrawColor_CheckedChanged        [CheckBox]
+ * - pcbDynText_CheckedChanged          [CheckBox]
+ * - pcbStatImage_CheckedChanged        [CheckBox]
+ * - pcbStatText_CheckedChanged         [CheckBox]
+ * - pcbStatImage_CheckedChanged        [CheckBox]
+ * - pcbDynImage_CheckedChanged         [CheckBox]
+ * =============================================================================================================================== */
 
-			this.ptDetails.Show();
-			this.ptFieldDetails.Hide();
-			this.ptPageDetails.Hide();
-		}
-
-		// ------------------------------------------------------------- icpmFieldDetails_Click -----------------------
-		
-		private void icpmFieldDetails_Click( object sender, EventArgs ev )
-		{
-			this.icpmDetails.Enabled      = true;
-			this.icpmFieldDetails.Enabled = false;
-			this.icpmPageDetails.Enabled  = true;
-
-			this.ptFieldDetails.Show();
-			this.ptDetails.Hide();
-			this.ptPageDetails.Hide();
-		}
-
-		// ------------------------------------------------------------- icpmPageDetails_Click ------------------------
-		
-		private void icpmPageDetails_Click( object sender, EventArgs ev )
-		{
-			this.icpmDetails.Enabled      = true;
-			this.icpmFieldDetails.Enabled = true;
-			this.icpmPageDetails.Enabled  = false;
-			
-			this.ptPageDetails.Show();
-			this.ptDetails.Hide();
-			this.ptFieldDetails.Hide();
-		}
+#region Edycja wzoru - Menu "SZCZEGÓŁY"
 
 		// ------------------------------------------------------------- pcbShowFrame_CheckedChanged ------------------
 		
 		private void pcbShowFrame_CheckedChanged( object sender, EventArgs ev )
 		{
+			if( this.pLocked )
+				return;
+
+			this.pLocked = true;
 			((FieldExtraData)this.pCurrentField.Tag).print_border = this.pcbShowFrame.Checked;
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- pcbDrawColor_CheckedChanged ------------------
 		
 		private void pcbDrawColor_CheckedChanged( object sender, EventArgs ev )
 		{
-			bool is_check = this.pcbDrawColor.Checked;
-			if( !is_check )
+			if( this.pLocked )
 				return;
 
+			bool is_check = this.pcbDrawColor.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
 			tag.image_from_db = false;
 			tag.print_color   = is_check;
 
+			this.pLocked = true;
+
 			this.pcbDynImage.Checked  = false;
 			this.pcbStatImage.Checked = false;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- pcbDynText_CheckedChanged --------------------
 		
 		private void pcbDynText_CheckedChanged( object sender, EventArgs ev )
 		{
-			bool is_check = this.pcbDynText.Checked;
-			if( !is_check )
+			if( this.pLocked )
 				return;
 
+			bool is_check = this.pcbDynText.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
 			tag.text_from_db  = is_check;
 			tag.image_from_db = false;
 			tag.print_text    = false;
 
+			this.pLocked = true;
+
 			this.pcbStatText.Checked = false;
 			this.pcbDynImage.Checked = false;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- pcbStatImage_CheckedChanged ------------------
 		
 		private void pcbStatImage_CheckedChanged( object sender, EventArgs ev )
 		{
-			bool is_check = this.pcbStatImage.Checked;
-			if( !is_check )
+			if( this.pLocked )
 				return;
 
+			bool is_check = this.pcbStatImage.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
 			tag.image_from_db = false;
 			tag.print_image   = is_check;
 
-			this.pcbDynImage.Checked = false;
+			this.pLocked = true;
+
+			this.pcbDynImage.Checked  = false;
 			this.pcbDrawColor.Checked = false;
+
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- pcbStatText_CheckedChanged -------------------
 		
 		private void pcbStatText_CheckedChanged( object sender, EventArgs ev )
 		{
-			bool is_check = this.pcbStatText.Checked;
-			if( !is_check )
+			if( this.pLocked )
 				return;
-	
+
+			bool is_check = this.pcbStatText.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
 			tag.text_from_db = false;
 			tag.print_text   = is_check;
 
+			this.pLocked = true;
 			this.pcbDynText.Checked = false;
+			this.pLocked = false;
 		}
 
 		// ------------------------------------------------------------- pcbDynImage_CheckedChanged -------------------
 		
 		private void pcbDynImage_CheckedChanged(object sender, EventArgs e)
 		{
-			bool is_check = this.pcbDynImage.Checked;
-			if( !is_check )
+			if( this.pLocked )
 				return;
 
+			bool is_check = this.pcbDynImage.Checked;
 			FieldExtraData tag = (FieldExtraData)this.pCurrentField.Tag;
 
 			tag.image_from_db = is_check;
@@ -1799,16 +2077,237 @@ namespace CDesigner
 			tag.print_color   = false;
 			tag.print_image   = false;
 
+			this.pLocked = true;
+
 			this.pcbDynText.Checked  = false;
 			this.pcbDrawColor.Checked = false;
 			this.pcbStatImage.Checked = false;
+
+			this.pLocked = false;
+		}
+
+#endregion
+
+/* ===============================================================================================================================
+ * Edycja wzoru - Menu "STRONA":
+ * - pcbpDrawColor_CheckedChanged       [CheckBox]
+ * - pcbpDrawImage_CheckedChanged       [CheckBox]
+ * =============================================================================================================================== */
+
+#region Edycja wzoru - Menu "STRONA"
+
+		// ------------------------------------------------------------- pcbpDrawColor_CheckedChanged -----------------
+		
+		private void pcbpDrawColor_CheckedChanged( object sender, EventArgs ev )
+		{
+			if( this.pLocked )
+				return;
+
+			((PageExtraData)this.pCurrentPage.Tag).print_color = this.pcbpDrawColor.Checked;
+			((PageExtraData)this.pCurrentPage.Tag).print_image = false;
+
+			this.pLocked = true;
+			this.pcbpDrawImage.Checked = false;
+			this.pLocked = false;
+		}
+
+		// ------------------------------------------------------------- pcbpDrawImage_CheckedChanged -----------------
+
+		private void pcbpDrawImage_CheckedChanged( object sender, EventArgs ev )
+		{
+			if( this.pLocked )
+				return;
+
+			((PageExtraData)this.pCurrentPage.Tag).print_color = false;
+			((PageExtraData)this.pCurrentPage.Tag).print_image = this.pcbpDrawImage.Checked;
+
+			this.pLocked = true;
+			this.pcbpDrawColor.Checked = false;
+			this.pLocked = false;
+		}
+
+#endregion
+
+/* ===============================================================================================================================
+ * Przetwarzanie danych - Lista elementów:
+ * - dtvData_AfterSelect       [TreeView]
+ * - dbScan_Click              [Button]
+ * - dbGeneratePDF_Click       [Button]
+ * =============================================================================================================================== */
+
+#region Przetwarzanie danych - Lista elementów
+
+		// ------------------------------------------------------------- dtvData_AfterSelect --------------------------
+		
+		private void dtvData_AfterSelect( object sender, TreeViewEventArgs ev )
+		{
+			if( this.dtvData.SelectedNode == null )
+				return;
+
+			this.pLocked = true;
+
+			// narysuj wzór
+			if( !this.dSketchDrawed )
+			{
+				PatternEditor.DrawSketch( this.dPatternData, this.dpPreview, 1.0 /*(double)this.cbScale.SelectedText / 100.0*/ );
+				
+				// dodaj obsługę myszy (przewijanie obrazka)
+				foreach( Panel panel in this.dpPreview.Controls )
+					panel.MouseDown += new MouseEventHandler( this.dpPreview_MouseDown );
+				
+				this.dSketchDrawed = true;
+			}
+
+			// uzupełnij danymi narysowany wzór
+			PatternEditor.DrawRow( this.dpPreview, this.dDataContent, ev.Node.Index );
+
+			// ustaw aktualną stronę
+			if( this.dCurrentPage == null )
+				this.dCurrentPage = (Panel)this.dpPreview.Controls[0];
+
+			this.pLocked = false;
+		}
+
+		// ------------------------------------------------------------- dbScan_Click ---------------------------------
+		
+		private void dbScan_Click( object sender, EventArgs ev )
+		{
+			float width, height;
+			Graphics gfx = this.CreateGraphics();
+
+			// szukaj po rekordach
+			for( int x = 0; x < this.dDataContent.rows; ++x )
+			{
+				// szukaj po stronach
+				for( int y = 0; y < this.dPatternData.pages; ++y )
+				{
+					PageData page = this.dPatternData.page[y];
+
+					// szukaj po polach
+					for( int z = 0; z < page.fields; ++z )
+					{
+						FieldData field = page.field[z];
+
+						width  = PatternEditor.GetDimensionScale( field.bounds.Width, 1.0 );
+						height = PatternEditor.GetDimensionScale( field.bounds.Height, 1.0 );
+
+						if( !field.extra.print_text && !(field.extra.text_from_db && field.extra.column > -1) )
+							continue;
+
+						// pobierz tekst do wypisania
+						string text = field.extra.print_text
+							? field.name
+							: this.dDataContent.row[x,field.extra.column];
+
+						float fsize = (float)(field.font_size * 1.0);
+						Font  font  = new Font( field.font_name, fsize, field.font_style, GraphicsUnit.Point );
+
+						SizeF bounds = gfx.MeasureString( text, font );
+
+						// błąd - brak przejscia kolejnej linii
+						if( bounds.Width > width )
+							((TreeNode)this.dtvData.Nodes[x]).ForeColor = Color.OrangeRed;
+					}
+				}
+			}
+		}
+
+		// ------------------------------------------------------------- dbGeneratePDF_Click --------------------------
+		
+		private void dbGeneratePDF_Click( object sender, EventArgs ev )
+		{
+			PatternEditor.GeneratePDF( this.dDataContent, this.dPatternData );
+		}
+
+#endregion
+
+/* ===============================================================================================================================
+ * Przetwarzanie danych - Inne:
+ * - scData_SplitterMoved             [SplitContainer]
+ * - dpPreview_MouseDown              [Panel]
+ * - dcbZoom_SelectedIndexChanged     [ComboBox]
+ * - dcbZoom_Leave                    [ComboBox]
+ * - dcbZoom_KeyDown                  [ComboBox]
+ * =============================================================================================================================== */
+
+#region Przetwarzanie danych - Inne
+
+		// ------------------------------------------------------------- scData_SplitterMoved -------------------------
+		
+		private void scData_SplitterMoved( object sender, SplitterEventArgs ev )
+		{
+			ColumnStyle col = this.sbData.ColumnStyles[1];
+			col.SizeType = SizeType.Absolute;
+			col.Width = this.scData.Panel2.Width + 7;
 		}
 
 
+		// ------------------------------------------------------------- dpPreview_MouseDown --------------------------
+		
+		private void dpPreview_MouseDown( object sender, MouseEventArgs ev )
+		{
+			this.dpPreview.Focus();
+		}
 
+		// ------------------------------------------------------------- dcbZoom_SelectedIndexChanged -----------------
+		
+		private void dcbZoom_SelectedIndexChanged( object sender, EventArgs ev )
+		{
+			if( this.pLocked )
+				return;
 
+			// próbuj zamienić string na int
+			int scale = 0;
+			try { scale = Convert.ToInt32(this.dcbZoom.Text); }
+			catch
+			{
+				scale = 100;
+				this.dcbZoom.Text = "100";
+			}
 
+			// nie można zmniejszyć więcej niż 50%
+			if( scale < 50 )
+			{
+				this.dcbZoom.Text = "50";
+				scale = 50;
+			}
 
+			// nie można powiększyć więcej niż 300%
+			if( scale > 300 )
+			{
+				this.dcbZoom.Text = "300";
+				scale = 300;
+			}
+
+			// zmień skale wzoru
+			PatternEditor.ChangeScale( this.dPatternData, this.dpPreview, (double)scale / 100.0 );
+		}
+
+		// ------------------------------------------------------------- dcbZoom_Leave --------------------------------
+		
+		private void dcbZoom_Leave( object sender, EventArgs ev )
+		{
+			this.dcbZoom_SelectedIndexChanged( sender, ev );
+		}
+
+		// ------------------------------------------------------------- dcbZoom_KeyDown ------------------------------
+		
+		private void dcbZoom_KeyDown( object sender, KeyEventArgs ev )
+		{
+			if( ev.KeyCode == Keys.Enter )
+				this.dcbZoom_SelectedIndexChanged( sender, null );
+		}
+
+		// ------------------------------------------------------------- dnPage_ValueChanged --------------------------
+		
+		private void dnPage_ValueChanged( object sender, EventArgs ev )
+		{
+			((Panel)this.dpPreview.Controls[(int)dnPage.Value - 1]).Show();
+			this.dCurrentPage.Hide();
+			this.dCurrentPage = (Panel)this.dpPreview.Controls[(int)dnPage.Value - 1];
+		}
+
+#endregion
 
 
 		private void mbDelete_MouseEnter( object sender, EventArgs ev )
@@ -1818,7 +2317,7 @@ namespace CDesigner
 
 		private void mbNew_MouseEnter( object sender, EventArgs ev )
 		{
-			this.mlStatus.Text = "Otwiera okno z kreatorem nowego wzoru.";
+			this.mlStatus.Text = "Otwiera okno kreatora nowego wzoru.";
 		}
 
 		private void mlStatus_ClearText( object sender, EventArgs ev )
@@ -1831,48 +2330,38 @@ namespace CDesigner
 			this.plStatus.Text = "Zmiana powiększenia wzoru. Możesz wybrać lub wpisać własną wartość w zakresie od 50 do 300.";
 		}
 
-		private void plStatus_ClearText(object sender, EventArgs e)
+		private void plStatus_ClearText( object sender, EventArgs ev )
 		{
 			this.plStatus.Text = "";
 		}
 
-
-
-
-
-
-
-
-
-
-
-		// ------------------------------------------------------------- dtvData_AfterSelect --------------------------
-		
-		private void dtvData_AfterSelect( object sender, TreeViewEventArgs ev )
+		private void impHelp_Click( object sender, EventArgs ev )
 		{
-			if( this.dtvData.SelectedNode == null )
-				return;
-
-			this.pLocked = true;
-
-			if( !this.dSketchDrawed )
-			{
-				PatternEditor.DrawSketch( this.dPatternData, this.dpPreview, 1.0 /*(double)this.cbScale.SelectedText / 100.0*/ );
-				this.dSketchDrawed = true;
-			}
-
-			PatternEditor.DrawRow( this.dpPreview, this.dDataContent, ev.Node.Index );
-
-			this.pLocked = false;
+			MessageBox.Show( "Tymczasowo brak pomocy..." );
 		}
 
-		private void dbGeneratePDF_Click( object sender, EventArgs ev )
+		private void impInfo_Click( object sender, EventArgs ev )
 		{
-			PatternEditor.GeneratePDF( this.dDataContent, this.dPatternData );
+			Info info = new Info( );
+			info.ShowDialog( this );
 		}
 
+		private void issGeneratePDF_Click(object sender, EventArgs e)
+		{
+			Settings options = new Settings( 2 );
+			options.ShowDialog( this );
+		}
 
+		private void issEditor_Click(object sender, EventArgs e)
+		{
+			Settings options = new Settings( 1 );
+			options.ShowDialog( this );
+		}
 
-
+		private void issGeneral_Click(object sender, EventArgs e)
+		{
+			Settings options = new Settings( 0 );
+			options.ShowDialog( this );
+		}
 	}
 }

@@ -39,6 +39,8 @@ resgen /useSourcePath \
 		resx/Main.resx,obj/CDesigner.Main.resources \
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources \
         resx/DataReader.resx,obj/CDesigner.DataReader.resources \
+        resx/Info.resx,obj/CDesigner.Info.resources \
+        resx/Settings.resx,obj/CDesigner.Settings.resources \
 		properties/Resources.resx,obj/CDesigner.Properties.Resources.resources
 
 # create dll and build directory
@@ -83,13 +85,20 @@ $csc /reference:dll/PdfSharp.dll \
 	/resource:obj/CDesigner.Main.resources \
 	/resource:obj/CDesigner.NewPattern.resources \
     /resource:obj/CDesigner.DataReader.resources \
+    /resource:obj/CDesigner.Info.resources \
+    /resource:obj/CDesigner.Settings.resources \
 	/resource:obj/CDesigner.Properties.Resources.resources \
 	/target:winexe \
 	/utf8output \
+		src/AlignedPictureBox.cs \
 		src/PageField.cs \
         src/ExtendLabel.cs \
 		src/Main.cs \
 		designer/Main.Designer.cs \
+		src/Info.cs \
+		designer/Info.Designer.cs \
+		src/Settings.cs \
+		designer/Settings.Designer.cs \
 		src/NewPattern.cs \
 		designer/NewPattern.Designer.cs \
         src/PatternEditor.cs \
@@ -116,6 +125,8 @@ cp -f resources/icons/format-error.png build/icons/format-error.png
 cp -f resources/icons/format-unknown.png build/icons/format-unknown.png
 cp -f resources/icons/image-field.png build/icons/image-field.png
 cp -f resources/icons/text-field.png build/icons/text-field.png
+cp -f resources/transparent.png build/transparent.png
+cp -f resources/logo.jpg build/logo.jpg
 
 echo "### Finished"
 exit 0

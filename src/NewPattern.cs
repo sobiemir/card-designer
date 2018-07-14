@@ -46,6 +46,20 @@ namespace CDesigner
 			get { return this._pattern_name; }
 		}
 
+		// ------------------------------------------------------------- DetectFormat ---------------------------------
+		
+		public static int DetectFormat( int width, int height )
+		{
+			int[,] format_dims = NewPattern.FormatDims;
+
+			// szukaj formatu po rozmiarze
+			for( int x = 0; x < format_dims.GetLength(0); ++x )
+				if( format_dims[x,0] == width && format_dims[x,1] == height )
+					return x;
+
+			return -1;
+		}
+
 		// ------------------------------------------------------------- NewPattern -----------------------------------
 		
         public NewPattern( )
@@ -55,7 +69,13 @@ namespace CDesigner
             // wyświetlanie nazw aktualnych wzorów
             string[] patterns = Directory.GetDirectories( "patterns" );
             foreach( string pattern in patterns )
+			{
+				// brak pliku konfiguracji
+				if( !File.Exists(pattern + "/config.cfg") )
+					continue;
+
                 this.cbCopyFrom.Items.Add( pattern.Replace("patterns\\", "") );
+			}
 
             // wyświetlanie nazw dostępnych formatów
             foreach( string format_name in NewPattern._format_names )

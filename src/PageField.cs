@@ -21,7 +21,8 @@ namespace CDesigner
 		private float      _dpi_padding     = 0.0f;
 		private Image      _back_image      = null;
 		private double     _pixels_per_dpi  = 3.938095238095238;
-		
+		private Size       _parent_bounds   = new Size(800, 600);
+
 		// ------------------------------------------------------------- DPIBorderSize --------------------------------
 		
 		public float DPIBorderSize
@@ -159,6 +160,22 @@ namespace CDesigner
 				this.DPIPadding    = this.DPIPadding;
 			}
 		}
+		
+		// ------------------------------------------------------------- DPIBorderSize --------------------------------
+		
+		public void SetParentBounds( int width, int height, bool conv )
+		{
+			if( conv )
+			{
+				this._parent_bounds.Width  = Convert.ToInt32( (double)width * this._dpi_conv_scale );
+				this._parent_bounds.Height = Convert.ToInt32( (double)height * this._dpi_conv_scale );
+			}
+			else
+			{
+				this._parent_bounds.Width  = width;
+				this._parent_bounds.Height = height;
+			}
+		}
 
 		// ------------------------------------------------------------- SetTextAlignment -----------------------------
 
@@ -251,7 +268,14 @@ namespace CDesigner
 				case 0x400: this._dpi_bounds.X = x - this._dpi_bounds.Width; break;
 			}
 
-			this.Left = Convert.ToInt32((double)this._dpi_bounds.X * this._dpi_conv_scale);
+			int left = Convert.ToInt32((double)this._dpi_bounds.X * this._dpi_conv_scale);
+
+			if( left + this.Width > this._parent_bounds.Width )
+				left = this._parent_bounds.Width - this.Width;
+			else if( left < 0 )
+				left = 0;
+
+			this.Left = left;
 		}
 
 		// ------------------------------------------------------------- SetPosYByAlignPoint --------------------------
@@ -267,8 +291,47 @@ namespace CDesigner
 				case 0x400: this._dpi_bounds.Y = y - this._dpi_bounds.Height; break;
 			}
 
-			this.Top = Convert.ToInt32((double)this._dpi_bounds.Y * this._dpi_conv_scale);
+			int top = Convert.ToInt32((double)this._dpi_bounds.Y * this._dpi_conv_scale);
+			
+			if( top + this.Height > this._parent_bounds.Height )
+				top = this._parent_bounds.Height - this.Height;
+			else if( top < 0 )
+				top = 0;
+
+			this.Top = top;
 		}
+
+		// ------------------------------------------------------------- SetPxLocation --------------------------------
+
+		public void SetPxLocation( int x, int y, ContentAlignment align )
+		{
+			if( x + this.Width > this._parent_bounds.Width )
+				x = this._parent_bounds.Width - this.Width;
+			else if( x < 0 )
+				x = 0;
+
+			if( y + this.Height > this._parent_bounds.Height )
+				y = this._parent_bounds.Height - this.Height;
+			else if( y < 0 )
+				y = 0;
+
+			this.Location = new Point( x, y );
+			this.RefreshLocation( );
+		}
+
+		// ------------------------------------------------------------- RefreshLocation ------------------------------
+
+		public void RefreshLocation( )
+		{
+			this.DPIBounds = new RectangleF
+ 			(
+				(float)((double)this.Location.X / this._dpi_conv_scale),
+				(float)((double)this.Location.Y / this._dpi_conv_scale),
+				this.DPIBounds.Width,
+				this.DPIBounds.Height
+			);
+		}
+
 		// ------------------------------------------------------------- OnPaint --------------------------------------
 
 		protected override void OnPaint( PaintEventArgs ev )
@@ -288,5 +351,5 @@ namespace CDesigner
 					this._border_color, this._border_size, ButtonBorderStyle.Solid,
 					this._border_color, this._border_size, ButtonBorderStyle.Solid );
 		}
-	}
+	};
 }
