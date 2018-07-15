@@ -31,18 +31,17 @@
 			this.tlForm = new System.Windows.Forms.TableLayoutPanel();
 			this.pFilterList = new System.Windows.Forms.Panel();
 			this.tlFilterList = new System.Windows.Forms.TableLayoutPanel();
-			this.lExclude = new System.Windows.Forms.Label();
 			this.lFilterType = new System.Windows.Forms.Label();
 			this.lColumn = new System.Windows.Forms.Label();
-			this.tlFilters = new System.Windows.Forms.TableLayoutPanel();
 			this.lModifier = new System.Windows.Forms.Label();
-			this.lLeave = new System.Windows.Forms.Label();
+			this.lExclude = new System.Windows.Forms.Label();
 			this.lResult = new System.Windows.Forms.Label();
 			this.cbSelectAll = new System.Windows.Forms.CheckBox();
+			this.flFilters = new System.Windows.Forms.FlowLayoutPanel();
 			this.tlStatusBar = new System.Windows.Forms.TableLayoutPanel();
 			this.bDelete = new System.Windows.Forms.Button();
 			this.bAddFilter = new System.Windows.Forms.Button();
-			this.bClear = new System.Windows.Forms.Button();
+			this.bRestore = new System.Windows.Forms.Button();
 			this.bAccept = new System.Windows.Forms.Button();
 			this.tlForm.SuspendLayout();
 			this.pFilterList.SuspendLayout();
@@ -86,23 +85,21 @@
 			// 
 			// tlFilterList
 			// 
-			this.tlFilterList.BackColor = System.Drawing.SystemColors.Window;
-			this.tlFilterList.ColumnCount = 7;
+			this.tlFilterList.BackColor = System.Drawing.SystemColors.Control;
+			this.tlFilterList.ColumnCount = 6;
 			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
-			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23F));
-			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18F));
-			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
-			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23F));
+			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24F));
+			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22F));
+			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24F));
 			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
-			this.tlFilterList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
-			this.tlFilterList.Controls.Add(this.lExclude, 6, 0);
 			this.tlFilterList.Controls.Add(this.lFilterType, 2, 0);
 			this.tlFilterList.Controls.Add(this.lColumn, 1, 0);
-			this.tlFilterList.Controls.Add(this.tlFilters, 0, 1);
 			this.tlFilterList.Controls.Add(this.lModifier, 3, 0);
-			this.tlFilterList.Controls.Add(this.lLeave, 5, 0);
+			this.tlFilterList.Controls.Add(this.lExclude, 5, 0);
 			this.tlFilterList.Controls.Add(this.lResult, 4, 0);
 			this.tlFilterList.Controls.Add(this.cbSelectAll, 0, 0);
+			this.tlFilterList.Controls.Add(this.flFilters, 0, 1);
 			this.tlFilterList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlFilterList.Location = new System.Drawing.Point(0, 0);
 			this.tlFilterList.Margin = new System.Windows.Forms.Padding(6, 6, 6, 0);
@@ -114,26 +111,15 @@
 			this.tlFilterList.TabIndex = 3;
 			this.tlFilterList.Paint += new System.Windows.Forms.PaintEventHandler(this.tlFilterList_Paint);
 			// 
-			// lExclude
-			// 
-			this.lExclude.AutoSize = true;
-			this.lExclude.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lExclude.Location = new System.Drawing.Point(587, 0);
-			this.lExclude.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
-			this.lExclude.Name = "lExclude";
-			this.lExclude.Size = new System.Drawing.Size(28, 23);
-			this.lExclude.TabIndex = 13;
-			this.lExclude.Text = "W";
-			this.lExclude.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
 			// lFilterType
 			// 
 			this.lFilterType.AutoSize = true;
+			this.lFilterType.BackColor = System.Drawing.SystemColors.Window;
 			this.lFilterType.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lFilterType.Location = new System.Drawing.Point(175, 0);
-			this.lFilterType.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
+			this.lFilterType.Location = new System.Drawing.Point(178, 0);
+			this.lFilterType.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this.lFilterType.Name = "lFilterType";
-			this.lFilterType.Size = new System.Drawing.Size(105, 23);
+			this.lFilterType.Size = new System.Drawing.Size(123, 23);
 			this.lFilterType.TabIndex = 7;
 			this.lFilterType.Text = "Typ filtra";
 			this.lFilterType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -141,71 +127,51 @@
 			// lColumn
 			// 
 			this.lColumn.AutoSize = true;
+			this.lColumn.BackColor = System.Drawing.SystemColors.Window;
 			this.lColumn.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lColumn.Location = new System.Drawing.Point(33, 0);
-			this.lColumn.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
+			this.lColumn.Location = new System.Drawing.Point(30, 0);
+			this.lColumn.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this.lColumn.Name = "lColumn";
-			this.lColumn.Size = new System.Drawing.Size(136, 23);
+			this.lColumn.Size = new System.Drawing.Size(148, 23);
 			this.lColumn.TabIndex = 6;
 			this.lColumn.Text = "Kolumna";
 			this.lColumn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// tlFilters
-			// 
-			this.tlFilters.AutoScroll = true;
-			this.tlFilters.AutoSize = true;
-			this.tlFilters.BackColor = System.Drawing.SystemColors.Control;
-			this.tlFilters.ColumnCount = 7;
-			this.tlFilterList.SetColumnSpan(this.tlFilters, 7);
-			this.tlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
-			this.tlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23F));
-			this.tlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18F));
-			this.tlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
-			this.tlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23F));
-			this.tlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
-			this.tlFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
-			this.tlFilters.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlFilters.Location = new System.Drawing.Point(0, 24);
-			this.tlFilters.Margin = new System.Windows.Forms.Padding(0);
-			this.tlFilters.Name = "tlFilters";
-			this.tlFilters.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-			this.tlFilters.RowCount = 1;
-			this.tlFilters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 261F));
-			this.tlFilters.Size = new System.Drawing.Size(618, 264);
-			this.tlFilters.TabIndex = 5;
-			// 
 			// lModifier
 			// 
 			this.lModifier.AutoSize = true;
+			this.lModifier.BackColor = System.Drawing.SystemColors.Window;
 			this.lModifier.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lModifier.Location = new System.Drawing.Point(286, 0);
-			this.lModifier.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
+			this.lModifier.Location = new System.Drawing.Point(301, 0);
+			this.lModifier.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this.lModifier.Name = "lModifier";
-			this.lModifier.Size = new System.Drawing.Size(123, 23);
+			this.lModifier.Size = new System.Drawing.Size(135, 23);
 			this.lModifier.TabIndex = 8;
 			this.lModifier.Text = "Modyfikator";
 			this.lModifier.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// lLeave
+			// lExclude
 			// 
-			this.lLeave.AutoSize = true;
-			this.lLeave.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lLeave.Location = new System.Drawing.Point(557, 0);
-			this.lLeave.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
-			this.lLeave.Name = "lLeave";
-			this.lLeave.Size = new System.Drawing.Size(24, 23);
-			this.lLeave.TabIndex = 10;
-			this.lLeave.Text = "Z";
-			this.lLeave.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.lExclude.AutoSize = true;
+			this.lExclude.BackColor = System.Drawing.SystemColors.Window;
+			this.lExclude.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lExclude.Location = new System.Drawing.Point(584, 0);
+			this.lExclude.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
+			this.lExclude.Name = "lExclude";
+			this.lExclude.Size = new System.Drawing.Size(34, 23);
+			this.lExclude.TabIndex = 10;
+			this.lExclude.Text = "W";
+			this.lExclude.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lResult
 			// 
 			this.lResult.AutoSize = true;
+			this.lResult.BackColor = System.Drawing.SystemColors.Window;
 			this.lResult.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lResult.Location = new System.Drawing.Point(415, 0);
-			this.lResult.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
+			this.lResult.Location = new System.Drawing.Point(436, 0);
+			this.lResult.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this.lResult.Name = "lResult";
-			this.lResult.Size = new System.Drawing.Size(136, 23);
+			this.lResult.Size = new System.Drawing.Size(148, 23);
 			this.lResult.TabIndex = 11;
 			this.lResult.Text = "Wynik";
 			this.lResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -213,14 +179,32 @@
 			// cbSelectAll
 			// 
 			this.cbSelectAll.AutoSize = true;
+			this.cbSelectAll.BackColor = System.Drawing.SystemColors.Window;
 			this.cbSelectAll.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.cbSelectAll.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.cbSelectAll.Location = new System.Drawing.Point(3, 3);
+			this.cbSelectAll.Location = new System.Drawing.Point(0, 0);
+			this.cbSelectAll.Margin = new System.Windows.Forms.Padding(0, 0, 0, 1);
 			this.cbSelectAll.Name = "cbSelectAll";
-			this.cbSelectAll.Size = new System.Drawing.Size(24, 18);
+			this.cbSelectAll.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+			this.cbSelectAll.Size = new System.Drawing.Size(30, 23);
 			this.cbSelectAll.TabIndex = 14;
-			this.cbSelectAll.UseVisualStyleBackColor = true;
+			this.cbSelectAll.UseVisualStyleBackColor = false;
 			this.cbSelectAll.CheckedChanged += new System.EventHandler(this.cbSelectAll_CheckedChanged);
+			// 
+			// flFilters
+			// 
+			this.flFilters.AutoScroll = true;
+			this.flFilters.BackColor = System.Drawing.SystemColors.Control;
+			this.tlFilterList.SetColumnSpan(this.flFilters, 6);
+			this.flFilters.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flFilters.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+			this.flFilters.Location = new System.Drawing.Point(0, 24);
+			this.flFilters.Margin = new System.Windows.Forms.Padding(0);
+			this.flFilters.Name = "flFilters";
+			this.flFilters.Size = new System.Drawing.Size(618, 264);
+			this.flFilters.TabIndex = 15;
+			this.flFilters.WrapContents = false;
+			this.flFilters.Resize += new System.EventHandler(this.flFilters_Resize);
 			// 
 			// tlStatusBar
 			// 
@@ -235,7 +219,7 @@
 			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
 			this.tlStatusBar.Controls.Add(this.bDelete, 0, 0);
 			this.tlStatusBar.Controls.Add(this.bAddFilter, 0, 0);
-			this.tlStatusBar.Controls.Add(this.bClear, 4, 0);
+			this.tlStatusBar.Controls.Add(this.bRestore, 4, 0);
 			this.tlStatusBar.Controls.Add(this.bAccept, 5, 0);
 			this.tlStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlStatusBar.Location = new System.Drawing.Point(0, 302);
@@ -274,17 +258,17 @@
 			this.bAddFilter.UseVisualStyleBackColor = true;
 			this.bAddFilter.Click += new System.EventHandler(this.bAddFilter_Click);
 			// 
-			// bClear
+			// bRestore
 			// 
-			this.bClear.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.bClear.Location = new System.Drawing.Point(426, 4);
-			this.bClear.Margin = new System.Windows.Forms.Padding(6, 4, 3, 3);
-			this.bClear.Name = "bClear";
-			this.bClear.Size = new System.Drawing.Size(96, 24);
-			this.bClear.TabIndex = 3;
-			this.bClear.Text = "Wyczyść";
-			this.bClear.UseVisualStyleBackColor = true;
-			this.bClear.Click += new System.EventHandler(this.bClear_Click);
+			this.bRestore.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.bRestore.Location = new System.Drawing.Point(426, 4);
+			this.bRestore.Margin = new System.Windows.Forms.Padding(6, 4, 3, 3);
+			this.bRestore.Name = "bRestore";
+			this.bRestore.Size = new System.Drawing.Size(96, 24);
+			this.bRestore.TabIndex = 3;
+			this.bRestore.Text = "Przywróć";
+			this.bRestore.UseVisualStyleBackColor = true;
+			this.bRestore.Click += new System.EventHandler(this.bRestore_Click);
 			// 
 			// bAccept
 			// 
@@ -310,6 +294,7 @@
 			this.MinimumSize = new System.Drawing.Size(640, 360);
 			this.Name = "DataFilterForm";
 			this.Text = "Filtrowanie danych";
+			this.ResizeEnd += new System.EventHandler(this.DataFilterForm_ResizeEnd);
 			this.tlForm.ResumeLayout(false);
 			this.tlForm.PerformLayout();
 			this.pFilterList.ResumeLayout(false);
@@ -325,19 +310,18 @@
 		private System.Windows.Forms.TableLayoutPanel tlForm;
 		private System.Windows.Forms.Panel pFilterList;
 		private System.Windows.Forms.TableLayoutPanel tlFilterList;
-		private System.Windows.Forms.TableLayoutPanel tlFilters;
 		private System.Windows.Forms.Label lColumn;
 		private System.Windows.Forms.Label lFilterType;
 		private System.Windows.Forms.Label lModifier;
-		private System.Windows.Forms.Label lLeave;
 		private System.Windows.Forms.Label lResult;
-		private System.Windows.Forms.Label lExclude;
 		private System.Windows.Forms.TableLayoutPanel tlStatusBar;
 		private System.Windows.Forms.Button bDelete;
 		private System.Windows.Forms.Button bAddFilter;
-		private System.Windows.Forms.Button bClear;
 		private System.Windows.Forms.Button bAccept;
 		private System.Windows.Forms.CheckBox cbSelectAll;
+		private System.Windows.Forms.Label lExclude;
+		private System.Windows.Forms.Button bRestore;
+		private System.Windows.Forms.FlowLayoutPanel flFilters;
 
 	}
 }

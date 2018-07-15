@@ -35,6 +35,7 @@
 			this.tlStatusBar = new System.Windows.Forms.TableLayoutPanel();
 			this.bFilterData = new System.Windows.Forms.Button();
 			this.bSave = new System.Windows.Forms.Button();
+			this.bEditData = new System.Windows.Forms.Button();
 			this.lvDatabaseColumns = new System.Windows.Forms.ListView();
 			this.lvcColumns = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lvNewColumns = new System.Windows.Forms.ListView();
@@ -71,7 +72,7 @@
 			this.lvPreviewRows.Name = "lvPreviewRows";
 			this.lvPreviewRows.ShowGroups = false;
 			this.lvPreviewRows.Size = new System.Drawing.Size(442, 147);
-			this.lvPreviewRows.TabIndex = 8;
+			this.lvPreviewRows.TabIndex = 7;
 			this.lvPreviewRows.UseCompatibleStateImageBehavior = false;
 			this.lvPreviewRows.View = System.Windows.Forms.View.Details;
 			// 
@@ -83,13 +84,15 @@
 			// tlStatusBar
 			// 
 			this.tlStatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.tlStatusBar.ColumnCount = 3;
+			this.tlStatusBar.ColumnCount = 4;
 			this.tMainPanel.SetColumnSpan(this.tlStatusBar, 2);
-			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66F));
+			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17F));
+			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49F));
 			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17F));
 			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17F));
-			this.tlStatusBar.Controls.Add(this.bFilterData, 1, 0);
-			this.tlStatusBar.Controls.Add(this.bSave, 2, 0);
+			this.tlStatusBar.Controls.Add(this.bFilterData, 2, 0);
+			this.tlStatusBar.Controls.Add(this.bSave, 3, 0);
+			this.tlStatusBar.Controls.Add(this.bEditData, 0, 0);
 			this.tlStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlStatusBar.Location = new System.Drawing.Point(0, 420);
 			this.tlStatusBar.Margin = new System.Windows.Forms.Padding(0);
@@ -104,10 +107,10 @@
 			// 
 			this.bFilterData.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.bFilterData.Location = new System.Drawing.Point(454, 4);
-			this.bFilterData.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+			this.bFilterData.Margin = new System.Windows.Forms.Padding(3, 4, 2, 3);
 			this.bFilterData.Name = "bFilterData";
-			this.bFilterData.Size = new System.Drawing.Size(110, 24);
-			this.bFilterData.TabIndex = 1;
+			this.bFilterData.Size = new System.Drawing.Size(111, 24);
+			this.bFilterData.TabIndex = 0;
 			this.bFilterData.Text = "Filtruj dane";
 			this.bFilterData.UseVisualStyleBackColor = true;
 			this.bFilterData.Click += new System.EventHandler(this.bFilterData_Click);
@@ -115,13 +118,25 @@
 			// bSave
 			// 
 			this.bSave.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.bSave.Location = new System.Drawing.Point(570, 4);
-			this.bSave.Margin = new System.Windows.Forms.Padding(3, 4, 6, 3);
+			this.bSave.Location = new System.Drawing.Point(569, 4);
+			this.bSave.Margin = new System.Windows.Forms.Padding(2, 4, 6, 3);
 			this.bSave.Name = "bSave";
-			this.bSave.Size = new System.Drawing.Size(108, 24);
-			this.bSave.TabIndex = 0;
+			this.bSave.Size = new System.Drawing.Size(109, 24);
+			this.bSave.TabIndex = 1;
 			this.bSave.Text = "Zapisz";
 			this.bSave.UseVisualStyleBackColor = true;
+			// 
+			// bEditData
+			// 
+			this.bEditData.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.bEditData.Location = new System.Drawing.Point(6, 4);
+			this.bEditData.Margin = new System.Windows.Forms.Padding(6, 4, 3, 3);
+			this.bEditData.Name = "bEditData";
+			this.bEditData.Size = new System.Drawing.Size(107, 24);
+			this.bEditData.TabIndex = 2;
+			this.bEditData.Text = "Edytuj wiersze";
+			this.bEditData.UseVisualStyleBackColor = true;
+			this.bEditData.Click += new System.EventHandler(this.bEditData_Click);
 			// 
 			// lvDatabaseColumns
 			// 
@@ -141,11 +156,11 @@
 			this.tMainPanel.SetRowSpan(this.lvDatabaseColumns, 3);
 			this.lvDatabaseColumns.ShowGroups = false;
 			this.lvDatabaseColumns.Size = new System.Drawing.Size(224, 408);
-			this.lvDatabaseColumns.TabIndex = 7;
+			this.lvDatabaseColumns.TabIndex = 8;
 			this.lvDatabaseColumns.UseCompatibleStateImageBehavior = false;
 			this.lvDatabaseColumns.View = System.Windows.Forms.View.Details;
 			this.lvDatabaseColumns.SelectedIndexChanged += new System.EventHandler(this.lvDatabaseColumns_SelectedIndexChanged);
-			this.lvDatabaseColumns.DragOver += new System.Windows.Forms.DragEventHandler(this.lvDatabaseColumns_DragOver);
+			this.lvDatabaseColumns.DragOver += new System.Windows.Forms.DragEventHandler(this.dragDropEffects_Move);
 			this.lvDatabaseColumns.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvDatabaseColumns_MouseDown);
 			// 
 			// lvcColumns
@@ -166,15 +181,16 @@
 			this.lvNewColumns.HideSelection = false;
 			this.lvNewColumns.Location = new System.Drawing.Point(6, 6);
 			this.lvNewColumns.Margin = new System.Windows.Forms.Padding(6, 6, 3, 3);
+			this.lvNewColumns.MultiSelect = false;
 			this.lvNewColumns.Name = "lvNewColumns";
 			this.lvNewColumns.ShowGroups = false;
 			this.lvNewColumns.Size = new System.Drawing.Size(442, 225);
-			this.lvNewColumns.TabIndex = 6;
+			this.lvNewColumns.TabIndex = 2;
 			this.lvNewColumns.UseCompatibleStateImageBehavior = false;
 			this.lvNewColumns.View = System.Windows.Forms.View.Details;
 			this.lvNewColumns.SelectedIndexChanged += new System.EventHandler(this.lvNewColumns_SelectedIndexChanged);
 			this.lvNewColumns.DragDrop += new System.Windows.Forms.DragEventHandler(this.lvNewColumns_DragDrop);
-			this.lvNewColumns.DragEnter += new System.Windows.Forms.DragEventHandler(this.lvNewColumns_DragEnter);
+			this.lvNewColumns.DragEnter += new System.Windows.Forms.DragEventHandler(this.dragDropEffects_Move);
 			this.lvNewColumns.DragOver += new System.Windows.Forms.DragEventHandler(this.lvNewColumns_DragOver);
 			// 
 			// lvcColumnName
@@ -205,6 +221,7 @@
 			this.tableLayoutPanel3.Name = "tableLayoutPanel3";
 			this.tableLayoutPanel3.RowCount = 1;
 			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
 			this.tableLayoutPanel3.Size = new System.Drawing.Size(447, 30);
 			this.tableLayoutPanel3.TabIndex = 18;
 			// 
@@ -214,7 +231,7 @@
 			this.bAddColumn.Location = new System.Drawing.Point(210, 3);
 			this.bAddColumn.Name = "bAddColumn";
 			this.bAddColumn.Size = new System.Drawing.Size(74, 24);
-			this.bAddColumn.TabIndex = 3;
+			this.bAddColumn.TabIndex = 4;
 			this.bAddColumn.Text = "Dodaj";
 			this.bAddColumn.UseVisualStyleBackColor = true;
 			this.bAddColumn.Click += new System.EventHandler(this.bAddColumn_Click);
@@ -226,7 +243,7 @@
 			this.bClearColumn.Location = new System.Drawing.Point(290, 3);
 			this.bClearColumn.Name = "bClearColumn";
 			this.bClearColumn.Size = new System.Drawing.Size(74, 24);
-			this.bClearColumn.TabIndex = 4;
+			this.bClearColumn.TabIndex = 5;
 			this.bClearColumn.Text = "Wyczyść";
 			this.bClearColumn.UseVisualStyleBackColor = true;
 			this.bClearColumn.Click += new System.EventHandler(this.bClearColumn_Click);
@@ -238,7 +255,7 @@
 			this.bDeleteColumn.Location = new System.Drawing.Point(370, 3);
 			this.bDeleteColumn.Name = "bDeleteColumn";
 			this.bDeleteColumn.Size = new System.Drawing.Size(74, 24);
-			this.bDeleteColumn.TabIndex = 5;
+			this.bDeleteColumn.TabIndex = 6;
 			this.bDeleteColumn.Text = "Usuń";
 			this.bDeleteColumn.UseVisualStyleBackColor = true;
 			this.bDeleteColumn.Click += new System.EventHandler(this.bDeleteColumn_Click);
@@ -251,9 +268,9 @@
 			this.tbColumnName.MaxLength = 127;
 			this.tbColumnName.Name = "tbColumnName";
 			this.tbColumnName.Size = new System.Drawing.Size(201, 20);
-			this.tbColumnName.TabIndex = 2;
+			this.tbColumnName.TabIndex = 3;
 			this.tbColumnName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbColumnName_KeyPress);
-			this.tbColumnName.Leave += new System.EventHandler(this.tbColumnName_Leave);
+			this.tbColumnName.Leave += new System.EventHandler(this.toolTip_Hide);
 			// 
 			// tMainPanel
 			// 
@@ -285,12 +302,12 @@
 			this.ClientSize = new System.Drawing.Size(684, 451);
 			this.Controls.Add(this.tMainPanel);
 			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(700, 65535);
+			this.MaximumSize = new System.Drawing.Size(900, 65535);
 			this.MinimumSize = new System.Drawing.Size(700, 480);
 			this.Name = "EditColumnsForm";
 			this.Text = "Zarządzanie kolumnami";
-			this.Deactivate += new System.EventHandler(this.JoinColsForm_Deactivate);
-			this.Move += new System.EventHandler(this.JoinColsForm_Move);
+			this.Deactivate += new System.EventHandler(this.toolTip_Hide);
+			this.Move += new System.EventHandler(this.toolTip_Hide);
 			this.tlStatusBar.ResumeLayout(false);
 			this.tableLayoutPanel3.ResumeLayout(false);
 			this.tableLayoutPanel3.PerformLayout();
@@ -318,5 +335,6 @@
 		private System.Windows.Forms.ColumnHeader lvcColumns;
 		private System.Windows.Forms.Button bFilterData;
 		private System.Windows.Forms.Button bSave;
+		private System.Windows.Forms.Button bEditData;
 	}
 }

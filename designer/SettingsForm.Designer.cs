@@ -1,6 +1,6 @@
 ﻿namespace CDesigner
 {
-	partial class Settings
+	partial class SettingsForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -41,7 +41,7 @@
 			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Generowanie PDF");
 			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Skróty klawiaturowe");
 			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Formaty wzorów");
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
 			this.tlMain = new System.Windows.Forms.TableLayoutPanel();
 			this.tlButtons = new System.Windows.Forms.TableLayoutPanel();
 			this.bDefault = new System.Windows.Forms.Button();

@@ -16,7 +16,12 @@ using System.Drawing;
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2015-08-06
+/// Ostatnia zmiana: 2015-11-29
+/// 
+/// Dodano indeksy do elementów listy rozwijanej.
+/// Dodano atrybut TAG do struktury.
+/// Dodano przesuwanie zaznaczonych indeksów podczas dodawania elementów.
+/// Usunięto przesuwanie i dodano sprawdzanie indeksów.
 ///
 
 namespace CDesigner
@@ -137,14 +142,20 @@ namespace CDesigner
 		/// ------------------------------------------------------------------------------------------------------------
 		public new GroupComboBoxItem SelectedItem
 		{
-			get { return this._collection[this.SelectedIndex]; }
+			get
+			{
+				if( this.SelectedIndex > -1 )
+					return this._collection[this.SelectedIndex];
+
+				return null;
+			}
 			set
 			{
 				// wyszukaj element i zaznacz go
 				for( int x = 0; x < this._collection.Count; ++x )
 					if( this._collection[x] == value )
 					{
-						this.SelectedIndex = x;
+						base.SelectedIndex = x;
 						break;
 					}
 			}
@@ -482,6 +493,18 @@ namespace CDesigner
 
 			return base.Items;
 		}
+
+		///
+		/// Rysowanie elementu na kontrolce lub na liście rozwijanej.
+		/// I tak czcionki przesuwają się o 1 px za daleko w lewo (nie mam pojęcia dlaczego...)
+		/// ------------------------------------------------------------------------------------------------------------
+		public ComboBox.ObjectCollection GetSyncItems( GroupComboBoxItems collection )
+		{
+			if( this._synchronized && this._collection == collection )
+				return base.Items;
+
+			return null;
+		}
 	}
 
 
@@ -507,9 +530,10 @@ namespace CDesigner
 		/// Wariant z podawaniem poszczególnych parametrów klasy GroupComboBoxItem.
 		/// Automatycznie tworzy i zwraca klasę z danymi elementu.
 		/// ------------------------------------------------------------------------------------------------------------
-		public GroupComboBoxItem Add( string text, bool header = false, GroupComboBoxItem parent = null )
+		public GroupComboBoxItem Add( string text, bool header = false, GroupComboBoxItem parent = null,
+			object tag = null )
 		{
-			GroupComboBoxItem item = new GroupComboBoxItem( );
+			GroupComboBoxItem item = new GroupComboBoxItem();
 
 			item.text   = text;
 			item.header = header;
@@ -518,6 +542,8 @@ namespace CDesigner
 			item.last   = false;
 			item.first  = false;
 			item.child  = new List<GroupComboBoxItem>( );
+			item.index  = 0;
+			item.tag    = tag;
 
 			this.Add( item );
 
@@ -546,6 +572,9 @@ namespace CDesigner
 				{
 					last = item.parent.child[item.parent.child.Count - 1];
 					last.last = false;
+
+					// zwiększ indeks grupy
+					item.index = last.index + 1;
 				}
 
 				// sprawdź indeks elementu poprzedzającego
@@ -565,7 +594,16 @@ namespace CDesigner
 			}
 			// brak rodzica, dodaj do listy
 			else
+			{
+				// wyszukaj ostatni indeks dla elementów głównych
+				int index = 0;
+				for( int x = 0; x < this.Count; ++x )
+					if( this[x].parent == null )
+						index++;
+
+				item.index = index;
 				base.Add( item );
+			}
 
 			// dla listy kontrolki nie przejmuj się kolejnością
 			// wyświetlane i tak będą dane z tej listy...
@@ -624,7 +662,7 @@ namespace CDesigner
 			item.parent = parent;
 			item.last   = false;
 			item.first  = false;
-			item.child  = new List<GroupComboBoxItem>( );
+			item.child  = new List<GroupComboBoxItem>();
 
 			this.Insert( index, item );
 
@@ -835,12 +873,22 @@ namespace CDesigner
 			this._collections.Add( combo.SetSyncItems(this) );
 		}
 
+		/// 
+		/// Usuwa kontrolkę z synchronizacji.
+		/// ------------------------------------------------------------------------------------------------------------
+		public void RemoveCombo( GroupComboBox combo )
+		{
+			this._collections.Remove( combo.GetSyncItems(this) );
+			this._combos.Remove( combo );
+		}
+
 		///
 		/// Zastępuje i robi to samo co funkcja Add klasy pochodnej.
 		/// ------------------------------------------------------------------------------------------------------------
-		public new GroupComboBoxItem Add( string text, bool header = false, GroupComboBoxItem parent = null )
+		public new GroupComboBoxItem Add( string text, bool header = false, GroupComboBoxItem parent = null,
+			object tag = null )
 		{
-			GroupComboBoxItem item = new GroupComboBoxItem( );
+			GroupComboBoxItem item = new GroupComboBoxItem();
 
 			item.text   = text;
 			item.header = header;
@@ -848,7 +896,8 @@ namespace CDesigner
 			item.parent = parent;
 			item.last   = false;
 			item.first  = false;
-			item.child  = new List<GroupComboBoxItem>( );
+			item.child  = new List<GroupComboBoxItem>();
+			item.tag    = tag;
 
 			this.Add( item );
 
@@ -862,10 +911,28 @@ namespace CDesigner
 		/// ------------------------------------------------------------------------------------------------------------
 		public new void Add( GroupComboBoxItem item )
 		{
+			// int insert_index = 0;
+
+			// // wykryj indeks 
+			// for( int x = 0; x < this.Count; ++x )
+			// 	if( this[x].parent == item.parent )
+			// 		insert_index = x;
+
+			List<GroupComboBoxItem> items = new List<GroupComboBoxItem>( this._combos.Count );
+
+			// pobierz starą listę zaznaczonych elementów
+			foreach( GroupComboBox combo in this._combos )
+				items.Add( combo.SelectedItem );
+
 			base.Add( item );
 
 			foreach( ComboBox.ObjectCollection collection in this._collections )
 				collection.Add( item.text );
+
+			// ustaw stare elementy gdy się nie zgadzają
+			for( int x = 0; x < this._combos.Count; ++x )
+				if( this._combos[x].SelectedItem != items[x] )
+					this._combos[x].SelectedItem = items[x];
 		}
 
 		///
@@ -876,7 +943,7 @@ namespace CDesigner
 		public new GroupComboBoxItem
 			Insert( int index, string text, bool header = false, GroupComboBoxItem parent = null )
 		{
-			GroupComboBoxItem item = new GroupComboBoxItem( );
+			GroupComboBoxItem item = new GroupComboBoxItem();
 
 			item.text   = text;
 			item.header = header;
@@ -899,11 +966,41 @@ namespace CDesigner
 		/// ------------------------------------------------------------------------------------------------------------
 		public new void Insert( int index, GroupComboBoxItem item )
 		{
+			// zwiększ numery większych indeksów
+			for( int x = 0; x < this.Count; ++x )
+				if( this[x].indent == item.indent && this[x].parent == item.parent && this[x].index >= item.index )
+					this[x].index++;
+
+			int insert_index = 0;
+
+			// wykryj indeks 
+			for( int x = 0; x < this.Count; ++x )
+				if( this[x].parent == item.parent )
+				{
+					if( insert_index == index )
+					{
+						insert_index = x;
+						break;
+					}
+					insert_index++;
+				}
+
+			List<GroupComboBoxItem> items = new List<GroupComboBoxItem>( this._combos.Count );
+
+			// pobierz starą listę zaznaczonych elementów
+			foreach( GroupComboBox combo in this._combos )
+				items.Add( combo.SelectedItem );
+
 			base.Insert( index, item );
 
 			// nie przejmuj się kolejnością elementów w kontrolkach...
 			foreach( ComboBox.ObjectCollection collection in this._collections )
 				collection.Add( item.text );
+
+			// ustaw stare elementy gdy się nie zgadzają
+			for( int x = 0; x < this._combos.Count; ++x )
+				if( this._combos[x].SelectedItem != items[x] )
+					this._combos[x].SelectedItem = items[x];
 		}
 
 		/// 
@@ -911,10 +1008,21 @@ namespace CDesigner
 		/// ------------------------------------------------------------------------------------------------------------
 		public new bool Remove( GroupComboBoxItem item )
 		{
+			List<GroupComboBoxItem> items = new List<GroupComboBoxItem>( this._combos.Count );
+
+			// pobierz starą listę zaznaczonych elementów
+			foreach( GroupComboBox combo in this._combos )
+				items.Add( combo.SelectedItem );
+
 			bool retval = base.Remove( item );
 
 			foreach( ComboBox.ObjectCollection collection in this._collections )
 				collection.RemoveAt( collection.Count - 1 );
+
+			// ustaw stare elementy gdy się nie zgadzają
+			for( int x = 0; x < this._combos.Count; ++x )
+				if( this._combos[x].SelectedItem != items[x] )
+					this._combos[x].SelectedItem = items[x];
 
 			return retval;
 		}
@@ -924,10 +1032,21 @@ namespace CDesigner
 		/// ------------------------------------------------------------------------------------------------------------
 		public new void RemoveAt( int index )
 		{
+			List<GroupComboBoxItem> items = new List<GroupComboBoxItem>( this._combos.Count );
+
+			// pobierz starą listę zaznaczonych elementów
+			foreach( GroupComboBox combo in this._combos )
+				items.Add( combo.SelectedItem );
+
 			base.RemoveAt( index );
 
 			foreach( ComboBox.ObjectCollection collection in this._collections )
 				collection.RemoveAt( collection.Count - 1 );
+
+			// ustaw stare elementy gdy się nie zgadzają
+			for( int x = 0; x < this._combos.Count; ++x )
+				if( this._combos[x].SelectedItem != items[x] )
+					this._combos[x].SelectedItem = items[x];
 		}
 
 		/// 
@@ -935,11 +1054,22 @@ namespace CDesigner
 		/// ------------------------------------------------------------------------------------------------------------
 		public new void RemoveChildrens( GroupComboBoxItem item )
 		{
+			List<GroupComboBoxItem> items = new List<GroupComboBoxItem>( this._combos.Count );
+
+			// pobierz starą listę zaznaczonych elementów
+			foreach( GroupComboBox combo in this._combos )
+				items.Add( combo.SelectedItem );
+
 			int count = base.RemoveChildrens( item );
 
 			foreach( ComboBox.ObjectCollection collection in this._collections )
 				for( int x = collection.Count - 1, y = collection.Count - count; x >= y; --x )
 					collection.RemoveAt( x );
+
+			// ustaw stare elementy gdy się nie zgadzają
+			for( int x = 0; x < this._combos.Count; ++x )
+				if( this._combos[x].SelectedItem != items[x] )
+					this._combos[x].SelectedItem = items[x];
 		}
 
 		/// 

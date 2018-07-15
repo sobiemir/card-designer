@@ -36,15 +36,17 @@ echo ### Generating resources for CDesigner...
 
 resgen /useSourcePath ^
 	/compile ^
-        resx\DatabaseSettingsForm.resx,obj\CDesigner.DatabaseSettingsForm.resources ^
-        resx\DataFilterForm.resx,obj\CDesigner.DataFilterForm.resources ^
-        resx\DataReader.resx,obj\CDesigner.DataReader.resources ^
-        resx\DBConnection.resx,obj\CDesigner.DBConnection.resources ^
-        resx\EditColumnsForm.resx,obj\CDesigner.EditColumnsForm.resources ^
-        resx\InfoForm.resx,obj\CDesigner.InfoForm.resources ^
+		resx\ComboGroupBox.resx,obj\CDesigner.ComboGroupBox.resources ^
+		resx\DatafileSettingsForm.resx,obj\CDesigner.DatafileSettingsForm.resources ^
+		resx\DataFilterForm.resx,obj\CDesigner.DataFilterForm.resources ^
+		resx\DataReader.resx,obj\CDesigner.DataReader.resources ^
+		resx\DBConnection.resx,obj\CDesigner.DBConnection.resources ^
+		resx\EditColumnsForm.resx,obj\CDesigner.EditColumnsForm.resources ^
+		resx\EditDataForm.resx,obj\CDesigner.EditDataForm.resources ^
+		resx\InfoForm.resx,obj\CDesigner.InfoForm.resources ^
 		resx\MainForm.resx,obj\CDesigner.MainForm.resources ^
 		resx\NewPattern.resx,obj\CDesigner.NewPattern.resources ^
-		resx\Settings.resx,obj\CDesigner.Settings.resources ^
+		resx\SettingsForm.resx,obj\CDesigner.SettingsForm.resources ^
 		resx\UpdateForm.resx,obj\CDesigner.UpdateForm.resources ^
 		properties\Resources.resx,obj\CDesigner.Properties.Resources.resources
 
@@ -54,7 +56,7 @@ echo ### Generating resources for CDRestore...
 
 resgen /useSourcePath ^
 	/compile ^
-        resx\cdrestore\MainForm.resx,obj\CDRestore.MainForm.resources ^
+		resx\cdrestore\MainForm.resx,obj\CDRestore.MainForm.resources ^
 		properties\cdrestore\Resources.resx,obj\CDRestore.Properties.Resources.resources
 
 :: create dll and build directory
@@ -110,15 +112,17 @@ echo ### Compiling CDesigner application...
 
 csc /reference:dll\PdfSharp.dll ^
 	/out:build\cdesigner.exe ^
-	/resource:obj\CDesigner.DatabaseSettingsForm.resources ^
+	/resource:obj\CDesigner.ComboGroupBox.resources ^
+	/resource:obj\CDesigner.DatafileSettingsForm.resources ^
 	/resource:obj\CDesigner.DataFilterForm.resources ^
 	/resource:obj\CDesigner.DataReader.resources ^
 	/resource:obj\CDesigner.DBConnection.resources ^
 	/resource:obj\CDesigner.EditColumnsForm.resources ^
-    /resource:obj\CDesigner.InfoForm.resources ^
-    /resource:obj\CDesigner.MainForm.resources ^
+	/resource:obj\CDesigner.EditDataForm.resources ^
+	/resource:obj\CDesigner.InfoForm.resources ^
+	/resource:obj\CDesigner.MainForm.resources ^
 	/resource:obj\CDesigner.NewPattern.resources ^
-	/resource:obj\CDesigner.Settings.resources ^
+	/resource:obj\CDesigner.SettingsForm.resources ^
 	/resource:obj\CDesigner.UpdateForm.resources ^
 	/resource:obj\CDesigner.Properties.Resources.resources ^
 	/appconfig:properties\app.config ^
@@ -130,34 +134,40 @@ csc /reference:dll\PdfSharp.dll ^
 		src\class\AssemblyLoader.cs ^
 		src\class\CBackupData.cs ^
 		src\class\DatabaseReader.cs ^
-		src\class\DataFilter.cs ^
+		src\class\DatafileReader.cs ^
+		src\class\FilterCreator.cs ^
+		src\class\Language.cs ^
 		src\class\PatternEditor.cs ^
 		src\class\Program.cs ^
 		src\class\ProgressStream.cs ^
+		src\class\Settings.cs ^
 		src\class\Structures.cs ^
 		src\controls\AlignedPage.cs ^
 		src\controls\AlignedPictureBox.cs ^
+		src\controls\DataFilterRow.cs ^
 		src\controls\GroupComboBox.cs ^
 		src\controls\PageField.cs ^
-		src\forms\DatabaseSettingsForm.cs ^
+		src\forms\DatafileSettingsForm.cs ^
 		src\forms\DataFilterForm.cs ^
 		src\forms\DataReader.cs ^
 		src\forms\DBConnection.cs ^
 		src\forms\EditColumnsForm.cs ^
+		src\forms\EditDataForm.cs ^
 		src\forms\InfoForm.cs ^
 		src\forms\MainForm.cs ^
 		src\forms\NewPattern.cs ^
-		src\forms\Settings.cs ^
+		src\forms\SettingsForm.cs ^
 		src\forms\UpdateForm.cs ^
-		designer\DatabaseSettingsForm.Designer.cs ^
+		designer\DatafileSettingsForm.Designer.cs ^
 		designer\DataFilterForm.Designer.cs ^
 		designer\DataReader.Designer.cs ^
 		designer\DBConnection.Designer.cs ^
 		designer\EditColumnsForm.Designer.cs ^
+		designer\EditDataForm.Designer.cs ^
 		designer\InfoForm.Designer.cs ^
 		designer\MainForm.Designer.cs ^
 		designer\NewPattern.Designer.cs ^
-		designer\Settings.Designer.cs ^
+		designer\SettingsForm.Designer.cs ^
 		designer\UpdateForm.Designer.cs ^
 		properties\AssemblyInfo.cs ^
 		properties\Resources.Designer.cs
@@ -166,7 +176,7 @@ csc /reference:dll\PdfSharp.dll ^
 echo ### Compiling CDRestore application...
 
 csc /out:build\cdrestore.exe ^
-    /resource:obj\CDRestore.MainForm.resources ^
+	/resource:obj\CDRestore.MainForm.resources ^
 	/resource:obj\CDRestore.Properties.Resources.resources ^
 	/win32manifest:properties\cdrestore\app.manifest ^
 	/win32icon:resources\cdrestore.ico ^
@@ -217,6 +227,12 @@ if not exist build\backup (
 	mkdir build\backup
 )
 
+:: create languages folder
+if not exist build\languages (
+	echo ### Creating "build\languages" directory...
+	mkdir build\languages
+)
+
 echo ### Copy images and dlls
 
 :: copying image and dll files
@@ -246,6 +262,13 @@ copy /Y resources\icons\cdesigner-48.png build\icons
 copy /Y resources\icons\cdesigner-32.png build\icons
 copy /Y resources\icons\cdesigner-16.png build\icons
 copy /Y resources\icons\add-pattern.png build\icons
+copy /Y resources\icons\combo-child.png build\icons
+copy /Y resources\icons\combo-end.png build\icons
+copy /Y resources\icons\combo-one.png build\icons
+copy /Y resources\icons\combo-parent.png build\icons
+copy /Y resources\icons\combo-start.png build\icons
+copy /Y languages\en.lex build\languages
+copy /Y languages\pl.lex build\languages
 
 echo ### Finished
 exit /B 0

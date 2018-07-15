@@ -105,7 +105,7 @@ namespace CDesigner
 		private int         gThisContainer  = 1;
 		private bool        gEditChanged    = false;
 		private bool		pLocked			= false;
-		private Settings    gSettings       = null;
+		private SettingsForm    gSettings       = null;
 		
 		private int         mSelectedID	    = -1;
 		private bool        mSelectedError  = false;
@@ -146,9 +146,6 @@ namespace CDesigner
 		
 		public MainForm( )
 		{
-			// zdarzenia do rozwiązywania problemów z plikami dll
-			AssemblyLoader.Register();
-
 			Program.LogMessage( "Tworzenie okna głównego." );
 			this.InitializeComponent();
 
@@ -166,7 +163,7 @@ namespace CDesigner
 			this.mpPreview.Controls.Add( this.mpbPreview );
 
 			// ustawienia
-			this.gSettings = new Settings();
+			this.gSettings = new SettingsForm();
 
 #		if DEBUG
 			Program.LogMessage( "Załadowano kontrolki." );
@@ -177,6 +174,18 @@ namespace CDesigner
 
 			// odświeżenie listy wzorów
 			this.RefreshProjectList();
+
+			// #START ===================== TEST ..............
+            //DatabaseReader reader = new DatabaseReader(@"C:\Users\Kamil\Desktop\Inne\zzz2.CSV");
+			
+            //reader.Parse();
+			
+            //if( reader.IsReady() )
+            //    this._reader = reader;
+            //if( this._reader != null )
+            //    this.gmtColumnsEditor.Enabled = true;
+
+			// #STOP  ===================== TEST ..............
 		}
 
 		// ------------------------------------------------------------- Main_Resize ---------------------------------
@@ -2688,19 +2697,19 @@ CD_mtvPatterns_AfterSelect:
 
 		private void issGeneratePDF_Click(object sender, EventArgs e)
 		{
-			Settings options = new Settings( 2 );
+			SettingsForm options = new SettingsForm( 2 );
 			options.ShowDialog( this );
 		}
 
 		private void issEditor_Click(object sender, EventArgs e)
 		{
-			Settings options = new Settings( 1 );
+			SettingsForm options = new SettingsForm( 1 );
 			options.ShowDialog( this );
 		}
 
 		private void issGeneral_Click(object sender, EventArgs e)
 		{
-			Settings options = new Settings( 0 );
+			SettingsForm options = new SettingsForm( 0 );
 			options.ShowDialog( this );
 		}
 

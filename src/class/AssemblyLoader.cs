@@ -5,7 +5,7 @@ using System.Text;
 using System.Reflection;
 
 ///
-/// $i02 AssemblyLoader.cs
+/// $c04 AssemblyLoader.cs
 /// 
 /// Ładowanie brakujących bibliotek z folderu ./libraries.
 /// 
@@ -17,42 +17,63 @@ using System.Reflection;
 namespace CDesigner
 {
 	/// 
+	/// <summary>
 	/// Klasa odpowiedzialna za ładowanie bibliotek.
 	/// Przechwytuje wiadomości braku bibliotek i szuka ich w foldrze ./libraries.
 	/// Lista bibliotek znajduje się w zmiennych DLL_FILE i DLL_NAMESPACE.
+	/// </summary>
 	/// 
 	class AssemblyLoader
 	{
-		/// Lista plików dll do wczytania.
+		// ===== PRIVATE VARIABLES ==============================================================
+
+		/// <summary>Lista plików dll do wczytania.</summary>
 		private static readonly string[] DLL_FILE =
 		{
-			"pdfsharp.dll"
+			"PdfSharp.dll",
+			"SQLite.Core.dll"
 		};
 
-		/// Nazwy przestrzeni plików dll.
+		/// <summary>Nazwy przestrzeni plików dll.</summary>
 		private static readonly string[] DLL_NAMESPACE =
 		{
-			"PdfSharp"
+			"PdfSharp",
+			"System.Data.SQLite"
 		};
+		
+		// ===== PUBLIC FUNCTIONS ===============================================================
 
-		///
-		/// Rejestracja zdarzenia do rozwiązywania problemów z plikami DLL.
-		/// Może zostać wywołana kilkakrotnie...
-		/// ------------------------------------------------------------------------------------------------------------
-		public static void Register( )
+		/**
+		 * <summary>
+		 * Rejestracja zdarzenia do rozwiązywania problemów z plikami DLL.
+		 * Może zostać wywołana kilkakrotnie...
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		public static void Register()
 		{
 			AppDomain.CurrentDomain.AssemblyResolve -= AssemblyLoader.ResolveAssembly;
 			AppDomain.CurrentDomain.AssemblyResolve += AssemblyLoader.ResolveAssembly;
 		}
 
-		///
-		/// Funkcja wczytuje odpowiednie biblioteki z folderu libraries.
-		/// Dodaje obsługę zdarzenia wykonywanego przy braku biblioteki w programie.
-		/// ------------------------------------------------------------------------------------------------------------
+		// ===== PRIVATE FUNCTIONS ==============================================================
+
+		/**
+		 * <summary>
+		 * Funkcja wczytuje odpowiednie biblioteki z folderu libraries.
+		 * Dodaje obsługę zdarzenia wykonywanego przy braku biblioteki w programie.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		private static Assembly ResolveAssembly( object sender, ResolveEventArgs ev )
 		{
 			AssemblyName name = new AssemblyName(ev.Name);
 			
+#if DEBUG
+			Program.LogMessage( "Przygotowywanie elementu: " + name.Name );
+#endif
+
 			// nie uwzględniaj bibliotek w zasobach
 			if( name.Name == "CDesigner.resources" )
 				return null;
@@ -66,7 +87,7 @@ namespace CDesigner
 					// jeżeli tak, wczytaj
 					string file = AssemblyLoader.DLL_FILE[x];
 #				if DEBUG
-					Program.LogMessage( "Ładowanie biblioteki: '" + file + "' (" + name.Name + ")..." );
+					Program.LogMessage( "Wczytywanie biblioteki: '" + file + "' (" + name.Name + ")..." );
 #				endif
 					return Assembly.LoadFrom( "./libraries/" + file );
 				}

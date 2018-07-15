@@ -1,6 +1,6 @@
 ﻿namespace CDesigner
 {
-	partial class DatabaseSettingsForm
+	partial class DatafileSettingsForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -38,7 +38,6 @@
 			this.cbEncoding = new System.Windows.Forms.ComboBox();
 			this.bSave = new System.Windows.Forms.Button();
 			this.bChangeFile = new System.Windows.Forms.Button();
-			this.lvcColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.tMainPanel.SuspendLayout();
 			this.tlStatusBar.SuspendLayout();
 			this.SuspendLayout();
@@ -60,7 +59,7 @@
 			this.tMainPanel.RowCount = 2;
 			this.tMainPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tMainPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-			this.tMainPanel.Size = new System.Drawing.Size(624, 376);
+			this.tMainPanel.Size = new System.Drawing.Size(624, 362);
 			this.tMainPanel.TabIndex = 2;
 			// 
 			// lvColumns
@@ -77,7 +76,7 @@
 			this.lvColumns.Margin = new System.Windows.Forms.Padding(3, 6, 6, 6);
 			this.lvColumns.MultiSelect = false;
 			this.lvColumns.Name = "lvColumns";
-			this.lvColumns.Size = new System.Drawing.Size(217, 333);
+			this.lvColumns.Size = new System.Drawing.Size(217, 319);
 			this.lvColumns.TabIndex = 21;
 			this.lvColumns.UseCompatibleStateImageBehavior = false;
 			this.lvColumns.View = System.Windows.Forms.View.Details;
@@ -102,7 +101,7 @@
 			this.lvRows.Margin = new System.Windows.Forms.Padding(6, 6, 3, 6);
 			this.lvRows.MultiSelect = false;
 			this.lvRows.Name = "lvRows";
-			this.lvRows.Size = new System.Drawing.Size(389, 333);
+			this.lvRows.Size = new System.Drawing.Size(389, 319);
 			this.lvRows.TabIndex = 22;
 			this.lvRows.UseCompatibleStateImageBehavior = false;
 			this.lvRows.View = System.Windows.Forms.View.Details;
@@ -117,19 +116,17 @@
 			this.tlStatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.tlStatusBar.ColumnCount = 5;
 			this.tMainPanel.SetColumnSpan(this.tlStatusBar, 5);
-			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 6F));
-			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33F));
+			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
+			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 5F));
+			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
 			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18F));
 			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18F));
-			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tlStatusBar.Controls.Add(this.tbSeparator, 0, 0);
 			this.tlStatusBar.Controls.Add(this.cbEncoding, 0, 0);
 			this.tlStatusBar.Controls.Add(this.bSave, 4, 0);
 			this.tlStatusBar.Controls.Add(this.bChangeFile, 3, 0);
 			this.tlStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlStatusBar.Location = new System.Drawing.Point(0, 345);
+			this.tlStatusBar.Location = new System.Drawing.Point(0, 331);
 			this.tlStatusBar.Margin = new System.Windows.Forms.Padding(0);
 			this.tlStatusBar.Name = "tlStatusBar";
 			this.tlStatusBar.RowCount = 1;
@@ -142,13 +139,12 @@
 			// 
 			this.tbSeparator.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tbSeparator.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.tbSeparator.Location = new System.Drawing.Point(159, 5);
+			this.tbSeparator.Location = new System.Drawing.Point(134, 5);
 			this.tbSeparator.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
 			this.tbSeparator.MaxLength = 1;
 			this.tbSeparator.Name = "tbSeparator";
-			this.tbSeparator.Size = new System.Drawing.Size(31, 20);
+			this.tbSeparator.Size = new System.Drawing.Size(25, 20);
 			this.tbSeparator.TabIndex = 19;
-			this.tbSeparator.Text = ";";
 			this.tbSeparator.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			this.tbSeparator.TextChanged += new System.EventHandler(this.tbSeparator_TextChanged);
 			// 
@@ -168,17 +164,18 @@
 			this.cbEncoding.Location = new System.Drawing.Point(6, 5);
 			this.cbEncoding.Margin = new System.Windows.Forms.Padding(6, 5, 3, 3);
 			this.cbEncoding.Name = "cbEncoding";
-			this.cbEncoding.Size = new System.Drawing.Size(147, 21);
+			this.cbEncoding.Size = new System.Drawing.Size(122, 21);
 			this.cbEncoding.TabIndex = 17;
 			this.cbEncoding.SelectedIndexChanged += new System.EventHandler(this.cbEncoding_SelectedIndexChanged);
 			// 
 			// bSave
 			// 
+			this.bSave.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.bSave.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.bSave.Location = new System.Drawing.Point(513, 4);
+			this.bSave.Location = new System.Drawing.Point(514, 4);
 			this.bSave.Margin = new System.Windows.Forms.Padding(3, 4, 6, 3);
 			this.bSave.Name = "bSave";
-			this.bSave.Size = new System.Drawing.Size(105, 24);
+			this.bSave.Size = new System.Drawing.Size(104, 24);
 			this.bSave.TabIndex = 0;
 			this.bSave.Text = "Zatwierdź";
 			this.bSave.UseVisualStyleBackColor = true;
@@ -187,26 +184,21 @@
 			// bChangeFile
 			// 
 			this.bChangeFile.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.bChangeFile.Location = new System.Drawing.Point(401, 4);
-			this.bChangeFile.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+			this.bChangeFile.Location = new System.Drawing.Point(400, 4);
+			this.bChangeFile.Margin = new System.Windows.Forms.Padding(1, 4, 3, 3);
 			this.bChangeFile.Name = "bChangeFile";
-			this.bChangeFile.Size = new System.Drawing.Size(106, 24);
+			this.bChangeFile.Size = new System.Drawing.Size(108, 24);
 			this.bChangeFile.TabIndex = 1;
 			this.bChangeFile.Text = "Zmień";
 			this.bChangeFile.UseVisualStyleBackColor = true;
 			this.bChangeFile.Click += new System.EventHandler(this.bChangeFile_Click);
-			// 
-			// lvcColumnName
-			// 
-			this.lvcColumnName.Text = "Nazwa";
-			this.lvcColumnName.Width = 104;
 			// 
 			// DatabaseSettingsForm
 			// 
 			this.AcceptButton = this.bSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(624, 376);
+			this.ClientSize = new System.Drawing.Size(624, 362);
 			this.Controls.Add(this.tMainPanel);
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(640, 65535);
@@ -223,7 +215,6 @@
 		#endregion
 
 		private System.Windows.Forms.TableLayoutPanel tMainPanel;
-		private System.Windows.Forms.ColumnHeader lvcColumnName;
 		private System.Windows.Forms.Button bSave;
 		private System.Windows.Forms.ComboBox cbEncoding;
 		private System.Windows.Forms.TextBox tbSeparator;

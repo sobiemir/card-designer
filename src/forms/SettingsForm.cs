@@ -12,12 +12,12 @@ using System.IO;
 
 namespace CDesigner
 {
-	public partial class Settings : Form
+	public partial class SettingsForm : Form
 	{
 		private TableLayoutPanel _visible_table = null;
 		private Image            _transparent   = null;
 		private Image            _no_image      = null;
-		private SettingsInfo     _settings      = null;
+		private SettingsInfo     _settings;
 
 
 
@@ -33,7 +33,7 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- Settings -------------------------------------
 		
-		public Settings()
+		public SettingsForm()
 		{
 			this.InitializeComponent();
 
@@ -88,7 +88,7 @@ namespace CDesigner
 			this._last_patterns = new List<string>( File.ReadLines( "last.lst" ) );
 		}
 
-		// ------------------------------------------------------------- AddToLastPatterns ----------------------------
+		// ------------------------------------------------------------- AddToLastCWEL(:Patterns ----------------------------
 		
 		public void AddToLastPatterns( string pattern )
 		{
@@ -130,7 +130,7 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- Settings -------------------------------------
 		
-		public Settings( int page, int subpage = -1 )
+		public SettingsForm( int page, int subpage = -1 )
 		{
 			this.InitializeComponent();
 

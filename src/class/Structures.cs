@@ -8,6 +8,174 @@ using System.Runtime.InteropServices;
 
 namespace CDesigner
 {
+	public enum FORMLIDX
+	{
+		DataFilter,
+		DatabaseSettings,
+		EditColumns,
+		EditData
+	};
+
+	public enum MSGBLIDX
+	{
+		ParseError,
+		DatabaseSelect,
+		AddColumn,
+		FileLoading,
+
+		FatalErrorTitle = 0,
+		CDesignerIsRunning,
+		CDRestoreIsRunning
+	};
+
+	public enum DATATYPE
+	{
+		String,
+		Integer,
+		Double,
+		Character,
+		Date
+	};
+
+	public enum BMPSRC
+	{
+		CDesigner16,
+		CDesigner32,
+		CDesigner48,
+		CDesigner64,
+		CDesigner96,
+		CDesigner128,
+		CDesigner256,
+		CDesigner512,
+		CDRestore16,
+		CDRestore32,
+		CDRestore48,
+		CDRestore64,
+		CDRestore96,
+		CDRestore128,
+		CDRestore256,
+		CDRestore512,
+		
+
+		ItemAdd,
+		ItemRemove,
+		Refresh,
+		FirstPage,
+		PrevPage,
+		NextPage,
+		LastPage
+	};
+
+	public enum FILTERTYPE
+	{
+		Format     = 0x1,
+		UpperCase  = 0x2,
+		LowerCase  = 0x3,
+		TitleCase  = 0x4,
+		NotEqual   = 0x5,
+		Equal      = 0x6
+	};
+
+	public struct SettingMemberData
+	{
+		public SettingMemberData( string name, byte type, object defval )
+		{
+			this.Name         = name;
+			this.Type         = type;
+			this.DefaultValue = defval;
+		}
+
+		public string Name;
+		public byte   Type;
+		public object DefaultValue;
+	}
+	
+	public struct SettingsInfo
+	{
+		public static readonly SettingMemberData[] MemberData = {
+			new SettingMemberData( "Language",       1, (object)        "pl" ),
+			new SettingMemberData( "DSF_RowsNumber", 4, (object)(Int32) 17   ),
+			new SettingMemberData( "DR_Separator",   2, (object)        ';'  ),
+			new SettingMemberData( "DR_Encoding",    3, (object)(Byte)  0    ),
+			new SettingMemberData( "DR_AutoCheck",   3, (object)(Byte)  1    ),
+			new SettingMemberData( "FC_RowsNumber",  4, (object)(Int32) 10   ),
+			new SettingMemberData( "FC_Separator",   1, (object)        " "  ),
+			new SettingMemberData( "EDF_RowsNumber", 4, (object)(Int32) 50   )
+		};
+
+		public SettingsInfo( bool set_default ) : this()
+		{
+			if( set_default )
+			{
+				this.Language       = (String)SettingsInfo.MemberData[0].DefaultValue;
+				this.DSF_RowsNumber = (Int32 )SettingsInfo.MemberData[1].DefaultValue;
+				this.DR_Separator   = (Char  )SettingsInfo.MemberData[2].DefaultValue;
+				this.DR_Encoding    = (Byte  )SettingsInfo.MemberData[3].DefaultValue;
+				this.DR_AutoCheck   = (Byte  )SettingsInfo.MemberData[4].DefaultValue;
+				this.FC_RowsNumber  = (Int32 )SettingsInfo.MemberData[5].DefaultValue;
+				this.FC_Separator   = (String)SettingsInfo.MemberData[6].DefaultValue;
+				this.EDF_RowsNumber = (Int32 )SettingsInfo.MemberData[7].DefaultValue;
+			}
+		}
+
+		public String Language;
+
+		// DatabaseSettingsForm
+		public Int32 DSF_RowsNumber;
+		
+		// DataReader
+		public Char DR_Separator;
+		public Byte DR_Encoding;
+		public Byte DR_AutoCheck;
+
+		// FilterCreator
+		public Int32  FC_RowsNumber;
+		public String FC_Separator;
+
+		// EditDataForm
+		public Int32 EDF_RowsNumber;
+
+
+
+
+
+
+
+
+		public int    g_def_scale;
+		public Color  g_back_color;
+		public int    g_padding;
+		public int    g_page_float;
+		public bool   g_ask_before_close;
+		public bool   g_save_sliders;
+		public bool   g_shortcuts_on;
+		public bool   g_show_status;
+		public double g_pixels_per_dpi;
+
+		// rozdzielczości
+		public int       r_min_res;
+		public int       r_max_res;
+		public List<int> r_list;
+		public bool      r_custom_res;
+
+	}
+
+	// zmienić na STRUCT?
+	public class FilterInfo
+	{
+		public int    Column;
+		public int    Filter;
+		public string Modifier;
+		public string Result;
+		public bool   Exclude;
+		public int    Index;
+		public int    Parent;
+		public int    Level;
+		public int    RealIndex;
+	}
+
+
+
 	public struct WinAPIConst
 	{
 		public const int WS_EX_CLIENTEDGE  = 0x00000200;
@@ -72,6 +240,8 @@ namespace CDesigner
 		public bool first;
 		public GroupComboBoxItem parent;
 		public List<GroupComboBoxItem> child;
+		public int index;
+		public object tag;
 	}
 
 	public class FilterData
@@ -81,7 +251,10 @@ namespace CDesigner
 		public string modifier;
 		public string result;
 		public bool exclude;
-		public bool leave;
+		public int index;
+		public int parent;
+		public int level;
+		public int real_index;
 	}
 
 
@@ -153,25 +326,6 @@ namespace CDesigner
 		public string[,] row;
 	}
 	
-	public class SettingsInfo
-	{
-		// ustawienia ogólne
-		public int    g_def_scale;
-		public Color  g_back_color;
-		public int    g_padding;
-		public int    g_page_float;
-		public bool   g_ask_before_close;
-		public bool   g_save_sliders;
-		public bool   g_shortcuts_on;
-		public bool   g_show_status;
-		public double g_pixels_per_dpi;
-
-		// rozdzielczości
-		public int       r_min_res;
-		public int       r_max_res;
-		public List<int> r_list;
-		public bool      r_custom_res;
-	}
 
 
 	///

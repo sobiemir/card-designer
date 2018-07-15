@@ -633,34 +633,36 @@
 			// gmtLoadDatabase
 			// 
 			this.gmtLoadDatabase.Name = "gmtLoadDatabase";
-			this.gmtLoadDatabase.Size = new System.Drawing.Size(193, 22);
-			this.gmtLoadDatabase.Text = "Wczytaj bazę danych...";
+			this.gmtLoadDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+			this.gmtLoadDatabase.Size = new System.Drawing.Size(239, 22);
+			this.gmtLoadDatabase.Text = "Wczytaj plik z danymi...";
 			this.gmtLoadDatabase.Click += new System.EventHandler(this.gmtLoadDatabase_Click);
 			// 
 			// gmSeparator3
 			// 
 			this.gmSeparator3.Name = "gmSeparator3";
-			this.gmSeparator3.Size = new System.Drawing.Size(190, 6);
+			this.gmSeparator3.Size = new System.Drawing.Size(236, 6);
 			// 
 			// gmtColumnsEditor
 			// 
 			this.gmtColumnsEditor.Enabled = false;
 			this.gmtColumnsEditor.Name = "gmtColumnsEditor";
-			this.gmtColumnsEditor.Size = new System.Drawing.Size(193, 22);
+			this.gmtColumnsEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Z)));
+			this.gmtColumnsEditor.Size = new System.Drawing.Size(239, 22);
 			this.gmtColumnsEditor.Text = "Zarządzaj kolumnami";
 			this.gmtColumnsEditor.Click += new System.EventHandler(this.gmtJoinColumns_Click);
 			// 
 			// gmtCreateDB
 			// 
 			this.gmtCreateDB.Name = "gmtCreateDB";
-			this.gmtCreateDB.Size = new System.Drawing.Size(193, 22);
+			this.gmtCreateDB.Size = new System.Drawing.Size(239, 22);
 			this.gmtCreateDB.Text = "Utwórz bazę danych";
 			this.gmtCreateDB.Visible = false;
 			// 
 			// gmtConnectDB
 			// 
 			this.gmtConnectDB.Name = "gmtConnectDB";
-			this.gmtConnectDB.Size = new System.Drawing.Size(193, 22);
+			this.gmtConnectDB.Size = new System.Drawing.Size(239, 22);
 			this.gmtConnectDB.Text = "Połącz z bazą danych";
 			this.gmtConnectDB.Visible = false;
 			this.gmtConnectDB.Click += new System.EventHandler(this.gmtConnectDB_Click);
@@ -668,7 +670,7 @@
 			// gmtBackup
 			// 
 			this.gmtBackup.Name = "gmtBackup";
-			this.gmtBackup.Size = new System.Drawing.Size(193, 22);
+			this.gmtBackup.Size = new System.Drawing.Size(239, 22);
 			this.gmtBackup.Text = "Kopia zapasowa";
 			this.gmtBackup.Visible = false;
 			// 
@@ -2302,6 +2304,7 @@
 			this.tlMain.Controls.Add(this.tlMainStatusBar, 0, 1);
 			this.tlMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tlMain.Location = new System.Drawing.Point(0, 31);
+			this.tlMain.Margin = new System.Windows.Forms.Padding(0);
 			this.tlMain.Name = "tlMain";
 			this.tlMain.RowCount = 2;
 			this.tlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));

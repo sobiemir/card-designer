@@ -9,78 +9,112 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Collections;
 using System.IO;
+using System.Runtime.InteropServices;
 
 /* 
  * TODO:
- * [1] Naprawić opóźnione tworzenie kontrolek...
+ * [1] Filtrowanie - większy bądź równy, mniejszy bądź równy...
+ * [1] Przy ustawieniu kolumny bez dzieci i dodaniu dzieci ustawić tylko filtr format.
  * [2] Przy dodawaniu nowej kontrolki checkbox dziedziczy stan z głównego (cbSelectAll).
  * [2] Po usunięciu elementów z nowych kolumn stara kolumna ma zmieniać nazwę na Kolumny, a nowa ma być usuwana.
  * [3] Po usunięciu wszystkich, główny checkbox ma zmienić wartość oraz reagować na nowo dodany rekord.
  * [3] Po usunięciu elementu/ów przycisk usuń staje się nieaktywny...
+ * [3] Ustawienia, zobacz TODO w kodzie...
  */
 
 namespace CDesigner
 {
 	public partial class DataFilterForm : Form
 	{
+		// ===== PRIVATE VARIABLES =====
+
+		/// <summary>Synchronizacja wszystkich kontrolek GroupComboBox w liście.</summary>
 		private GroupComboBoxSync _sync = null;
+		
+		/// <summary>Uchwyt do elementu Stare kolumny w liście.</summary>
 		private GroupComboBoxItem _newcol = null;
+
+		/// <summary>Uchwyt do elementu Nowe kolumny w liście.</summary>
 		private GroupComboBoxItem _oldcol = null;
+
+		/// <summary>Lista zapisanych filtrów dla danych.</summary>
 		private List<FilterData> _filters = null;
+
+		/// <summary>Lista starych filtrów (aktualizowana po akceptacji filtrów).</summary>
+		private List<FilterData> _old_filters = null;
+
+		/// <summary>Blokada przetwarzania danych.</summary>
 		private bool _locked = false;
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		// ===== PUBLIC VARIABLES =====
+
+		/// <summary>Pobranie listy zapisanych filtrów.</summary>
 		public List<FilterData> FilterData
 		{
-			get { return this._filters; }
+			get { return this._old_filters; }
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		public DataFilterForm( DataFilter filter )
-		{
-			this.InitializeComponent( );
+		// ===== PUBLIC FUNCTIONS =====
 
-			this._sync = new GroupComboBoxSync( );
+		/**
+		 * <summary>
+		 * Konstruktor klasy DataFilterForm.
+		 * Po zatwierdzeniu filtra dane w klasie FilterCreator są zmieniane!
+		 * </summary>
+		 * 
+		 * <param name="filter">Klasa do zatwierdzania filtrów.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		public DataFilterForm( FilterCreator filter )
+		{
+			// pobierz nazwę z pliku językowego
+			string colname = Language.GetLine( "DataFilter", "GroupComboBox", 0 );
+
+			this.InitializeComponent();
+
+			this._sync = new GroupComboBoxSync();
 			
-			this._oldcol = this._sync.Add( "Kolumny", true );
+			// dodaj element do panelu wyboru
+			this._oldcol = this._sync.Add( colname, true );
 			this._newcol = null;
 
 			// dodaj kolumny do listy
 			foreach( string column in filter.Columns )
 				this._sync.Add( column, false, this._oldcol );
 
-			this._filters = new List<FilterData>( );
+			this._filters     = new List<FilterData>();
+			this._old_filters = new List<FilterData>();
+
+			// pobierz tłumaczenia dla odpowiednich sekcji
+			List<string> headers = Language.GetLines( "DataFilter", "Headers" );
+			List<string> buttons = Language.GetLines( "DataFilter", "Buttons" );
+
+			// przetłumacz przyciski
+			this.bAddFilter.Text = buttons[0];
+			this.bDelete.Text    = buttons[1];
+			this.bRestore.Text   = buttons[2];
+			this.bAccept.Text    = buttons[3];
+
+			// przetłumacz nazwy nagłówków kolumn
+			this.lColumn.Text     = headers[0];
+			this.lFilterType.Text = headers[1];
+			this.lModifier.Text   = headers[2];
+			this.lResult.Text     = headers[3];
+			this.lExclude.Text    = headers[4];
+
+			// przetłumacz nazwę formularza
+			this.Text = Language.GetLine( "FormNames", (int)FORMLIDX.DataFilter );
+
+			// ustaw ikonę programu
+			this.Icon = Program.GetIcon();
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		public int GetRealIndex( int index, bool old = false )
-		{
-			if( old )
-			{
-				if( index >= this._oldcol.child.Count )
-					return -1;
-
-				index = this._sync.FindItemIndex( this._oldcol.child[index] );
-			}
-			else
-			{
-				if( this._newcol == null )
-					return -1;
-
-				if( index >= this._newcol.child.Count )
-					return -1;
-
-				index = this._sync.FindItemIndex( this._newcol.child[index] );
-			}
-
-			return index;
-		}
-
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Pobieranie elemntu z określonej pozycji.
+		 * </summary>
+		 * 
+		 * <param name="index">Indeks elementu do pobrania.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public GroupComboBoxItem GetItemAt( int index )
 		{
 			if( this._sync.Count <= index )
@@ -89,182 +123,281 @@ namespace CDesigner
 			return this._sync[index];
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		private void bAddFilter_Click( object sender, EventArgs ev )
-		{
-			int row = this.tlFilters.RowCount - 1;
-
-			this.tlFilters.RowCount++;
-
-			// dodaj nowy styl
-			if( this.tlFilters.RowCount == 2 )
-				this.tlFilters.RowStyles[0] = new RowStyle( SizeType.Absolute, 28 );
-			this.tlFilters.RowStyles.Add( new RowStyle(SizeType.Absolute, 28) );
-
-			// zaznaczenie do usunięcia
-			CheckBox check = new CheckBox( );
-			check.Dock = DockStyle.Fill;
-			check.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-
-			// wybór kolumny
-			GroupComboBox column = new GroupComboBox( );
-			column.Dock = DockStyle.Fill;
-
-			// dodaj kontrolkę do synchronizacji
-			this._sync.AddCombo( column );
-			column.CalculateDropDownWidth( );
-
-			// filtr
-			ComboBox filter = new ComboBox( );
-			filter.DropDownStyle = ComboBoxStyle.DropDownList;
-			filter.Dock = DockStyle.Fill;
-			filter.Enabled = false;
-
-			// modyfikator
-			TextBox modifier = new TextBox( );
-			modifier.Dock = DockStyle.Fill;
-			modifier.AutoCompleteMode = AutoCompleteMode.None;
-			modifier.Enabled = false;
-			modifier.Margin = new Padding( 3, 4, 3, 3 );
-
-			// rezultat
-			TextBox result = new TextBox( );
-			result.Dock = DockStyle.Fill;
-			result.AutoCompleteMode = AutoCompleteMode.None;
-			result.Enabled = false;
-			result.Margin = new Padding( 3, 4, 3, 3 );
-
-			// wyłączenie z widoku
-			CheckBox exclude = new CheckBox( );
-			exclude.Dock = DockStyle.Fill;
-			exclude.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			exclude.Enabled = false;
-
-			// pozostawienie na widoku
-			CheckBox leave = new CheckBox( );
-			leave.Dock = DockStyle.Fill;
-			leave.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			leave.Enabled = false;
-
-			// zdarzenia
-			check.CheckedChanged += new EventHandler( this.cbCheck_CheckedChanged );
-			column.SelectedIndexChanged += new EventHandler( this.cbColumn_SelectedIndexChanged );
-			filter.SelectedIndexChanged += new EventHandler( this.cbFilter_SelectedIndexChanged );
-			modifier.KeyUp += new KeyEventHandler( tbModifier_KeyUp );
-			result.KeyUp += new KeyEventHandler( tbModifier_KeyUp );
-			exclude.CheckedChanged += new EventHandler( this.cbInclExcl_CheckedChanged );
-			leave.CheckedChanged += new EventHandler( this.cbInclExcl_CheckedChanged );
-
-			// uchwyty do kontrolek
-			object[] tag = new object[8] { row, check, column, filter, modifier, result, exclude, leave };
-			check.Tag = column.Tag = filter.Tag = modifier.Tag = result.Tag = exclude.Tag = leave.Tag = tag;
-			
-			// dodaj uchwyty do każdej dodanej kontrolki
-			this.tlFilters.Controls.Add( check, 0, row );
-			this.tlFilters.Controls.Add( column, 1, row );
-			this.tlFilters.Controls.Add( filter, 2, row );
-			this.tlFilters.Controls.Add( modifier, 3, row );
-			this.tlFilters.Controls.Add( result, 4, row );
-			this.tlFilters.Controls.Add( exclude, 5, row );
-			this.tlFilters.Controls.Add( leave, 6, row );
-
-			// dodaj nowy filtr
-			FilterData data = new FilterData( );
-
-			data.column   = -1;
-			data.exclude  = false;
-			data.filter   = -1;
-			data.leave    = false;
-			data.modifier = "";
-			data.result   = "";
-			
-			this._filters.Add( data );
-		}
-
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Dodawanie nowej kolumny do listy w polu rozwijanym.
+		 * </summary>
+		 * 
+		 * <param name="name">Nazwa dodawanej kolumny.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public void AddColumn( string name )
 		{
-			// zmień nazwę Kolumny na Stare kolumny i dodaj element Nowe kolumny
+			// załóż blokadę (nie zmienia filtrów)
+			this._locked = true;
+			
+			// zmień nazwę "Kolumny" na "Stare kolumny" i dodaj element "Nowe kolumny"
 			if( this._newcol == null )
 			{
+				List<string> colnames = Language.GetLines( "DataFilter", "GroupComboBox" );
+
 				this._oldcol.first = false;
 				this._oldcol.last  = true;
-				this._oldcol.text  = "Stare kolumny";
+				this._oldcol.text  = colnames[1];
 
-				this._newcol = this._sync.Insert( 0, "Nowe kolumny", true );
+				// dodaj kolumnę "Nowe kolumny"
+				this._newcol = this._sync.Insert( 0, colnames[2], true );
+
+				// zwiększ numery indeksów w filtrach
+				foreach( FilterData filter in this._old_filters )
+					filter.column++;
 				
 				this._newcol.first = true;
 				this._newcol.last  = false;
+
+				Program.LogMessage( "Dodano nową pozycję: 'Nowe kolumny'." );
 			}
 
 			// dodaj kolumnę do listy
-			this._sync.Add( name, false, this._newcol );
+			GroupComboBoxItem item = this._sync.Add( name, false, this._newcol );
+			int index = this._sync.FindItemIndex( item );
+
+			this._locked = false;
+
+			// zwiększ numer indeksu gdy ten jest większy od indeksu wstawianego elementu
+			foreach( FilterData filter in this._old_filters )
+				if( filter.column >= index )
+					filter.column++;
 
 			// przelicz szerokość listy rozwijanej
 			this._sync.CalculateDropDownWidth( );
+
+			Program.LogMessage( "Kolumna '" + name + "' została dodana do listy rozwiajnej." );
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		public void AddSubColumn( int index, string name )
+		/**
+		 * <summary>
+		 * Przypisywanie kolumny do rodzica w liście dla pola rozwijanego.
+		 * </summary>
+		 * 
+		 * <param name="index">Indeks kolumny nadrzędnej.</param>
+		 * <param name="name">Nazwa dodawanego elementu.</param>
+		 * <param name="old_index">Stary indeks kolumny.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		public void AddSubColumn( int index, string name, int old_index )
 		{
 			int repeat = 0;
 
+			// załóż blokadę (nie zmienia filtrów)
+			this._locked = true;
+
 			for( int x = 0; x < this._sync.Count; ++x )
 			{
+				// dodawaj tylko do "nowych kolumn"
 				if( this._sync[x].parent == this._newcol )
 				{
+					// wyszukaj pozycję kolumny nadrzędnej
 					if( repeat == index )
 					{
-						this._sync.Add( name, false, this._sync[x] );
+						GroupComboBoxItem item = this._sync.Add( name, false, this._sync[x], (object)old_index );
+						int nindex = this._sync.FindItemIndex( item );
+
+						// zwiększ numer indeksu gdy ten jest większy od indeksu wstawianego elementu
+						foreach( FilterData filter in this._old_filters )
+							if( filter.column >= nindex )
+								filter.column++;
+
+						Program.LogMessage( "Dodano nową kolumnę o nazwie '" + name + " do rodzica '"
+							+ this._sync[x].text + "'." );
 						break;
 					}
 					repeat++;
 				}
 			}
+
+			this._locked = false;
+
 			// przelicz szerokość listy rozwijanej
 			this._sync.CalculateDropDownWidth( );
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Usuwanie dzieci z wybranej kolumny (czyszczenie zawartości).
+		 * Dodatkowo usuwa przypisane do dzieci filtry.
+		 * </summary>
+		 * 
+		 * <param name="index">Indeks kolumny do czyszczenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public void ClearSubColumns( int index )
 		{
 			if( index >= this._newcol.child.Count )
 				return;
+			
+			GroupComboBoxItem item = this._newcol.child[index];
 
-			this._sync.RemoveChildrens( this._newcol.child[index] );
+			// sprawdź czy element ma dzieci
+			if( item.child != null )
+			{
+				for( int x = 0; x < item.child.Count; ++x )
+				{
+					int iidx = this._sync.FindItemIndex( item.child[x] );
 
-			GC.Collect( );
+					// usuń kontrolki z zaznaczoną kolumną
+					for( int y = 0, ci = this.flFilters.Controls.Count; y < ci; ++y )
+					{
+						DataFilterRow row = (DataFilterRow)this.flFilters.Controls[y];
+						
+						if( row.cbColumn.SelectedIndex == iidx )
+						{
+							this._sync.RemoveCombo( row.cbColumn );
+							row.Controls.Clear();
+							this.flFilters.Controls.RemoveAt( y );
+
+							// zmień indeksy elementów
+							for( int z = y; z < this.flFilters.Controls.Count; ++z )
+								((DataFilterRow)this.flFilters.Controls[z]).RowIndex--;
+
+							--ci;
+							--y;
+						}
+					}
+
+					// usuń filtry które operują na usuwanej kolumnie
+					this._filters.RemoveAll( c => c.column == iidx );
+					this._old_filters.RemoveAll( c => c.column == iidx );
+				}
+			}
+
+			// usuń dzieci
+			this._sync.RemoveChildrens( item );
+
+			GC.Collect();
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Usuwanie wybranej kolumny i przypisanych do niej filtrów.
+		 * Usuwa również dzieci i przypisane do nich filtry.
+		 * </summary>
+		 * 
+		 * <param name="index">Indeks kolumny do usunięcia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public void RemoveColumn( int index )
 		{
 			if( index >= this._newcol.child.Count )
 				return;
 
-			this._sync.RemoveChildrens( this._newcol.child[index] );
+			// usuń dzieci
+			this.ClearSubColumns( index );
+
+			int iidx = this._sync.FindItemIndex( this._newcol.child[index] );
+
+			// usuń kontrolki z zaznaczoną kolumną
+			for( int x = 0, ci = this.flFilters.Controls.Count; x < ci; ++x )
+			{
+				DataFilterRow row = (DataFilterRow)this.flFilters.Controls[x];
+						
+				if( row.cbColumn.SelectedIndex == iidx )
+				{
+					this._sync.RemoveCombo( row.cbColumn );
+					row.Controls.Clear();
+					this.flFilters.Controls.RemoveAt( x );
+
+					// zmień indeksy elementów
+					for( int z = x; z < this.flFilters.Controls.Count; ++z )
+						((DataFilterRow)this.flFilters.Controls[z]).RowIndex--;
+					
+					--ci;
+					--x;
+				}
+			}
+					
+			// usuń filtry które operują na usuwanej kolumnie
+			this._filters.RemoveAll( c => c.column == iidx );
+			this._old_filters.RemoveAll( c => c.column == iidx );
+
+			// usuń rodzica
 			this._sync.Remove( this._newcol.child[index] );
 
-			GC.Collect( );
+			GC.Collect();
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		private void cbCheck_CheckedChanged( object sender, EventArgs ev )
+		// ===== PRIVATE FUNCTIONS =====
+
+		/**
+		 * <summary>
+		 * Dodawanie nowego filtra do listy.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		private void bAddFilter_Click( object sender, EventArgs ev )
+		{
+			DataFilterRow row = new DataFilterRow( this._sync );
+			
+			// wykryj szerokość elementów
+			if( (this.flFilters.Controls.Count + 1) * 28 > this.flFilters.Height )
+			{
+				int width = this.flFilters.Width - SystemInformation.VerticalScrollBarWidth;
+
+				for( int x = 0; x < this.flFilters.Controls.Count; ++x )
+					this.flFilters.Controls[x].Width = width;
+
+				row.Width = width;
+			}
+			else
+				row.Width = this.flFilters.Width;
+
+			// zdarzenia
+			row.cbSelect.CheckedChanged       += new EventHandler( this.cbSelect_CheckedChanged );
+			row.cbColumn.SelectedIndexChanged += new EventHandler( this.cbColumn_SelectedIndexChanged );
+			row.cbFilter.SelectedIndexChanged += new EventHandler( this.cbFilter_SelectedIndexChanged );
+			row.tbModifier.LostFocus          += new EventHandler( this.tbModRes_LostFocus );
+			row.tbResult.LostFocus            += new EventHandler( this.tbModRes_LostFocus );
+			row.cbExclude.CheckedChanged      += new EventHandler( this.cbExclude_CheckedChanged );
+
+			// indeks wiersza
+			row.RowIndex = this.flFilters.Controls.Count;
+
+			// dodaj wiersz
+			this.flFilters.Controls.Add( row );
+
+			// dodaj nowy filtr
+			FilterData data = new FilterData();
+
+			data.column   = -1;
+			data.exclude  = false;
+			data.filter   = -1;
+			data.modifier = "";
+			data.result   = "";
+			data.index    = -1;
+			data.parent   = -1;
+			data.level    = -1;
+		
+			this._filters.Add( data );
+
+			Program.LogMessage( "Dodano nowy filtr o id " + (this.flFilters.Controls.Count - 1) + "." );
+		}
+
+		/**
+		 * <summary>
+		 * Zmiana zaznaczenia wybranego wiersza.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		private void cbSelect_CheckedChanged( object sender, EventArgs ev )
 		{
 			if( this._locked )
 				return;
-
+			
 			int counter = 0;
 
 			// sprawdź które rekordy są zaznaczone
-			for( int x = 0; x < this.tlFilters.RowCount-1; ++x )
-				if( ((CheckBox)this.tlFilters.GetControlFromPosition(0, x)).CheckState == CheckState.Checked )
+			for( int x = 0; x < this.flFilters.Controls.Count; ++x )
+				if( ((DataFilterRow)this.flFilters.Controls[x]).cbSelect.CheckState == CheckState.Checked )
 					counter++;
 
 			this._locked = true;
@@ -272,7 +405,7 @@ namespace CDesigner
 			// dobierz odpowiedni stan kontrolki na samej górze (która zaznacza wszystko)
 			if( counter == 0 )
 				this.cbSelectAll.CheckState = CheckState.Unchecked;
-			else if( counter == this.tlFilters.RowCount-1 )
+			else if( counter == this.flFilters.Controls.Count )
 				this.cbSelectAll.CheckState = CheckState.Checked;
 			else
 				this.cbSelectAll.CheckState = CheckState.Indeterminate;
@@ -280,154 +413,252 @@ namespace CDesigner
 			this._locked = false;
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		void cbColumn_SelectedIndexChanged( object sender, EventArgs ev )
+		/**
+		 * <summary>
+		 * Zmiana kolumny wewnątrz pola wyboru.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		private void cbColumn_SelectedIndexChanged( object sender, EventArgs ev )
 		{
-			GroupComboBox     combo = (GroupComboBox)sender;
-			GroupComboBoxItem item  = combo.Items[combo.SelectedIndex];
+			GroupComboBox combo = (GroupComboBox)sender;
+			DataFilterRow row   = (DataFilterRow)combo.Tag;
+			FilterData    data  = null;
 
-			object[] tag  = (object[])combo.Tag;
-			ComboBox cbox = (ComboBox)tag[3];
+			// zapisz numer kolumny
+			data = this._filters[row.RowIndex];
+			data.column = combo.SelectedIndex;
 
-			if( item.parent == null && item.child.Count > 0 )
+			// blokada przed dalszym przetwarzaniem
+			if( this._locked )
+				return;
+
+			List<string>      fnames = Language.GetLines( "DataFilter", "ComboBox" );
+			GroupComboBoxItem item   = combo.Items[combo.SelectedIndex];
+
+			// tylko format dla elementów które posiadają dzieci
+			if( item.child.Count > 0 )
 			{
-				if( cbox.Items.Count == 1 )
-					return;
-
-				cbox.Items.Clear( );
-				cbox.Items.Add( "Format" );
-				cbox.SelectedIndex = 0;
+				row.cbFilter.Items.Clear();
+				row.cbFilter.Items.Add( fnames[0] );
+				row.cbFilter.SelectedIndex = 0;
 			}
+			// dla dzieci pokaż pełne możliwości formatowania
 			else
 			{
-				if( cbox.Items.Count == 6 )
-					return;
-
-				cbox.Items.Clear( );
-				cbox.Items.Add( "Duże litery" );
-				cbox.Items.Add( "Małe litery" );
-				cbox.Items.Add( "Nazwa własna" );
-				cbox.Items.Add( "Różny [<>]" );
-				cbox.Items.Add( "Równy [==]" );
-				cbox.Items.Add( "Format" );
-				cbox.SelectedIndex = 0;
+				row.cbFilter.Items.Clear();
+				row.cbFilter.Items.Add( fnames[1] );
+				row.cbFilter.Items.Add( fnames[2] );
+				row.cbFilter.Items.Add( fnames[3] );
+				row.cbFilter.Items.Add( fnames[4] );
+				row.cbFilter.Items.Add( fnames[5] );
+				row.cbFilter.SelectedIndex = 0;
 			}
 
-			cbox.Enabled = true;
+			// włącz kontrolkę
+			row.cbFilter.Enabled = true;
 
-			int row = (int)tag[0];
+			// zapisz informacje o filtrach
+			data.index  = combo.Items[combo.SelectedIndex].index;
+			data.parent = combo.Items[combo.SelectedIndex].parent.index;
+			data.level  = combo.Items[combo.SelectedIndex].indent;
+			data.filter = row.cbFilter.Items.Count == 1
+				? (int)FILTERTYPE.Format
+				: (int)FILTERTYPE.UpperCase;
 
-			this._filters[row].column = combo.SelectedIndex;
-			this._filters[row].filter = cbox.Items.Count == 1 ? 5 : 0;
-		}
-
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		void cbFilter_SelectedIndexChanged( object sender, EventArgs ev )
-		{
-			ComboBox cbox = (ComboBox)sender;
-			object[] tag = (object[])cbox.Tag;
-
-			for( int x = 4; x < 8; ++x )
-				((Control)tag[x]).Enabled = false;
-
-			if( cbox.Items.Count == 1 )
-				((Control)tag[5]).Enabled = true;
+			// realny indeks (ten przed ułożeniem)
+			if( combo.Items[combo.SelectedIndex].tag == null )
+				data.real_index = -1;
 			else
-			{
-				switch( cbox.SelectedIndex )
-				{
-				case 0: case 1: case 2:
-				break;
-				case 3: case 4:
-					for( int x = 4; x < 8; ++x )
-						((Control)tag[x]).Enabled = true;
-				break;
-				case 5:
-					((TextBox)tag[5]).Enabled = true;
-					((TextBox)tag[5]).Text = "##";
-				break;
-				}
-			}
-
-			this._filters[(int)tag[0]].filter = cbox.Items.Count == 1 ? 5 : cbox.SelectedIndex;
+				data.real_index = (int)combo.Items[combo.SelectedIndex].tag;
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		void tbModifier_KeyUp( object sender, KeyEventArgs ev )
-		{
-			TextBox  tbox = (TextBox)sender;
-			object[] tag  = (object[])tbox.Tag;
-
-			if( tbox == tag[4] )
-				this._filters[(int)tag[0]].modifier = tbox.Text;
-			else
-				this._filters[(int)tag[0]].result = tbox.Text;
-		}
-
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		void cbInclExcl_CheckedChanged( object sender, EventArgs ev )
+		/**
+		 * <summary>
+		 * Zmiana filtra wewnątrz pola wyboru.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		private void cbFilter_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			if( this._locked )
 				return;
 
-			CheckBox chkbx = (CheckBox)sender;
-			object[] tag = (object[])chkbx.Tag;
+			ComboBox      cbox = (ComboBox)sender;
+			DataFilterRow row  = (DataFilterRow)cbox.Tag;
 
-			this._locked = true;
+			// wyłącz kontrolki
+			row.tbModifier.Enabled = false;
+			row.tbResult.Enabled   = false;
+			row.cbExclude.Enabled  = false;
 
-			// zablokuj pole wynikowe
-			if( chkbx.Checked )
-				((Control)tag[5]).Enabled = false;
+			// dostępny tylko format
+			if( cbox.Items.Count == 1 )
+			{
+				// pobierz zaznaczony element
+				GroupComboBoxItem item = row.cbColumn.Items[row.cbColumn.SelectedIndex];
+
+				// włącz tylko możliwość modyfikacji formatu
+				row.tbResult.Enabled = true;
+				row.tbResult.Text    = "";
+
+				// przykładowe formatowanie: #1 #2 #3
+				for( int x = 1; x <= item.child.Count; ++x )
+					row.tbResult.Text += x == 1
+						? "#" + x
+						: FilterCreator.DefaultFormat + "#" + x;
+
+				// zapisz rezultat do filtra
+				this.tbModRes_LostFocus( row.tbResult, null );
+			}
 			else
-				((Control)tag[5]).Enabled = true;
+				switch( cbox.SelectedIndex + (int)FILTERTYPE.UpperCase )
+				{
+				// modyfikacje tekstu
+				case (int)FILTERTYPE.UpperCase:
+				case (int)FILTERTYPE.LowerCase:
+				case (int)FILTERTYPE.TitleCase:
+					row.cbExclude.Checked = false;
+				break;
+				// nie równe
+				case (int)FILTERTYPE.NotEqual:
+				// równe
+				case (int)FILTERTYPE.Equal:
+					row.tbModifier.Enabled = true;
+					row.cbExclude.Enabled  = true;
 
-			// odznacz drugą kontrolkę
-			if( chkbx == tag[6] )
-				((CheckBox)tag[7]).Checked = false;
+					// włącz modyfikacje wyniku gdy checkbox nie jest zaznaczony
+					if( row.cbExclude.Checked == false )
+						row.tbResult.Enabled = true;
+				break;
+				}
+
+			// zmień filtr na liście
+			this._filters[row.RowIndex].filter = cbox.Items.Count == 1
+				? (int)FILTERTYPE.Format
+				: (int)FILTERTYPE.UpperCase + cbox.SelectedIndex;
+		}
+
+		/**
+		 * <summary>
+		 * Zmiana filtra wewnątrz pola wyboru.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		private void tbModRes_LostFocus( object sender, EventArgs ev )
+		{
+			TextBox       tbox = (TextBox)sender;
+			DataFilterRow row  = (DataFilterRow)tbox.Tag;
+
+			if( tbox == row.tbModifier )
+				this._filters[row.RowIndex].modifier = tbox.Text;
 			else
-				((CheckBox)tag[6]).Checked = false;
+				this._filters[row.RowIndex].result = tbox.Text;
+		}
 
-			this._filters[(int)tag[0]].leave   = ((CheckBox)tag[6]).Checked;
-			this._filters[(int)tag[0]].exclude = ((CheckBox)tag[7]).Checked;
+		/**
+		 * <summary>
+		 * Zmiana zaznaczenia wyłączenia wierszy spełniających kryteria filtrowania.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		private void cbExclude_CheckedChanged( object sender, EventArgs ev )
+		{
+			if( this._locked )
+				return;
+
+			CheckBox      chkbx = (CheckBox)sender;
+			DataFilterRow row   = (DataFilterRow)chkbx.Tag;
+
+			// zaznacz lub odznacz pole rezultatu w zależności od zaznaczenia
+			// rezultat nie jest potrzebny gdy chcemy wyłączyć elementy z bazy danych
+			row.tbResult.Enabled = (chkbx.Checked == false);
+			
+			// uzupełnij informacje w filtrach
+			this._filters[row.RowIndex].exclude = chkbx.Checked;
 
 			this._locked = false;
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Zmiana zaznaczenia wyłączenia wierszy spełniających kryteria filtrowania.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		private void cbSelectAll_CheckedChanged( object sender, EventArgs ev )
 		{
 			CheckState state = this.cbSelectAll.CheckState;
 
-			if( state == CheckState.Checked || state == CheckState.Indeterminate )
-				this.bDelete.Enabled = true;
-			else
-				this.bDelete.Enabled = false;
+			this.bDelete.Enabled = (state == CheckState.Checked || state == CheckState.Indeterminate);
 
 			if( this._locked )
 				return;
 
 			// zamień status pozostałych kontrolek (zaznaczone lub nie)
 			this._locked = true;
-			for( int x = 0; x < this.tlFilters.RowCount-1; ++x )
-				((CheckBox)this.tlFilters.GetControlFromPosition(0, x)).CheckState = state;
+			for( int x = 0; x < this.flFilters.Controls.Count; ++x )
+				((DataFilterRow)this.flFilters.Controls[x]).cbSelect.CheckState = state;
 			this._locked = false;
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Akceptacja wybranych filtrów.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		private void bAccept_Click( object sender, EventArgs ev )
 		{
+			this._old_filters.Clear();
+
+			// zastosuj filtry
+			foreach( FilterData filter in this._filters )
+			{
+				// utwórz nowe klasy dla nowych filtrów
+				// filtry te nie mogą się zmienić w trakcie zmian w oknie
+				// klasy kopiowane są za pomocą referencji...
+				FilterData data = new FilterData();
+				
+				data.column     = filter.column;
+				data.exclude    = filter.exclude;
+				data.filter     = filter.filter;
+				data.index      = filter.index;
+				data.level      = filter.level;
+				data.modifier   = filter.modifier;
+				data.parent     = filter.parent;
+				data.real_index = filter.real_index;
+				data.result     = filter.result;
+
+				this._old_filters.Add( data );
+			}
+			
+			GC.Collect();
+
 			this.DialogResult = DialogResult.OK;
-			this.Close( );
+			this.Close();
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Rysowanie dodatkowej linii w nagłówku w filtrach.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		private void tlFilterList_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine
@@ -440,8 +671,14 @@ namespace CDesigner
 			);
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Rysowanie dodatkowej linii w panelu informacyjnym.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		private void tlStatusBar_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine
@@ -454,66 +691,154 @@ namespace CDesigner
 			);
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Usuwanie wybranych filtrów z listy.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		private void bDelete_Click( object sender, EventArgs ev )
 		{
-			CheckBox chbk = null;
-			object[] tag  = null;
-
-			for( int x = 0; x < this.tlFilters.RowCount - 1; ++x )
+			for( int x = 0; x < this.flFilters.Controls.Count; ++x )
 			{
-				chbk = (CheckBox)this.tlFilters.GetControlFromPosition( 0, x );
-				tag  = (object[])chbk.Tag;
-
+				DataFilterRow row = (DataFilterRow)this.flFilters.Controls[x];
+				
 				// sprawdź czy rekord jest zaznaczony
-				if( chbk.CheckState != CheckState.Checked )
+				if( row.cbSelect.CheckState != CheckState.Checked )
 					continue;
 
-				for( int y = 1; y < 8; ++y )
-					this.tlFilters.Controls.Remove( (Control)tag[y] );
+				this._sync.RemoveCombo( row.cbColumn );
+				row.Controls.Clear();
+				this.flFilters.Controls.Remove( row );
 
-				for( int y = x + 1; y < this.tlFilters.RowCount - 1; ++y )
-					for( int z = 0; z < 7; ++z )
-						this.tlFilters.SetRow( this.tlFilters.GetControlFromPosition(z, y), y - 1 );
-				
+				// zmień identyfikator pozostałych wierszy
+				for( int y = x + 1; y < this.flFilters.Controls.Count; ++y )
+					((DataFilterRow)this.flFilters.Controls[y]).RowIndex--;
+
 				// usuń z listy filtrów
 				this._filters.RemoveAt( x );
 
-				x--;
-				this.tlFilters.RowCount -= 1;
+				--x;
 			}
 
-			GC.Collect( );
+			GC.Collect();
 		}
 
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		private void bClear_Click( object sender, EventArgs ev )
+		/**
+		 * <summary>
+		 * Przywróć poprzednie ustawienia filtrów.
+		 * </summary>
+		 * 
+		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		 * <param name="ev">Argumenty zdarzenia.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		private void bRestore_Click( object sender, EventArgs ev )
 		{
-			CheckBox chbk = null;
-			object[] tag  = null;
+			List<string> filters = Language.GetLines( "DataFilter", "ComboBox" );
 
-			for( int x = 0; x < this.tlFilters.RowCount - 1; ++x )
+			this._filters.Clear();
+
+			foreach( FilterData filter in this._old_filters )
 			{
-				chbk = (CheckBox)this.tlFilters.GetControlFromPosition( 0, x );
-				tag  = (object[])chbk.Tag;
-
-				for( int y = 1; y < 8; ++y )
-					this.tlFilters.Controls.Remove( (Control)tag[y] );
-
-				for( int y = x + 1; y < this.tlFilters.RowCount - 1; ++y )
-					for( int z = 0; z < 7; ++z )
-						this.tlFilters.SetRow( this.tlFilters.GetControlFromPosition(z, y), y - 1 );
+				// utwórz nowe klasy dla nowych filtrów
+				FilterData data = new FilterData();
 				
-				// usuń z listy filtrów
-				this._filters.RemoveAt( x );
+				data.column     = filter.column;
+				data.exclude    = filter.exclude;
+				data.filter     = filter.filter;
+				data.index      = filter.index;
+				data.level      = filter.level;
+				data.modifier   = filter.modifier;
+				data.parent     = filter.parent;
+				data.real_index = filter.real_index;
+				data.result     = filter.result;
 
-				x--;
-				this.tlFilters.RowCount -= 1;
+				this._filters.Add( data );
 			}
 
-			GC.Collect( );
+			DataFilterRow row = null;
+			int width = this._filters.Count * 28 > this.flFilters.Height
+				? this.flFilters.Width - SystemInformation.VerticalScrollBarWidth
+				: this.flFilters.Width;
+
+			foreach( DataFilterRow crow in this.flFilters.Controls )
+			{
+				this._sync.RemoveCombo( crow.cbColumn );
+				crow.Controls.Clear();
+			}
+
+			this.flFilters.Controls.Clear();
+
+			foreach( FilterData filter in this._filters )
+			{
+				int filter_index = 0;
+
+				row = new DataFilterRow( this._sync );
+				row.Width = width;
+
+				if( this._newcol != null && filter.parent == this._newcol.index &&
+					filter.filter == (int)FILTERTYPE.Format )
+					row.cbFilter.Items.Add( filters[0] );
+				else
+				{
+					row.cbFilter.Items.Add( filters[1] );
+					row.cbFilter.Items.Add( filters[2] );
+					row.cbFilter.Items.Add( filters[3] );
+					row.cbFilter.Items.Add( filters[4] );
+					row.cbFilter.Items.Add( filters[5] );
+					
+					filter_index = filter.filter - (int)FILTERTYPE.UpperCase;
+				}
+
+				// zdarzenia
+				row.cbSelect.CheckedChanged       += new EventHandler( this.cbSelect_CheckedChanged );
+				row.cbColumn.SelectedIndexChanged += new EventHandler( this.cbColumn_SelectedIndexChanged );
+				row.cbFilter.SelectedIndexChanged += new EventHandler( this.cbFilter_SelectedIndexChanged );
+				row.tbModifier.LostFocus          += new EventHandler( this.tbModRes_LostFocus );
+				row.tbResult.LostFocus            += new EventHandler( this.tbModRes_LostFocus );
+				row.cbExclude.CheckedChanged      += new EventHandler( this.cbExclude_CheckedChanged );
+				
+				row.cbSelect.Checked       = false;
+				row.cbColumn.SelectedIndex = filter.column;
+				row.cbFilter.SelectedIndex = filter_index;
+				row.tbModifier.Text        = filter.modifier;
+				row.tbResult.Text          = filter.result;
+				row.cbExclude.Checked      = filter.exclude;
+
+				this.flFilters.Controls.Add( row );
+			}
+
+			GC.Collect();
+		}
+
+		private void DataFilterForm_ResizeEnd( object sender, EventArgs ev )
+		{
+			// @TODO - do ustawień - @SEE: flFilters_Resize
+			if( this.flFilters.Controls.Count < 11 )
+				return;
+
+			int width = this.flFilters.VerticalScroll.Visible
+				? this.flFilters.Width - SystemInformation.VerticalScrollBarWidth
+				: this.flFilters.Width;
+
+			for( int x = 0; x < this.flFilters.Controls.Count; ++x )
+				this.flFilters.Controls[x].Width = width;
+		}
+
+		private void flFilters_Resize( object sender, EventArgs ev )
+		{
+			// @TODO - do ustawień
+			if( this.flFilters.Controls.Count > 10 )
+				return;
+
+			int width = this.flFilters.VerticalScroll.Visible
+				? this.flFilters.Width - SystemInformation.VerticalScrollBarWidth
+				: this.flFilters.Width;
+
+			for( int x = 0; x < this.flFilters.Controls.Count; ++x )
+				this.flFilters.Controls[x].Width = width;
 		}
 	}
 }

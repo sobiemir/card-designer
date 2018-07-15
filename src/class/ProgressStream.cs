@@ -6,10 +6,11 @@ using System.IO;
 using System.ComponentModel;
 
 ///
-/// $i05 ProgressStream.cs
+/// $c05 ProgressStream.cs
 /// 
-/// Czytnik bazy danych.
-/// Na razie możliwość odczytu tylko plików .CSV.
+/// Klasa strumienia postępu.
+/// Pozwala na odczyt danych ze strumienia i raport aktualnego stanu.
+/// Po przypisaniu zdarzenia OnProgressChanged klasa raportuje zmiane postępu wczytywania danych.
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.7.x.x
@@ -19,38 +20,52 @@ using System.ComponentModel;
 namespace CDesigner
 {
 	///
+	/// <summary>
 	/// Strumień postepu.
 	/// Wylicza postęp tylko przy odczytywaniu danych - otwiera go tylko do odczytu.
 	/// Pozwala na przypisanie strumienia do określonego wątku, dzięki czemu postęp będzie raportowany
 	/// bezpośrednio do wątku. W przeciwnym razie raport zostanie przekazany do zdarzenia OnProgressChanged.
+	/// </summary>
 	///
 	class ProgressStream : Stream
 	{
-		/// Zdarzenie wywoływane przy zmianie postępu.
+		// ===== PRIVATE VARIABLES =====
+
+		/// <summary>Zdarzenie wywoływane przy zmianie postępu.</summary>
 		public event ProgressChangedEventHandler OnProgressChanged = null;
 		
-		/// Oryginalny strumień.
+		/// <summary>Oryginalny strumień.</summary>
 		private Stream _stream;
 
-		/// Postęp od którego funkcja ma zaczynać (domyślnie 0)
+		/// <summary>Postęp od którego funkcja ma zaczynać (domyślnie 0).</summary>
 		private int _start = 0;
 
-		/// Postęp na którym funkcja ma kończyć (domyślnie 100)
+		/// <summary>Postęp na którym funkcja ma kończyć (domyślnie 100).</summary>
 		private int _stop;
 
-		/// Ilość przeczytanych bajtów ze strumienia.
+		/// <summary>Ilość przeczytanych bajtów ze strumienia.</summary>
 		private long _bytes = 0;
 
-		/// Ostatni znany postęp (zapobiega kilkukrotnemu wywołaniu zdarzenia dla tego samego postępu).
+		/// <summary>Ostatni znany postęp (wywołanie zdarzenia raz dla tego samego postępu).</summary>
 		private int _last;
 
-		/// Wątek na którym strumień będzie pracował.
+		/// <summary>Wątek na którym strumień będzie pracował.</summary>
 		private BackgroundWorker _worker;
 
-		/// 
-		/// Konstruktor klasy ProgressStream.
-		/// Tworzy strumień postępu z wcześniej utworzonego strumienia.
-		/// ------------------------------------------------------------------------------------------------------------
+		// ===== CONSTRUCTORS / DESTRUCTORS =====================================================
+
+		/**
+		 * <summary>
+		 * Konstruktor klasy ProgressStream.
+		 * Tworzy strumień postępu z wcześniej utworzonego strumienia.
+		 * Można uruchamiać kilka na jednej kontrolce ProgressBar manipulując argumentami start i stop.
+		 * </summary>
+		 * 
+		 * <param name="stream">Strumień danych.</param>
+		 * <param name="start">Postęp początkowy (zakres od - od 0).</param>
+		 * <param name="stop">Postęp końcowy (zakres do - do 100).</param>
+		 * <param name="worker">Oddzielny wątek dla operacji.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public ProgressStream( Stream stream, int start = 0, int stop = 100, BackgroundWorker worker = null )
 		{
 			// pilnuj granic...
@@ -66,58 +81,80 @@ namespace CDesigner
 			this._worker = worker;
 		}
 
-		/// 
-		/// Odczyt strumienia.
-		/// ------------------------------------------------------------------------------------------------------------
+		// ===== GETTERS / SETTERS ==============================================================
+
+		/**
+		 * <summary>
+		 * Odczyt strumienia.
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override bool CanRead
 		{
 			get { return this._stream.CanRead; }
 		}
 
-		/// 
-		/// Przewijanie strumienia (nie jest możliwy).
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Przewijanie strumienia (nie jest możliwe).
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override bool CanSeek
 		{
 			get { return false; }
 		}
 
-		/// 
-		/// Zapis do strumienia (nie jest możliwy).
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Zapis do strumienia (nie jest możliwy).
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override bool CanWrite
 		{
 			get { return this._stream.CanWrite; }
 		}
 
-		/// 
-		/// Czyszczenie strumienia.
-		/// ------------------------------------------------------------------------------------------------------------
-		public override void Flush()
-		{
-			this._stream.Flush();
-		}
-
-		/// 
-		/// Długość strumienia.
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Długość strumienia danych.
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override long Length
 		{
 			get { return this._stream.Length; }
 		}
 
-		/// 
-		/// Zmiana pozycji (nie jest możliwa).
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Zmiana pozycji (nie jest możliwa).
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override long Position
 		{
 			get { throw new NotImplementedException(); }
 			set { throw new NotImplementedException(); }
 		}
 
-		/// 
-		/// Odczyt strumienia.
-		/// ------------------------------------------------------------------------------------------------------------
+		// ===== PUBLIC FUNCTIONS ===============================================================
+
+		/**
+		 * <summary>
+		 * Czyszczenie strumienia.
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
+		public override void Flush()
+		{
+			this._stream.Flush();
+		}
+
+		/**
+		 * <summary>
+		 * Odczyt strumienia.
+		 * </summary>
+		 * 
+		 * <param name="buffer">Bufor do zapisu danych.</param>
+		 * <param name="offset">Indeks początkowy zapisu danych.</param>
+		 * <param name="count">Ilość pobieranych bajtów.</param>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override int Read( byte[] buffer, int offset, int count )
 		{
 			int read = this._stream.Read( buffer, offset, count );
@@ -151,25 +188,31 @@ namespace CDesigner
 			return read;
 		}
 
-		/// 
-		/// Przewijanie strumienia (nie jest możliwe).
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Przewijanie strumienia (nie jest możliwe).
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override long Seek( long offset, SeekOrigin origin )
 		{
 			throw new NotImplementedException();
 		}
 
-		/// 
-		/// Zmiana długości strumienia (nie jest możliwa).
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Zmiana długości strumienia (nie jest możliwa).
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override void SetLength( long value )
 		{
 			throw new NotImplementedException();
 		}
 
-		/// 
-		/// Zapis do strumienia (nie jest możliwy).
-		/// ------------------------------------------------------------------------------------------------------------
+		/**
+		 * <summary>
+		 * Zapis do strumienia (nie jest możliwy).
+		 * </summary>
+		 * --------------------------------------------------------------------------------------------------------- **/
 		public override void Write( byte[] buffer, int offset, int count )
 		{
 			throw new NotImplementedException();
