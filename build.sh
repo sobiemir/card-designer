@@ -49,12 +49,12 @@ fi
 echo "### Generating resources for CDesigner..."
 resgen /useSourcePath \
 	/compile \
-        resx/DatabaseSettingsForm.resx,obj/CDesigner.DatabaseSettingsForm.resources \
-        resx/DataFilterForm.resx,obj/CDesigner.DataFilterForm.resources \
-        resx/DataReader.resx,obj/CDesigner.DataReader.resources \
-        resx/DBConnection.resx,obj/CDesigner.DBConnection.resources \
-        resx/EditColumnsForm.resx,obj/CDesigner.EditColumnsForm.resources \
-        resx/InfoForm.resx,obj/CDesigner.InfoForm.resources \
+		resx/DatabaseSettingsForm.resx,obj/CDesigner.DatabaseSettingsForm.resources \
+		resx/DataFilterForm.resx,obj/CDesigner.DataFilterForm.resources \
+		resx/DataReader.resx,obj/CDesigner.DataReader.resources \
+		resx/DBConnection.resx,obj/CDesigner.DBConnection.resources \
+		resx/EditColumnsForm.resx,obj/CDesigner.EditColumnsForm.resources \
+		resx/InfoForm.resx,obj/CDesigner.InfoForm.resources \
 		resx/MainForm.resx,obj/CDesigner.MainForm.resources \
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources \
 		resx/Settings.resx,obj/CDesigner.Settings.resources \
@@ -65,7 +65,7 @@ echo "### Generating resources for CDRestore..."
 
 resgen /useSourcePath \
 	/compile \
-        resx/cdrestore/MainForm.resx,obj/CDRestore.MainForm.resources \
+		resx/cdrestore/MainForm.resx,obj/CDRestore.MainForm.resources \
 		properties/cdrestore/Resources.resx,obj/CDRestore.Properties.Resources.resources
 
 # create dll and build directory
@@ -127,8 +127,8 @@ $csc /reference:dll/PdfSharp.dll \
 	/resource:obj/CDesigner.DataReader.resources \
 	/resource:obj/CDesigner.DBConnection.resources \
 	/resource:obj/CDesigner.EditColumnsForm.resources \
-    /resource:obj/CDesigner.InfoForm.resources \
-    /resource:obj/CDesigner.MainForm.resources \
+	/resource:obj/CDesigner.InfoForm.resources \
+	/resource:obj/CDesigner.MainForm.resources \
 	/resource:obj/CDesigner.NewPattern.resources \
 	/resource:obj/CDesigner.Settings.resources \
 	/resource:obj/CDesigner.UpdateForm.resources \
@@ -179,7 +179,7 @@ echo "### Compiling CDRestore application..."
 
 $csc /out:build/cdrestore.exe \
 	$references \
-    /resource:obj/CDRestore.MainForm.resources \
+	/resource:obj/CDRestore.MainForm.resources \
 	/resource:obj/CDRestore.Properties.Resources.resources \
 	/win32manifest:properties/cdrestore/app.manifest \
 	/win32icon:resources/cdrestore.ico \
@@ -259,6 +259,11 @@ cp -f resources/icons/cdesigner-48.png build/icons/cdesigner-48.png
 cp -f resources/icons/cdesigner-32.png build/icons/cdesigner-32.png
 cp -f resources/icons/cdesigner-16.png build/icons/cdesigner-16.png
 cp -f resources/icons/add-pattern.png build/icons/add-pattern.png
+cp -f resources/icons/combo-child.png build/icons/combo-child.png
+cp -f resources/icons/combo-end.png build/icons/combo-end.png
+cp -f resources/icons/combo-one.png build/icons/combo-one.png
+cp -f resources/icons/combo-parent.png build/icons/combo-parent.png
+cp -f resources/icons/combo-start.png build/icons/combo-start.png
 
 echo "### Finished"
 exit 0
