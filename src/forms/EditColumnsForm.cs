@@ -17,21 +17,22 @@ namespace CDesigner
 {
 	public partial class EditColumnsForm : Form
 	{
-		private string _default_format = " ";
 		private bool _locked = false;
 		private ListViewItem _new_sel_col = null;
 		private DatabaseReader _reader = null;
+		private DataFilter _data_filter = null;
 		private bool _show_tooltip = false;
-		private List<string> _new_names = new List<string>();
-		private List<List<int>> _new_cols = new List<List<int>>();
 		private DataFilterForm _filter = null;
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		public EditColumnsForm( DatabaseReader reader )
 		{
-			this.InitializeComponent();
-			this.Icon = Program.GetIcon();
+			this.InitializeComponent( );
+			this.Icon = Program.GetIcon( );
 
 			this._reader = reader;
+			this._data_filter = new DataFilter( reader );
 			
 			// uzupełnij liste kolumn
 			foreach( string column in this._reader.Columns )
@@ -43,9 +44,11 @@ namespace CDesigner
 			}
 
 			// filtrowanie danych
-			this._filter = new DataFilterForm( reader );
+			this._filter = new DataFilterForm( this._data_filter );
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void JoinColsForm_Move( object sender, EventArgs ev )
 		{
 			if( this._show_tooltip )
@@ -55,6 +58,8 @@ namespace CDesigner
 			}
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void JoinColsForm_Deactivate( object sender, EventArgs ev )
 		{
 			if( this._show_tooltip )
@@ -64,11 +69,8 @@ namespace CDesigner
 			}
 		}
 
-		private void bFilterData_Click( object sender, EventArgs ev )
-		{
-			this._filter.ShowDialog();
-		}
-
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void bAddColumn_Click( object sender, EventArgs ev )
 		{
 			string text  = this.tbColumnName.Text.Trim();
@@ -105,22 +107,31 @@ namespace CDesigner
 					);
 
 					if( result != DialogResult.Yes )
+					{
+						Program.LogMessage( "Nadpisywanie kolumny zostało anulowane." );
 						return;
+					}
+					Program.LogMessage( "Kolumna '" + column + "' została nadpisana." );
 				}
 
 			List<int> list = new List<int>();
 
-			this._new_cols.Add( list );
-			this._new_names.Add( text );
+			//this._new_cols.Add( list );
+			//this._new_names.Add( text );
 
 			// dodaj kolumnę
 			this.lvNewColumns.Items.Add( text );
-			this.lvNewColumns.Items[this.lvNewColumns.Items.Count-1].SubItems.Add( "" ).Tag = list;
+			this.lvNewColumns.Items[this.lvNewColumns.Items.Count-1].SubItems.Add("").Tag = list;
 
 			// dodaj kolumnę do listy w filtrach
 			this._filter.AddColumn( text );
+
+			// dodaj kolumnę do listy
+			this._data_filter.AddColumn( text );
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void bClearColumn_Click( object sender, EventArgs ev )
 		{
 			// wyczyść wszystkie zaznaczone wiersze
@@ -130,11 +141,15 @@ namespace CDesigner
 				this._filter.ClearSubColumns( item.Index );
 
 				List<int> indices = (List<int>)item.SubItems[1].Tag;
-				indices.Clear();
+				indices.Clear( );
 				item.SubItems[1].Text = "";
+
+				this._data_filter.ClearColumn( this.lvDatabaseColumns.Items.Count + item.Index );
 			}
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void bDeleteColumn_Click( object sender, EventArgs ev )
 		{
 			if( this.lvNewColumns.SelectedItems.Count == 0 )
@@ -146,16 +161,88 @@ namespace CDesigner
 				// usuń kolumnę z filtrów
 				this._filter.RemoveColumn( item.Index );
 
-				this._new_cols.RemoveAt( item.Index );
-				this._new_names.RemoveAt( item.Index );
-
 				this.lvNewColumns.Items.Remove( item );
+
+				this._data_filter.RemoveColumn( item.Index + this.lvDatabaseColumns.Items.Count );
 			}
 
 			// pozbieraj śmieci
-			GC.Collect();
+			GC.Collect( );
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
+		private void lvDatabaseColumns_SelectedIndexChanged( object sender, EventArgs ev )
+		{
+			// blokada
+			if( this._locked )
+				return;
+
+			// brak zaznaczonych kolumn
+			if( this.lvDatabaseColumns.SelectedItems.Count == 0 )
+				return;
+
+			// zapisz indeks
+			int index    = this.lvDatabaseColumns.SelectedItems[0].Index,
+				rows     = this._data_filter.RowsNumber,
+				position = this._data_filter.RowsNumber * index;
+
+			this.lvPreviewRows.Items.Clear( );
+
+			for( int x = 0, y = rows > 7 ? 7 : rows; x < y; ++x, ++position )
+				this.lvPreviewRows.Items.Add( this._data_filter.Rows[position] );
+
+			this.lvcDataPreview.Text = "Podgląd danych [" + this.lvDatabaseColumns.SelectedItems[0].Text + "]";
+		}
+
+		///
+		/// ------------------------------------------------------------------------------------------------------------
+		private void lvNewColumns_SelectedIndexChanged( object sender, EventArgs ev )
+		{
+			// blokada
+			if( this._locked )
+				return;
+
+			// zaznaczono więcej niż jeden element, nie przetwarzaj dalej...
+			if( this.lvNewColumns.SelectedItems.Count > 1 )
+				return;
+
+			// brak zaznaczonych kolumn
+			if( this.lvNewColumns.SelectedItems.Count == 0 )
+			{
+				this._new_sel_col = null;
+
+				this.bClearColumn.Enabled  = false;
+				this.bDeleteColumn.Enabled = false;
+
+				return;
+			}
+
+			// zapisz nową zaznaczoną kolumnę
+			ListViewItem item = this.lvNewColumns.SelectedItems[0];
+			this._new_sel_col = item;
+			List<int> indices = (List<int>)item.SubItems[1].Tag;
+
+			// zapisz indeks
+			int index    = this.lvDatabaseColumns.Items.Count + item.Index,
+				rows     = this._data_filter.RowsNumber,
+				position = this._data_filter.RowsNumber * index;
+
+			this.lvPreviewRows.Items.Clear( );
+			
+			for( int x = 0, y = rows > 7 ? 7 : rows; x < y; ++x, ++position )
+				this.lvPreviewRows.Items.Add( this._data_filter.Rows[position] );
+			
+			// wyświetl nazwę zaznaczonej kolumny
+			this.lvcDataPreview.Text = "Podgląd danych [ " + this.lvNewColumns.SelectedItems[0].Text + " ]";
+
+			// odblokuj przyciski
+			this.bClearColumn.Enabled  = true;
+			this.bDeleteColumn.Enabled = true;
+		}
+
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void tbColumnName_KeyPress( object sender, KeyPressEventArgs ev )
 		{
 			// backspace i ctrl
@@ -193,97 +280,8 @@ namespace CDesigner
 			}
 		}
 
-		private void tbColumnName_Leave( object sender, EventArgs ev )
-		{
-			if( this._show_tooltip )
-			{
-				this.tpTooltip.Hide( this.tbColumnName );
-				this._show_tooltip = false;
-			}
-		}
-
-		private void lvNewColumns_SelectedIndexChanged( object sender, EventArgs ev )
-		{
-			// blokada
-			if( this._locked )
-				return;
-
-			// zaznaczono więcej niż jeden element, nie przetwarzaj dalej...
-			if( this.lvNewColumns.SelectedItems.Count > 1 )
-				return;
-
-			// brak zaznaczonych kolumn
-			if( this.lvNewColumns.SelectedItems.Count == 0 )
-			{
-				this._new_sel_col = null;
-
-				this.bClearColumn.Enabled  = false;
-				this.bDeleteColumn.Enabled = false;
-
-				return;
-			}
-
-			// zapisz nową zaznaczoną kolumnę
-			ListViewItem item = this.lvNewColumns.SelectedItems[0];
-			this._new_sel_col = item;
-			List<int> indices = (List<int>)item.SubItems[1].Tag;
-
-			this.lvPreviewRows.Items.Clear();
-			this.lvcDataPreview.Text = "Podgląd danych";
-
-			for( int x = 0, y = this._reader.RowsNumber > 7 ? 7 : this._reader.RowsNumber; x < y; ++x )
-			{
-				string text = "";
-
-				for( int z = 0; z < indices.Count; ++z )
-				{
-					string value = this._reader.Rows[indices[z],x].Trim();
-
-					// wartość pusta
-					if( value == "" )
-						continue;
-
-					if( z == 0 )
-						text = value;
-					else
-						text += this._default_format + value;
-				}
-
-				this.lvPreviewRows.Items.Add( text );
-			}
-
-			// wyświetl nazwę zaznaczonej kolumny
-			this.lvcDataPreview.Text += " [ " + this.lvNewColumns.SelectedItems[0].Text + " ]";
-
-			// odblokuj przyciski
-			this.bClearColumn.Enabled  = true;
-			this.bDeleteColumn.Enabled = true;
-		}
-
-		private void lvDatabaseColumns_SelectedIndexChanged( object sender, EventArgs ev )
-		{
-			// blokada
-			if( this._locked )
-				return;
-
-			// brak zaznaczonych kolumn
-			if( this.lvDatabaseColumns.SelectedItems.Count == 0 )
-				return;
-
-			// zapisz indeks
-			int index = this.lvDatabaseColumns.SelectedItems[0].Index;
-
-			this.lvPreviewRows.Items.Clear();
-			this.lvcDataPreview.Text = "Podgląd danych";
-
-			// dodaj wiersze podglądowe
-			for( int x = 0, y = this._reader.RowsNumber > 7 ? 7 : this._reader.RowsNumber; x < y; ++x )
-				this.lvPreviewRows.Items.Add( this._reader.Rows[index,x] );
-
-			// wyświetl nazwę zaznaczonej kolumny
-			this.lvcDataPreview.Text += " [ " + this.lvDatabaseColumns.SelectedItems[0].Text + " ]";
-		}
-
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void lvDatabaseColumns_MouseDown( object sender, MouseEventArgs ev )
 		{
 			ListViewItem item = this.lvDatabaseColumns.GetItemAt( ev.X, ev.Y );
@@ -298,16 +296,45 @@ namespace CDesigner
 			this.lvDatabaseColumns.DoDragDrop( item, DragDropEffects.Move );
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
+		private void tbColumnName_Leave( object sender, EventArgs ev )
+		{
+			if( this._show_tooltip )
+			{
+				this.tpTooltip.Hide( this.tbColumnName );
+				this._show_tooltip = false;
+			}
+		}
+
+		///
+		/// ------------------------------------------------------------------------------------------------------------
+		private void bFilterData_Click( object sender, EventArgs ev )
+		{
+			DialogResult result = this._filter.ShowDialog( );
+
+			if( result != DialogResult.OK )
+				return;
+
+			this._data_filter.ApplyFilters( this._reader, this._filter.FilterData );
+		}
+
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void lvDatabaseColumns_DragOver( object sender, DragEventArgs ev )
 		{
 			ev.Effect = DragDropEffects.Move;
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void lvNewColumns_DragEnter( object sender, DragEventArgs ev )
 		{
 			ev.Effect = DragDropEffects.Move;
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void lvNewColumns_DragOver( object sender, DragEventArgs ev )
 		{
 			// zaznaczona kolumna
@@ -334,6 +361,8 @@ namespace CDesigner
 			this._locked = false;
 		}
 
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void lvNewColumns_DragDrop( object sender, DragEventArgs ev )
 		{
 			// zaznaczona kolumna
@@ -345,6 +374,7 @@ namespace CDesigner
 
 			// kopiowana kolumna
 			ListViewItem copy = (ListViewItem)ev.Data.GetData( typeof(ListViewItem) );
+			List<int>    list = (List<int>)item.SubItems[1].Tag;
 
 			// dodaj kolumnę do łączenia
 			if( item.SubItems[1].Text.Length == 0 )
@@ -352,40 +382,18 @@ namespace CDesigner
 			else
 				item.SubItems[1].Text += ", " + copy.Text;
 			
-			((List<int>)item.SubItems[1].Tag).Add( copy.Index );
+			int column = this.lvDatabaseColumns.Items.Count + item.Index;
+
+			list.Add( copy.Index );
+
+			this._data_filter.SetColumnContent( column, list );
 			
 			// dodaj kolumnę potomną do filtrów
 			this._filter.AddSubColumn( item.Index, copy.Text );
 		}
 
-		public void RefreshLists( )
-		{
-			// odśwież listę kolumn z bazy danych
-			this.lvDatabaseColumns.Items.Clear();
-
-			foreach( string column in this._reader.Columns )
-			{
-				ListViewItem item = new ListViewItem( column );
-				item.Checked = true;
-
-				this.lvDatabaseColumns.Items.Add( item );
-			}
-
-			// wyczyść przypisane kolumny do wierszy
-			foreach( ListViewItem item in this.lvNewColumns.Items )
-			{
-				item.SubItems[1].Text = "";
-				((List<int>)item.SubItems[1].Tag).Clear();
-			}
-		}
-
-		private void tpTooltip_Draw( object sender, DrawToolTipEventArgs ev )
-		{
-			ev.DrawBackground();
-			ev.DrawBorder();
-			ev.DrawText( TextFormatFlags.VerticalCenter );
-		}
-
+		///
+		/// ------------------------------------------------------------------------------------------------------------
 		private void tlStatusBar_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine
@@ -396,6 +404,15 @@ namespace CDesigner
 				this.tlStatusBar.Bounds.Right,
 				0
 			);
+		}
+
+		///
+		/// ------------------------------------------------------------------------------------------------------------
+		private void tpTooltip_Draw( object sender, DrawToolTipEventArgs ev )
+		{
+			ev.DrawBackground();
+			ev.DrawBorder();
+			ev.DrawText( TextFormatFlags.VerticalCenter );
 		}
 	}
 }

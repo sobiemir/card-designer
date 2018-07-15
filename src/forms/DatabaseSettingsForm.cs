@@ -8,14 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 
 ///
-/// $i01 DatabaseSettingsForm.cs
+/// $i04 DatabaseSettingsForm.cs
 /// 
 /// Okno ustawień pliku bazy danych (kodowanie, separator).
 /// Wyświetlane jest zaraz po wybraniu pliku bazy danych.
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2015-07-15
+/// Ostatnia zmiana: 2015-07-21
 ///
 
 namespace CDesigner
@@ -194,7 +194,7 @@ namespace CDesigner
 		}
 
 		/// 
-		/// Rysowanie górnej ramki dla dolnego paska
+		/// Rysowanie górnej ramki dla dolnego paska.
 		/// ------------------------------------------------------------------------------------------------------------
 		private void tlStatusBar_Paint( object sender, PaintEventArgs ev )
 		{

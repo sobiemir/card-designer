@@ -463,5 +463,5 @@ namespace CDesigner
 					this._border_color, this._border_size, ButtonBorderStyle.Solid,
 					this._border_color, this._border_size, ButtonBorderStyle.Solid );
 		}
-	}
+	};
 }

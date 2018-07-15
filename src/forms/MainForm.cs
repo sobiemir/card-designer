@@ -152,6 +152,7 @@ namespace CDesigner
 			Program.LogMessage( "Tworzenie okna głównego." );
 			this.InitializeComponent();
 
+			// pobierz ikonę programu
 			this.Icon = Program.GetIcon();
 
 			// podgląd wzoru na stronie głównej
@@ -168,7 +169,7 @@ namespace CDesigner
 			this.gSettings = new Settings();
 
 #		if DEBUG
-			Console.WriteLine( "Załadowano kontrolki." );
+			Program.LogMessage( "Załadowano kontrolki." );
 #		endif
 
 			// ostatnio otwierane wzory

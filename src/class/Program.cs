@@ -7,13 +7,23 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-/**
- * Nowa wersja:
- * - Poprawiono wyświetlanie ikony w oknach programu.
- * - Do programu dodano instrukcje obsługi w formacie PDF.
- * - Dodano osobne wczytywanie bazy danych.
- * - Dodano Edytor Kolumn.
- **/
+///
+/// $i01 Program.cs
+/// 
+/// Główne funkcje programu, używane praktycznie wszędzie.
+///
+/// Zmiany w nowych wersjach:
+/// 0.8.????.????:
+/// - Poprawiono wyświetlanie ikony w oknach programu.
+/// - Dodano osobne wczytywanie bazy danych.
+/// - Dodano Edytor Kolumn.
+/// 0.7.????.????:
+/// - Wersja początkowa programu przeznaczonego już do użytku.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.7.x.x
+/// Ostatnia zmiana: 2015-08-06
+///
 
 namespace CDesigner
 {
@@ -222,6 +232,31 @@ _CD_CHECK_ACCESS_TO_SFILE:
 			// zakończ działanie aplikacji
 			if( fatal )
 				Application.Exit();
+		}
+
+		/// 
+		/// Zamiana pierwszych liter ciągu znaku na duże.
+		/// ------------------------------------------------------------------------------------------------------------
+		public static string StringTitleCase( string text )
+		{
+			char[] test = text.ToLower( ).ToCharArray( );
+			bool space = true;
+
+			// powiększaj pierwsze litery zdania (jak w nazwie własnej)
+			for( int x = 0, y = test.Count(); x < y; ++x )
+			{
+				// jeżeli wcześniej wykryto spacje, zamień literę na dużą
+				if( space == true && test[x] != '.' && test[x] != ' ' )
+				{
+					test[x] = Char.ToUpper( test[x] );
+					space = false;
+				}
+				// wykryto spacje...
+				if( test[x] == ' ' )
+					space = true;
+			}
+
+			return new string( test );
 		}
 	}
 }

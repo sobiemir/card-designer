@@ -5,6 +5,17 @@ using System.Text;
 using System.IO;
 using System.ComponentModel;
 
+///
+/// $i05 ProgressStream.cs
+/// 
+/// Czytnik bazy danych.
+/// Na razie możliwość odczytu tylko plików .CSV.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.7.x.x
+/// Ostatnia zmiana: 2015-06-23
+///
+
 namespace CDesigner
 {
 	///

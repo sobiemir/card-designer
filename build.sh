@@ -142,15 +142,15 @@ $csc /reference:dll/PdfSharp.dll \
 		src/class/AssemblyLoader.cs \
 		src/class/CBackupData.cs \
 		src/class/DatabaseReader.cs \
+		src/class/DataFilter.cs \
 		src/class/PatternEditor.cs \
 		src/class/Program.cs \
 		src/class/ProgressStream.cs \
-		src/class/Structs.cs \
+		src/class/Structures.cs \
 		src/controls/AlignedPage.cs \
 		src/controls/AlignedPictureBox.cs \
-		src/controls/CustomContextMenuStrip.cs \
+		src/controls/GroupComboBox.cs \
 		src/controls/PageField.cs \
-		src/controls/TreeComboBox.cs \
 		src/forms/DatabaseSettingsForm.cs \
 		src/forms/DataFilterForm.cs \
 		src/forms/DataReader.cs \

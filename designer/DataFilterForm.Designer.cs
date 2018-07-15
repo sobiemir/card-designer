@@ -67,7 +67,7 @@
 			this.tlForm.RowCount = 2;
 			this.tlForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tlForm.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-			this.tlForm.Size = new System.Drawing.Size(624, 322);
+			this.tlForm.Size = new System.Drawing.Size(632, 333);
 			this.tlForm.TabIndex = 0;
 			// 
 			// pFilterList
@@ -81,7 +81,7 @@
 			this.pFilterList.Location = new System.Drawing.Point(6, 6);
 			this.pFilterList.Margin = new System.Windows.Forms.Padding(6, 6, 6, 0);
 			this.pFilterList.Name = "pFilterList";
-			this.pFilterList.Size = new System.Drawing.Size(612, 279);
+			this.pFilterList.Size = new System.Drawing.Size(620, 290);
 			this.pFilterList.TabIndex = 2;
 			// 
 			// tlFilterList
@@ -110,7 +110,7 @@
 			this.tlFilterList.RowCount = 2;
 			this.tlFilterList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
 			this.tlFilterList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlFilterList.Size = new System.Drawing.Size(610, 277);
+			this.tlFilterList.Size = new System.Drawing.Size(618, 288);
 			this.tlFilterList.TabIndex = 3;
 			this.tlFilterList.Paint += new System.Windows.Forms.PaintEventHandler(this.tlFilterList_Paint);
 			// 
@@ -118,10 +118,10 @@
 			// 
 			this.lExclude.AutoSize = true;
 			this.lExclude.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lExclude.Location = new System.Drawing.Point(580, 0);
+			this.lExclude.Location = new System.Drawing.Point(587, 0);
 			this.lExclude.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
 			this.lExclude.Name = "lExclude";
-			this.lExclude.Size = new System.Drawing.Size(27, 23);
+			this.lExclude.Size = new System.Drawing.Size(28, 23);
 			this.lExclude.TabIndex = 13;
 			this.lExclude.Text = "W";
 			this.lExclude.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -130,10 +130,10 @@
 			// 
 			this.lFilterType.AutoSize = true;
 			this.lFilterType.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lFilterType.Location = new System.Drawing.Point(173, 0);
+			this.lFilterType.Location = new System.Drawing.Point(175, 0);
 			this.lFilterType.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
 			this.lFilterType.Name = "lFilterType";
-			this.lFilterType.Size = new System.Drawing.Size(103, 23);
+			this.lFilterType.Size = new System.Drawing.Size(105, 23);
 			this.lFilterType.TabIndex = 7;
 			this.lFilterType.Text = "Typ filtra";
 			this.lFilterType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -145,7 +145,7 @@
 			this.lColumn.Location = new System.Drawing.Point(33, 0);
 			this.lColumn.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
 			this.lColumn.Name = "lColumn";
-			this.lColumn.Size = new System.Drawing.Size(134, 23);
+			this.lColumn.Size = new System.Drawing.Size(136, 23);
 			this.lColumn.TabIndex = 6;
 			this.lColumn.Text = "Kolumna";
 			this.lColumn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -170,18 +170,18 @@
 			this.tlFilters.Name = "tlFilters";
 			this.tlFilters.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
 			this.tlFilters.RowCount = 1;
-			this.tlFilters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 251F));
-			this.tlFilters.Size = new System.Drawing.Size(610, 253);
+			this.tlFilters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 261F));
+			this.tlFilters.Size = new System.Drawing.Size(618, 264);
 			this.tlFilters.TabIndex = 5;
 			// 
 			// lModifier
 			// 
 			this.lModifier.AutoSize = true;
 			this.lModifier.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lModifier.Location = new System.Drawing.Point(282, 0);
+			this.lModifier.Location = new System.Drawing.Point(286, 0);
 			this.lModifier.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
 			this.lModifier.Name = "lModifier";
-			this.lModifier.Size = new System.Drawing.Size(122, 23);
+			this.lModifier.Size = new System.Drawing.Size(123, 23);
 			this.lModifier.TabIndex = 8;
 			this.lModifier.Text = "Modyfikator";
 			this.lModifier.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -190,7 +190,7 @@
 			// 
 			this.lLeave.AutoSize = true;
 			this.lLeave.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lLeave.Location = new System.Drawing.Point(550, 0);
+			this.lLeave.Location = new System.Drawing.Point(557, 0);
 			this.lLeave.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
 			this.lLeave.Name = "lLeave";
 			this.lLeave.Size = new System.Drawing.Size(24, 23);
@@ -202,10 +202,10 @@
 			// 
 			this.lResult.AutoSize = true;
 			this.lResult.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lResult.Location = new System.Drawing.Point(410, 0);
+			this.lResult.Location = new System.Drawing.Point(415, 0);
 			this.lResult.Margin = new System.Windows.Forms.Padding(3, 0, 3, 1);
 			this.lResult.Name = "lResult";
-			this.lResult.Size = new System.Drawing.Size(134, 23);
+			this.lResult.Size = new System.Drawing.Size(136, 23);
 			this.lResult.TabIndex = 11;
 			this.lResult.Text = "Wynik";
 			this.lResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -238,12 +238,12 @@
 			this.tlStatusBar.Controls.Add(this.bClear, 4, 0);
 			this.tlStatusBar.Controls.Add(this.bAccept, 5, 0);
 			this.tlStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlStatusBar.Location = new System.Drawing.Point(0, 291);
+			this.tlStatusBar.Location = new System.Drawing.Point(0, 302);
 			this.tlStatusBar.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
 			this.tlStatusBar.Name = "tlStatusBar";
 			this.tlStatusBar.RowCount = 1;
 			this.tlStatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlStatusBar.Size = new System.Drawing.Size(624, 31);
+			this.tlStatusBar.Size = new System.Drawing.Size(632, 31);
 			this.tlStatusBar.TabIndex = 3;
 			this.tlStatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.tlStatusBar_Paint);
 			// 
@@ -252,13 +252,14 @@
 			this.bDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.bDelete.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.bDelete.Enabled = false;
-			this.bDelete.Location = new System.Drawing.Point(106, 4);
+			this.bDelete.Location = new System.Drawing.Point(108, 4);
 			this.bDelete.Margin = new System.Windows.Forms.Padding(3, 4, 6, 3);
 			this.bDelete.Name = "bDelete";
-			this.bDelete.Size = new System.Drawing.Size(94, 24);
+			this.bDelete.Size = new System.Drawing.Size(96, 24);
 			this.bDelete.TabIndex = 2;
 			this.bDelete.Text = "Usuń";
 			this.bDelete.UseVisualStyleBackColor = true;
+			this.bDelete.Click += new System.EventHandler(this.bDelete_Click);
 			// 
 			// bAddFilter
 			// 
@@ -267,7 +268,7 @@
 			this.bAddFilter.Location = new System.Drawing.Point(6, 4);
 			this.bAddFilter.Margin = new System.Windows.Forms.Padding(6, 4, 3, 3);
 			this.bAddFilter.Name = "bAddFilter";
-			this.bAddFilter.Size = new System.Drawing.Size(94, 24);
+			this.bAddFilter.Size = new System.Drawing.Size(96, 24);
 			this.bAddFilter.TabIndex = 1;
 			this.bAddFilter.Text = "Dodaj";
 			this.bAddFilter.UseVisualStyleBackColor = true;
@@ -276,31 +277,33 @@
 			// bClear
 			// 
 			this.bClear.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.bClear.Location = new System.Drawing.Point(418, 4);
+			this.bClear.Location = new System.Drawing.Point(426, 4);
 			this.bClear.Margin = new System.Windows.Forms.Padding(6, 4, 3, 3);
 			this.bClear.Name = "bClear";
-			this.bClear.Size = new System.Drawing.Size(94, 24);
+			this.bClear.Size = new System.Drawing.Size(96, 24);
 			this.bClear.TabIndex = 3;
 			this.bClear.Text = "Wyczyść";
 			this.bClear.UseVisualStyleBackColor = true;
+			this.bClear.Click += new System.EventHandler(this.bClear_Click);
 			// 
 			// bAccept
 			// 
 			this.bAccept.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.bAccept.Location = new System.Drawing.Point(518, 4);
+			this.bAccept.Location = new System.Drawing.Point(528, 4);
 			this.bAccept.Margin = new System.Windows.Forms.Padding(3, 4, 6, 3);
 			this.bAccept.Name = "bAccept";
-			this.bAccept.Size = new System.Drawing.Size(100, 24);
+			this.bAccept.Size = new System.Drawing.Size(98, 24);
 			this.bAccept.TabIndex = 0;
 			this.bAccept.Text = "Zastosuj";
 			this.bAccept.UseVisualStyleBackColor = true;
+			this.bAccept.Click += new System.EventHandler(this.bAccept_Click);
 			// 
 			// DataFilterForm
 			// 
 			this.AcceptButton = this.bAccept;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(624, 322);
+			this.ClientSize = new System.Drawing.Size(632, 333);
 			this.Controls.Add(this.tlForm);
 			this.MaximizeBox = false;
 			this.MaximumSize = new System.Drawing.Size(800, 65535);

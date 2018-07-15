@@ -105,5 +105,5 @@ namespace CDesigner
 
 			base.OnPaint( ev );
 		}
-	}
+	};
 }

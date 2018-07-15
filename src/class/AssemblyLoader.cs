@@ -4,38 +4,51 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
+///
+/// $i02 AssemblyLoader.cs
+/// 
+/// Ładowanie brakujących bibliotek z folderu ./libraries.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.7.x.x
+/// Ostatnia zmiana: 2015-07-16
+///
+
 namespace CDesigner
 {
+	/// 
+	/// Klasa odpowiedzialna za ładowanie bibliotek.
+	/// Przechwytuje wiadomości braku bibliotek i szuka ich w foldrze ./libraries.
+	/// Lista bibliotek znajduje się w zmiennych DLL_FILE i DLL_NAMESPACE.
+	/// 
 	class AssemblyLoader
 	{
-		/// <summary>Lista plików dll do wczytania.</summary>
+		/// Lista plików dll do wczytania.
 		private static readonly string[] DLL_FILE =
 		{
 			"pdfsharp.dll"
 		};
 
-		/// <summary>Nazwy przestrzeni plików dll.</summary>
+		/// Nazwy przestrzeni plików dll.
 		private static readonly string[] DLL_NAMESPACE =
 		{
 			"PdfSharp"
 		};
 
-		// ------------------------------------------------------------- Register -------------------------------------
-		/// <summary>
+		///
 		/// Rejestracja zdarzenia do rozwiązywania problemów z plikami DLL.
 		/// Może zostać wywołana kilkakrotnie...
-		/// </summary>
+		/// ------------------------------------------------------------------------------------------------------------
 		public static void Register( )
 		{
 			AppDomain.CurrentDomain.AssemblyResolve -= AssemblyLoader.ResolveAssembly;
 			AppDomain.CurrentDomain.AssemblyResolve += AssemblyLoader.ResolveAssembly;
 		}
 
-		// ------------------------------------------------------------- ResolveAssembly ------------------------------
-		/// <summary>
+		///
 		/// Funkcja wczytuje odpowiednie biblioteki z folderu libraries.
-		/// Dodaje odpowiednie zdarzenia dla 
-		/// </summary>
+		/// Dodaje obsługę zdarzenia wykonywanego przy braku biblioteki w programie.
+		/// ------------------------------------------------------------------------------------------------------------
 		private static Assembly ResolveAssembly( object sender, ResolveEventArgs ev )
 		{
 			AssemblyName name = new AssemblyName(ev.Name);
@@ -53,7 +66,7 @@ namespace CDesigner
 					// jeżeli tak, wczytaj
 					string file = AssemblyLoader.DLL_FILE[x];
 #				if DEBUG
-					Console.WriteLine( "Ładowanie biblioteki: \"" + file + "\" (" + name.Name + ")..." );
+					Program.LogMessage( "Ładowanie biblioteki: '" + file + "' (" + name.Name + ")..." );
 #				endif
 					return Assembly.LoadFrom( "./libraries/" + file );
 				}
@@ -61,7 +74,7 @@ namespace CDesigner
 
 			// nieznana biblioteka...
 #		if DEBUG
-			Console.WriteLine( "Brak dostępnej biblioteki: \"" + name.Name + "\"..." );
+			Program.LogMessage( "Brak dostępnej biblioteki: '" + name.Name + "'..." );
 #		endif
 			return null;
 		}

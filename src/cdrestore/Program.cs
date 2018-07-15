@@ -251,14 +251,14 @@ _CD_CHECK_ACCESS_TO_SFILE:
 			// zamknij bufor
 			if( fatal && Program._writer != null )
 			{
-				Program._writer.Flush();
-				Program._writer.Close();
-				GC.Collect();
+				Program._writer.Flush( );
+				Program._writer.Close( );
+				GC.Collect( );
 			}
 
 			// zakończ działanie aplikacji
 			if( fatal )
-				Application.Exit();
+				Application.Exit( );
 		}
 	}
 }

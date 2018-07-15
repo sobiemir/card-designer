@@ -5,8 +5,24 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
+///
+/// $i03 DatabaseReader.cs
+/// 
+/// Czytnik bazy danych.
+/// Na razie możliwość odczytu tylko plików .CSV.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.8.x.x
+/// Ostatnia zmiana: 2015-07-20
+///
+
 namespace CDesigner
 {
+	///
+	/// Klasa odczytu bazy danych.
+	/// Na razie może odczytać tylko bazę danych w formacie .CSV.
+	/// Planowana jest rozbudowa klasy.
+	///
 	public class DatabaseReader
 	{
 		private bool _ready = false;
@@ -63,25 +79,26 @@ namespace CDesigner
 		}
 
 		/// 
+		/// Konstruktor klasy DatabaseReader.
 		/// Wyświetla okno wyboru pliku oraz ustawienia przetwarzania bazy danych.
 		/// ------------------------------------------------------------------------------------------------------------
 		public DatabaseReader( )
 		{
-			OpenFileDialog dialog = new OpenFileDialog();
+			OpenFileDialog dialog = new OpenFileDialog( );
 
 			dialog.Title  = "Wybór pliku bazy danych";
 			dialog.Filter = DatabaseReader.JoinSupportedExtensions( true );
-			DialogResult result = dialog.ShowDialog();
+			DialogResult result = dialog.ShowDialog( );
 
 			if( result != DialogResult.OK )
 				return;
 
-			this._extension = new FileInfo(dialog.FileName).Extension.ToLower();
+			this._extension = new FileInfo(dialog.FileName).Extension.ToLower( );
 			this._file      = dialog.FileName;
 			this._encoding  = Encoding.Default;
 
 			// parsuj plik
-			this.Parse();
+			this.Parse( );
 
 			Program.LogMessage( "SOW ====================================================================" );
 			Program.LogMessage( "Otwieranie okna z ustawieniami pliku bazy danych." );
@@ -118,7 +135,7 @@ namespace CDesigner
 			catch( IOException ex )
 				{ Program.LogError(ex.Message, "Błąd wczytywania pliku", false); }
 
-			this._extension = new FileInfo(file).Extension.ToLower();
+			this._extension = new FileInfo(file).Extension.ToLower( );
 			this._file      = file;
 			this._encoding  = Encoding.Default;
 		}
@@ -152,7 +169,7 @@ namespace CDesigner
 				this.ParseCSV( this._encoding, cols_only );
 			else
 				Program.LogError( "Brak obsługi bazy danych o rozszerzeniu: '" + this._extension + "'. " +
-					"Obsługiwane rozszerzenia: " + DatabaseReader.JoinSupportedExtensions(),
+					"Obsługiwane rozszerzenia: " + DatabaseReader.JoinSupportedExtensions( ),
 					"Nieprawidłowy format pliku", false );
 		}
 
@@ -206,13 +223,13 @@ namespace CDesigner
 			string extensions = "";
 
 			if( !filter )
-				for( int x = 0, y = DatabaseReader._supports.Count(); x < y; ++x )
+				for( int x = 0, y = DatabaseReader._supports.Count( ); x < y; ++x )
 					if( x == 0 )
 						extensions += DatabaseReader._supports[x];
 					else
 						extensions += ", " + DatabaseReader._supports[x];
 			else
-				for( int x = 0, y = DatabaseReader._supports.Count(); x < y; ++x )
+				for( int x = 0, y = DatabaseReader._supports.Count( ); x < y; ++x )
 					if( x == 0 )
 						extensions += DatabaseReader._descriptions[x] + "|*." + DatabaseReader._supports[x];
 					else
