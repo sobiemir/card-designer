@@ -121,7 +121,7 @@ echo "### Compiling CDesigner application..."
 
 $csc /reference:dll/PdfSharp.dll \
 	$references \
-	/out:build/CDesigner.exe \
+	/out:build/cdesigner.exe \
 	/resource:obj/CDesigner.DatabaseSettingsForm.resources \
 	/resource:obj/CDesigner.DataFilterForm.resources \
 	/resource:obj/CDesigner.DataReader.resources \
@@ -177,7 +177,7 @@ $csc /reference:dll/PdfSharp.dll \
 # compile CDRestore application using csc
 echo "### Compiling CDRestore application..."
 
-$csc /out:build/CDRestore.exe \
+$csc /out:build/cdrestore.exe \
 	$references \
     /resource:obj/CDRestore.MainForm.resources \
 	/resource:obj/CDRestore.Properties.Resources.resources \
