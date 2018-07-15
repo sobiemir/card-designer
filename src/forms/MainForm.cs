@@ -31,6 +31,8 @@ namespace CDesigner
 {
 	public partial class MainForm : Form
 	{
+		private DatabaseReader _reader;
+
 		// ------------------------------------------------------------- gmpUpdate_Click ------------------------------
 		/// <summary>
 		/// Funkcja wywoływana po naciśnięciu przycisku Aktualizuj program
@@ -1026,12 +1028,12 @@ CD_mtvPatterns_AfterSelect:
 		private void ictLoadData_Click( object sender, EventArgs ev )
 		{
 			// wybór pliku
-			if( this.gsDBase.ShowDialog(this) != DialogResult.OK )
+			if( this.gsOpenFile.ShowDialog(this) != DialogResult.OK )
 				return;
 
 			// odczytaj dane
 			this.dPatternData = PatternEditor.ReadPattern( this.mSelectedName );
-			DataReader reader = new DataReader( this.dPatternData, this.gsDBase.FileName );
+			DataReader reader = new DataReader( this.dPatternData, this.gsOpenFile.FileName );
 
 			if( reader.ShowDialog(this) != DialogResult.OK )
 				return;
@@ -1410,12 +1412,12 @@ CD_mtvPatterns_AfterSelect:
 		private void pbLoadData_Click( object sender, EventArgs ev )
 		{
 			// wybór pliku
-			if( this.gsDBase.ShowDialog(this) != DialogResult.OK )
+			if( this.gsOpenFile.ShowDialog(this) != DialogResult.OK )
 				return;
 
 			// odczytaj dane
 			this.dPatternData = PatternEditor.ReadPattern( this.pCurrentName );
-			DataReader reader = new DataReader( this.dPatternData, this.gsDBase.FileName );
+			DataReader reader = new DataReader( this.dPatternData, this.gsOpenFile.FileName );
 
 			if( reader.ShowDialog(this) != DialogResult.OK )
 				return;
@@ -2881,8 +2883,63 @@ CD_mtvPatterns_AfterSelect:
 			window.ShowDialog( this );
 		}
 
-		private void gmtJoinCols_Click(object sender, EventArgs e)
+
+
+
+
+
+
+
+
+
+
+
+		private void gmtJoinColumns_Click( object sender, EventArgs ev )
 		{
+			if( this._reader == null )
+				return;
+
+			// łączenie kolumn
+			EditColumnsForm joiner = new EditColumnsForm( this._reader );
+			joiner.ShowDialog();
+		}
+
+		private void gmtLoadDatabase_Click( object sender, EventArgs ev )
+		{
+			DatabaseReader reader = new DatabaseReader();
+
+			if( reader.IsReady() )
+				this._reader = reader;
+
+			// włącz przycisk do łączenia kolumn
+			if( this._reader != null )
+				this.gmtColumnsEditor.Enabled = true;
+
+			GC.Collect();
+		}
+
+		private void imMain_Paint( object sender, PaintEventArgs ev )
+		{
+			ev.Graphics.DrawLine
+			(
+				new Pen( SystemColors.ControlDark ),
+				this.imMain.Bounds.X,
+				this.imMain.Bounds.Bottom - 1,
+				this.imMain.Bounds.Right,
+				this.imMain.Bounds.Bottom - 1
+			);
+		}
+
+		private void tlMainStatusBar_Paint( object sender, PaintEventArgs ev )
+		{
+			ev.Graphics.DrawLine
+			(
+				new Pen( SystemColors.ControlDark ),
+				this.tlMainStatusBar.Bounds.X,
+				0,
+				this.tlMainStatusBar.Bounds.Right,
+				0
+			);
 		}
 	}
 }

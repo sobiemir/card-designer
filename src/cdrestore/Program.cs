@@ -56,7 +56,7 @@ _CD_CHECK_ACCESS_TO_SFILE:
 
 #				if TRACE
 					// otwórz strumień
-					Program._writer = new StreamWriter( File.Open("./crdebug.log", FileMode.Create, FileAccess.Write) );
+					Program._writer = new StreamWriter( File.Open("./debug.log", FileMode.Create, FileAccess.Write) );
 #				endif
 					Program.LogMessage( "Uruchamianie programu CDRestore." );
 				}

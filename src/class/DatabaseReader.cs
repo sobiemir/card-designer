@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 namespace CDesigner
 {
-	class DatabaseReader
+	public class DatabaseReader
 	{
+		private bool _ready = false;
+
 		/// Nazwa pliku.
-		private string _file;
+		private string _file = "";
 
 		/// Rozszerzenie pliku.
-		private string _extension;
+		private string _extension = "";
 
 		/// Separator kolumn (plik CSV).
 		private char _separator = ';';
@@ -21,25 +24,93 @@ namespace CDesigner
 		private Encoding _encoding;
 
 		/// Lista obsługiwanych rozszerzeń plików.
-		private string[] _supports = {"csv"};
+		private static string[] _supports = {"CSV"};
+
+		/// Opis rozszerzeń.
+		private static string[] _descriptions =
+		{
+			"Comma-Separated"
+		};
 
 		/// Ilość pobranych kolumny.
-		public int _columns = 0;
+		private int _columns = 0;
 
 		/// Ilość pobranych wierszy.
-		public int _rows = 0;
+		private int _rows = 0;
 
 		/// Pobrane kolumny
-		public string[]  _column = null;
+		private string[]  _column = null;
 
 		/// Pobrane wiersze.
-		public string[,] _row = null;
+		private string[,] _row = null;
 
 		/// 
 		/// Konstruktor klasy DatabaseReader.
 		/// Pobiera jako argument nazwę pliku, po czym sprawdza czy plik istnieje.
 		/// ------------------------------------------------------------------------------------------------------------
 		public DatabaseReader( string file )
+		{
+			// sprawdź czy plik istnieje
+			try
+				{ File.Open( file, FileMode.Open, FileAccess.Read ).Close(); }
+			catch( IOException ex )
+				{ Program.LogError(ex.Message, "Błąd wczytywania pliku", false); }
+
+			this._extension = new FileInfo(file).Extension.ToLower();
+			this._file      = file;
+			this._encoding  = Encoding.Default;
+			this._ready     = true;
+		}
+
+		/// 
+		/// Wyświetla okno wyboru pliku oraz ustawienia przetwarzania bazy danych.
+		/// ------------------------------------------------------------------------------------------------------------
+		public DatabaseReader( )
+		{
+			OpenFileDialog dialog = new OpenFileDialog();
+
+			dialog.Title  = "Wybór pliku bazy danych";
+			dialog.Filter = DatabaseReader.JoinSupportedExtensions( true );
+			DialogResult result = dialog.ShowDialog();
+
+			if( result != DialogResult.OK )
+				return;
+
+			this._extension = new FileInfo(dialog.FileName).Extension.ToLower();
+			this._file      = dialog.FileName;
+			this._encoding  = Encoding.Default;
+
+			// parsuj plik
+			this.Parse();
+
+			Program.LogMessage( "SOW ====================================================================" );
+			Program.LogMessage( "Otwieranie okna z ustawieniami pliku bazy danych." );
+
+			DatabaseSettingsForm settings = new DatabaseSettingsForm( this );
+			result = settings.ShowDialog();
+
+			Program.LogMessage( "EOW ====================================================================" );
+
+			if( result != DialogResult.OK )
+				return;
+
+			this._ready = true;
+		}
+
+		/// 
+		/// Zwraca czy klasa jest gotowa do dalszych operacji.
+		/// Potrzebne tylko dla konstruktora bezargumentowego.
+		/// Dzięki temu można sprawdzić czy ładowanie pliku zostało przerwane.
+		/// ------------------------------------------------------------------------------------------------------------
+		public bool IsReady( )
+		{
+			return this._ready;
+		}
+
+		/// 
+		/// Robi to samo co konstruktor z tą różnicą że nie tworzy nowego obiektu...
+		/// ------------------------------------------------------------------------------------------------------------
+		public void ChangeDatabase( string file )
 		{
 			// sprawdź czy plik istnieje
 			try
@@ -81,7 +152,7 @@ namespace CDesigner
 				this.ParseCSV( this._encoding, cols_only );
 			else
 				Program.LogError( "Brak obsługi bazy danych o rozszerzeniu: '" + this._extension + "'. " +
-					"Obsługiwane rozszerzenia: " + this.JoinSupportedExtensions(),
+					"Obsługiwane rozszerzenia: " + DatabaseReader.JoinSupportedExtensions(),
 					"Nieprawidłowy format pliku", false );
 		}
 
@@ -120,9 +191,9 @@ namespace CDesigner
 		/// 
 		/// Pobiera dostępne rozszerzenia plików.
 		/// ------------------------------------------------------------------------------------------------------------
-		public string[] SupportedExtensions
+		public static string[] SupportedExtensions
 		{
-			get { return this._supports; }
+			get { return DatabaseReader._supports; }
 		}
 
 		/// 
@@ -130,19 +201,22 @@ namespace CDesigner
 		/// Po ustawieniu opcjonalnego argumentu na TRUE, funkcja zwraca filtrowaną listę rozszerzeń - przydatne dla
 		/// kontrolki OpenFileDialog.
 		/// ------------------------------------------------------------------------------------------------------------
-		public string JoinSupportedExtensions( bool filter = false )
+		public static string JoinSupportedExtensions( bool filter = false )
 		{
 			string extensions = "";
 
 			if( !filter )
-				for( int x = 0, y = this._supports.Count(); x < y; ++x )
+				for( int x = 0, y = DatabaseReader._supports.Count(); x < y; ++x )
 					if( x == 0 )
-						extensions += this._supports[x];
+						extensions += DatabaseReader._supports[x];
 					else
-						extensions += ", " + this._supports[x];
-			//else
-			//	for( int x = 0, y = this._supports.Count(); x < y; ++x )
-
+						extensions += ", " + DatabaseReader._supports[x];
+			else
+				for( int x = 0, y = DatabaseReader._supports.Count(); x < y; ++x )
+					if( x == 0 )
+						extensions += DatabaseReader._descriptions[x] + "|*." + DatabaseReader._supports[x];
+					else
+						extensions += "|" + DatabaseReader._descriptions[x] + "|*." + DatabaseReader._supports[x];
 
 			return extensions;
 		}
@@ -152,6 +226,8 @@ namespace CDesigner
 		/// ------------------------------------------------------------------------------------------------------------
 		private void ParseCSV( Encoding encoding, bool cols_only = false )
 		{
+			Program.LogMessage( "Przetwarzanie pliku .CSV." );
+
 			// otwórz plik
 			StreamReader file = new StreamReader( this._file, encoding, true );
 
@@ -180,7 +256,7 @@ namespace CDesigner
 			this._columns = cols;
 			this._rows    = rows;
 			this._column  = new string[cols];
-			this._row     = cols_only ? null : new string[rows,cols];
+			this._row     = cols_only ? null : new string[cols,rows];
 
 			cols = 0;
 
@@ -207,10 +283,10 @@ namespace CDesigner
 					++rows;
 					cols = 0;
 				}
-				else if( chr == ';' )
+				else if( chr == this._separator )
 					++cols;
 				else
-					this._row[rows,cols] += (char)chr;
+					this._row[cols,rows] += (char)chr;
 			
 			// zamknij strumień pliku
 			file.Close();

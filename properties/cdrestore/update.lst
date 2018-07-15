@@ -21,7 +21,7 @@
 ./icons/exit-application.png
 ./icons/image-field.png
 ./icons/text-field.png
-./libraries/pdfsharp.dll
+./libraries/PdfSharp.dll
 ./CDesigner.exe
 ./CDRestore.exe
 ./last.lst

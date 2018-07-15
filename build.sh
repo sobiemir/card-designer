@@ -49,11 +49,12 @@ fi
 echo "### Generating resources for CDesigner..."
 resgen /useSourcePath \
 	/compile \
+        resx/DatabaseSettingsForm.resx,obj/CDesigner.DatabaseSettingsForm.resources \
+        resx/DataFilterForm.resx,obj/CDesigner.DataFilterForm.resources \
         resx/DataReader.resx,obj/CDesigner.DataReader.resources \
         resx/DBConnection.resx,obj/CDesigner.DBConnection.resources \
-        resx/FileOpenForm.resx,obj/CDesigner.FileOpenForm.resources \
+        resx/EditColumnsForm.resx,obj/CDesigner.EditColumnsForm.resources \
         resx/InfoForm.resx,obj/CDesigner.InfoForm.resources \
-        resx/JoinColsForm.resx,obj/CDesigner.JoinColsForm.resources \
 		resx/MainForm.resx,obj/CDesigner.MainForm.resources \
 		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources \
 		resx/Settings.resx,obj/CDesigner.Settings.resources \
@@ -64,7 +65,7 @@ echo "### Generating resources for CDRestore..."
 
 resgen /useSourcePath \
 	/compile \
-        resx/MainForm.resx,obj/CDRestore.MainForm.resources \
+        resx/cdrestore/MainForm.resx,obj/CDRestore.MainForm.resources \
 		properties/cdrestore/Resources.resx,obj/CDRestore.Properties.Resources.resources
 
 # create dll and build directory
@@ -121,11 +122,12 @@ echo "### Compiling CDesigner application..."
 $csc /reference:dll/PdfSharp.dll \
 	$references \
 	/out:build/CDesigner.exe \
+	/resource:obj/CDesigner.DatabaseSettingsForm.resources \
+	/resource:obj/CDesigner.DataFilterForm.resources \
 	/resource:obj/CDesigner.DataReader.resources \
 	/resource:obj/CDesigner.DBConnection.resources \
-	/resource:obj/CDesigner.FileOpenForm.resources \
+	/resource:obj/CDesigner.EditColumnsForm.resources \
     /resource:obj/CDesigner.InfoForm.resources \
-	/resource:obj/CDesigner.JoinColsForm.resources \
     /resource:obj/CDesigner.MainForm.resources \
 	/resource:obj/CDesigner.NewPattern.resources \
 	/resource:obj/CDesigner.Settings.resources \
@@ -137,30 +139,34 @@ $csc /reference:dll/PdfSharp.dll \
 	$target \
 	$define \
 	/utf8output \
-		src/AlignedPage.cs \
-		src/AlignedPictureBox.cs \
-		src/AssemblyLoader.cs \
-		src/CBackupData.cs \
-		src/DatabaseReader.cs \
-		src/DataReader.cs \
-		src/DBConnection.cs \
-		src/FileOpenForm.cs \
-		src/InfoForm.cs \
-		src/JoinColsForm.cs \
-		src/MainForm.cs \
-		src/NewPattern.cs \
-		src/PageField.cs \
-		src/PatternEditor.cs \
-		src/Program.cs \
-		src/ProgressStream.cs \
-		src/Settings.cs \
-		src/Structs.cs \
-		src/UpdateForm.cs \
+		src/class/AssemblyLoader.cs \
+		src/class/CBackupData.cs \
+		src/class/DatabaseReader.cs \
+		src/class/PatternEditor.cs \
+		src/class/Program.cs \
+		src/class/ProgressStream.cs \
+		src/class/Structs.cs \
+		src/controls/AlignedPage.cs \
+		src/controls/AlignedPictureBox.cs \
+		src/controls/CustomContextMenuStrip.cs \
+		src/controls/PageField.cs \
+		src/controls/TreeComboBox.cs \
+		src/forms/DatabaseSettingsForm.cs \
+		src/forms/DataFilterForm.cs \
+		src/forms/DataReader.cs \
+		src/forms/DBConnection.cs \
+		src/forms/EditColumnsForm.cs \
+		src/forms/InfoForm.cs \
+		src/forms/MainForm.cs \
+		src/forms/NewPattern.cs \
+		src/forms/Settings.cs \
+		src/forms/UpdateForm.cs \
+		designer/DatabaseSettingsForm.Designer.cs \
+		designer/DataFilterForm.Designer.cs \
 		designer/DataReader.Designer.cs \
 		designer/DBConnection.Designer.cs \
-		designer/FileOpenForm.Designer.cs \
+		designer/EditColumnsForm.Designer.cs \
 		designer/InfoForm.Designer.cs \
-		designer/JoinColsForm.Designer.cs \
 		designer/MainForm.Designer.cs \
 		designer/NewPattern.Designer.cs \
 		designer/Settings.Designer.cs \

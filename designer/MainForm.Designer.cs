@@ -63,7 +63,9 @@
 			this.gsPattern = new System.Windows.Forms.ToolStripMenuItem();
 			this.gsHome = new System.Windows.Forms.ToolStripMenuItem();
 			this.gmTools = new System.Windows.Forms.ToolStripMenuItem();
-			this.gmtJoinCols = new System.Windows.Forms.ToolStripMenuItem();
+			this.gmtLoadDatabase = new System.Windows.Forms.ToolStripMenuItem();
+			this.gmSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.gmtColumnsEditor = new System.Windows.Forms.ToolStripMenuItem();
 			this.gmtCreateDB = new System.Windows.Forms.ToolStripMenuItem();
 			this.gmtConnectDB = new System.Windows.Forms.ToolStripMenuItem();
 			this.gmtBackup = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,7 +116,7 @@
 			this.dbGeneratePDF = new System.Windows.Forms.Button();
 			this.dbScan = new System.Windows.Forms.Button();
 			this.dtvData = new System.Windows.Forms.TreeView();
-			this.gsDBase = new System.Windows.Forms.OpenFileDialog();
+			this.gsOpenFile = new System.Windows.Forms.OpenFileDialog();
 			this.pbSave = new System.Windows.Forms.Button();
 			this.pbLoadData = new System.Windows.Forms.Button();
 			this.ptInfoControls = new System.Windows.Forms.TableLayoutPanel();
@@ -272,7 +274,7 @@
 			this.mpPreview.Margin = new System.Windows.Forms.Padding(1, 0, 0, 0);
 			this.mpPreview.Name = "mpPreview";
 			this.mpPreview.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.mpPreview.Size = new System.Drawing.Size(416, 421);
+			this.mpPreview.Size = new System.Drawing.Size(416, 408);
 			this.mpPreview.TabIndex = 5;
 			this.mpPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mpPreview_MouseDown);
 			this.mpPreview.Resize += new System.EventHandler(this.mpPreview_Resize);
@@ -287,13 +289,13 @@
 			this.mtlStatusBar.Controls.Add(this.mlStatus, 0, 0);
 			this.mtlStatusBar.Controls.Add(this.mfPageLayout, 1, 0);
 			this.mtlStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mtlStatusBar.Location = new System.Drawing.Point(257, 0);
-			this.mtlStatusBar.Margin = new System.Windows.Forms.Padding(0);
+			this.mtlStatusBar.Location = new System.Drawing.Point(257, 1);
+			this.mtlStatusBar.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
 			this.mtlStatusBar.Name = "mtlStatusBar";
 			this.mtlStatusBar.Padding = new System.Windows.Forms.Padding(3);
 			this.mtlStatusBar.RowCount = 1;
 			this.mtlStatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.mtlStatusBar.Size = new System.Drawing.Size(427, 28);
+			this.mtlStatusBar.Size = new System.Drawing.Size(427, 30);
 			this.mtlStatusBar.TabIndex = 6;
 			// 
 			// mlStatus
@@ -303,7 +305,7 @@
 			this.mlStatus.Location = new System.Drawing.Point(5, 3);
 			this.mlStatus.Margin = new System.Windows.Forms.Padding(2, 0, 3, 0);
 			this.mlStatus.Name = "mlStatus";
-			this.mlStatus.Size = new System.Drawing.Size(325, 22);
+			this.mlStatus.Size = new System.Drawing.Size(325, 24);
 			this.mlStatus.TabIndex = 22;
 			this.mlStatus.Text = "Proszę czekać...";
 			this.mlStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -318,14 +320,14 @@
 			this.mfPageLayout.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this.mfPageLayout.Name = "mfPageLayout";
 			this.mfPageLayout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.mfPageLayout.Size = new System.Drawing.Size(88, 22);
+			this.mfPageLayout.Size = new System.Drawing.Size(88, 24);
 			this.mfPageLayout.TabIndex = 23;
 			// 
 			// mnPage
 			// 
 			this.mnPage.Enabled = false;
-			this.mnPage.Location = new System.Drawing.Point(53, 0);
-			this.mnPage.Margin = new System.Windows.Forms.Padding(0);
+			this.mnPage.Location = new System.Drawing.Point(53, 2);
+			this.mnPage.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
 			this.mnPage.Maximum = new decimal(new int[] {
             1,
             0,
@@ -352,7 +354,7 @@
 			this.mlPage.Dock = System.Windows.Forms.DockStyle.Right;
 			this.mlPage.Location = new System.Drawing.Point(9, 0);
 			this.mlPage.Name = "mlPage";
-			this.mlPage.Size = new System.Drawing.Size(41, 20);
+			this.mlPage.Size = new System.Drawing.Size(41, 22);
 			this.mlPage.TabIndex = 22;
 			this.mlPage.Text = "Strona:";
 			this.mlPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -365,7 +367,7 @@
 			this.mbDelete.Location = new System.Drawing.Point(129, 3);
 			this.mbDelete.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
 			this.mbDelete.Name = "mbDelete";
-			this.mbDelete.Size = new System.Drawing.Size(122, 22);
+			this.mbDelete.Size = new System.Drawing.Size(122, 24);
 			this.mbDelete.TabIndex = 18;
 			this.mbDelete.Text = "Usuń";
 			this.mbDelete.Click += new System.EventHandler(this.ictDelete_Click);
@@ -379,7 +381,7 @@
 			this.mbNew.Location = new System.Drawing.Point(1, 3);
 			this.mbNew.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
 			this.mbNew.Name = "mbNew";
-			this.mbNew.Size = new System.Drawing.Size(122, 22);
+			this.mbNew.Size = new System.Drawing.Size(122, 24);
 			this.mbNew.TabIndex = 16;
 			this.mbNew.Text = "Nowy";
 			this.mbNew.Click += new System.EventHandler(this.gmpNew_Click);
@@ -398,7 +400,7 @@
 			this.mtvPatterns.ShowLines = false;
 			this.mtvPatterns.ShowPlusMinus = false;
 			this.mtvPatterns.ShowRootLines = false;
-			this.mtvPatterns.Size = new System.Drawing.Size(250, 421);
+			this.mtvPatterns.Size = new System.Drawing.Size(250, 408);
 			this.mtvPatterns.TabIndex = 7;
 			this.mtvPatterns.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.mtvPatterns_AfterSelect);
 			this.mtvPatterns.DoubleClick += new System.EventHandler(this.ictEdit_Click);
@@ -482,6 +484,7 @@
 			// imMain
 			// 
 			this.imMain.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.imMain.GripMargin = new System.Windows.Forms.Padding(2);
 			this.imMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gmPattern,
             this.gsData,
@@ -492,10 +495,11 @@
             this.gmProgram});
 			this.imMain.Location = new System.Drawing.Point(0, 0);
 			this.imMain.Name = "imMain";
-			this.imMain.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-			this.imMain.Size = new System.Drawing.Size(684, 24);
+			this.imMain.Padding = new System.Windows.Forms.Padding(6, 3, 6, 5);
+			this.imMain.Size = new System.Drawing.Size(684, 31);
 			this.imMain.TabIndex = 1;
 			this.imMain.Text = "Menu";
+			this.imMain.Paint += new System.Windows.Forms.PaintEventHandler(this.imMain_Paint);
 			// 
 			// gmPattern
 			// 
@@ -508,7 +512,8 @@
             this.gmSeparator2,
             this.gmpClose});
 			this.gmPattern.Name = "gmPattern";
-			this.gmPattern.Size = new System.Drawing.Size(46, 20);
+			this.gmPattern.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+			this.gmPattern.Size = new System.Drawing.Size(50, 23);
 			this.gmPattern.Text = "&Wzór";
 			// 
 			// gmpNew
@@ -583,8 +588,9 @@
 			this.gsData.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.gsData.Enabled = false;
 			this.gsData.Name = "gsData";
+			this.gsData.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
 			this.gsData.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D3)));
-			this.gsData.Size = new System.Drawing.Size(46, 20);
+			this.gsData.Size = new System.Drawing.Size(50, 23);
 			this.gsData.Text = "Dane";
 			this.gsData.Click += new System.EventHandler(this.gsData_Click);
 			// 
@@ -593,8 +599,9 @@
 			this.gsPattern.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.gsPattern.Enabled = false;
 			this.gsPattern.Name = "gsPattern";
+			this.gsPattern.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
 			this.gsPattern.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D2)));
-			this.gsPattern.Size = new System.Drawing.Size(46, 20);
+			this.gsPattern.Size = new System.Drawing.Size(50, 23);
 			this.gsPattern.Text = "Wzór";
 			this.gsPattern.Click += new System.EventHandler(this.gsPattern_Click);
 			// 
@@ -603,40 +610,57 @@
 			this.gsHome.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
 			this.gsHome.Enabled = false;
 			this.gsHome.Name = "gsHome";
+			this.gsHome.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
 			this.gsHome.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
-			this.gsHome.Size = new System.Drawing.Size(59, 20);
+			this.gsHome.Size = new System.Drawing.Size(63, 23);
 			this.gsHome.Text = "Główna";
 			this.gsHome.Click += new System.EventHandler(this.gsMain_Click);
 			// 
 			// gmTools
 			// 
 			this.gmTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gmtJoinCols,
+            this.gmtLoadDatabase,
+            this.gmSeparator3,
+            this.gmtColumnsEditor,
             this.gmtCreateDB,
             this.gmtConnectDB,
             this.gmtBackup});
 			this.gmTools.Name = "gmTools";
-			this.gmTools.Size = new System.Drawing.Size(70, 20);
+			this.gmTools.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+			this.gmTools.Size = new System.Drawing.Size(74, 23);
 			this.gmTools.Text = "&Narzędzia";
 			// 
-			// gmtJoinCols
+			// gmtLoadDatabase
 			// 
-			this.gmtJoinCols.Name = "gmtJoinCols";
-			this.gmtJoinCols.Size = new System.Drawing.Size(185, 22);
-			this.gmtJoinCols.Text = "Połącz kolumny";
-			this.gmtJoinCols.Click += new System.EventHandler(this.gmtJoinCols_Click);
+			this.gmtLoadDatabase.Name = "gmtLoadDatabase";
+			this.gmtLoadDatabase.Size = new System.Drawing.Size(193, 22);
+			this.gmtLoadDatabase.Text = "Wczytaj bazę danych...";
+			this.gmtLoadDatabase.Click += new System.EventHandler(this.gmtLoadDatabase_Click);
+			// 
+			// gmSeparator3
+			// 
+			this.gmSeparator3.Name = "gmSeparator3";
+			this.gmSeparator3.Size = new System.Drawing.Size(190, 6);
+			// 
+			// gmtColumnsEditor
+			// 
+			this.gmtColumnsEditor.Enabled = false;
+			this.gmtColumnsEditor.Name = "gmtColumnsEditor";
+			this.gmtColumnsEditor.Size = new System.Drawing.Size(193, 22);
+			this.gmtColumnsEditor.Text = "Zarządzaj kolumnami";
+			this.gmtColumnsEditor.Click += new System.EventHandler(this.gmtJoinColumns_Click);
 			// 
 			// gmtCreateDB
 			// 
 			this.gmtCreateDB.Name = "gmtCreateDB";
-			this.gmtCreateDB.Size = new System.Drawing.Size(185, 22);
+			this.gmtCreateDB.Size = new System.Drawing.Size(193, 22);
 			this.gmtCreateDB.Text = "Utwórz bazę danych";
 			this.gmtCreateDB.Visible = false;
 			// 
 			// gmtConnectDB
 			// 
 			this.gmtConnectDB.Name = "gmtConnectDB";
-			this.gmtConnectDB.Size = new System.Drawing.Size(185, 22);
+			this.gmtConnectDB.Size = new System.Drawing.Size(193, 22);
 			this.gmtConnectDB.Text = "Połącz z bazą danych";
 			this.gmtConnectDB.Visible = false;
 			this.gmtConnectDB.Click += new System.EventHandler(this.gmtConnectDB_Click);
@@ -644,7 +668,7 @@
 			// gmtBackup
 			// 
 			this.gmtBackup.Name = "gmtBackup";
-			this.gmtBackup.Size = new System.Drawing.Size(185, 22);
+			this.gmtBackup.Size = new System.Drawing.Size(193, 22);
 			this.gmtBackup.Text = "Kopia zapasowa";
 			this.gmtBackup.Visible = false;
 			// 
@@ -655,7 +679,8 @@
             this.issEditor,
             this.issGeneral});
 			this.gmSettings.Name = "gmSettings";
-			this.gmSettings.Size = new System.Drawing.Size(76, 20);
+			this.gmSettings.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+			this.gmSettings.Size = new System.Drawing.Size(80, 23);
 			this.gmSettings.Text = "&Ustawienia";
 			this.gmSettings.Visible = false;
 			// 
@@ -690,7 +715,8 @@
             this.gmpHelp,
             this.gmpUpdate});
 			this.gmProgram.Name = "gmProgram";
-			this.gmProgram.Size = new System.Drawing.Size(65, 20);
+			this.gmProgram.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+			this.gmProgram.Size = new System.Drawing.Size(69, 23);
 			this.gmProgram.Text = "&Program";
 			// 
 			// gmpInfo
@@ -976,7 +1002,7 @@
 			this.dpPreview.Location = new System.Drawing.Point(0, 0);
 			this.dpPreview.Margin = new System.Windows.Forms.Padding(0);
 			this.dpPreview.Name = "dpPreview";
-			this.dpPreview.Size = new System.Drawing.Size(416, 421);
+			this.dpPreview.Size = new System.Drawing.Size(416, 414);
 			this.dpPreview.TabIndex = 1;
 			this.dpPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dpPreview_MouseDown);
 			this.dpPreview.Resize += new System.EventHandler(this.dpPreview_Resize);
@@ -1034,13 +1060,13 @@
 			this.dtvData.ShowLines = false;
 			this.dtvData.ShowPlusMinus = false;
 			this.dtvData.ShowRootLines = false;
-			this.dtvData.Size = new System.Drawing.Size(252, 421);
+			this.dtvData.Size = new System.Drawing.Size(252, 414);
 			this.dtvData.TabIndex = 3;
 			this.dtvData.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.dtvData_AfterSelect);
 			// 
-			// gsDBase
+			// gsOpenFile
 			// 
-			this.gsDBase.Filter = "CSV (*.csv)|*.csv";
+			this.gsOpenFile.Filter = "CSV (*.csv)|*.csv";
 			// 
 			// pbSave
 			// 
@@ -1173,7 +1199,7 @@
 			this.ppPreview.Location = new System.Drawing.Point(0, 0);
 			this.ppPreview.Margin = new System.Windows.Forms.Padding(0);
 			this.ppPreview.Name = "ppPreview";
-			this.ppPreview.Size = new System.Drawing.Size(416, 421);
+			this.ppPreview.Size = new System.Drawing.Size(416, 414);
 			this.ppPreview.TabIndex = 1;
 			this.ppPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ppPanelContainer_MouseDown);
 			this.ppPreview.Resize += new System.EventHandler(this.ppPanelContainer_Resize);
@@ -1191,7 +1217,7 @@
 			this.ptPatternDetails.RowCount = 2;
 			this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
 			this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.ptPatternDetails.Size = new System.Drawing.Size(252, 421);
+			this.ptPatternDetails.Size = new System.Drawing.Size(252, 414);
 			this.ptPatternDetails.TabIndex = 5;
 			// 
 			// icPatMenu
@@ -1245,7 +1271,7 @@
 			this.ppDetailsPanel.Location = new System.Drawing.Point(0, 35);
 			this.ppDetailsPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.ppDetailsPanel.Name = "ppDetailsPanel";
-			this.ppDetailsPanel.Size = new System.Drawing.Size(252, 386);
+			this.ppDetailsPanel.Size = new System.Drawing.Size(252, 379);
 			this.ppDetailsPanel.TabIndex = 69;
 			// 
 			// ptFieldDetails
@@ -1308,7 +1334,7 @@
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptFieldDetails.Size = new System.Drawing.Size(252, 386);
+			this.ptFieldDetails.Size = new System.Drawing.Size(252, 379);
 			this.ptFieldDetails.TabIndex = 7;
 			// 
 			// pcbTextTransform
@@ -1753,7 +1779,7 @@
 			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptDetails.Size = new System.Drawing.Size(252, 386);
+			this.ptDetails.Size = new System.Drawing.Size(252, 379);
 			this.ptDetails.TabIndex = 5;
 			this.ptDetails.Visible = false;
 			// 
@@ -2015,7 +2041,7 @@
 			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.ptPageDetails.Size = new System.Drawing.Size(252, 386);
+			this.ptPageDetails.Size = new System.Drawing.Size(252, 379);
 			this.ptPageDetails.TabIndex = 4;
 			this.ptPageDetails.Visible = false;
 			// 
@@ -2222,7 +2248,7 @@
 			// 
 			this.scData.Panel2.Controls.Add(this.dtvData);
 			this.scData.Panel2MinSize = 250;
-			this.scData.Size = new System.Drawing.Size(672, 421);
+			this.scData.Size = new System.Drawing.Size(672, 414);
 			this.scData.SplitterDistance = 416;
 			this.scData.SplitterWidth = 6;
 			this.scData.TabIndex = 4;
@@ -2233,7 +2259,7 @@
 			this.scMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.scMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.scMain.Location = new System.Drawing.Point(6, 6);
-			this.scMain.Margin = new System.Windows.Forms.Padding(6, 6, 6, 3);
+			this.scMain.Margin = new System.Windows.Forms.Padding(6);
 			this.scMain.Name = "scMain";
 			// 
 			// scMain.Panel1
@@ -2245,7 +2271,7 @@
 			// 
 			this.scMain.Panel2.Controls.Add(this.mpPreview);
 			this.scMain.Panel2MinSize = 416;
-			this.scMain.Size = new System.Drawing.Size(672, 421);
+			this.scMain.Size = new System.Drawing.Size(672, 408);
 			this.scMain.SplitterDistance = 250;
 			this.scMain.SplitterWidth = 6;
 			this.scMain.TabIndex = 5;
@@ -2259,29 +2285,28 @@
 			this.mtlButtons.Controls.Add(this.mbDelete, 0, 0);
 			this.mtlButtons.Controls.Add(this.mbNew, 0, 0);
 			this.mtlButtons.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.mtlButtons.Location = new System.Drawing.Point(5, 0);
-			this.mtlButtons.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
+			this.mtlButtons.Location = new System.Drawing.Point(5, 1);
+			this.mtlButtons.Margin = new System.Windows.Forms.Padding(5, 1, 0, 0);
 			this.mtlButtons.Name = "mtlButtons";
 			this.mtlButtons.RowCount = 1;
 			this.mtlButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.mtlButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.mtlButtons.Size = new System.Drawing.Size(252, 28);
+			this.mtlButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+			this.mtlButtons.Size = new System.Drawing.Size(252, 30);
 			this.mtlButtons.TabIndex = 8;
 			// 
 			// tlMain
 			// 
 			this.tlMain.ColumnCount = 1;
 			this.tlMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.tlMain.Controls.Add(this.scMain, 0, 0);
 			this.tlMain.Controls.Add(this.tlMainStatusBar, 0, 1);
 			this.tlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlMain.Location = new System.Drawing.Point(0, 24);
+			this.tlMain.Location = new System.Drawing.Point(0, 31);
 			this.tlMain.Name = "tlMain";
 			this.tlMain.RowCount = 2;
 			this.tlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tlMain.Size = new System.Drawing.Size(684, 458);
+			this.tlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+			this.tlMain.Size = new System.Drawing.Size(684, 451);
 			this.tlMain.TabIndex = 6;
 			// 
 			// tlMainStatusBar
@@ -2293,13 +2318,14 @@
 			this.tlMainStatusBar.Controls.Add(this.mtlStatusBar, 0, 0);
 			this.tlMainStatusBar.Controls.Add(this.mtlButtons, 0, 0);
 			this.tlMainStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlMainStatusBar.Location = new System.Drawing.Point(0, 430);
+			this.tlMainStatusBar.Location = new System.Drawing.Point(0, 420);
 			this.tlMainStatusBar.Margin = new System.Windows.Forms.Padding(0);
 			this.tlMainStatusBar.Name = "tlMainStatusBar";
 			this.tlMainStatusBar.RowCount = 1;
 			this.tlMainStatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlMainStatusBar.Size = new System.Drawing.Size(684, 28);
+			this.tlMainStatusBar.Size = new System.Drawing.Size(684, 31);
 			this.tlMainStatusBar.TabIndex = 6;
+			this.tlMainStatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.tlMainStatusBar_Paint);
 			// 
 			// tDataTable
 			// 
@@ -2309,12 +2335,12 @@
 			this.tDataTable.Controls.Add(this.scData, 0, 0);
 			this.tDataTable.Controls.Add(this.sbData, 0, 1);
 			this.tDataTable.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tDataTable.Location = new System.Drawing.Point(0, 24);
+			this.tDataTable.Location = new System.Drawing.Point(0, 31);
 			this.tDataTable.Name = "tDataTable";
 			this.tDataTable.RowCount = 2;
 			this.tDataTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tDataTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tDataTable.Size = new System.Drawing.Size(684, 458);
+			this.tDataTable.Size = new System.Drawing.Size(684, 451);
 			this.tDataTable.TabIndex = 7;
 			this.tDataTable.Visible = false;
 			// 
@@ -2327,7 +2353,7 @@
 			this.sbData.Controls.Add(this.dtInfoControls, 0, 0);
 			this.sbData.Controls.Add(this.dtButtonTable, 1, 0);
 			this.sbData.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.sbData.Location = new System.Drawing.Point(0, 430);
+			this.sbData.Location = new System.Drawing.Point(0, 423);
 			this.sbData.Margin = new System.Windows.Forms.Padding(0);
 			this.sbData.Name = "sbData";
 			this.sbData.RowCount = 1;
@@ -2439,12 +2465,12 @@
 			this.tPattern.Controls.Add(this.scPattern, 0, 0);
 			this.tPattern.Controls.Add(this.sbPattern, 0, 1);
 			this.tPattern.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tPattern.Location = new System.Drawing.Point(0, 24);
+			this.tPattern.Location = new System.Drawing.Point(0, 31);
 			this.tPattern.Name = "tPattern";
 			this.tPattern.RowCount = 2;
 			this.tPattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tPattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tPattern.Size = new System.Drawing.Size(684, 458);
+			this.tPattern.Size = new System.Drawing.Size(684, 451);
 			this.tPattern.TabIndex = 8;
 			this.tPattern.Visible = false;
 			// 
@@ -2465,7 +2491,7 @@
 			// 
 			this.scPattern.Panel2.Controls.Add(this.ptPatternDetails);
 			this.scPattern.Panel2MinSize = 250;
-			this.scPattern.Size = new System.Drawing.Size(672, 421);
+			this.scPattern.Size = new System.Drawing.Size(672, 414);
 			this.scPattern.SplitterDistance = 416;
 			this.scPattern.SplitterWidth = 6;
 			this.scPattern.TabIndex = 0;
@@ -2480,7 +2506,7 @@
 			this.sbPattern.Controls.Add(this.ptInfoControls, 0, 0);
 			this.sbPattern.Controls.Add(this.ptStatusButtons, 1, 0);
 			this.sbPattern.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.sbPattern.Location = new System.Drawing.Point(0, 430);
+			this.sbPattern.Location = new System.Drawing.Point(0, 423);
 			this.sbPattern.Margin = new System.Windows.Forms.Padding(0);
 			this.sbPattern.Name = "sbPattern";
 			this.sbPattern.RowCount = 1;
@@ -2628,7 +2654,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripMenuItem iclPrintColor;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-		private System.Windows.Forms.OpenFileDialog gsDBase;
+		private System.Windows.Forms.OpenFileDialog gsOpenFile;
 		private System.Windows.Forms.ContextMenuStrip gcmPattern;
 		private System.Windows.Forms.ToolStripMenuItem ictEdit;
 		private System.Windows.Forms.ToolStripMenuItem ictDelete;
@@ -2758,7 +2784,7 @@
 		private System.Windows.Forms.ComboBox pcbTextTransform;
 		private System.Windows.Forms.Label plTextTransform;
 		private System.Windows.Forms.ToolStripMenuItem gmTools;
-		private System.Windows.Forms.ToolStripMenuItem gmtJoinCols;
+		private System.Windows.Forms.ToolStripMenuItem gmtColumnsEditor;
 		private System.Windows.Forms.Label pldAdditionalMargin;
 		private System.Windows.Forms.NumericUpDown pnPadding;
 		private System.Windows.Forms.Label plPadding;
@@ -2771,6 +2797,8 @@
 		private System.Windows.Forms.ToolStripMenuItem gmprClearList;
 		private System.Windows.Forms.ToolStripMenuItem gmtBackup;
 		private System.Windows.Forms.ToolStripMenuItem gmpUpdate;
+		private System.Windows.Forms.ToolStripMenuItem gmtLoadDatabase;
+		private System.Windows.Forms.ToolStripSeparator gmSeparator3;
 
     }
 }
