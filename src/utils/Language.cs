@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using CDesigner.Utils;
 
 ///
 /// $c03 Language.cs
@@ -140,8 +141,10 @@ namespace CDesigner
 			Program.LogMessage( "Przetwarzanie pliku językowego." );
 #		endif
 
+			// domyślny język lub język pobrany z ustawień
 			if( lang == null )
-				lang = Settings.Info.Language;
+			//	lang = Settings.Info.Language;
+				lang = "pol";
 
 			// nie wywołano funkcji inicjalizacji
 			if( !Language._init )

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
+using CDesigner.Utils;
 
 ///
 /// $c06 DatabaseReader.cs
@@ -212,7 +213,7 @@ namespace CDesigner
 			// okno wyboru pliku
 			OpenFileDialog dialog = new OpenFileDialog();
 
-			dialog.Title  = Language.GetLine( "MessageNames", (int)MSGBLIDX.DatabaseSelect );
+			dialog.Title  = Language.GetLine( "MessageNames", (int)MSGBLIDX.DatafileSelect );
 			dialog.Filter = DatabaseReader.JoinSupportedExtensions( true );
 
 			DialogResult result = dialog.ShowDialog();
@@ -250,8 +251,8 @@ namespace CDesigner
 			// automatyczne parsowanie pliku
 			this.Parse();
 
-			DatafileSettingsForm settings = new DatafileSettingsForm( this );
-			result = settings.ShowDialog();
+			//DatafileSettingsForm settings = new DatafileSettingsForm( this );
+			//result = settings.ShowDialog();
 
 #		if DEBUG
 			Program.LogMessage( "EOW ====================================================================" );
@@ -259,8 +260,8 @@ namespace CDesigner
 #		endif
 
 			// anulowano przetwarzanie bazy danych
-			if( result != DialogResult.OK )
-				return;
+			//if( result != DialogResult.OK )
+			//	return;
 
 			this._ready = true;
 		}
@@ -528,7 +529,7 @@ namespace CDesigner
 						? "string"
 						: (this._types[x] == DATATYPE.Integer
 							? "integer"
-							: (this._types[x] == DATATYPE.Double
+							: (this._types[x] == DATATYPE.Float
 								? "float"
 								: "char"
 							)
@@ -572,7 +573,7 @@ namespace CDesigner
 					{
 						// jeżeli nie da rady, próbuj zamienić na DOUBLE
 						if( Double.TryParse(this._row[x,y], out dval) )
-							type = DATATYPE.Double;
+							type = DATATYPE.Float;
 						else
 						{
 							// jeżeli nie da rady, sprawdź czy kolumna nie zawiera znaków
@@ -589,7 +590,7 @@ namespace CDesigner
 						}
 					}
 					// próbuj zamienić na DOUBLE
-					else if( type == DATATYPE.Double && !Double.TryParse(this._row[x,y], out dval) )
+					else if( type == DATATYPE.Float && !Double.TryParse(this._row[x,y], out dval) )
 					{
 						// jeżeli nie da rady, sprawdź czy kolumna nie zawiera znaków
 						for( int z = 0; z <= y; ++z )

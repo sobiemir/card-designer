@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CDesigner.Utils;
 
 namespace CDesigner
 {
@@ -9,10 +10,6 @@ namespace CDesigner
 	{
 		
 		private static string _default_format = " ";
-
-
-		
-		
 
 		/// <summary>Lista kolumn po przekształceniu.</summary>
 		private List<string> _columns;
@@ -28,7 +25,7 @@ namespace CDesigner
 		
 		/// <summery>Czytnik bazy danych - filtrowane dane.</summery>
 		private DatabaseReader _reader;
-		
+
 		/// <summary>Lista zdefiniowanych filtrów.</summary>
 		private List<List<FilterInfo>> _filter;
 		
@@ -170,7 +167,7 @@ namespace CDesigner
 
 						// pobierz format łączenia kolumn
 						for( int z = 0; z < finfo.Count; ++z )
-							if( finfo[z].Filter == (int)FILTERTYPE.Format )
+							if( finfo[z].Filter == FILTERTYPE.Format )
 							{
 								format = finfo[z].Result;
 								break;
@@ -204,9 +201,9 @@ namespace CDesigner
 			{
 				if( filters[x].Exclude )
 				{
-					if( filters[x].Filter == (int)FILTERTYPE.Equal && value == filters[x].Modifier )
+					if( filters[x].Filter == FILTERTYPE.Equal && value == filters[x].Modifier )
 						return null;
-					else if( filters[x].Filter == (int)FILTERTYPE.NotEqual && value != filters[x].Modifier )
+					else if( filters[x].Filter == FILTERTYPE.NotEqual && value != filters[x].Modifier )
 						return null;
 				}
 			}

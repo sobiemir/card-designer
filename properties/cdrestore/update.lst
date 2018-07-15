@@ -21,11 +21,6 @@
 ./icons/exit-application.png
 ./icons/image-field.png
 ./icons/text-field.png
-./icons/combo-child.png
-./icons/combo-end.png
-./icons/combo-one.png
-./icons/combo-parent.png
-./icons/combo-start.png
 ./libraries/PdfSharp.dll
 ./CDesigner.exe
 ./CDRestore.exe

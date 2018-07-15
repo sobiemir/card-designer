@@ -121,7 +121,7 @@
 			this.scMain.Panel2.Controls.Add(this.scSidebar);
 			this.scMain.Panel2MinSize = 204;
 			this.scMain.Size = new System.Drawing.Size(772, 480);
-			this.scMain.SplitterDistance = 526;
+			this.scMain.SplitterDistance = 521;
 			this.scMain.SplitterWidth = 6;
 			this.scMain.TabIndex = 1;
 			// 
@@ -138,7 +138,7 @@
 			this.tlDataGrid.RowCount = 2;
 			this.tlDataGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
 			this.tlDataGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlDataGrid.Size = new System.Drawing.Size(526, 480);
+			this.tlDataGrid.Size = new System.Drawing.Size(521, 480);
 			this.tlDataGrid.TabIndex = 1;
 			// 
 			// pGrid
@@ -150,7 +150,7 @@
 			this.pGrid.Margin = new System.Windows.Forms.Padding(0);
 			this.pGrid.Name = "pGrid";
 			this.pGrid.Padding = new System.Windows.Forms.Padding(1);
-			this.pGrid.Size = new System.Drawing.Size(526, 454);
+			this.pGrid.Size = new System.Drawing.Size(521, 454);
 			this.pGrid.TabIndex = 0;
 			// 
 			// gvData
@@ -167,7 +167,7 @@
 			this.gvData.Location = new System.Drawing.Point(1, 1);
 			this.gvData.Margin = new System.Windows.Forms.Padding(0);
 			this.gvData.Name = "gvData";
-			this.gvData.Size = new System.Drawing.Size(522, 450);
+			this.gvData.Size = new System.Drawing.Size(517, 450);
 			this.gvData.TabIndex = 0;
 			this.gvData.VirtualMode = true;
 			this.gvData.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gvData_CellValueNeeded);
@@ -229,7 +229,7 @@
 			this.tlDataControls.Name = "tlDataControls";
 			this.tlDataControls.RowCount = 1;
 			this.tlDataControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlDataControls.Size = new System.Drawing.Size(526, 24);
+			this.tlDataControls.Size = new System.Drawing.Size(521, 24);
 			this.tlDataControls.TabIndex = 1;
 			// 
 			// bRemoveRow
@@ -317,7 +317,7 @@
 			// tbRowsPerPage
 			// 
 			this.tbRowsPerPage.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tbRowsPerPage.Location = new System.Drawing.Point(471, 2);
+			this.tbRowsPerPage.Location = new System.Drawing.Point(466, 2);
 			this.tbRowsPerPage.Margin = new System.Windows.Forms.Padding(0, 2, 0, 3);
 			this.tbRowsPerPage.Name = "tbRowsPerPage";
 			this.tbRowsPerPage.Size = new System.Drawing.Size(55, 20);
@@ -334,7 +334,7 @@
 			this.lRowsPerPage.Location = new System.Drawing.Point(265, 0);
 			this.lRowsPerPage.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
 			this.lRowsPerPage.Name = "lRowsPerPage";
-			this.lRowsPerPage.Size = new System.Drawing.Size(203, 22);
+			this.lRowsPerPage.Size = new System.Drawing.Size(198, 22);
 			this.lRowsPerPage.TabIndex = 2;
 			this.lRowsPerPage.Text = "Ilość wierszy na stronę:";
 			this.lRowsPerPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -369,7 +369,7 @@
 			this.scSidebar.Panel2.AutoScroll = true;
 			this.scSidebar.Panel2.Controls.Add(this.tlEditDataControls);
 			this.scSidebar.Panel2MinSize = 100;
-			this.scSidebar.Size = new System.Drawing.Size(240, 480);
+			this.scSidebar.Size = new System.Drawing.Size(245, 480);
 			this.scSidebar.SplitterDistance = 199;
 			this.scSidebar.TabIndex = 0;
 			// 
@@ -385,7 +385,7 @@
 			this.tableLayoutPanel1.RowCount = 2;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(240, 199);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(245, 199);
 			this.tableLayoutPanel1.TabIndex = 1;
 			// 
 			// lvColumns
@@ -401,7 +401,7 @@
 			this.lvColumns.Location = new System.Drawing.Point(0, 0);
 			this.lvColumns.Margin = new System.Windows.Forms.Padding(0);
 			this.lvColumns.Name = "lvColumns";
-			this.lvColumns.Size = new System.Drawing.Size(240, 171);
+			this.lvColumns.Size = new System.Drawing.Size(245, 171);
 			this.lvColumns.TabIndex = 0;
 			this.lvColumns.UseCompatibleStateImageBehavior = false;
 			this.lvColumns.View = System.Windows.Forms.View.Details;
@@ -425,7 +425,7 @@
 			this.tlEditDataControls.RowCount = 2;
 			this.tlEditDataControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
 			this.tlEditDataControls.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tlEditDataControls.Size = new System.Drawing.Size(240, 276);
+			this.tlEditDataControls.Size = new System.Drawing.Size(245, 276);
 			this.tlEditDataControls.TabIndex = 0;
 			// 
 			// gbType
@@ -436,7 +436,7 @@
 			this.gbType.Margin = new System.Windows.Forms.Padding(0);
 			this.gbType.Name = "gbType";
 			this.gbType.Padding = new System.Windows.Forms.Padding(6);
-			this.gbType.Size = new System.Drawing.Size(240, 46);
+			this.gbType.Size = new System.Drawing.Size(245, 46);
 			this.gbType.TabIndex = 0;
 			this.gbType.TabStop = false;
 			this.gbType.Text = "Typ kolumny";
@@ -454,7 +454,7 @@
 			this.cbColumnType.Location = new System.Drawing.Point(6, 19);
 			this.cbColumnType.Margin = new System.Windows.Forms.Padding(0);
 			this.cbColumnType.Name = "cbColumnType";
-			this.cbColumnType.Size = new System.Drawing.Size(228, 21);
+			this.cbColumnType.Size = new System.Drawing.Size(233, 21);
 			this.cbColumnType.TabIndex = 0;
 			this.cbColumnType.SelectedIndexChanged += new System.EventHandler(this.cbColumnType_SelectedIndexChanged);
 			// 
@@ -468,7 +468,7 @@
 			this.gbSearchAndReplace.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
 			this.gbSearchAndReplace.Name = "gbSearchAndReplace";
 			this.gbSearchAndReplace.Padding = new System.Windows.Forms.Padding(6);
-			this.gbSearchAndReplace.Size = new System.Drawing.Size(240, 224);
+			this.gbSearchAndReplace.Size = new System.Drawing.Size(245, 224);
 			this.gbSearchAndReplace.TabIndex = 1;
 			this.gbSearchAndReplace.TabStop = false;
 			this.gbSearchAndReplace.Text = "Wyszukaj i zamień";
@@ -502,7 +502,7 @@
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(228, 199);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(233, 199);
 			this.tableLayoutPanel2.TabIndex = 0;
 			// 
 			// bReplaceAll
@@ -511,7 +511,7 @@
 			this.bReplaceAll.Location = new System.Drawing.Point(0, 175);
 			this.bReplaceAll.Margin = new System.Windows.Forms.Padding(0, 3, 2, 0);
 			this.bReplaceAll.Name = "bReplaceAll";
-			this.bReplaceAll.Size = new System.Drawing.Size(112, 24);
+			this.bReplaceAll.Size = new System.Drawing.Size(114, 24);
 			this.bReplaceAll.TabIndex = 11;
 			this.bReplaceAll.Text = "Zamień wszystkie";
 			this.bReplaceAll.UseVisualStyleBackColor = true;
@@ -519,10 +519,10 @@
 			// bCount
 			// 
 			this.bCount.Dock = System.Windows.Forms.DockStyle.Top;
-			this.bCount.Location = new System.Drawing.Point(116, 175);
+			this.bCount.Location = new System.Drawing.Point(118, 175);
 			this.bCount.Margin = new System.Windows.Forms.Padding(2, 3, 0, 0);
 			this.bCount.Name = "bCount";
-			this.bCount.Size = new System.Drawing.Size(112, 24);
+			this.bCount.Size = new System.Drawing.Size(115, 24);
 			this.bCount.TabIndex = 10;
 			this.bCount.Text = "Policz wystąpienia";
 			this.bCount.UseVisualStyleBackColor = true;
@@ -534,7 +534,7 @@
 			this.bReplace.Location = new System.Drawing.Point(0, 148);
 			this.bReplace.Margin = new System.Windows.Forms.Padding(0, 3, 2, 0);
 			this.bReplace.Name = "bReplace";
-			this.bReplace.Size = new System.Drawing.Size(112, 24);
+			this.bReplace.Size = new System.Drawing.Size(114, 24);
 			this.bReplace.TabIndex = 9;
 			this.bReplace.Text = "Zamień";
 			this.bReplace.UseVisualStyleBackColor = true;
@@ -548,7 +548,7 @@
 			this.cbCaseSensitive.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.cbCaseSensitive.Location = new System.Drawing.Point(3, 98);
 			this.cbCaseSensitive.Name = "cbCaseSensitive";
-			this.cbCaseSensitive.Size = new System.Drawing.Size(222, 18);
+			this.cbCaseSensitive.Size = new System.Drawing.Size(227, 18);
 			this.cbCaseSensitive.TabIndex = 8;
 			this.cbCaseSensitive.Text = "Uwzględniaj wielkość liter";
 			this.cbCaseSensitive.UseVisualStyleBackColor = true;
@@ -560,7 +560,7 @@
 			this.cbExact.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.cbExact.Location = new System.Drawing.Point(3, 74);
 			this.cbExact.Name = "cbExact";
-			this.cbExact.Size = new System.Drawing.Size(222, 18);
+			this.cbExact.Size = new System.Drawing.Size(227, 18);
 			this.cbExact.TabIndex = 7;
 			this.cbExact.Text = "Szukaj tylko całych wyrazów";
 			this.cbExact.UseVisualStyleBackColor = true;
@@ -572,7 +572,7 @@
 			this.cbUseRegex.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.cbUseRegex.Location = new System.Drawing.Point(3, 50);
 			this.cbUseRegex.Name = "cbUseRegex";
-			this.cbUseRegex.Size = new System.Drawing.Size(222, 18);
+			this.cbUseRegex.Size = new System.Drawing.Size(227, 18);
 			this.cbUseRegex.TabIndex = 6;
 			this.cbUseRegex.Text = "Użyj wyrażeń regularnych";
 			this.cbUseRegex.UseVisualStyleBackColor = true;
@@ -584,7 +584,7 @@
 			this.tbSearch.Location = new System.Drawing.Point(0, 0);
 			this.tbSearch.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this.tbSearch.Name = "tbSearch";
-			this.tbSearch.Size = new System.Drawing.Size(228, 20);
+			this.tbSearch.Size = new System.Drawing.Size(233, 20);
 			this.tbSearch.TabIndex = 0;
 			// 
 			// tbReplace
@@ -594,7 +594,7 @@
 			this.tbReplace.Location = new System.Drawing.Point(0, 25);
 			this.tbReplace.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this.tbReplace.Name = "tbReplace";
-			this.tbReplace.Size = new System.Drawing.Size(228, 20);
+			this.tbReplace.Size = new System.Drawing.Size(233, 20);
 			this.tbReplace.TabIndex = 1;
 			// 
 			// bSearchRange
@@ -611,16 +611,16 @@
 			this.bSearchRange.Location = new System.Drawing.Point(0, 122);
 			this.bSearchRange.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
 			this.bSearchRange.Name = "bSearchRange";
-			this.bSearchRange.Size = new System.Drawing.Size(228, 21);
+			this.bSearchRange.Size = new System.Drawing.Size(233, 21);
 			this.bSearchRange.TabIndex = 3;
 			// 
 			// bSearch
 			// 
 			this.bSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.bSearch.Location = new System.Drawing.Point(116, 148);
+			this.bSearch.Location = new System.Drawing.Point(118, 148);
 			this.bSearch.Margin = new System.Windows.Forms.Padding(2, 3, 0, 0);
 			this.bSearch.Name = "bSearch";
-			this.bSearch.Size = new System.Drawing.Size(112, 24);
+			this.bSearch.Size = new System.Drawing.Size(115, 24);
 			this.bSearch.TabIndex = 4;
 			this.bSearch.Text = "Wyszukaj";
 			this.bSearch.UseVisualStyleBackColor = true;

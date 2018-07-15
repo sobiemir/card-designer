@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using CDesigner.Utils;
 
 ///
 /// $c02 Settings.cs
@@ -29,9 +30,7 @@ namespace CDesigner
 	/// </summary>
 	/// 
 	public class Settings
-	{
-		// ===== PRIVATE VARIABLES ==============================================================
-		
+	{		
 		// ===== PUBLIC VARIABLES ===============================================================
 
 		/// <summary>Struktura z danymi ustawień.</summary>
@@ -54,6 +53,8 @@ namespace CDesigner
 
 			// utwórz strukturę z domyślnymi wartościami
 			Settings.Info = new SettingsInfo( true );
+
+			//File.Delete( "./cdset.nfo" );
 
 			// zapisz ustawienia do pliku jeżeli nie istnieje
 			if( !File.Exists("./cdset.nfo") )
@@ -93,7 +94,7 @@ namespace CDesigner
 			reader.ReadString();
 
 			// ilość i długość ustawień
-			int count = reader.ReadInt16();
+			int count  = reader.ReadInt16();
 			reader.ReadInt32();
 
 			// opakuj strukturę

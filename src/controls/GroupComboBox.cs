@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing;
+using CDesigner.Utils;
 
 ///
 /// $i06 GroupComboBox.cs

@@ -10,6 +10,7 @@ using System.Windows.Forms.VisualStyles;
 using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices;
+using CDesigner.Utils;
 
 /* 
  * TODO:
@@ -72,7 +73,7 @@ namespace CDesigner
 			this.InitializeComponent();
 
 			this._sync = new GroupComboBoxSync();
-			
+
 			// dodaj element do panelu wyboru
 			this._oldcol = this._sync.Add( colname, true );
 			this._newcol = null;

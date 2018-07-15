@@ -10,6 +10,7 @@ using System.Net;
 using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
+using CDesigner.Utils;
 
 namespace CDesigner
 {
@@ -396,7 +397,7 @@ namespace CDesigner
 					process.Start();
 
 					// zamykanie aplikacji
-					Program.ExitApplication();
+					Program.ExitApplication( true );
 				}
 			}
 		}

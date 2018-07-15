@@ -1,4 +1,28 @@
-﻿using System;
+﻿///
+/// $i02 DatabaseSettingsForm.cs
+/// 
+/// Okno ustawień pliku bazy danych (kodowanie, separator).
+/// Wyświetlane jest zaraz po wybraniu pliku bazy danych.
+/// Wywoływane z menu lub po wyborze źródła danych z paska informacji.
+/// 
+/// Autor: Kamil Biały
+/// Copyright ⓒ 2015. Wszystkie prawa zastrzeżone.
+/// 
+/// Od wersji: 0.8.x.x
+/// Ostatnia zmiana: 2016-07-26
+/// 
+/// CHANGELOG:
+/// [29.09.2015] Wersja początkowa.
+/// [30.01.2016] Dodano ograniczenie wyświetlania wierszy.
+/// [28.02.2016] Zmieniono koncepcje zmiany separatora (na combobox).
+///              Przebudowano układ kontrolek i dodano nowe.
+///              Posegregowano funkcje na regiony.
+/// [04.07.2016] Dodatkowe tłumaczenia.
+/// [26.07.2016] Komentarze, poprawki kodu.
+/// [22.08.2016] Wczytywanie danych bez lub z nagłówkiem po przebudowaniu klasy parsera.
+///
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,320 +30,636 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
+using CDesigner.Utils;
 
-///
-/// $i02 DatabaseSettingsForm.cs
-/// 
-/// Okno ustawień pliku bazy danych (kodowanie, separator).
-/// Wyświetlane jest zaraz po wybraniu pliku bazy danych.
-/// 
-/// Autor: Kamil Biały
-/// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2016-01-31
-/// 
-/// Dodano ograniczenie wyświetlania wierszy.
-///
-
-namespace CDesigner
+namespace CDesigner.Forms
 {
 	/// 
 	/// <summary>
-	/// Formularz ustawień pliku z bazą danych.
-	/// Pozwala na zmianę kodowania i separatora.
-	/// Dodatkowo wyświetla podgląd kolumn i wierszy.
+	/// Klasa formularza podglądu danych z pliku o obsługiwanym przez parser rozszerzeniu.
+    /// Lista rozszerzeń możliwych do wczytania plików dostępna jest w klasie <see cref="IOFileData"/>.
+	/// Klasa pozwala na ustawienie szczegółów odczytu wybranego pliku, takich jak:
+	/// <list type="bullet">
+	///		<item>Kodowanie pliku</item>
+	///		<item>Separator kolumn</item>
+    ///		<item>Nagłówek dla każdej kolumny</item>
+	/// </list>
 	/// </summary>
+	/// 
+    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana szerokości kolumn wraz ze zmianą szerokości okna.
+    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Możliwość zmiany ilości wyświetlanych rekordów.
+    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana znaku dla ograniczników pola (enclosing tags).
+    /// @todo <dfn><small>[1.0.x.x]</small></dfn> Ustawienia...
+	/// @todo <dfn><small>[1.0.x.x]</small></dfn> Automatyczne wykrywanie typów danych.
+    /// @todo <dfn><small>[1.0.x.x]</small></dfn> Dopiero zapis (kliknięcie na przycisk wczytaj) zmienia strumień (_storage).
+    /// @todo <dfn><small>[?.?.x.x]</small></dfn> Po wciśnięciu WIN na linuksie okno się zamyka (przechwytuje sygnał zamknięcia).
 	/// 
 	public partial class DatafileSettingsForm : Form
 	{
-		// ===== PRIVATE VARIABLES =====
+#region ZMIENNE
 
-		/// <summary>Blokada kontrolek (lub innych elementów) przed odświeżeniem.</summary>
-		private bool _locked;
+		/// <summary>Blokada elementów przed przypadkowym odświeżeniem.</summary>
+		private bool _locked = false;
 
-		/// <summary>"Czytnik" bazy danych.</summary>
-		private DatabaseReader _reader;
+		/// <summary>Strumień pliku bazy danych.</summary>
+		private IOFileData _storage = null;
 
-		/// <summary>Aktualnie wyświetlana kolumna (zapobiega podwójnemu zaznaczeniu).</summary>
-		private int _column;
+		/// <summary>Aktualnie wyświetlana kolumna.</summary>
+		private int _column = -1;
 
-		// ===== PUBLIC FUNCTIONS =====
+        /// <summary>Informacja o tym, czy plik posiada definicje kolumn.</summary>
+        private bool _hascolumns = true;
 
-		/**
-		 * <summary>
-		 * Konstruktor klasy DatabaseSettingsForm.
-		 * </summary>
-		 * 
-		 * <param name="reader">Czytnik pliku bazy danych.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
-		public DatafileSettingsForm( DatabaseReader reader )
+#endregion
+
+#region KONSTRUKTORY / WŁAŚCIWOŚCI
+
+		/// <summary>
+		/// Konstruktor formularza.
+		/// Tworzy okno, ustawia ikonkę programu i tłumaczy wszystkie napisy.
+		/// </summary>
+		//* ============================================================================================================
+		public DatafileSettingsForm()
 		{
+            this._column     = -1;
+            this._hascolumns = true;
+            this._locked     = false;
+            this._storage    = null;
+
+			// inicjalizacja zmiennych globalnych (potrzebne przy bezpośrednim odpalaniu formularza)
+			Program.InitializeGlobals();
+
 			this.InitializeComponent();
 
 			// ikona programu
 			this.Icon = Program.GetIcon();
 
-			this._reader = reader;
-			this._column = -1;
-
-			List<string> values = null;
-			
-			// translacja listy z kodowaniem
-			values = Language.GetLines( "DatabaseSettings", "ComboBox" );
-			for( int x = 0; x < this.cbEncoding.Items.Count; ++x )
-				this.cbEncoding.Items[x] = (object)values[x];
-
-			// translacja nagłówków tabel
-			values = Language.GetLines( "DatabaseSettings", "Headers" );
-			this.lvcRows.Text    = values[0];
-			this.lvcColumns.Text = values[1];
-
-			// translacja przycisków
-			values = Language.GetLines( "DatabaseSettings", "Buttons" );
-			this.bChangeFile.Text = values[0];
-			this.bSave.Text       = values[1];
-
-			// uzupełnij kontrolki danymi
-			this.FillControls();
-
-			// nazwa formularza
-			this.Text = Language.GetLine( "FormNames", (int)FORMLIDX.DatabaseSettings );
+			// tłumaczenia okna
+			this.translateForm();
 		}
 
-		// ===== PRIVATE FUNCTIONS =====
-
-		/**
-		 * <summary>
-		 * Uzupełnianie / odświeżanie kontrolek.
-		 * </summary>
-		 * --------------------------------------------------------------------------------------------------------- **/
-		private void FillControls()
+		/// <summary>
+		/// Właściwość dla strumienia danych formularza.
+		/// Pozwala na pobranie i ustawienia strumienia danych przetwarzanych przez klasę.
+		/// Dane z tego strumienia wyświetlane będą w kontrolce ListView.
+		/// </summary>
+		//* ============================================================================================================
+		public IOFileData Storage
 		{
+			// pobranie właściwości
+			get
+				{ return this._storage; }
+
+			// ustawienie właściwości
+			set
+			{
+				if( value == null )
+				{
+					this._storage = null;
+					return;
+				}
+
+				// sprawdź czy strumień jest gotowy do użycia
+				if( !value.Ready )
+					return;
+				
+#			if DEBUG
+				Program.LogMessage( "Zmiana stumienia danych." );
+#			endif
+
+				this._storage = value;
+
+				// po ustawieniu odśwież
+				this.resetControls();
+				this.getPreview();
+			}
+		}
+        
+		/// <summary>
+		/// Czy plik posiada definicje kolumn?
+        /// Jest to tylko informacja, przed zmianą wartości należy zapoznać się ze strukturą wczytywanego pliku.
+        /// W przypadku braku kolumn, uzupełniane są one domyślnymi wartościami pobieranymi z ustawień językowych.
+		/// </summary>
+		//* ============================================================================================================
+        public bool HasColumns
+        {
+            get { return this._hascolumns; }
+            set { this._hascolumns = value; }
+        }
+
+#endregion
+
+#region FUNKCJE PODSTAWOWE
+
+		/// <summary>
+		/// Ustawia strumień do przetwarzania danych z wybranego pliku.
+		/// Funkcja różni się od właściwości Stream tym, że dla wczytywanego strumienia zmienia właściwości na te,
+        /// ustawione wcześniej w konfiguracji przez użytkownika - resetuje je do wartości początkowych.
+		/// </summary>
+        /// 
+		/// <returns>Wartość zwracana przez OpenFileDialog lub DialogResult.Abort w przypadku błędu.</returns>
+		//* ============================================================================================================
+		public DialogResult fileSelector()
+		{
+#		if DEBUG
+			Program.LogMessage( "Otwieranie okna wyboru strumienia danych." );
+#		endif
+
+			OpenFileDialog dialog = Program.GLOBAL.SelectFile;
+
+			dialog.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SELECTDBASESTREAM );
+			dialog.Filter = DatabaseReader.JoinSupportedExtensions( true );
+
+			DialogResult result = dialog.ShowDialog();
+
+			// anulowano wybór pliku?
+			if( result != DialogResult.OK )
+			{
+#			if DEBUG
+				Program.LogMessage( "Zrezygnowano z wyboru strumienia danych." );
+#			endif
+				return result;
+			}
+			
+			// odczytaj strumień
+			IOFileData storage = new IOFileData( dialog.FileName, Encoding.Default );
+
+			// w przypadku błędu zwróć ABORT
+			if( storage == null || !storage.Ready )
+				return DialogResult.Abort;
+
+			this.setDefaultStreamProperties( storage );
+
+			// ustaw strumień
+			this.Storage = storage;
+
+#		if DEBUG
+			Program.LogMessage( "Ustawiono strumień odczytu danych." );
+#		endif
+
+			return DialogResult.OK;
+		}
+
+		/// <summary>
+		/// Ustawia domyślne właściwości dla strumienia.
+		/// Funkcja tylko ustawia właściwości, nie parsuje ponownie pliku.
+		/// Używana w funkcjach do zmiany lub utwierania nowego strumienia danych.
+		/// </summary>
+		/// 
+		/// <param name="stream">Strumień danych do zmiany.</param>
+		//* ============================================================================================================
+		private void setDefaultStreamProperties( IOFileData stream )
+		{
+			// domyślne kodowanie
+			if( Settings.Info.i02_Encoding == 0 )
+				stream.Encoding = Encoding.Default;
+			else if( Settings.Info.i02_Encoding == 1 )
+				stream.Encoding = Encoding.ASCII;
+			else if( Settings.Info.i02_Encoding == 2 )
+				stream.Encoding = Encoding.UTF8;
+			else if( Settings.Info.i02_Encoding == 3 )
+				stream.Encoding = Encoding.BigEndianUnicode;
+			else if( Settings.Info.i02_Encoding == 4 )
+				stream.Encoding = Encoding.Unicode;
+			else if( Settings.Info.i02_Encoding == 5 )
+				stream.Encoding = Encoding.UTF32;
+			else
+				stream.Encoding = Encoding.UTF7;
+
+			// domyślny separator
+			stream.Separator = Settings.Info.i02_Separator;
+		}
+
+		/// <summary>
+		/// Tłumaczy formularz względem ustawionej lokalizacji.
+		/// Tłumaczone są wszelkie możliwe statyczne kontrolki formularza.
+		/// Kontrolki dynamiczne tłumaczone są w locie, podczas zmiany danych lub ustawień.
+		/// Zmiana lokalizacji odbywa się poprzez klasę Language.
+		/// </summary>
+		//* ============================================================================================================
+		protected void translateForm()
+		{
+#		if DEBUG
+			Program.LogMessage( "Tłumaczenie kontrolek znajdujących się na formularzu." );
+#		endif
+
+			List<string> values = null;
+
+			// tłumaczenie elementów listy opcji kodowania pliku
+			values = Language.GetLines( "DatafileSettings", "Encoding" );
+			for( int x = 0; x < this.sbEncoding.Items.Count; ++x )
+				this.sbEncoding.Items[x] = (object)values[x];
+
+			// tłumaczenie nagłówków tabeli
+			values = Language.GetLines( "DatafileSettings", "Headers" );
+			this.lvcRows.Text    = values[(int)LANGCODE.I02_HEA_ROWS];
+			this.lvcColumns.Text = values[(int)LANGCODE.I02_HEA_COLUMNS];
+
+			// tłumaczenie przycisków
+			values = Language.GetLines( "DatafileSettings", "Buttons" );
+			this.bChange.Text = values[(int)LANGCODE.I02_BUT_CHANGE];
+			this.bSave.Text   = values[(int)LANGCODE.I02_BUT_SAVE];
+			this.bCancel.Text = values[(int)LANGCODE.I02_BUT_CANCEL];
+
+			// tłumaczenie nazw separatorów
+			values = Language.GetLines( "DatafileSettings", "Separator" );
+			for( int x = 0; x < this.sbSeparator.Items.Count; ++x )
+				this.sbSeparator.Items[x] = (object)values[x];
+
+			// tłumaczenie tekstów na formularzu
+			values = Language.GetLines( "DatafileSettings", "Labels" );
+			this.cbAutoCheck.Text = values[(int)LANGCODE.I02_LAB_AUTODETECT];
+			this.cbNoColumns.Text = values[(int)LANGCODE.I02_LAB_NOHEADERS];
+
+			// tytuł okna
+			this.Text = Language.GetLine( "FormNames", (int)LANGCODE.GFN_DATAFILESETTINGS );
+		}
+		
+		/// <summary>
+		/// Pobiera próbkę i wyświetla jako podgląd pliku.
+		/// Funkcja decyduje ile wierszy pobrać z pliku (edytowalne w ustawieniach).
+		/// Po pobraniu próbki uzupełnia listę kolumn i zaznacza pierwszą wyświetlając wiersze z pierwszej kolumny.
+		/// </summary>
+		//* ============================================================================================================
+		protected void getPreview()
+		{
+			if( this._storage == null )
+				return;
+
+#		if DEBUG
+			Program.LogMessage( "Wyświetlanie podglądu wybranego strumienia danych." );
+#		endif
+
 			this._locked = true;
 
-			// wyświetl informacje o kodowaniu
-			// nie można na CASE bo Encoding jest klasą...
-			if( this._reader.Encoding == Encoding.Default )
-				this.cbEncoding.SelectedIndex = 0;
-			else if( this._reader.Encoding == Encoding.ASCII )
-				this.cbEncoding.SelectedIndex = 1;
-			else if( this._reader.Encoding == Encoding.UTF8 )
-				this.cbEncoding.SelectedIndex = 2;
-			else if( this._reader.Encoding == Encoding.BigEndianUnicode )
-				this.cbEncoding.SelectedIndex = 3;
-			else if( this._reader.Encoding == Encoding.Unicode )
-				this.cbEncoding.SelectedIndex = 4;
-			else if( this._reader.Encoding == Encoding.UTF32 )
-				this.cbEncoding.SelectedIndex = 5;
-			else
-				this.cbEncoding.SelectedIndex = 6;
-
-			// separator
-			this.tbSeparator.Text = this._reader.Separator.ToString();
+			// parsuj plik
+			this._storage.parse( Settings.Info.i02_RowsNumber, this._hascolumns );
 
 			// kolumny
 			this.lvColumns.Items.Clear();
-			foreach( string column in this._reader.Columns )
-				this.lvColumns.Items.Add( column );
+			for( int x = 0; x < this._storage.ColumnsNumber; ++x )
+				this.lvColumns.Items.Add( this._storage.Column[x] );
 
 			// zaznacz pierwszy element
-			if( this._reader.ColumnsNumber > 0 )
+			if( this._storage.ColumnsNumber > 0 )
+			{
 				this.lvColumns.Items[0].Selected = true;
+				this._column = 0;
+			}
+
+			// wiersze
+			this.lvRows.Items.Clear();
+			for( int x = 0; x < this._storage.RowsNumber; ++x )
+				this.lvRows.Items.Add( this._storage.Row[x][0] );
+
+			// odśwież nagłówek
+			this.lvcRows.Text = Language.GetLine( "DatafileSettings", "Headers", (int)LANGCODE.I02_HEA_ROWS ) +
+				" [" + this._storage.Column[0] + "]";
+
+			this._locked = false;
+		}
+		
+		/// <summary>
+		/// Odświeżanie wartości kontrolek formularza.
+		/// Funkcja wywoływana w przypadku zmiany strumienia lub pliku przez kliknięcie w przycisk Zmień.
+		/// </summary>
+		//* ============================================================================================================
+		protected void resetControls()
+		{
+			if( this._storage == null )
+				return;
+
+#		if DEBUG
+			Program.LogMessage( "Odświeżanie kontrolek." );
+#		endif
+
+			this._locked = true;
+
+			// wyświetl informacje o kodowaniu
+			// nie można na case bo Encoding jest klasą...
+			if( this._storage.Encoding == Encoding.Default )
+				this.sbEncoding.SelectedIndex = 0;
+			else if( this._storage.Encoding == Encoding.ASCII )
+				this.sbEncoding.SelectedIndex = 1;
+			else if( this._storage.Encoding == Encoding.UTF8 )
+				this.sbEncoding.SelectedIndex = 2;
+			else if( this._storage.Encoding == Encoding.BigEndianUnicode )
+				this.sbEncoding.SelectedIndex = 3;
+			else if( this._storage.Encoding == Encoding.Unicode )
+				this.sbEncoding.SelectedIndex = 4;
+			else if( this._storage.Encoding == Encoding.UTF32 )
+				this.sbEncoding.SelectedIndex = 5;
+			else
+				this.sbEncoding.SelectedIndex = 6;
+
+			this.tbSeparator.Enabled = false;
+
+			// separator
+			switch( this._storage.Separator )
+			{
+			case ';' : this.sbSeparator.SelectedIndex = 0; break;
+			case ',' : this.sbSeparator.SelectedIndex = 1; break;
+			case '.' : this.sbSeparator.SelectedIndex = 2; break;
+			case '\t': this.sbSeparator.SelectedIndex = 3; break;
+			case ' ' : this.sbSeparator.SelectedIndex = 4; break;
+			default  :
+				this.sbSeparator.SelectedIndex = 5;
+				this.tbSeparator.Enabled = true;
+			break;
+			}
+
+			// wyświetl separator i nazwę pliku
+			this.tbSeparator.Text = ((char)this._storage.Separator).ToString();
+			this.tbFileName.Text  = this._storage.FileName;
+
+            // wczytywanie danych bez kolumn
+            this.cbNoColumns.Checked = !this._hascolumns;
 
 			this._locked = false;
 		}
 
-		/**
-		 * <summary>
-		 * Zmiana wyświetlanej kolumny (zmiana wyświetlanych wierszy dla kolumny).
-		 * </summary>
-		 * 
-		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
-		 * <param name="ev">Argumenty zdarzenia.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+#endregion
+
+#region AKCJE KONTROLEK
+		/// @cond EVENTS
+
+		/// <summary>
+		/// Zmiana wyświetlanej kolumny.
+		/// Po kliknięciu w element z listy kolumn odświeża elementy w liście wierszy.
+        /// Zmienia nazwę w nagłówku listy na nazwę aktualnie zaznaczonej kolumny.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void lvColumns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
-			if( this._locked )
+			if( this._locked || this.lvColumns.SelectedItems.Count == 0 || this._column == this.lvColumns.SelectedItems[0].Index )
 				return;
 
-			if( this.lvColumns.SelectedItems.Count == 0 )
-				return;
-
-			if( this._column == this.lvColumns.SelectedItems[0].Index )
-				return;
-
-#		if DEBUG
-			Program.LogMessage( "Zmiana wyświetlanej kolumny." );
-#		endif
-
-			// zmień nazwę kolumny
-			this.lvcRows.Text = Language.GetLine( "DatabaseSettings", "Headers", 0 ) +
-				" [" + this.lvColumns.SelectedItems[0].Text + " ]";
+			// wyświetlenie nazwy kolumny w nagłówku
+			this.lvcRows.Text = Language.GetLine( "DatafileSettings", "Headers", (int)LANGCODE.I02_HEA_ROWS ) +
+				" [" + this.lvColumns.SelectedItems[0].Text + "]";
 			this.lvRows.Items.Clear();
 
-			// pobierz zapisaną ilość wierszy
-			int rowsnum = Settings.Info.DSF_RowsNumber;
+			// indeks zaznaczonej kolumny
+			int column = this.lvColumns.SelectedItems[0].Index;
 
-			// uzupełnij kontrolkę
-			for( int x = 0, y = this._reader.RowsNumber > rowsnum ? rowsnum : this._reader.RowsNumber; x < y; ++x )
-				this.lvRows.Items.Add( this._reader.Rows[this.lvColumns.SelectedItems[0].Index, x] );
-
-			this._column = this.lvColumns.SelectedItems[0].Index;
-		}
-
-		/**
-		 * <summary>
-		 * Zmiana pliku z bazą danych.
-		 * </summary>
-		 * 
-		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
-		 * <param name="ev">Argumenty zdarzenia.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
-		private void bChangeFile_Click( object sender, EventArgs ev )
-		{
-#		if DEBUG
-			Program.LogMessage( "Otwieranie okna wyboru nowego pliku bazy danych." );
-#		endif
-
-			OpenFileDialog dialog = new OpenFileDialog();
-
-			dialog.Title  = Language.GetLine( "MessageNames", (int)MSGBLIDX.DatabaseSelect );
-			dialog.Filter = DatabaseReader.JoinSupportedExtensions( true );
-			DialogResult result = dialog.ShowDialog();
-
-			if( result != DialogResult.OK )
+			if( this._storage == null )
 				return;
 
-			// zmień plik
-			this._reader.ChangeDatabase( dialog.FileName );
+			// zmień wyświetlane rekordy
+			for( int x = 0; x < this._storage.RowsNumber; ++x )
+				this.lvRows.Items.Add( this._storage.Row[x][column] );
 
-			// parsuj ponownie
-			this._reader.Parse();
-
-			// odśwież dane
-			this._column = -1;
-			this.lvColumns_SelectedIndexChanged( null, null );
-
-			this.FillControls();
+			this._column = this.lvColumns.SelectedItems[0].Index;
 
 #		if DEBUG
-			Program.LogMessage( "Zmieniono plik bazy danych." );
+			Program.LogMessage( "Wyświetlono dane z kolumny o indeksie: " + this._column + "." );
 #		endif
 		}
-
-		/**
-		 * <summary>
-		 * Zmiana kodowania pliku z bazą danych.
-		 * </summary>
-		 * 
-		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
-		 * <param name="ev">Argumenty zdarzenia.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
-		private void cbEncoding_SelectedIndexChanged( object sender, EventArgs ev )
+	
+		/// <summary>
+		/// Zmiana kodowania przetwarzanego pliku.
+		/// Po zmianie kodowania plik ponownie jest parsowany.
+		/// Może się zdażyć tak, że po zmianie kodowania dostępna jest tylko jedna kolumna.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void sbEncoding_SelectedIndexChanged( object sender, EventArgs ev )
 		{
-			if( this._locked )
+			if( this._locked || this._storage == null )
 				return;
 
 			// rozpoznaj odpowiednie kodowanie i otwórz ponownie plik
-			switch( this.cbEncoding.SelectedIndex )
+			switch( this.sbEncoding.SelectedIndex )
 			{
-				case 1 : this._reader.Encoding = Encoding.ASCII; break;
-				case 2 : this._reader.Encoding = Encoding.UTF8; break;
-				case 3 : this._reader.Encoding = Encoding.BigEndianUnicode; break;
-				case 4 : this._reader.Encoding = Encoding.Unicode; break;
-				case 5 : this._reader.Encoding = Encoding.UTF32; break;
-				case 6 : this._reader.Encoding = Encoding.UTF7; break;
-				default: this._reader.Encoding = Encoding.Default; break;
+			case 1 : this._storage.Encoding = Encoding.ASCII; break;
+			case 2 : this._storage.Encoding = Encoding.UTF8; break;
+			case 3 : this._storage.Encoding = Encoding.BigEndianUnicode; break;
+			case 4 : this._storage.Encoding = Encoding.Unicode; break;
+			case 5 : this._storage.Encoding = Encoding.UTF32; break;
+			case 6 : this._storage.Encoding = Encoding.UTF7; break;
+			default: this._storage.Encoding = Encoding.Default; break;
 			}
 
-			// parsuj ponownie
-			this._reader.Parse();
-
-			// ustaw pierwszą kolumnę
-			if( this._column != 0 )
-			{
-				this.lvColumns.SelectedIndices.Clear();
-				this.lvColumns.SelectedIndices.Add(0);
-			}
-
-			// odśwież dane
-			this._column = -1;
-			this.lvColumns_SelectedIndexChanged( null, null );
-
-			this.FillControls();
+			// ponownie parsuj plik i wyświetl nowe informacje
+			this.getPreview();
 
 #		if DEBUG
-			Program.LogMessage( "Znieniono kodowanie pliku bazy danych." );
+			Program.LogMessage( "Zmieniono kodowanie strumienia danych na indeks: " + this.sbEncoding.SelectedIndex + "." );
 #		endif
 		}
 
-		/**
-		 * <summary>
-		 * Zmiana separatora dla pliku z bazą danych.
-		 * </summary>
-		 * 
-		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
-		 * <param name="ev">Argumenty zdarzenia.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+		/// <summary>
+		/// Zmiana separatora oddzielającego kolumny w pliku.
+		/// Dla tabulacji i spacji wyznaczone są odpowiednio nietłumaczalne ciągi znaków (TAB) i (SPA).
+		/// Może się zdażyć tak, że po zmianie separatora dostępna jest tylko jedna kolumna.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void sbSeparator_SelectedIndexChanged( object sender, EventArgs ev )
+		{
+			this.tbSeparator.Enabled = false;
+
+			switch( this.sbSeparator.SelectedIndex )
+			{
+			case 0 : this.tbSeparator.Text = ";"; break;
+			case 1 : this.tbSeparator.Text = ","; break;
+			case 2 : this.tbSeparator.Text = "."; break;
+			case 3 : this.tbSeparator.Text = "(TAB)"; break;
+			case 4 : this.tbSeparator.Text = "(SPA)"; break;
+			default:
+				this.tbSeparator.Enabled = true;
+				this.tbSeparator.Text = "";
+			break;
+			}
+
+#		if DEBUG
+			if( this.sbSeparator.SelectedIndex == 5 )
+				Program.LogMessage( "Włączono możliwość zdefiniowania własnego separatora kolumn." );
+			else
+				Program.LogMessage( "Zmieniono separator oddzielający kolumny na: " + this.tbSeparator.Text + "." );
+#		endif
+		}
+
+		/// <summary>
+		/// Funkcja blokuje wszelkie operacje edycji na kontrolce.
+		/// Nazwa pliku nie może być zmieniana od ręki.
+		/// Wyłączona kontrolka dziwnie wyglądała, lepiej zostawić aktywną, wyświetla i tak tylko nazwę pliku.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void tbFileName_KeyPress( object sender, KeyPressEventArgs ev )
+		{
+			// przepuszczaj klawisze kontrolne
+			if( char.IsControl(ev.KeyChar) )
+				return;
+
+			ev.Handled = true;
+		}
+
+		/// <summary>
+		/// Zmiana separatora kolumn w pliku na dowolny separator.
+		/// Przepuszcza tylko pojedyncze znaki. Wyjątkiem są ciągi znaków (SPA) i (TAB).
+		/// Po zmianie separatora odświeża podgląd pliku.
+		/// Może się zdażyć tak, że po zmianie separatora dostępna jest tylko jedna kolumna.
+        /// Przed zmianą należy zapoznać się ze strukturą pliku. Separatora własnego używać tylko w ostateczności.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void tbSeparator_TextChanged( object sender, EventArgs ev )
 		{
-			if( this._locked )
+			if( this._locked || this.tbSeparator.Text == "" || this._storage == null )
 				return;
+			
+			// zmień separator i ponowne parsuj plik
+			if( this.tbSeparator.Text == "(SPA)" )
+				this._storage.Separator = ' ';
+			else if( this.tbSeparator.Text == "(TAB)" )
+				this._storage.Separator = '\t';
+			else
+				this._storage.Separator = this.tbSeparator.Text[0];
 
-			// brak znaku, pomiń
-			if( this.tbSeparator.Text == "" )
-				return;
-
-			// pobierz znak dla separatora i ponownie parsuj plik
-			this._reader.Separator = this.tbSeparator.Text[0];
-			this._reader.Parse();
-
-			// odśwież dane
-			this._column = -1;
-			this.lvColumns_SelectedIndexChanged( null, null );
-
-			this.FillControls();
+			this.getPreview();
 
 #		if DEBUG
-			Program.LogMessage( "Zmieniono separator pliku bazy danych." );
+			Program.LogMessage( "Zdefiniowano własny separator dzielący kolumny w strumieniu." );
 #		endif
 		}
+        
+		/// <summary>
+		/// Przełączanie pomiędzy wczytywaniem nagłówków dla kolumn z pliku.
+        /// Po każdej zmianie plik jest ponownie parsowany i odświeżany w liście z kolumnami i wierszami.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+        private void cbNoColumns_CheckedChanged( object sender, EventArgs ev )
+        {
+            this._hascolumns = !this.cbNoColumns.Checked;
+            this.getPreview();
+        }
 
-		/**
-		 * <summary>
-		 * Zapisanie ustawień pliku.
-		 * </summary>
-		 * 
-		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
-		 * <param name="ev">Argumenty zdarzenia.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+		/// <summary>
+		/// Zdarzenie odpowiedzialne za zapis danych.
+		/// Robi praktycznie to samo co zdarzenie zamknięcia kontrolki.
+		/// Jedyna różnica to wartość zwracana w DialogResult.
+        /// Dane na razie nie są zapisane, więc z tego powodu nie ma między nimi różnic.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void bSave_Click( object sender, EventArgs ev )
 		{
 #		if DEBUG
-			Program.LogMessage( "Zamykanie okna ustawień pliku bazy danych." );
+			Program.LogMessage( "Nowy strumień danych został zapisany." );
 #		endif
-
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}
 
-		/**
-		 * <summary>
-		 * Rysowanie górnej ramki dla paska informacji.
-		 * </summary>
-		 * 
-		 * <param name="sender">Obiekt wywołujący zdarzenie.</param>
-		 * <param name="ev">Argumenty zdarzenia.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
-		private void tlStatusBar_Paint( object sender, PaintEventArgs ev )
+		/// <summary>
+		/// Zdarzenie odpowiedzialne za zamknięcie kontrolki.
+		/// Robi praktycznie to samo co zdarzenie zapisu po wciśnięciu przycisku Wczytaj.
+		/// Jedyna różnica to wartość zwracana w DialogResult.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void bCancel_Click( object sender, EventArgs ev )
+		{
+#		if DEBUG
+			Program.LogMessage( "Zrezygnowano ze zmiany strumienia danych." );
+#		endif
+			this.DialogResult = DialogResult.Cancel;
+			this.Close();
+		}
+
+		/// <summary>
+		/// Zmiana strumienia bazy danych.
+		/// Po kliknięciu wyświetla okno z wyborem nowego pliku.
+		/// Po wybraniu pliku automatycznie odświeża podgląd i kontrolki oraz zmienia właściwości strumienia na te,
+        /// podane w konfiguracji przez użytkownika.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void bChange_Click( object sender, EventArgs ev )
+		{
+#		if DEBUG
+			Program.LogMessage( "Otwieranie okna wyboru strumienia danych." );
+#		endif
+
+			OpenFileDialog dialog = Program.GLOBAL.SelectFile;
+
+			dialog.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.iMN_DatafileSelect );
+			dialog.Filter = DatabaseReader.JoinSupportedExtensions( true );
+
+			// anulowano wybór...
+			if( dialog.ShowDialog() != DialogResult.OK )
+			{
+#			if DEBUG
+				Program.LogMessage( "Zrezygnowano z wyboru strumienia danych." );
+#			endif
+				return;
+			}
+
+			// zmień plik i wyświetl zawartość
+			if( this._storage != null )
+				this._storage.FileName = dialog.FileName;
+			else
+				this._storage = new IOFileData( dialog.FileName, Encoding.Default );
+			
+			this.setDefaultStreamProperties( this._storage );
+
+			this.resetControls();
+			this.getPreview();
+
+#		if DEBUG
+			Program.LogMessage( "Zmieniono strumień odczytu danych." );
+#		endif
+		}
+
+		/// <summary>
+		/// Rysuje górną ramkę dla paska informacji.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void tlpStatusBar_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine
 			(
 				new Pen( SystemColors.ControlDark ),
-				this.tlStatusBar.Bounds.X,
+				this.tlpStatusBar.Bounds.X,
 				0,
-				this.tlStatusBar.Bounds.Right,
+				this.tlpStatusBar.Bounds.Right,
 				0
 			);
 		}
+
+		/// @endcond
+#endregion
+
+#region TWORZENIE KONTROLEK
+		/// @cond DESIGNER
+		
+		/// @endcond
+#endregion
 	}
 }

@@ -47,6 +47,7 @@ resgen /useSourcePath ^
 		resx\MainForm.resx,obj\CDesigner.MainForm.resources ^
 		resx\NewPattern.resx,obj\CDesigner.NewPattern.resources ^
 		resx\SettingsForm.resx,obj\CDesigner.SettingsForm.resources ^
+		resx\TypeSettings.resx,obj\CDesigner.TypeSettings.resources ^
 		resx\UpdateForm.resx,obj\CDesigner.UpdateForm.resources ^
 		properties\Resources.resx,obj\CDesigner.Properties.Resources.resources
 
@@ -123,6 +124,7 @@ csc /reference:dll\PdfSharp.dll ^
 	/resource:obj\CDesigner.MainForm.resources ^
 	/resource:obj\CDesigner.NewPattern.resources ^
 	/resource:obj\CDesigner.SettingsForm.resources ^
+	/resource:obj\CDesigner.TypeSettings.resources ^
 	/resource:obj\CDesigner.UpdateForm.resources ^
 	/resource:obj\CDesigner.Properties.Resources.resources ^
 	/appconfig:properties\app.config ^
@@ -131,17 +133,21 @@ csc /reference:dll\PdfSharp.dll ^
 	%target% ^
 	%define% ^
 	/utf8output ^
-		src\class\AssemblyLoader.cs ^
-		src\class\CBackupData.cs ^
-		src\class\DatabaseReader.cs ^
-		src\class\DatafileReader.cs ^
-		src\class\FilterCreator.cs ^
-		src\class\Language.cs ^
-		src\class\PatternEditor.cs ^
-		src\class\Program.cs ^
-		src\class\ProgressStream.cs ^
-		src\class\Settings.cs ^
-		src\class\Structures.cs ^
+		src\utils\AssemblyLoader.cs ^
+		src\utils\CBackupData.cs ^
+		src\utils\DatabaseReader.cs ^
+		src\utils\DatafileStream.cs ^
+		src\utils\DataFilter.cs ^
+		src\utils\DataStorage.cs ^
+		src\utils\FilterCreator.cs ^
+		src\utils\IODatabase.cs ^
+		src\utils\IOFileData.cs ^
+		src\utils\Language.cs ^
+		src\utils\PatternEditor.cs ^
+		src\utils\Program.cs ^
+		src\utils\ProgressStream.cs ^
+		src\utils\Settings.cs ^
+		src\utils\Structures.cs ^
 		src\controls\AlignedPage.cs ^
 		src\controls\AlignedPictureBox.cs ^
 		src\controls\DataFilterRow.cs ^
@@ -157,6 +163,7 @@ csc /reference:dll\PdfSharp.dll ^
 		src\forms\MainForm.cs ^
 		src\forms\NewPattern.cs ^
 		src\forms\SettingsForm.cs ^
+		src\forms\TypeSettings.cs ^
 		src\forms\UpdateForm.cs ^
 		designer\DatafileSettingsForm.Designer.cs ^
 		designer\DataFilterForm.Designer.cs ^
@@ -168,6 +175,7 @@ csc /reference:dll\PdfSharp.dll ^
 		designer\MainForm.Designer.cs ^
 		designer\NewPattern.Designer.cs ^
 		designer\SettingsForm.Designer.cs ^
+		designer\TypeSettings.Designer.cs ^
 		designer\UpdateForm.Designer.cs ^
 		properties\AssemblyInfo.cs ^
 		properties\Resources.Designer.cs
@@ -245,30 +253,34 @@ copy /Y properties\cdrestore\update.lst build
 copy /Y resources\icons\image-field.png build\icons
 copy /Y resources\icons\text-field.png build\icons
 copy /Y resources\icons\exit-application.png build\icons
-copy /Y resources\icons\cdrestore-512.png build\icons
-copy /Y resources\icons\cdrestore-256.png build\icons
-copy /Y resources\icons\cdrestore-128.png build\icons
-copy /Y resources\icons\cdrestore-96.png build\icons
-copy /Y resources\icons\cdrestore-64.png build\icons
-copy /Y resources\icons\cdrestore-48.png build\icons
-copy /Y resources\icons\cdrestore-32.png build\icons
-copy /Y resources\icons\cdrestore-16.png build\icons
-copy /Y resources\icons\cdesigner-512.png build\icons
-copy /Y resources\icons\cdesigner-256.png build\icons
-copy /Y resources\icons\cdesigner-128.png build\icons
-copy /Y resources\icons\cdesigner-96.png build\icons
-copy /Y resources\icons\cdesigner-64.png build\icons
-copy /Y resources\icons\cdesigner-48.png build\icons
-copy /Y resources\icons\cdesigner-32.png build\icons
-copy /Y resources\icons\cdesigner-16.png build\icons
+copy /Y resources\logo\cdrestore-512.png build\images
+copy /Y resources\logo\cdrestore-256.png build\images
+copy /Y resources\logo\cdrestore-128.png build\images
+copy /Y resources\logo\cdrestore-96.png build\images
+copy /Y resources\logo\cdrestore-64.png build\images
+copy /Y resources\logo\cdrestore-48.png build\images
+copy /Y resources\logo\cdrestore-32.png build\images
+copy /Y resources\logo\cdrestore-16.png build\images
+copy /Y resources\logo\cdesigner-512.png build\images
+copy /Y resources\logo\cdesigner-256.png build\images
+copy /Y resources\logo\cdesigner-128.png build\images
+copy /Y resources\logo\cdesigner-96.png build\images
+copy /Y resources\logo\cdesigner-64.png build\images
+copy /Y resources\logo\cdesigner-48.png build\images
+copy /Y resources\logo\cdesigner-32.png build\images
+copy /Y resources\logo\cdesigner-16.png build\images
 copy /Y resources\icons\add-pattern.png build\icons
-copy /Y resources\icons\combo-child.png build\icons
-copy /Y resources\icons\combo-end.png build\icons
-copy /Y resources\icons\combo-one.png build\icons
-copy /Y resources\icons\combo-parent.png build\icons
-copy /Y resources\icons\combo-start.png build\icons
-copy /Y languages\en.lex build\languages
-copy /Y languages\pl.lex build\languages
+copy /Y resources\icons\first-page.png build\icons
+copy /Y resources\icons\item-add.png build\icons
+copy /Y resources\icons\item-delete.png build\icons
+copy /Y resources\icons\last-page.png build\icons
+copy /Y resources\icons\next-page.png build\icons
+copy /Y resources\icons\prev-page.png build\icons
+copy /Y resources\icons\refresh.png build\icons
+copy /Y resources\icons\split-rows.png build\icons
+copy /Y languages\eng.lex build\languages
+copy /Y languages\pol.lex build\languages
+copy /Y languages\qps.lex build\languages
 
 echo ### Finished
 exit /B 0

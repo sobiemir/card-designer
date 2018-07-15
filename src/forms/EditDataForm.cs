@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using CDesigner.Utils;
 
 // TODO: Dodać kopiowanie rekordów
 // TODO: Dodać do typów kolumn walute i date
@@ -92,12 +93,12 @@ namespace CDesigner
 			info.SetValue( this.gvData, true, null );
 
 			// ikony przycisków
-			this.bInsertRow.Image = Program.GetBitmap( BMPSRC.ItemAdd );
-			this.bRemoveRow.Image = Program.GetBitmap( BMPSRC.ItemRemove );
-			this.bFirstPage.Image = Program.GetBitmap( BMPSRC.FirstPage );
-			this.bPrevPage.Image  = Program.GetBitmap( BMPSRC.PrevPage );
-			this.bNextPage.Image  = Program.GetBitmap( BMPSRC.NextPage );
-			this.bLastPage.Image  = Program.GetBitmap( BMPSRC.LastPage );
+			this.bInsertRow.Image = Program.GetBitmap( BITMAPCODE.ItemAdd );
+			this.bRemoveRow.Image = Program.GetBitmap( BITMAPCODE.ItemRemove );
+			this.bFirstPage.Image = Program.GetBitmap( BITMAPCODE.FirstPage );
+			this.bPrevPage.Image  = Program.GetBitmap( BITMAPCODE.PrevPage );
+			this.bNextPage.Image  = Program.GetBitmap( BITMAPCODE.NextPage );
+			this.bLastPage.Image  = Program.GetBitmap( BITMAPCODE.LastPage );
 
 			this.Text = Language.GetLine( "FormNames", (int)FORMLIDX.EditData );
 			this.Icon = Program.GetIcon();
@@ -755,7 +756,7 @@ namespace CDesigner
 			{
 				case DATATYPE.String:    this.cbColumnType.SelectedIndex = 0; break;
 				case DATATYPE.Integer:   this.cbColumnType.SelectedIndex = 1; break;
-				case DATATYPE.Double:    this.cbColumnType.SelectedIndex = 2; break;
+				case DATATYPE.Float:     this.cbColumnType.SelectedIndex = 2; break;
 				case DATATYPE.Character: this.cbColumnType.SelectedIndex = 3; break;
 			}
 

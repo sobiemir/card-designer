@@ -66,6 +66,7 @@
 			this.gmtLoadDatabase = new System.Windows.Forms.ToolStripMenuItem();
 			this.gmSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.gmtColumnsEditor = new System.Windows.Forms.ToolStripMenuItem();
+			this.gmtEditData = new System.Windows.Forms.ToolStripMenuItem();
 			this.gmtCreateDB = new System.Windows.Forms.ToolStripMenuItem();
 			this.gmtConnectDB = new System.Windows.Forms.ToolStripMenuItem();
 			this.gmtBackup = new System.Windows.Forms.ToolStripMenuItem();
@@ -622,6 +623,7 @@
             this.gmtLoadDatabase,
             this.gmSeparator3,
             this.gmtColumnsEditor,
+            this.gmtEditData,
             this.gmtCreateDB,
             this.gmtConnectDB,
             this.gmtBackup});
@@ -649,8 +651,16 @@
 			this.gmtColumnsEditor.Name = "gmtColumnsEditor";
 			this.gmtColumnsEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Z)));
 			this.gmtColumnsEditor.Size = new System.Drawing.Size(239, 22);
-			this.gmtColumnsEditor.Text = "Zarządzaj kolumnami";
-			this.gmtColumnsEditor.Click += new System.EventHandler(this.gmtJoinColumns_Click);
+			this.gmtColumnsEditor.Text = "Edytuj kolumny...";
+			this.gmtColumnsEditor.Click += new System.EventHandler(this.gmtColumnsEditor_Click);
+			// 
+			// gmtEditData
+			// 
+			this.gmtEditData.Enabled = false;
+			this.gmtEditData.Name = "gmtEditData";
+			this.gmtEditData.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
+			this.gmtEditData.Size = new System.Drawing.Size(239, 22);
+			this.gmtEditData.Text = "Edytuj wiersze...";
 			// 
 			// gmtCreateDB
 			// 
@@ -2802,6 +2812,7 @@
 		private System.Windows.Forms.ToolStripMenuItem gmpUpdate;
 		private System.Windows.Forms.ToolStripMenuItem gmtLoadDatabase;
 		private System.Windows.Forms.ToolStripSeparator gmSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem gmtEditData;
 
     }
 }

@@ -26,12 +26,14 @@ using System.Drawing.Printing;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Net;
+using CDesigner.Utils;
+using CDesigner.Forms;
 
 namespace CDesigner
 {
 	public partial class MainForm : Form
 	{
-		private DatabaseReader _reader;
+		private IOFileData _gStream;
 
 		// ------------------------------------------------------------- gmpUpdate_Click ------------------------------
 		/// <summary>
@@ -149,6 +151,7 @@ namespace CDesigner
 			Program.LogMessage( "Tworzenie okna głównego." );
 			this.InitializeComponent();
 
+
 			// pobierz ikonę programu
 			this.Icon = Program.GetIcon();
 
@@ -176,16 +179,35 @@ namespace CDesigner
 			this.RefreshProjectList();
 
 			// #START ===================== TEST ..............
-            //DatabaseReader reader = new DatabaseReader(@"C:\Users\Kamil\Desktop\Inne\zzz2.CSV");
+			//DatabaseReader reader = new DatabaseReader(@"C:\Users\Kamil\Desktop\Inne\zzz2.CSV");
 			
-            //reader.Parse();
+			//reader.Parse();
 			
-            //if( reader.IsReady() )
-            //    this._reader = reader;
-            //if( this._reader != null )
-            //    this.gmtColumnsEditor.Enabled = true;
+			//if( reader.IsReady() )
+			//	this._reader = reader;
+			//if( this._reader != null )
+			//	this.gmtColumnsEditor.Enabled = true;
+
+			//Utils.DatafileStream stream = null;
+
+			// wczytaj plik
+			//stream = new Utils.DatafileStream( @"C:\Users\Kamil\Desktop\Inne\zzz2.CSV" );
+			//if( stream == null || !stream.IsReady() )
+			//    return;
+
+			//stream.Parse( 0, false );
+
+			// zapisz strumień i odblokuj przycisk edytora kolumn
+			//this._gStream = stream;
+			//this.gmtColumnsEditor.Enabled = true;
+
+			GC.Collect();
 
 			// #STOP  ===================== TEST ..............
+
+			// utwórz klasy korzystające z wielu formularzy
+			Program.GLOBAL.SelectFile       = new OpenFileDialog();
+			Program.GLOBAL.DatafileSettings = new DatafileSettingsForm();
 		}
 
 		// ------------------------------------------------------------- Main_Resize ---------------------------------
@@ -2894,40 +2916,76 @@ CD_mtvPatterns_AfterSelect:
 		}
 
 
-
-
-
-
-
-
-
-
-
-
-		private void gmtJoinColumns_Click( object sender, EventArgs ev )
-		{
-			if( this._reader == null )
-				return;
-
-			// łączenie kolumn
-			EditColumnsForm joiner = new EditColumnsForm( this._reader );
-			joiner.ShowDialog();
-		}
-
+		// ::DONE
 		private void gmtLoadDatabase_Click( object sender, EventArgs ev )
 		{
-			DatabaseReader reader = new DatabaseReader();
+#		if DEBUG
+			Program.LogMessage( "** Okno wczytywania i ustawień pliku z danymi." );
+			Program.LogMessage( "** BEGIN ================================================================== **" );
+			Program.IncreaseLogIndent();
+#		endif
+			// wybór pliku
+			OpenFileDialog select = Program.GLOBAL.SelectFile;
+			select.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.iMN_DatafileSelect );
+			select.Filter = IOFileData.getExtensionsList( true );
 
-			if( reader.IsReady() )
-				this._reader = reader;
+			if( select.ShowDialog(this) != DialogResult.OK )
+			{
+#			if DEBUG
+				Program.LogMessage( "Operacja anulowana." );
+				Program.DecreaseLogIndent();
+				Program.LogMessage( "** END ==================================================================== **" );
+#			endif
+				return;
+			}
 
-			// włącz przycisk do łączenia kolumn
-			if( this._reader != null )
-				this.gmtColumnsEditor.Enabled = true;
+			// wczytaj plik
+			IOFileData storage = new IOFileData( select.FileName, Encoding.Default );
+			if( storage == null || !storage.Ready )
+				return;
+
+			// ustawienia odczytu pliku
+			DatafileSettingsForm settings = Program.GLOBAL.DatafileSettings;
+			settings.Storage = storage;
+
+			if( settings.ShowDialog(this) != DialogResult.OK )
+			{
+#			if DEBUG
+				Program.DecreaseLogIndent();
+				Program.LogMessage( "** END ==================================================================== **" );
+#			endif
+				return;
+			}
+
+			// zapisz strumień i odblokuj przycisk edytora kolumn
+			this._gStream = storage;
+			this.gmtColumnsEditor.Enabled = true;
 
 			GC.Collect();
+
+#		if DEBUG
+			Program.LogMessage( "Wybrano nowe źródło odczytywania danych." );
+			Program.DecreaseLogIndent();
+			Program.LogMessage( "** END ==================================================================== **" );
+#		endif
+		}
+		
+		// ::PROGRESS
+		private void gmtColumnsEditor_Click( object sender, EventArgs ev )
+		{
+			if( this._gStream == null )
+				return;
+
+			Forms.EditColumnsForm columns = new Forms.EditColumnsForm();
+			columns.Storage = this._gStream;
+
+			columns.ShowDialog();
+			// łączenie kolumn
+			//EditColumnsForm joiner = new EditColumnsForm( this._reader );
+			//joiner.ShowDialog();
 		}
 
+		// ::DONE
 		private void imMain_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine
@@ -2939,7 +2997,8 @@ CD_mtvPatterns_AfterSelect:
 				this.imMain.Bounds.Bottom - 1
 			);
 		}
-
+		
+		// ::DONE
 		private void tlMainStatusBar_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine

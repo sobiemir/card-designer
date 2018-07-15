@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+/// @cond RESOURCES
 namespace CDesigner.Properties {
     using System;
     
@@ -61,3 +62,4 @@ namespace CDesigner.Properties {
         }
     }
 }
+/// @endcond
