@@ -13,8 +13,11 @@ using System.Globalization;
 
 using CDesigner.Forms;
 using System.Text;
+using System.Diagnostics;
 
 ///
+/// Copyright ⓒ 2015. Wszystkie prawa zastrzeżone.
+/// 
 /// $c01 Program.cs
 /// 
 /// Klasa z głównymi funkcjami programu.
@@ -32,6 +35,8 @@ using System.Text;
 /// - Wersja początkowa programu przeznaczonego już do użytku.
 /// ----------------------------------------------------------------------------
 /// 
+/// 13-11-2016 - dodano funkcję do tworzenia pytań, itp
+/// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.7.x.x
 /// Ostatnia zmiana: 2015-12-02
@@ -45,19 +50,31 @@ using System.Text;
 /// [D - DOKUMENTACJA]
 /// [C - KONTROLKI]
 /// [L - LOGI]
+/// [S - SEEALSO]
+/// [R - REFACTORING]
+/// [G - REGION]
 /// 
 /// Ukończone klasy:
-/// # Forms.DatafileSettingsForm  [ 666] LTDC
-/// + Utils.AssemblyLoader        [ 130] D
-/// # Forms.EditColumnsForm       [1541] LDC
+/// + Forms.EditColumnsForm       [1553] SL
+/// + Forms.EditRowsForm          [1230] SL
+/// + Forms.TypeSettings          [1099] SL
+/// + Forms.DatafileSettingsForm  [ 662] SL
+/// + Forms.NewPatternForm        [ 529]
+/// + Forms.InfoForm              [ 228]
+/// + Forms.UpdateForm            [ 740]
+/// + Utils.UpdateApp             [ 309]
+/// + Utils.Language              [ 415] S
+/// + Utils.AssemblyLoader        [ 131]
+/// + Utils.DataFilter            [1031] SRL
+/// + Utils.DataStorage           [ 404] SL
+/// + Utils.IOFileData            [ 730] L
 /// 
 /// 
 /// 
+/// Forms.DBConnection
+/// Utils.IODatabase
 /// 
-/// # Forms.TypeSettings   [1098] D
 /// # Utils.DatafileStream [ 766] D
-/// # Utils.DataFilter     [ 426] D
-/// 
 /// 
 /// # Program (378)
 /// # Settings (298)
@@ -69,7 +86,6 @@ using System.Text;
 /// - Structures (230)
 /// - DataFilterForm (849)
 /// - DataFilterRow (138)
-/// - FilterCreator (282)
 /// - PatternEditor (904)
 /// - AlignedPage (82)
 /// - AlignedPictureBox (110)
@@ -140,12 +156,14 @@ namespace CDesigner.Utils
 
 		private static string[] _bitmapList =
 		{
-			"icon/cdesigner-16.png",  "icon/cdesigner-32.png",  "icon/cdesigner-48.png",
-			"icon/cdesigner-64.png",  "icon/cdesigner-96.png",  "icon/cdesigner-128.png",
-			"icon/cdesigner-256.png", "icon/cdesigner-512.png", "icon/cdrestore-16.png",
-			"icon/cdrestore-32.png",  "icon/cdrestore-48.png",  "icon/cdrestore-64.png",
-			"icon/cdrestore-96.png",  "icon/cdrestore-128.png", "icon/cdrestore-256.png",
-			"icon/cdrestore-512.png"
+			"images/cdesigner-16.png",   "images/cdesigner-32.png",  "images/cdesigner-48.png",
+			"images/cdesigner-64.png",   "images/cdesigner-96.png",  "images/cdesigner-128.png",
+			"images/cdesigner-256.png",  "images/cdesigner-512.png", "images/cdrestore-16.png",
+			"images/cdrestore-32.png",   "images/cdrestore-48.png",  "images/cdrestore-64.png",
+			"images/cdrestore-96.png",   "images/cdrestore-128.png", "images/cdrestore-256.png",
+			"images/cdrestore-512.png",  "images/information.jpg",   "icons/item-add.png",
+            "icons/item-delete.png",     "icons/refresh.png",        "icons/first-page.png",
+            "icons/prev-page.png",       "icons/next-page.png",      "icons/last-page.png"
 		};
 
 		/// <summary>Klasy globalne, ogólnodostępne dla całego programu.</summary>
@@ -156,6 +174,8 @@ namespace CDesigner.Utils
 
 		/// <summary>Data kompilacji.</summary>
 		public static readonly DateTime BUILD_DATE;
+
+        public static readonly string CODE_NAME = "Gumiennik";
 
 		/// <summary>
 		/// Konstruktor statyczny klasy.
@@ -175,6 +195,8 @@ namespace CDesigner.Utils
 					TimeSpan.TicksPerSecond * 2 * version.Revision
 				)
 			);
+
+            Program._bitmaps = new Bitmap[Program._bitmapList.Count()];
 
 			// utwórz instancję do struktury GlobalStruct
 			Program.GLOBAL = new GlobalStruct();
@@ -297,10 +319,19 @@ namespace CDesigner.Utils
 			// można uruchamiać aplikację...
 			try
 			{
-				// style wizualne formularza
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault( false );
-				
+				// style wizualne formularza - wyłączyć dla linuksa
+                // wykrywać czy jest możliwość ich włączenia?
+                try
+                {
+				    Application.EnableVisualStyles();
+				    Application.SetCompatibleTextRenderingDefault( false );
+				}
+                catch( Exception ex )
+                {
+                    Program.LogMessage( "Stylizacja przycisków nie mogła zostać włączona..." );
+                    Program.LogMessage( ex.Message );
+                }
+
 				// rejestruj zdarzenia do rozwiązywania problemów z plikami dll
 				Utils.AssemblyLoader.Register();
 				
@@ -324,6 +355,12 @@ namespace CDesigner.Utils
                 //IOFileData storage = new IOFileData( "./test/csv/zzz.csv", Encoding.Default );
                 //storage.parse( -1 );
                 //((EditColumnsForm)Program._main).Storage = storage;
+
+                //Program._main = new EditRowsForm();
+                //IOFileData storage = new IOFileData( "./test/csv/zzz.csv", Encoding.Default );
+                //storage.parse( -1 );
+                //((EditRowsForm)Program._main).Storage = storage;
+                //((EditRowsForm)Program._main).refreshDataRange();
 
                 //IOFileData filedata = new IOFileData( "./test/csv/zzz-enclosing.csv", System.Text.Encoding.Default );
                 //filedata.parse( 0, true );
@@ -437,19 +474,15 @@ namespace CDesigner.Utils
 		 * <param name="message">Wiadomość do wyświetlenia.</param>
 		 * <param name="title">Tytuł okienka.</param>
 		 * --------------------------------------------------------------------------------------------------------- **/
-		public static void LogInfo( string message, string title )
+		public static void LogInfo( string message, string title, Form parent = null )
 		{
-#		if LOGMESSAGE
-			if( Program._writer != null )
-				Program._writer.WriteLine( DateTime.Now.ToString("HH:mm:ss.ff") + " >> " +
-					Program._indent + "INFO: " + message );
-#		endif
-#		if DEBUG
-			Console.WriteLine( Program._indent + "INFO: " + message );
-#		endif
+            Program.LogMessage( "INFO: " + message );
+
+            if( parent == null )
+                parent = Program._main;
 
 			// pokaż treść ostrzeżenia
-			MessageBox.Show( Program._main, message, title, MessageBoxButtons.OK, MessageBoxIcon.Information );
+			MessageBox.Show( parent, message, title, MessageBoxButtons.OK, MessageBoxIcon.Information );
 		}
 
 		/**
@@ -460,20 +493,35 @@ namespace CDesigner.Utils
 		 * <param name="message">Wiadomość do wyświetlenia.</param>
 		 * <param name="title">Tytuł okienka.</param>
 		 * --------------------------------------------------------------------------------------------------------- **/
-		public static void LogWarning( string message, string title )
+		public static void LogWarning( string message, string title, Form parent = null )
 		{
-#		if LOGMESSAGE
-			if( Program._writer != null )
-				Program._writer.WriteLine( DateTime.Now.ToString("HH:mm:ss.ff") + " >> " +
-					Program._indent + "WARNING: " + message );
-#		endif
-#		if DEBUG
-			Console.WriteLine( Program._indent + "WARNING: " + message );
-#		endif
+            Program.LogMessage( "WARNING: " + message );
+
+            if( parent == null )
+                parent = Program._main;
 
 			// pokaż treść ostrzeżenia
-			MessageBox.Show( Program._main, message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning );
+			MessageBox.Show( parent, message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 		}
+
+        public static DialogResult LogQuestion( string message, string title, bool defyes = true, Form parent = null )
+        {
+            Program.LogMessage( "QUESTION: " + message );
+
+            if( parent == null )
+                parent = Program._main;
+
+            // pokaż treść pytania
+            var result = MessageBox.Show( parent, message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                defyes ? MessageBoxDefaultButton.Button1 : MessageBoxDefaultButton.Button2 );
+
+            if( result == DialogResult.Yes )
+                Program.LogMessage( "Wybrano przycisk: TAK." );
+            else
+                Program.LogMessage( "Wybrano przycisk: NIE." );
+
+            return result;
+        }
 		
 		/**
 		 * <summary>
@@ -486,30 +534,28 @@ namespace CDesigner.Utils
 		 * <param name="title">Tytuł okienka.</param>
 		 * <param name="fatal">Błąd krytyczny - powoduje zamknięcie aplikacji.</param>
 		 * --------------------------------------------------------------------------------------------------------- **/
-		public static void LogError( string message, string title, bool fatal, Exception ex = null )
+		public static void LogError( string message, string title, bool fatal, Exception ex = null, Form parent = null )
 		{
-#		if LOGMESSAGE
-			if( Program._writer != null )
-				Program._writer.WriteLine( DateTime.Now.ToString("HH:mm:ss.ff") + " >> " +
-					Program._indent + "ERROR: " + message );
+            Program.LogMessage( "ERROR: " + message );
 
-			// lista ramek stosu
+#		if LOGMESSAGE
 #			if TRACE
 				if( Program._writer != null && ex != null )
 					Program._writer.WriteLine( ex.StackTrace );
 #			endif
 #		endif
 #		if DEBUG
-			Console.WriteLine( Program._indent + "ERROR: " + message );
-			// lista ramek stosu
 #			if TRACE
 				Console.WriteLine( System.Environment.StackTrace );
 #			endif
-
 #		endif
+
+            if( parent == null )
+                parent = Program._main;
+
 			// pokaż treść błędu
 			try
-				{ MessageBox.Show( Program._main, message, title, MessageBoxButtons.OK, MessageBoxIcon.Error ); }
+				{ MessageBox.Show( parent, message, title, MessageBoxButtons.OK, MessageBoxIcon.Error ); }
 			catch
 				{ fatal = true; }
 
@@ -637,10 +683,10 @@ namespace CDesigner.Utils
 
 			// gdy wystąpi błąd, wyświetl go, ale nie traktuj go jako krytycznego...
 			try
-				{ bitmap = new Bitmap( "./libraries/" + Program._bitmapList[(int)index] ); }
+				{ bitmap = new Bitmap( "./" + Program._bitmapList[(int)index] ); }
 			catch( Exception ex )
 			{
-				Program.LogMessage( ">> Nie można załadować bitmapy: './images/" +
+				Program.LogMessage( ">> Nie można załadować bitmapy: './" +
 					Program._bitmapList[(int)index] + "' - " + ex.Message );
 				bitmap = null;
 			}
@@ -648,5 +694,82 @@ namespace CDesigner.Utils
 			// zwróć załadowaną bitmapę
 			return bitmap;
 		}
+
+        public static string GetSize( Int64 value )
+        {
+            string[] suffixes =
+            {
+                "B",
+                "kB",
+                "MB",
+                "GB",
+                "TB",
+                "PB"
+            };
+
+            if( value < 0 )
+                return "-" + GetSize( -value );
+
+            decimal dec = (decimal)value;
+
+            int x;
+            for( x = 0; dec > 1023; ++x )
+                dec /= 1024; 
+
+            return string.Format( "{0:n1} {1}", dec, suffixes[x] );
+        }
+
+        public static string GetMemoryUsage()
+        {
+            long memory_used = 0;
+
+            using( Process proc = Process.GetCurrentProcess() )
+                memory_used = proc.PrivateMemorySize64;
+
+            return Program.GetSize( memory_used );
+        }
+
+        public static DialogResult OpenForm( Form form, Form parent, bool dialog )
+        {
+            // ustaw zwracaną wartość - domyślnie nic, oznacza iż formularz nadal działa
+            DialogResult result = DialogResult.None;
+
+            // sprawdź czy ma to być okienko modalne czy nie
+            if( dialog )
+                if( parent != null )
+                    result = form.ShowDialog( parent );
+                else
+                    result = form.ShowDialog();
+            else
+                if( parent != null )
+                    form.Show( parent );
+                else
+                    form.Show();
+
+            // zwróć wynik
+            return result;
+        }
+
+        public static List<string> GetFilesFromFolder( string folder, bool recursive = false )
+        {
+            List<string> files = new List<string>();
+
+            DirectoryInfo dirinfo = new DirectoryInfo( folder );
+
+            foreach( var file in dirinfo.GetFiles() )
+                if( folder[folder.Length-1] == '\\' || folder[folder.Length-1] == '/' )
+                    files.Add( folder + file.Name );
+                else
+                    files.Add( folder + "/" + file.Name );
+            
+            if( recursive )
+                foreach( var dir in dirinfo.GetDirectories() )
+                    if( folder[folder.Length-1] == '\\' || folder[folder.Length-1] == '/' )
+                        files.AddRange( Program.GetFilesFromFolder(folder + dir.Name) );
+                    else
+                        files.AddRange( Program.GetFilesFromFolder(folder + "/" + dir.Name) );
+
+            return files;
+        }
 	}
 }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using CDesigner.Utils;
-
-///
+﻿///
 /// $c03 Language.cs
 /// 
 /// Wczytywanie tłumaczeń dla danego języka.
@@ -16,92 +9,142 @@ using CDesigner.Utils;
 /// Od wersji: 0.8.x.x
 /// Ostatnia zmiana: 2015-12-06
 /// 
-/// Dodano zamianę znaków \n na nową linię.
-/// Dodano zamianę znaków \$ na znak \
+/// CHANGELOG:
+/// [01.12.2015] Dodano zamianę znaków \n na nową linię.
+/// [06.12.2015] Dodano zamianę znaków \$ na znak \
 ///
 
-namespace CDesigner
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+namespace CDesigner.Utils
 {
 	/// 
 	/// <summary>
 	/// Klasa wczytująca pliki językowe.
 	/// Klasyfikuje linie z tłumaczeniami na sekcje i podsekcje.
+    /// Każdą sekcję i podsekcję można pobrać używając odpowiednich funkcji.
+    /// Indeksy tłumaczeń w podsekcjach liczone są standardowo od zera.
+    /// Klasa jest statyczna, ponieważ dostępny jest tylko jeden język w trakcie działania programu.
+    /// Języki wczytywane są z folderu languages umieszczonego w folderze programu.
 	/// </summary>
 	/// 
+	/// <example>
+	/// Szybki przykład użycia klasy:
+	/// <code>
+	/// Language.Initialize();
+    /// Language.Parse("pl");
+    /// 
+    /// // wypisuje wartość z sekcji main i podsekcji sub o indeksie 1
+    /// Console.WriteLine( Language.GetLine("foo", "bar", 1) );
+    /// 
+    /// Language.Initialize();
+    /// Language.Parse("en");
+    /// 
+    /// // wypisuje wartość z sekcji głównej i podsekcji foobar o indeksie 0
+    /// Console.WriteLine( Language.GetLine("foobar", 1) );
+	/// </code>
+	/// </example>
+	/// 
 	class Language
-	{
-		// ===== PRIVATE VARIABLES ==============================================================
+    {
+#region ZMIENNE
 
 		/// <summary>Linie z tłumaczeniami zawierające sekcje i podsekcje.</summary>
+		/// @hideinitializer
 		private static Dictionary<string, Dictionary<string, List<string>>> _line = null;
 
 		/// <summary>Flaga inicjalizacji klasy.</summary>
+		/// @hideinitializer
 		private static bool _init = false;
 
-		// ===== GETTERS / SETTERS ==============================================================
+#endregion
 
-		/**
-		 * <summary>
-		 * Pobiera linie z tłumaczeniami dla danej podsekcji.
-		 * Podsekcje pobierane są z sekcji głównej.
-		 * </summary>
-		 * 
-		 * <param name="subsect">Nazwa podsekcji.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+#region POBIERANIE DANYCH
+
+        /// <summary>
+        /// Pobiera linie z tłumaczeniami dla danej podsekcji.
+        /// Podsekcje pobierane są z sekcji głównej (nie ustawianej w pliku).
+        /// </summary>
+        /// 
+        /// <param name="subsect">Nazwa podsekcji.</param>
+        /// 
+        /// <returns>Lista tłumaczeń z danej podsekcji.</returns>
+        /// 
+        /// <seealso cref="Initialize"/>
+        /// <seealso cref="Parse"/>
+		//* ============================================================================================================
 		public static List<string> GetLines( string subsect )
 		{
 			return Language._line[" "][subsect];
 		}
 
-		/**
-		 * <summary>
-		 * Pobiera linie z tłumaczeniami dla danej podsekcji znajdującej się w wybranej sekcji.
-		 * </summary>
-		 * 
-		 * <param name="section">Nazwa sekcji.</param>
-		 * <param name="subsect">Nazwa podsekcji.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+        /// <summary>
+		/// Pobiera linie z tłumaczeniami dla danej podsekcji znajdującej się w wybranej sekcji.
+        /// </summary>
+        /// <param name="section">Nazwa sekcji.</param>
+        /// <param name="subsect">Nazwa podsekcji.</param>
+        /// 
+        /// <returns>Lista tłumaczeń z podanej sekcji i podsekcji.</returns>
+        /// 
+        /// <seealso cref="Initialize"/>
+        /// <seealso cref="Parse"/>
+		//* ============================================================================================================
 		public static List<string> GetLines( string section, string subsect )
 		{
 			return Language._line[section][subsect];
 		}
 
-		/**
-		 * <summary>
-		 * Pobiera pojedynczą linię o podanym indeksie dla danej podsekcji.
-		 * Podsekcje pobierane są z sekcji głównej.
-		 * </summary>
-		 * 
-		 * <param name="subsect">Nazwa podsekcji.</param>
-		 * <param name="index">Indeks linii.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+        /// <summary>
+        /// Pobiera pojedynczą linię o podanym indeksie dla podanej podsekcji.
+        /// Podsekcje pobierane są z sekcji głównej.
+        /// </summary>
+        /// 
+        /// <param name="subsect">Nazwa podsekcji.</param>
+        /// <param name="index">Indeks linii z tłumaczeniem znajdującym się w podsekcji.</param>
+        /// 
+        /// <returns>Tłumaczenie z podanej linii.</returns>
+        /// 
+        /// <seealso cref="Initialize"/>
+        /// <seealso cref="Parse"/>
+		//* ============================================================================================================
 		public static string GetLine( string subsect, int index )
 		{
 			return Language._line[" "][subsect][index];
 		}
 
-		/**
-		 * <summary>
-		 * Pobiera pojedynczą linię o podanym indeksie dla danej podsekcji znajdującej się w wybranej sekcji.
-		 * </summary>
-		 * 
-		 * <param name="section">Nazwa sekcji.</param>
-		 * <param name="subsect">Nazwa podsekcji.</param>
-		 * <param name="index">Indeks linii.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+        /// <summary>
+        /// Pobiera pojedynczą linię o podanym indeksie dla danej podsekcji znajdującej się z wybranej sekcji.
+        /// </summary>
+        /// 
+        /// <param name="section">Nazwa sekcji.</param>
+        /// <param name="subsect">Nazwa podsekcji.</param>
+        /// <param name="index">Indeks linii tłumaczenia pobieranego z podsekcji.</param>
+        /// 
+        /// <returns>Tłumaczenie z podanej linii.</returns>
+        /// 
+        /// <seealso cref="Initialize"/>
+        /// <seealso cref="Parse"/>
+		//* ============================================================================================================
 		public static string GetLine( string section, string subsect, int index )
 		{
 			return Language._line[section][subsect][index];
 		}
 
-		// ===== PUBLIC FUNCTIONS ===============================================================
+#endregion
 
-		/**
-		 * <summary>
-		 * Inicjalizacja klasy do pobierania tłumaczeń.
-		 * W przypadku wcześniejszej inicjalizacji usuwa poprzednie sekcje, podsekcje i linie.
-		 * </summary>
-		 * --------------------------------------------------------------------------------------------------------- **/
+#region PARSOWANIE PLIKU
+
+        /// <summary>
+		/// Inicjalizacja klasy do pobierania tłumaczeń.
+		/// W przypadku wcześniejszej inicjalizacji usuwa poprzednie sekcje, podsekcje i linie.
+        /// </summary>
+        /// 
+        /// <seealso cref="Parse"/>
+		//* ============================================================================================================
 		public static void Initialize()
 		{
 			// utwórz nowy słownik
@@ -126,15 +169,20 @@ namespace CDesigner
 			Language._init = true;
 		}
 
-		/**
-		 * <summary>
-		 * Parser pliku z tłumaczeniami.
-		 * Wczytuje sekcje, podsekcje i linie z pliku podanego w parametrze.
-		 * Obsługuje tylko pliki o rozszerzeniu LEX.
-		 * </summary>
-		 * 
-		 * <param name="lang">Nazwa pliku z tłumaczeniami bez rozszerzenia.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+        /// <summary>
+        /// Parser pliku z tłumaczeniami.
+        /// Wczytuje sekcje, podsekcje i linie z pliku podanego w parametrze.
+        /// Obsługuje tylko pliki o rozszerzeniu LEX.
+        /// Pliki wczytywane są z folderu languages umieszonym w folderze głównym programu.
+        /// </summary>
+        /// 
+        /// <param name="lang">Nazwa języka do wczytania.</param>
+        /// 
+        /// <seealso cref="Initialize"/>
+        /// <seealso cref="GetLines"/>
+        /// <seealso cref="GetLine"/>
+        /// <seealso cref="IsEOL"/>
+		//* ============================================================================================================
 		public static void Parse( string lang = null )
 		{
 #		if DEBUG
@@ -332,17 +380,18 @@ namespace CDesigner
 #		endif
 		}
 
-		// ===== PRIVATE FUNCTIONS ==============================================================
-
-		/**
-		 * <summary>
-		 * Sprawdza czy aktualny znak jest znakiem nowej linii.
-		 * Obsługuje znaki CRLF / LF / CR.
-		 * </summary>
-		 * 
-		 * <param name="chr">Aktualny znak.</param>
-		 * <param name="file">Otwarty strumień pliku.</param>
-		 * --------------------------------------------------------------------------------------------------------- **/
+        /// <summary>
+		/// Sprawdza czy aktualny znak jest znakiem nowej linii.
+		/// Obsługuje znaki CRLF / LF / CR.
+        /// </summary>
+        /// 
+        /// <param name="chr">Aktualny znak.</param>
+        /// <param name="reader">Strumień pliku z którego znak został zczytany.</param>
+        /// 
+        /// <returns>Czy znak jest znakiem końca linii?</returns>
+        /// 
+        /// <seealso cref="Parse"/>
+		//* ============================================================================================================
 		private static bool IsEOL( int chr, StreamReader reader )
 		{
 			// CR / CRLF
@@ -358,6 +407,8 @@ namespace CDesigner
 				return true;
 
 			return false;
-		}
-	}
+        }
+
+#endregion
+    }
 }

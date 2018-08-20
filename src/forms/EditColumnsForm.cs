@@ -35,7 +35,7 @@ namespace CDesigner.Forms
 {
 	/// 
 	/// <summary>
-	/// Formularz edycji bazy danych.
+	/// Formularz edycji kolumn z bazy danych.
 	/// Pozwala na łączenie kolumn i włączenie filtrowania danych w poszczególnych kolumnach.
 	/// Składa się z dwóch stron, pierwsza pozwala na tworzenie pustych (dopóki pusty będzie format) lub łączonych kolumn.
 	/// Druga strona pozwala na wybór odpowiednich filtrów i formatów dla każdej z kolumn, zarówno starych jak i nowych.
@@ -50,7 +50,6 @@ namespace CDesigner.Forms
     /// @todo <dfn><small>[0.8.x.x]</small></dfn> Po skupieniu na polu edycji ENTER działa jako dodawanie nowego pola.
     /// @todo <dfn><small>[0.9.x.x]</small></dfn> Możliwość zmiany ilości wyświetlanych wierszy.
 	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana typu filtra dla kolumn.
-	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Po zapisaniu edytowanego filtra ma być zaznaczony edytowany a nie pierwszy.
     /// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana szerokości kolumn wraz ze zmianą rozmiarów okna.
     /// @todo <dfn><small>[0.9.x.x]</small></dfn> Wyświetlanie zapytania przy kopiowaniu kolumny która już została skopiowana do
     ///                                           tej samej kolumny (czy na pewno chcesz ją skopiować drugi raz?).
@@ -96,13 +95,13 @@ namespace CDesigner.Forms
 		/// <summary>Blokada kontrolek (lub innych elementów) przed odświeżeniem.</summary>
 		private bool _locked;
 
-		/// <summary>Strumień danych pliku.</summary>
+		/// <summary>Schowek z danymi wczytanej bazy.</summary>
 		private DataStorage _storage;
 
 		/// <summary>Klasa filtrowania danych.</summary>
 		private DataFilter _filter;
 
-		/// <summary>Informacja o tym czy wyświetlane jest okienko z wiadomością.</summary>
+		/// <summary>Informacja o tym czy wyświetlany jest dymek z wiadomością.</summary>
 		private bool _show_tooltip;
 
 		/// <summary>Aktualnie zaznaczona kolumna w sekcji z filtrami (dla nowych filtrów).</summary>
@@ -119,7 +118,7 @@ namespace CDesigner.Forms
 #region KONSTRUKTOR / WŁAŚCIWOŚCI
 
 		/// <summary>
-		/// Zerowy konstruktor klasy.
+		/// Konstruktor klasy.
 		/// Tworzy instancje klasy i tłumaczy cały formularz na aktualny język.
         /// Przed wyświetleniem formularza edycji warto ustawić dla klasy dane na których ma operować.
         /// Przykład użycia konstruktora podany został w opisie klasy.
@@ -1303,7 +1302,7 @@ namespace CDesigner.Forms
             if( this.lvFilterList.SelectedIndices.Count == 0 )
                 return;
 
-            int selected = this.lvFilterList.SelectedIndices[0];
+            int selected  = this.lvFilterList.SelectedIndices[0];
 
             // usuń filtr
             this._filter.RemoveFilter( this._current_column, this._real_subindex, selected );
@@ -1344,8 +1343,7 @@ namespace CDesigner.Forms
 				this.cbAllCopies.Checked
 			);
 
-            int selected = this.lvFilterList.SelectedIndices[0];
-
+            int selected  = this.lvFilterList.SelectedIndices[0];
 			this._filter.ReplaceFilter( this._current_column, this._real_subindex, selected, filter );
 
 #		if DEBUG
@@ -1358,6 +1356,9 @@ namespace CDesigner.Forms
 
             // odśwież listę filtrów
             this.displayColumnFilters();
+
+            // zaznacz aktualnie edytowany filtr
+            this.lvFilterList.Items[selected].Selected = true;
         }
 
         /// @endcond

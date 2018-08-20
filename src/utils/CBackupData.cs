@@ -5,8 +5,9 @@ using System.Text;
 using System.IO;
 using System.IO.Compression;
 using System.ComponentModel;
+using CDesigner.Forms;
 
-namespace CDesigner
+namespace CDesigner.Utils
 {
 	///
 	/// Okrojona klasa kompresji i dekompresji plików.
@@ -300,9 +301,9 @@ namespace CDesigner
 				for( int x = 0, y = tstamp.Count(); x < y; ++x )
 					ostream.WriteByte( (byte)tstamp[x] );
 
-				ostream.WriteByte( (byte)InfoForm.VERSION.Length );
-				for( int x = 0; x < InfoForm.VERSION.Length; ++x )
-					ostream.WriteByte( (byte)InfoForm.VERSION[x] );
+				ostream.WriteByte( (byte)Program.VERSION.Length );
+				for( int x = 0; x < Program.VERSION.Length; ++x )
+					ostream.WriteByte( (byte)Program.VERSION[x] );
 
 				ostream.Write( table, 0, 256 );
 

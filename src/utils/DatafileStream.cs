@@ -5,11 +5,12 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2016-07-14
+/// Ostatnia zmiana: 2016-11-08
 /// 
 /// CHANGELOG:
 /// [10.08.2015] Wersja początkowa.
 /// [14.07.2016] Drobne poprawki, komentarze i regiony.
+/// [08.11.2016] Zamiana klasy DatabaseReader na IOFileData.
 ///
 
 using System;
@@ -370,7 +371,7 @@ namespace CDesigner.Utils
 					(
 						Language.GetLine("DatabaseSettings", "Messages", 0),
 						this._extension,
-						DatabaseReader.JoinSupportedExtensions()
+						IOFileData.getExtensionsList()
 					),
 					Language.GetLine( "MessageNames", (int)MSGBLIDX.ParseError ),
 					false

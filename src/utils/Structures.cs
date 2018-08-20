@@ -117,7 +117,48 @@ namespace CDesigner
 	};
 
 
+    /// <summary>
+    /// Struktura informacji o wzorze.
+    /// Zawiera wszystkie dane przechowywane w plikach konfiguracyjnych wzorów.
+    /// Uzupełniana przy listowaniu wzorów i wczytywaniu konkretnego wzoru.
+    /// </summary>
+    public struct PatternInfo
+    {
+        /// <summary>Nazwa wzoru.</summary>
+        public string Name;
 
+        /// <summary>Czy wzór posiada plik konfiguracyjny?</summary>
+        public bool HasConfigFile;
+
+        /// <summary>Czy plik konfiguracyjny jest prawidłowy?</summary>
+        public bool Corrupted;
+        
+        /// <summary>Szerokość i wysokość wzoru w milimetrach.</summary>
+        public Size Size;
+
+        /// <summary>Ilość stron znajdujących się we wzorze.</summary>
+        public int Pages;
+
+        /// <summary>Czy do wzoru można wczytać dane?</summary>
+        public bool DynamicContent;
+
+        /// <summary>
+        /// Konstruktor struktury używany przy jej tworzeniu.
+        /// Uzupełnia domyślnymi danymi wszystkie zmienne.
+        /// </summary>
+        /// 
+        /// <param name="name">Nazwa parsowanego wzoru.</param>
+		//* ============================================================================================================
+        public PatternInfo( string name )
+        {
+            this.Name           = name;
+            this.HasConfigFile  = false;
+            this.Corrupted      = false;
+            this.Size           = new Size( 0, 0 );
+            this.Pages          = 0;
+            this.DynamicContent = false;
+        }
+    };
 
 
 
@@ -147,7 +188,8 @@ namespace CDesigner
 		CDRestore128,
 		CDRestore256,
 		CDRestore512,
-		
+
+        REGISTER_LOGO,
 
 		ItemAdd,
 		ItemRemove,
@@ -181,9 +223,17 @@ namespace CDesigner
 		GGE_OPTIONNOTAVALIABLE  = 0x03,
 
 		GFN_DATAFILESETTINGS    = 0x01,
-		GFN_EDITCOLUMNS         = 0x02,
+		GFN_EDITCOLUMNS    = 0x02,
+        GFN_EDITDATA       = 0x03,
+        GFN_NEWPATTERN     = 0x04,
+        GFN_ABOUTPROGRAM   = 0x05,
+        GFN_PROGRAMUPDATE  = 0x06,
+
+        GLO_BIGCHARS       = 0x00,
+        GLO_SMALLCHARS     = 0x01,
 
 		GMN_SELECTDBASESTREAM   = 0x01,
+        GMN_PATTCREATING   = 0x06,
 
 		// =========================== I02 [DatafileSettingsForm]
 
@@ -253,6 +303,61 @@ namespace CDesigner
 		I03_MES_NOCOLNAME  = 0x01,
 		I03_MES_COLEXISTS  = 0x02,
 		I03_MES_OVERRIDE   = 0x03,
+        
+		// =========================== I04 [EditRowsForm]
+
+        I04_LAB_ROWSONPAGE = 0x00,
+        I04_LAB_PAGEOFNUM  = 0x01,
+        I04_BUT_SAVE       = 0x00,
+        I04_BUT_CANCEL     = 0x01,
+        
+		// =========================== I05 [NewPatternForm]
+
+        I05_LAB_PATTNAME   = 0x00,
+        I05_LAB_PATTCOPY   = 0x01,
+        I05_LAB_PAPERTYPE  = 0x02,
+        I05_LAB_PATTSIZE   = 0x03,
+        I05_CBX_DONTCOPY   = 0x00,
+        I05_CBX_CUSTOMSIZE = 0x01,
+        I05_BUT_CREATE     = 0x00,
+        I05_BUT_CANCEL     = 0x01,
+        I05_MES_NOPATTNAME = 0x00,
+        I05_MES_PATTEXISTS = 0x01,
+        I05_MES_NOPATTSIZE = 0x02,
+        I05_MES_CANTCREATE = 0x03,
+        I05_MES_AVALCHARS  = 0x04,
+        
+		// =========================== I06 [InfoForm]
+
+        I06_BUT_CLOSE      = 0x00,
+        I06_LAB_COMPILDATE = 0x00,
+        I06_LAB_AUTHOR     = 0x01,
+        I06_LAB_ABOUTCOPY  = 0x02,
+        I06_LAB_REGFOR     = 0x03,
+        I06_LAB_REGNUMBER  = 0x04,
+        I06_LAB_EXPIREDATE = 0x05,
+        I06_LAB_EXPIRNEVER = 0x06,
+        
+		// =========================== I06 [UpdateForm]
+
+        I07_MSG_NOCONNECT  = 0x00,
+        I07_MSG_ADMINHELP  = 0x01,
+        I07_MSG_ACTIVEZIP  = 0x02,
+        I07_MSG_NACTIVEZIP = 0x03,
+        I07_MSG_ERRUPDATE  = 0x04,
+        I07_MSG_CLOSEONUP  = 0x05,
+        I07_MSG_ERRCRESS   = 0x06,
+        I07_MSG_SUCCESSZIP = 0x07,
+        I07_MSG_ERRDECRESS = 0x08,
+        I07_MSG_INSTALLUP  = 0x09,
+        I07_BUT_UPDATE     = 0x00,
+        I07_BUT_CLOSE      = 0x01,
+        I07_BUT_COMPRESS   = 0x02,
+        I07_LAB_AVAILABLE  = 0x00,
+        I07_LAB_UPTODATE   = 0x01,
+        I07_LAB_APPVERSION = 0x02,
+        I07_LAB_VERSIONUP  = 0x03,
+        I07_LAB_CHANGES    = 0x04,
 
 		// ------------------- Global
 
@@ -313,19 +418,6 @@ namespace CDesigner
 
 		ecLB_ColumnType = 0,
 		ecLB_FilterSettings
-	};
-
-
-
-
-
-
-	public enum FORMLIDX
-	{
-		DataFilter,
-		DatabaseSettings,
-		EditColumns,
-		EditData
 	};
 
 	public enum MSGBLIDX

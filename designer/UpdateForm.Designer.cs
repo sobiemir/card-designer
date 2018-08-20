@@ -1,7 +1,9 @@
-﻿namespace CDesigner
+﻿namespace CDesigner.Forms
 {
 	partial class UpdateForm
 	{
+        /// @cond COMPONENTS
+        
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -28,224 +30,217 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
-			this.tlUpdate = new System.Windows.Forms.TableLayoutPanel();
-			this.pChanges = new System.Windows.Forms.Panel();
-			this.rtbChanges = new System.Windows.Forms.RichTextBox();
-			this.lUpdateChanges = new System.Windows.Forms.Label();
-			this.tlBottomBar = new System.Windows.Forms.TableLayoutPanel();
-			this.bUpdate = new System.Windows.Forms.Button();
-			this.pbUpdate = new System.Windows.Forms.ProgressBar();
-			this.pbAppLogo = new System.Windows.Forms.PictureBox();
-			this.pVersion = new System.Windows.Forms.Panel();
-			this.lNewVersion = new System.Windows.Forms.Label();
-			this.lUpdateAvaliable = new System.Windows.Forms.Label();
-			this.lCurrentVersion = new System.Windows.Forms.Label();
-			this.bwTask = new System.ComponentModel.BackgroundWorker();
-			this.tlUpdate.SuspendLayout();
-			this.pChanges.SuspendLayout();
-			this.tlBottomBar.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbAppLogo)).BeginInit();
-			this.pVersion.SuspendLayout();
-			this.SuspendLayout();
-			// 
-			// tlUpdate
-			// 
-			this.tlUpdate.ColumnCount = 2;
-			this.tlUpdate.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlUpdate.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-			this.tlUpdate.Controls.Add(this.pChanges, 0, 2);
-			this.tlUpdate.Controls.Add(this.lUpdateChanges, 0, 1);
-			this.tlUpdate.Controls.Add(this.tlBottomBar, 0, 3);
-			this.tlUpdate.Controls.Add(this.pbAppLogo, 1, 0);
-			this.tlUpdate.Controls.Add(this.pVersion, 0, 0);
-			this.tlUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlUpdate.Location = new System.Drawing.Point(0, 0);
-			this.tlUpdate.Name = "tlUpdate";
-			this.tlUpdate.RowCount = 4;
-			this.tlUpdate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
-			this.tlUpdate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tlUpdate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlUpdate.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tlUpdate.Size = new System.Drawing.Size(445, 311);
-			this.tlUpdate.TabIndex = 0;
-			// 
-			// pChanges
-			// 
-			this.pChanges.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tlUpdate.SetColumnSpan(this.pChanges, 2);
-			this.pChanges.Controls.Add(this.rtbChanges);
-			this.pChanges.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pChanges.Location = new System.Drawing.Point(6, 76);
-			this.pChanges.Margin = new System.Windows.Forms.Padding(6, 0, 6, 3);
-			this.pChanges.Name = "pChanges";
-			this.pChanges.Size = new System.Drawing.Size(433, 204);
-			this.pChanges.TabIndex = 5;
-			// 
-			// rtbChanges
-			// 
-			this.rtbChanges.BackColor = System.Drawing.SystemColors.Window;
-			this.rtbChanges.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.rtbChanges.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtbChanges.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.rtbChanges.Location = new System.Drawing.Point(0, 0);
-			this.rtbChanges.Margin = new System.Windows.Forms.Padding(0);
-			this.rtbChanges.Name = "rtbChanges";
-			this.rtbChanges.ReadOnly = true;
-			this.rtbChanges.Size = new System.Drawing.Size(431, 202);
-			this.rtbChanges.TabIndex = 2;
-			this.rtbChanges.Text = "";
-			// 
-			// lUpdateChanges
-			// 
-			this.lUpdateChanges.AutoSize = true;
-			this.lUpdateChanges.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lUpdateChanges.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.lUpdateChanges.Location = new System.Drawing.Point(6, 56);
-			this.lUpdateChanges.Margin = new System.Windows.Forms.Padding(6, 0, 6, 3);
-			this.lUpdateChanges.Name = "lUpdateChanges";
-			this.lUpdateChanges.Size = new System.Drawing.Size(363, 17);
-			this.lUpdateChanges.TabIndex = 3;
-			this.lUpdateChanges.Text = "Lista zmian od wersji początkowej:";
-			this.lUpdateChanges.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// tlBottomBar
-			// 
-			this.tlBottomBar.ColumnCount = 2;
-			this.tlUpdate.SetColumnSpan(this.tlBottomBar, 2);
-			this.tlBottomBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 136F));
-			this.tlBottomBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-			this.tlBottomBar.Controls.Add(this.bUpdate, 0, 0);
-			this.tlBottomBar.Controls.Add(this.pbUpdate, 1, 0);
-			this.tlBottomBar.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tlBottomBar.Location = new System.Drawing.Point(0, 283);
-			this.tlBottomBar.Margin = new System.Windows.Forms.Padding(0);
-			this.tlBottomBar.Name = "tlBottomBar";
-			this.tlBottomBar.RowCount = 1;
-			this.tlBottomBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tlBottomBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-			this.tlBottomBar.Size = new System.Drawing.Size(445, 28);
-			this.tlBottomBar.TabIndex = 7;
-			// 
-			// bUpdate
-			// 
-			this.bUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.bUpdate.Location = new System.Drawing.Point(6, 3);
-			this.bUpdate.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-			this.bUpdate.Name = "bUpdate";
-			this.bUpdate.Size = new System.Drawing.Size(127, 22);
-			this.bUpdate.TabIndex = 4;
-			this.bUpdate.Text = "Aktualizuj program";
-			this.bUpdate.UseVisualStyleBackColor = true;
-			this.bUpdate.Click += new System.EventHandler(this.bUpdate_Click);
-			// 
-			// pbUpdate
-			// 
-			this.pbUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pbUpdate.Location = new System.Drawing.Point(139, 5);
-			this.pbUpdate.Margin = new System.Windows.Forms.Padding(3, 5, 6, 5);
-			this.pbUpdate.Name = "pbUpdate";
-			this.pbUpdate.Size = new System.Drawing.Size(300, 18);
-			this.pbUpdate.TabIndex = 3;
-			// 
-			// pbAppLogo
-			// 
-			this.pbAppLogo.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pbAppLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbAppLogo.Image")));
-			this.pbAppLogo.Location = new System.Drawing.Point(375, 6);
-			this.pbAppLogo.Margin = new System.Windows.Forms.Padding(0, 6, 6, 6);
-			this.pbAppLogo.Name = "pbAppLogo";
-			this.tlUpdate.SetRowSpan(this.pbAppLogo, 2);
-			this.pbAppLogo.Size = new System.Drawing.Size(64, 64);
-			this.pbAppLogo.TabIndex = 8;
-			this.pbAppLogo.TabStop = false;
-			// 
-			// pVersion
-			// 
-			this.pVersion.Controls.Add(this.lNewVersion);
-			this.pVersion.Controls.Add(this.lUpdateAvaliable);
-			this.pVersion.Controls.Add(this.lCurrentVersion);
-			this.pVersion.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pVersion.Location = new System.Drawing.Point(0, 0);
-			this.pVersion.Margin = new System.Windows.Forms.Padding(0);
-			this.pVersion.Name = "pVersion";
-			this.pVersion.Size = new System.Drawing.Size(375, 56);
-			this.pVersion.TabIndex = 9;
-			// 
-			// lNewVersion
-			// 
-			this.lNewVersion.AutoSize = true;
-			this.lNewVersion.ForeColor = System.Drawing.Color.Gray;
-			this.lNewVersion.Location = new System.Drawing.Point(6, 40);
-			this.lNewVersion.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
-			this.lNewVersion.Name = "lNewVersion";
-			this.lNewVersion.Size = new System.Drawing.Size(113, 13);
-			this.lNewVersion.TabIndex = 11;
-			this.lNewVersion.Text = "Wersja po aktualizacji:";
-			// 
-			// lUpdateAvaliable
-			// 
-			this.lUpdateAvaliable.AutoSize = true;
-			this.lUpdateAvaliable.Location = new System.Drawing.Point(6, 6);
-			this.lUpdateAvaliable.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
-			this.lUpdateAvaliable.Name = "lUpdateAvaliable";
-			this.lUpdateAvaliable.Size = new System.Drawing.Size(184, 13);
-			this.lUpdateAvaliable.TabIndex = 10;
-			this.lUpdateAvaliable.Text = "Dostępna jest nowa wersja programu!";
-			// 
-			// lCurrentVersion
-			// 
-			this.lCurrentVersion.AutoSize = true;
-			this.lCurrentVersion.ForeColor = System.Drawing.Color.Gray;
-			this.lCurrentVersion.Location = new System.Drawing.Point(6, 23);
-			this.lCurrentVersion.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
-			this.lCurrentVersion.Name = "lCurrentVersion";
-			this.lCurrentVersion.Size = new System.Drawing.Size(81, 13);
-			this.lCurrentVersion.TabIndex = 10;
-			this.lCurrentVersion.Text = "Obecna wersja:";
-			// 
-			// bwTask
-			// 
-			this.bwTask.WorkerReportsProgress = true;
-			this.bwTask.WorkerSupportsCancellation = true;
-			// 
-			// UpdateForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(445, 311);
-			this.Controls.Add(this.tlUpdate);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "UpdateForm";
-			this.Text = "Aktualizacja programu";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Update_FormClosing);
-			this.tlUpdate.ResumeLayout(false);
-			this.tlUpdate.PerformLayout();
-			this.pChanges.ResumeLayout(false);
-			this.tlBottomBar.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.pbAppLogo)).EndInit();
-			this.pVersion.ResumeLayout(false);
-			this.pVersion.PerformLayout();
-			this.ResumeLayout(false);
+            this.TLP_Main = new System.Windows.Forms.TableLayoutPanel();
+            this.L_CurVersion = new System.Windows.Forms.Label();
+            this.L_UpdateAvailable = new System.Windows.Forms.Label();
+            this.L_NewVersion = new System.Windows.Forms.Label();
+            this.TLP_StatusBar = new System.Windows.Forms.TableLayoutPanel();
+            this.B_Update = new System.Windows.Forms.Button();
+            this.PRB_Update = new System.Windows.Forms.ProgressBar();
+            this.B_Close = new System.Windows.Forms.Button();
+            this.PB_AppLogo = new System.Windows.Forms.PictureBox();
+            this.GB_ChangeLog = new System.Windows.Forms.GroupBox();
+            this.RTB_Changes = new System.Windows.Forms.RichTextBox();
+            this.BW_Update = new System.ComponentModel.BackgroundWorker();
+            this.TLP_Main.SuspendLayout();
+            this.TLP_StatusBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_AppLogo)).BeginInit();
+            this.GB_ChangeLog.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // TLP_Main
+            // 
+            this.TLP_Main.ColumnCount = 2;
+            this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 82F));
+            this.TLP_Main.Controls.Add(this.L_CurVersion, 0, 1);
+            this.TLP_Main.Controls.Add(this.L_UpdateAvailable, 0, 0);
+            this.TLP_Main.Controls.Add(this.L_NewVersion, 0, 2);
+            this.TLP_Main.Controls.Add(this.TLP_StatusBar, 0, 5);
+            this.TLP_Main.Controls.Add(this.PB_AppLogo, 1, 0);
+            this.TLP_Main.Controls.Add(this.GB_ChangeLog, 0, 4);
+            this.TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_Main.Location = new System.Drawing.Point(0, 0);
+            this.TLP_Main.Name = "TLP_Main";
+            this.TLP_Main.RowCount = 6;
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.TLP_Main.Size = new System.Drawing.Size(454, 372);
+            this.TLP_Main.TabIndex = 0;
+            // 
+            // L_CurVersion
+            // 
+            this.L_CurVersion.AutoSize = true;
+            this.L_CurVersion.ForeColor = System.Drawing.Color.Gray;
+            this.L_CurVersion.Location = new System.Drawing.Point(6, 28);
+            this.L_CurVersion.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
+            this.L_CurVersion.Name = "L_CurVersion";
+            this.L_CurVersion.Size = new System.Drawing.Size(81, 13);
+            this.L_CurVersion.TabIndex = 10;
+            this.L_CurVersion.Text = "Obecna wersja:";
+            // 
+            // L_UpdateAvailable
+            // 
+            this.L_UpdateAvailable.AutoSize = true;
+            this.L_UpdateAvailable.Location = new System.Drawing.Point(6, 6);
+            this.L_UpdateAvailable.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
+            this.L_UpdateAvailable.Name = "L_UpdateAvailable";
+            this.L_UpdateAvailable.Size = new System.Drawing.Size(184, 13);
+            this.L_UpdateAvailable.TabIndex = 10;
+            this.L_UpdateAvailable.Text = "Dostępna jest nowa wersja programu!";
+            // 
+            // L_NewVersion
+            // 
+            this.L_NewVersion.AutoSize = true;
+            this.L_NewVersion.ForeColor = System.Drawing.Color.Gray;
+            this.L_NewVersion.Location = new System.Drawing.Point(6, 50);
+            this.L_NewVersion.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
+            this.L_NewVersion.Name = "L_NewVersion";
+            this.L_NewVersion.Size = new System.Drawing.Size(113, 13);
+            this.L_NewVersion.TabIndex = 11;
+            this.L_NewVersion.Text = "Wersja po aktualizacji:";
+            // 
+            // TLP_StatusBar
+            // 
+            this.TLP_StatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.TLP_StatusBar.ColumnCount = 3;
+            this.TLP_Main.SetColumnSpan(this.TLP_StatusBar, 2);
+            this.TLP_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.TLP_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.TLP_StatusBar.Controls.Add(this.B_Update, 0, 0);
+            this.TLP_StatusBar.Controls.Add(this.PRB_Update, 1, 0);
+            this.TLP_StatusBar.Controls.Add(this.B_Close, 2, 0);
+            this.TLP_StatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_StatusBar.Location = new System.Drawing.Point(0, 340);
+            this.TLP_StatusBar.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_StatusBar.Name = "TLP_StatusBar";
+            this.TLP_StatusBar.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.TLP_StatusBar.RowCount = 1;
+            this.TLP_StatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_StatusBar.Size = new System.Drawing.Size(454, 32);
+            this.TLP_StatusBar.TabIndex = 7;
+            this.TLP_StatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_StatusBar_Paint);
+            // 
+            // B_Update
+            // 
+            this.B_Update.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_Update.Location = new System.Drawing.Point(6, 4);
+            this.B_Update.Margin = new System.Windows.Forms.Padding(6, 3, 1, 3);
+            this.B_Update.Name = "B_Update";
+            this.B_Update.Size = new System.Drawing.Size(103, 25);
+            this.B_Update.TabIndex = 4;
+            this.B_Update.Text = "Aktualizuj";
+            this.B_Update.UseVisualStyleBackColor = true;
+            this.B_Update.Click += new System.EventHandler(this.B_Update_Click);
+            // 
+            // PRB_Update
+            // 
+            this.PRB_Update.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PRB_Update.Location = new System.Drawing.Point(112, 5);
+            this.PRB_Update.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.PRB_Update.Name = "PRB_Update";
+            this.PRB_Update.Size = new System.Drawing.Size(230, 23);
+            this.PRB_Update.TabIndex = 3;
+            // 
+            // B_Close
+            // 
+            this.B_Close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.B_Close.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_Close.Location = new System.Drawing.Point(345, 4);
+            this.B_Close.Margin = new System.Windows.Forms.Padding(1, 3, 6, 3);
+            this.B_Close.Name = "B_Close";
+            this.B_Close.Size = new System.Drawing.Size(103, 25);
+            this.B_Close.TabIndex = 5;
+            this.B_Close.Text = "Zamknij";
+            this.B_Close.UseVisualStyleBackColor = true;
+            // 
+            // PB_AppLogo
+            // 
+            this.PB_AppLogo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PB_AppLogo.Location = new System.Drawing.Point(372, 6);
+            this.PB_AppLogo.Margin = new System.Windows.Forms.Padding(0, 6, 6, 0);
+            this.PB_AppLogo.Name = "PB_AppLogo";
+            this.TLP_Main.SetRowSpan(this.PB_AppLogo, 4);
+            this.PB_AppLogo.Size = new System.Drawing.Size(76, 76);
+            this.PB_AppLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_AppLogo.TabIndex = 8;
+            this.PB_AppLogo.TabStop = false;
+            // 
+            // GB_ChangeLog
+            // 
+            this.TLP_Main.SetColumnSpan(this.GB_ChangeLog, 2);
+            this.GB_ChangeLog.Controls.Add(this.RTB_Changes);
+            this.GB_ChangeLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GB_ChangeLog.Location = new System.Drawing.Point(6, 82);
+            this.GB_ChangeLog.Margin = new System.Windows.Forms.Padding(6, 0, 6, 6);
+            this.GB_ChangeLog.Name = "GB_ChangeLog";
+            this.GB_ChangeLog.Padding = new System.Windows.Forms.Padding(6, 4, 6, 6);
+            this.GB_ChangeLog.Size = new System.Drawing.Size(442, 252);
+            this.GB_ChangeLog.TabIndex = 12;
+            this.GB_ChangeLog.TabStop = false;
+            this.GB_ChangeLog.Text = "Lista zmian w poszczególnych wersjach";
+            // 
+            // RTB_Changes
+            // 
+            this.RTB_Changes.BackColor = System.Drawing.SystemColors.Window;
+            this.RTB_Changes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.RTB_Changes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RTB_Changes.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.RTB_Changes.Location = new System.Drawing.Point(6, 17);
+            this.RTB_Changes.Name = "RTB_Changes";
+            this.RTB_Changes.ReadOnly = true;
+            this.RTB_Changes.Size = new System.Drawing.Size(430, 229);
+            this.RTB_Changes.TabIndex = 2;
+            this.RTB_Changes.Text = "";
+            // 
+            // BW_Update
+            // 
+            this.BW_Update.WorkerReportsProgress = true;
+            this.BW_Update.WorkerSupportsCancellation = true;
+            // 
+            // UpdateForm
+            // 
+            this.AcceptButton = this.B_Update;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.B_Close;
+            this.ClientSize = new System.Drawing.Size(454, 372);
+            this.Controls.Add(this.TLP_Main);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "UpdateForm";
+            this.Text = "Aktualizacja programu";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Update_FormClosing);
+            this.TLP_Main.ResumeLayout(false);
+            this.TLP_Main.PerformLayout();
+            this.TLP_StatusBar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PB_AppLogo)).EndInit();
+            this.GB_ChangeLog.ResumeLayout(false);
+            this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TableLayoutPanel tlUpdate;
-		private System.Windows.Forms.Panel pChanges;
-		private System.Windows.Forms.RichTextBox rtbChanges;
-		private System.Windows.Forms.Label lUpdateChanges;
-		private System.Windows.Forms.TableLayoutPanel tlBottomBar;
-		private System.Windows.Forms.PictureBox pbAppLogo;
-		private System.Windows.Forms.Panel pVersion;
-		private System.Windows.Forms.Label lUpdateAvaliable;
-		private System.Windows.Forms.Label lCurrentVersion;
-		private System.Windows.Forms.Label lNewVersion;
-		private System.Windows.Forms.ProgressBar pbUpdate;
-		private System.ComponentModel.BackgroundWorker bwTask;
-		private System.Windows.Forms.Button bUpdate;
+        private System.Windows.Forms.TableLayoutPanel TLP_Main;
+        private System.Windows.Forms.RichTextBox RTB_Changes;
+        private System.Windows.Forms.TableLayoutPanel TLP_StatusBar;
+		private System.Windows.Forms.ProgressBar PRB_Update;
+		private System.ComponentModel.BackgroundWorker BW_Update;
+		private System.Windows.Forms.Button B_Update;
+        private System.Windows.Forms.Label L_CurVersion;
+        private System.Windows.Forms.Label L_UpdateAvailable;
+        private System.Windows.Forms.Label L_NewVersion;
+        private System.Windows.Forms.PictureBox PB_AppLogo;
+        private System.Windows.Forms.Button B_Close;
+        private System.Windows.Forms.GroupBox GB_ChangeLog;
+
+        /// @endcond
 	}
 }

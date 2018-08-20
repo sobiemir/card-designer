@@ -1,4 +1,22 @@
-﻿using System;
+﻿///
+/// $i[xx] IOFileData.cs
+/// 
+/// Okno edycji bazy danych.
+/// Uruchamia okno filtrowania danych.
+/// Pozwala na uruchomienie filtrowania danych i łączenie komórek.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.8.x.x
+/// Ostatnia zmiana: 2016-11-08
+/// 
+/// CHANGELOG:
+/// [16.08.2016] Wersja początkowa - wczytywanie danych z pliku CSV.
+/// [23.08.2016] Ulepszenie wczytywania, dodane wyjątki, patrz funkcja parseCSV.
+/// [26.08.2016] Filtry dla dostępnych rozszerzeń przeniesione z pliku DatabaseReader.
+/// [08.11.2016] Drobne komentarze i poprawki.
+///
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -235,12 +253,33 @@ namespace CDesigner.Utils
             if( this._separator == this._enclosing )
                 return;
 
+            // sprawdź rozszerzenie
             if( this._extension == ".csv" )
                 this.parseCSV( records, hascolumns );
-            else
-            {
 
-            }
+            GC.Collect();
+        }
+
+        /// <summary>
+        /// Zapis danych z pamięci do pliku.
+        /// Funkcja po rozszerzeniu wywołuje odpowiednią funkcję zapisywania danych.
+        /// Dzięki temu proces zapisu danych jest po części zautomatyzowany.
+        /// </summary>
+        /// 
+        /// <param name="filename">Nazwa pliku do zapisania danych.</param>
+		//* ============================================================================================================
+        public void save( string filename )
+        {
+            // brak gotowości zapisywania
+            if( !this._isReady )
+                return;
+
+            // informacje o pliku
+            FileInfo finfo = new FileInfo( filename );
+
+            // sprawdź rozszerzenie
+            if( finfo.Extension.ToLower() == ".csv" )
+                this.saveCSV( filename );
 
             GC.Collect();
         }
@@ -502,6 +541,88 @@ namespace CDesigner.Utils
             file.Close();
             this._isReady = true;
         }
+
+        /// <summary>
+        /// Zapis danych do pliku o rozszerzeniu CSV (comma separated values).
+        /// Zapisane dane są zgodne z formatem CSV opisanym w dokumencie RFC 4180.
+        /// Kolumny rozdzielane są znakiem przecinku, a znakiem otaczającym ktorkę jest znak apostrofu.
+        /// Każdy wiersz kończony jest znakiem nowej linii, zapisywanym jako zlepek dwóch znaków: CRLF.
+        /// </summary>
+        /// 
+        /// <param name="filename">Nazwa pliku wyjściowego do którego będą zapisywane dane.</param>
+		//* ============================================================================================================
+        protected void saveCSV( string filename )
+        {
+            var separator  = ',';
+            var enclosing  = '"';
+            var writer     = new StreamWriter( filename );
+            var hasspecial = false;
+            var savestr    = "";
+
+            // zapisz kolumny
+            for( int x = 0; x < this.ColumnsNumber; ++x )
+            {
+                hasspecial = false;
+                savestr    = this.Column[x];
+                
+                // sprawdź czy ciąg zawiera znak otaczający krotkę
+                if( savestr.IndexOf(enclosing) > -1 )
+                {
+                    savestr.Replace( enclosing.ToString(), "\\" + enclosing );
+                    hasspecial = true;
+                }
+                // sprawdź czy ciąg zawiera separator
+                if( savestr.IndexOf(separator) > -1 )
+                    hasspecial = true;
+
+                // otocz znakami jeżeli ciąg zawiera znaki specjalne
+                if( hasspecial )
+                    savestr = enclosing + savestr + enclosing;
+
+                // zapisz do strumienia
+                if( x > 0 )
+                    writer.Write( separator + savestr );
+                else
+                    writer.Write( savestr );
+            }
+            
+            // zapisz wiersze
+            for( int x = 0; x < this.RowsNumber; ++x )
+            {
+                // nowa linia
+                writer.Write( "\r\n" );
+
+                // zapisz aktualną krotkę
+                for( int y = 0; y < this.ColumnsNumber; ++y )
+                {
+                    hasspecial = false;
+                    savestr    = this.Row[x][y];
+
+                    // sprawdź czy ciąg zawiera znak otaczający krotkę
+                    if( savestr.IndexOf(enclosing) > -1 )
+                    {
+                        savestr.Replace( enclosing.ToString(), "\\" + enclosing );
+                        hasspecial = true;
+                    }
+                    // sprawdź czy ciąg zawiera separator
+                    if( savestr.IndexOf(separator) > -1 )
+                        hasspecial = true;
+
+                    // otocz znakami ciąg jeżeli zawiera znak specjalny
+                    if( hasspecial )
+                        savestr = enclosing + savestr + enclosing;
+
+                    // zapisz do strumienia
+                    if( y > 0 )
+                        writer.Write( separator + savestr );
+                    else
+                        writer.Write( savestr );
+                }
+            }
+            // zamknij strumień
+            writer.Close();
+        }
+
 #endregion
 
 #region FUNKCJE WSPÓLNE DLA PARSERÓW

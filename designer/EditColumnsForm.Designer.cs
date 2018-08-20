@@ -31,13 +31,13 @@
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("STARE KOLUMNY", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("NOWE KOLUMNY", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("Set Main");
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("Main Prev");
-            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem("Main");
-            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem("      Pod 1");
-            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem("      Pod 2");
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("STARE KOLUMNY", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("NOWE KOLUMNY", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Set Main");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Main Prev");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("Main");
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("      Pod 1");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("      Pod 2");
             this.tpTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.lvPreviewRows = new System.Windows.Forms.ListView();
             this.lvcDataPreview = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -123,12 +123,12 @@
             this.lvPreviewRows.GridLines = true;
             this.lvPreviewRows.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lvPreviewRows.HideSelection = false;
-            this.lvPreviewRows.Location = new System.Drawing.Point(0, 227);
+            this.lvPreviewRows.Location = new System.Drawing.Point(0, 226);
             this.lvPreviewRows.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.lvPreviewRows.MultiSelect = false;
             this.lvPreviewRows.Name = "lvPreviewRows";
             this.lvPreviewRows.ShowGroups = false;
-            this.lvPreviewRows.Size = new System.Drawing.Size(479, 193);
+            this.lvPreviewRows.Size = new System.Drawing.Size(479, 192);
             this.lvPreviewRows.TabIndex = 7;
             this.lvPreviewRows.UseCompatibleStateImageBehavior = false;
             this.lvPreviewRows.View = System.Windows.Forms.View.Details;
@@ -247,7 +247,7 @@
             this.lvDatabaseColumns.MultiSelect = false;
             this.lvDatabaseColumns.Name = "lvDatabaseColumns";
             this.lvDatabaseColumns.ShowGroups = false;
-            this.lvDatabaseColumns.Size = new System.Drawing.Size(209, 420);
+            this.lvDatabaseColumns.Size = new System.Drawing.Size(209, 418);
             this.lvDatabaseColumns.TabIndex = 8;
             this.lvDatabaseColumns.UseCompatibleStateImageBehavior = false;
             this.lvDatabaseColumns.View = System.Windows.Forms.View.Details;
@@ -276,7 +276,7 @@
             this.lvNewColumns.MultiSelect = false;
             this.lvNewColumns.Name = "lvNewColumns";
             this.lvNewColumns.ShowGroups = false;
-            this.lvNewColumns.Size = new System.Drawing.Size(479, 192);
+            this.lvNewColumns.Size = new System.Drawing.Size(479, 191);
             this.lvNewColumns.TabIndex = 2;
             this.lvNewColumns.UseCompatibleStateImageBehavior = false;
             this.lvNewColumns.View = System.Windows.Forms.View.Details;
@@ -308,7 +308,7 @@
             this.tlColumnManagement.Controls.Add(this.bDeleteColumn, 3, 0);
             this.tlColumnManagement.Controls.Add(this.tbColumnName, 0, 0);
             this.tlColumnManagement.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlColumnManagement.Location = new System.Drawing.Point(0, 194);
+            this.tlColumnManagement.Location = new System.Drawing.Point(0, 193);
             this.tlColumnManagement.Margin = new System.Windows.Forms.Padding(0);
             this.tlColumnManagement.Name = "tlColumnManagement";
             this.tlColumnManagement.RowCount = 1;
@@ -372,7 +372,7 @@
             this.scMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.scMain.Location = new System.Drawing.Point(6, 6);
-            this.scMain.Margin = new System.Windows.Forms.Padding(6, 6, 6, 4);
+            this.scMain.Margin = new System.Windows.Forms.Padding(6);
             this.scMain.Name = "scMain";
             // 
             // scMain.Panel1
@@ -386,7 +386,7 @@
             this.scMain.Panel2.Controls.Add(this.lvAllColumns);
             this.scMain.Panel2.Controls.Add(this.lvDatabaseColumns);
             this.scMain.Panel2MinSize = 200;
-            this.scMain.Size = new System.Drawing.Size(692, 420);
+            this.scMain.Size = new System.Drawing.Size(692, 418);
             this.scMain.SplitterDistance = 479;
             this.scMain.TabIndex = 3;
             // 
@@ -405,7 +405,7 @@
             // scFiltersAndTypes.Panel2
             // 
             this.scFiltersAndTypes.Panel2.Controls.Add(this.tlFilterGroups);
-            this.scFiltersAndTypes.Size = new System.Drawing.Size(479, 420);
+            this.scFiltersAndTypes.Size = new System.Drawing.Size(479, 418);
             this.scFiltersAndTypes.SplitterDistance = 230;
             this.scFiltersAndTypes.TabIndex = 5;
             this.scFiltersAndTypes.Visible = false;
@@ -424,7 +424,7 @@
             this.lvPreviewAllRows.MultiSelect = false;
             this.lvPreviewAllRows.Name = "lvPreviewAllRows";
             this.lvPreviewAllRows.ShowGroups = false;
-            this.lvPreviewAllRows.Size = new System.Drawing.Size(230, 420);
+            this.lvPreviewAllRows.Size = new System.Drawing.Size(230, 418);
             this.lvPreviewAllRows.TabIndex = 8;
             this.lvPreviewAllRows.UseCompatibleStateImageBehavior = false;
             this.lvPreviewAllRows.View = System.Windows.Forms.View.Details;
@@ -450,7 +450,7 @@
             this.tlFilterGroups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 153F));
             this.tlFilterGroups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tlFilterGroups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlFilterGroups.Size = new System.Drawing.Size(245, 420);
+            this.tlFilterGroups.Size = new System.Drawing.Size(245, 418);
             this.tlFilterGroups.TabIndex = 0;
             // 
             // gbFilterConfig
@@ -601,7 +601,7 @@
             this.lvFilterList.MultiSelect = false;
             this.lvFilterList.Name = "lvFilterList";
             this.lvFilterList.ShowGroups = false;
-            this.lvFilterList.Size = new System.Drawing.Size(245, 160);
+            this.lvFilterList.Size = new System.Drawing.Size(245, 158);
             this.lvFilterList.TabIndex = 9;
             this.lvFilterList.UseCompatibleStateImageBehavior = false;
             this.lvFilterList.View = System.Windows.Forms.View.Details;
@@ -778,7 +778,7 @@
             this.tlCreateColumns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             this.tlCreateColumns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlCreateColumns.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlCreateColumns.Size = new System.Drawing.Size(479, 420);
+            this.tlCreateColumns.Size = new System.Drawing.Size(479, 418);
             this.tlCreateColumns.TabIndex = 0;
             // 
             // lvAllColumns
@@ -789,36 +789,36 @@
             this.lvAllColumns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvAllColumns.FullRowSelect = true;
             this.lvAllColumns.GridLines = true;
-            listViewGroup5.Header = "STARE KOLUMNY";
-            listViewGroup5.Name = "lvgOldCols";
-            listViewGroup6.Header = "NOWE KOLUMNY";
-            listViewGroup6.Name = "lvgNewCols";
+            listViewGroup1.Header = "STARE KOLUMNY";
+            listViewGroup1.Name = "lvgOldCols";
+            listViewGroup2.Header = "NOWE KOLUMNY";
+            listViewGroup2.Name = "lvgNewCols";
             this.lvAllColumns.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup5,
-            listViewGroup6});
+            listViewGroup1,
+            listViewGroup2});
             this.lvAllColumns.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvAllColumns.HideSelection = false;
-            listViewItem11.Group = listViewGroup5;
-            listViewItem11.StateImageIndex = 0;
-            listViewItem12.Group = listViewGroup5;
-            listViewItem12.StateImageIndex = 0;
-            listViewItem13.Group = listViewGroup6;
-            listViewItem13.StateImageIndex = 0;
-            listViewItem14.Group = listViewGroup6;
-            listViewItem14.StateImageIndex = 0;
-            listViewItem15.Group = listViewGroup6;
-            listViewItem15.StateImageIndex = 0;
+            listViewItem1.Group = listViewGroup1;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem2.Group = listViewGroup1;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.Group = listViewGroup2;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem4.Group = listViewGroup2;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem5.Group = listViewGroup2;
+            listViewItem5.StateImageIndex = 0;
             this.lvAllColumns.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem11,
-            listViewItem12,
-            listViewItem13,
-            listViewItem14,
-            listViewItem15});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5});
             this.lvAllColumns.Location = new System.Drawing.Point(0, 0);
             this.lvAllColumns.Margin = new System.Windows.Forms.Padding(0);
             this.lvAllColumns.MultiSelect = false;
             this.lvAllColumns.Name = "lvAllColumns";
-            this.lvAllColumns.Size = new System.Drawing.Size(209, 420);
+            this.lvAllColumns.Size = new System.Drawing.Size(209, 418);
             this.lvAllColumns.TabIndex = 9;
             this.lvAllColumns.UseCompatibleStateImageBehavior = false;
             this.lvAllColumns.View = System.Windows.Forms.View.Details;

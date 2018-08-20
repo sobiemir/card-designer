@@ -1,293 +1,404 @@
-﻿using System;
+﻿///
+/// $i07 UpdateForm.cs
+/// 
+/// Okno aktualizacji programu.
+/// Wyświetla listę zmian w poszczególnych wersjach oraz wersje programu aktualnego i aktualizowanego.
+/// Pozwala zarówno na pobranie i aktualizacje aplikacji jak i na kompresję plików oraz utworzenie aktualizacji.
+/// Aktualizacje zapisywane do pliku "update.cbd" po instalacji przenoszone są do folderu updates z numerkiem wersji.
+/// Pliki przed aktualizacją wypakowywane są do folderu temp, który po instalacji jest usuwany.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.6.x
+/// Ostatnia zmiana: 2016-11-14
+/// 
+/// CHANGELOG:
+/// [27.06.2015] Wersja początkowa - pobieranie i kompresja aktualizacji.
+/// [14.11.2016] Nowa wersja - zmiana koncepcji włączania kompresji, wcześniej trzeba było przytrzymać CTRL+ALT+SHIFT
+///              klikając na przycisk, teraz trzeba wcześniej wpisać słowo kompresja. Przebudowana struktura formularza
+///              i wydzielenie funkcji do osobnej klasy. Odświeżenie wyglądu formularza.
+///
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
-using System.IO.Compression;
 using System.Diagnostics;
 using CDesigner.Utils;
 
-namespace CDesigner
+namespace CDesigner.Forms
 {
+    /// 
+    /// <summary>
+    /// Klasa tworząca okno do aktualizacji programu.
+    /// Wyświetla aktualną wersję i informacje o tym, czy dostępna jest aktualizacja.
+    /// Pobiera aktualizację z serwera i przygotowuje do aktualizacji.
+    /// W odpowiednim polu wyświetla również listę zmian w poszczególnych wersjach.
+    /// Możliwa jest kompresja danych po podaniu odpowiedniej komendy.
+    /// Aby włączyć kompresję, należy wpisać ciąg znaków: kompresja, wyświetli się okno informacyjne
+    /// oraz przycisk zmieni nazwę z aktualizuj na kompresuj.
+    /// </summary>
+    /// 
 	public partial class UpdateForm : Form
 	{
-		private string _version = null;
+#region ZMIENNE
 
-		private bool _close_on = true;
+        /// <summary>Czy założona blokada wykonywania akcji kontrolek na formularzu.</summary>
+        private bool _locked;
 
-		/// 
-		/// Konstruktor klasy UpdateForm.
-		/// Pobiera nową wersje aplikacji i uzupełnia kontrolki...
-		/// ------------------------------------------------------------------------------------------------------------
+        /// <summary>Ciąg znaków wpisywany z klawiatury - włączanie kompresji.</summary>
+        private string _bonus;
+
+        /// <summary>Czy włączony tryb kompresji?</summary>
+        private bool _comprmode;
+
+        /// <summary>Czy wystąpił błąd podczas kompresji lub aktualizacji?</summary>
+        private bool _haserror;
+
+#endregion
+
+#region KONSTRUKTOR
+
+        /// <summary>
+        /// Konstruktor klasy.
+		/// Tworzy okno, ustawia ikonkę programu i tłumaczy wszystkie napisy.
+        /// </summary>
+		//* ============================================================================================================
 		public UpdateForm()
 		{
-			// sprawdź czy nowa wersja jest dostępna
-			this.GetUpdateVersion();
-
-			// jeżli nowa wersja nie jest dostępna, pomiń dalszą część
-			if( !this.UpdateAvaliable() )
-				return;
-
 			this.InitializeComponent();
+            this.translateForm();
+            
+            this._locked    = false;
+            this._bonus     = "";
+            this._comprmode = false;
+            this._haserror  = false;
 
-			// podziel wersje na 4 części
-			string[] expl = this._version.Split('.');
-			DateTime new_ver_date;
+            this.PB_AppLogo.Image = Program.GetBitmap( BITMAPCODE.CDesigner128 );
 
-			// pobierz datę kompilacji z wersji aplikacji
-			try
-			{
-				new_ver_date = new DateTime( 2000, 1, 1 ).Add( new TimeSpan
-				(
-					TimeSpan.TicksPerDay * Convert.ToInt32(expl[2]) +
-					TimeSpan.TicksPerSecond * 2 * Convert.ToInt32(expl[3])
-				) );
-			}
-			// błąd konwertowania wersji aplikacji...
-			catch( Exception ex )
-			{
-				new_ver_date = new DateTime( 1970, 1, 1 );
-				Program.LogMessage( ex.Message );
-			}
-
-			// uzupełnij wersje
-			this.lCurrentVersion.Text = "Obecna wersja: " + InfoForm.VERSION + ", " +
-				InfoForm.BUILD_DATE.ToString( "dd.MM.yyyy" ) + ".";
-			this.lNewVersion.Text = "Wersja po aktualizacji: " + this._version + ", " +
-				new_ver_date.ToString( "dd.MM.yyyy" ) + ".";
-
-			// pobierz plik readme
-			this.GetReadmeFile();
+            this.Icon = Program.GetIcon();
 		}
 
+#endregion
+
+#region FUNKCJE PODSTAWOWE
+
+        /// <summary>
+		/// Translator formularza.
+		/// Funkcja tłumaczy wszystkie statyczne elementy programu.
+		/// Wywoływana jest z konstruktora oraz podczas odświeżania ustawień językowych.
+        /// Jej użycie nie powinno wykraczać poza dwa wyżej wymienione przypadki.
+		/// </summary>
+        /// 
+        /// <seealso cref="UpdateForm"/>
+        /// <seealso cref="Language"/>
+		//* ============================================================================================================
+        public void translateForm()
+        {
+            // etykiety
+            var values = Language.GetLines( "Update", "Labels" );
+
+            // aktualna wersja
+            this.L_CurVersion.Text = values[(int)LANGCODE.I07_LAB_APPVERSION] + " " + Program.VERSION + ", " +
+                Program.BUILD_DATE.ToString( "dd.MM.yyyy" ) + ".";
+            this.GB_ChangeLog.Text = " " + values[(int)LANGCODE.I07_LAB_CHANGES] + " ";
+
+            if( UpdateApp.Available )
+            {
+                // dane aktualizacji
+                this.L_UpdateAvailable.Text = values[(int)LANGCODE.I07_LAB_AVAILABLE];
+                this.L_NewVersion.Text      = values[(int)LANGCODE.I07_LAB_VERSIONUP] + " " + UpdateApp.Version + ", " +
+                    UpdateApp.BuildDate.ToString( "dd.MM.yyyy" ) + ".";
+            }
+            else
+            {
+                // brak aktualizacji
+                this.L_UpdateAvailable.Text = values[(int)LANGCODE.I07_LAB_UPTODATE];
+                this.L_NewVersion.Text      = "";
+            }
+
+            // przyciski
+            values = Language.GetLines( "Update", "Buttons" );
+            this.B_Close.Text  = values[(int)LANGCODE.I07_BUT_CLOSE];
+            this.B_Update.Text = values[(int)LANGCODE.I07_BUT_UPDATE];
+            
+            // nazwa okna
+            this.Text = Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE );
+        }
+
+        /// <summary>
+		/// Odświeżanie danych w oknie.
+        /// Okno tworzone wcześniej wymaga odświeżenia.
+        /// Aby go nie zwalniać z pamięci, po zamknięciu podczas otwierania warto wywołać tą funkcję.
+        /// Odświeża wszystkie dynamiczne dane wyświetlane na formularzu wraz z tłumaczeniami fraz.
+		/// </summary>
+        /// 
+        /// <seealso cref="refreshAndOpen"/>
+        /// <seealso cref="Language"/>
+		//* ============================================================================================================
+        public void refreshForm()
+        {
+#       if DEBUG
+			Program.LogMessage( "Odświeżanie wszystkich potrzebnych danych." );
+#       endif
+            // nie pobrano wcześniej informacji o zmianach i wersji?
+            // to pobierz teraz
+            if( UpdateApp.ChangeLog == null )
+                try
+                {
+                    // pobierz informacje o wersji
+                    if( !UpdateApp.CheckAvailability() )
+                    {
+                        this.checkException();
+                        return;
+                    }
+                    // pobierz zmiany w kolejnych wersjach
+                    if( !UpdateApp.GetChangeLog() )
+                    {
+                        this.checkException();
+                        return;
+                    }
+                }
+                catch( Exception ex )
+                {
+                    // błąd podczas pobierania zmian...
+                    Program.LogError
+                    (
+                        Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_ADMINHELP ),
+                        Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                        false,
+                        ex
+                    );
+                    return;
+                }
+
+            // tłumacz etykiety
+            this.translateForm();
+
+            // zmiany
+            this.RTB_Changes.Text = UpdateApp.ChangeLog;
+
+            // zablokuj lub odblokuj przycisk aktualizacji
+            if( UpdateApp.Available )
+                this.B_Update.Enabled = true;
+            else
+                this.B_Update.Enabled = false;
+        }
+        
+        /// <summary>
+		/// Odświeżanie danych w oknie.
+        /// Okno tworzone wcześniej wymaga odświeżenia.
+        /// Aby go nie zwalniać z pamięci, po zamknięciu podczas otwierania warto wywołać tą funkcję.
+        /// Odświeża wszystkie dynamiczne dane wyświetlane na formularzu wraz z tłumaczeniami fraz.
+        /// Funkcja w odróżnieniu od funkcji refreshForm po wywołaniu otwiera okno.
+		/// </summary>
+        /// 
+        /// <param name="parent">Rodzic do którego przypisany będzie komunikat.</param>
+        /// <param name="dialog">Czy wyświetlić jako okno modalne?</param>
+        /// 
+        /// <returns>Wartość zwracana przez okno modalne lub DialogResult.None.</returns>
+        /// 
+        /// <seealso cref="refreshForm"/>
+        /// <seealso cref="Language"/>
+		//* ============================================================================================================
+        public DialogResult refreshAndOpen( Form parent = null, bool modal = true )
+        {
+            this.refreshForm();
+            return Program.OpenForm( this, parent, modal );
+        }
+
+        /// <summary>
+        /// Funkcja sprawdza czy podczas pobierania danych nie wystąpił błąd dostępu do serwera.
+        /// Podczas wystąpienia innego błędu, funkcja rzuca wyjątek który go dotyczy.
+        /// Przy wyrzuceniu błędu serwera wyświetlany jest odpowiedni komunikat.
+        /// </summary>
+        /// 
+        /// <seealso cref="refreshForm"/>
+        /// <seealso cref="refreshAndOpen"/>
+		//* ============================================================================================================
+        private void checkException()
+        {
+            if( UpdateApp.ConnectionError.Response == null )
+            {
+                Program.LogError
+                (
+                    Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_NOCONNECT ),
+                    Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                    false,
+                    UpdateApp.ConnectionError
+                );
+            }
+            else
+                throw UpdateApp.ConnectionError;
+        }
+
+        /// <summary>
+        /// Blokowanie i odblokowywanie kontrolek.
+        /// Podczas blokady kontrolek, wszystkie akcje są zbywane, dzięki czemu program staje się "zombie".
+        /// Przydatne gdy po kliknięciu wykonuje się ważne zadanie, które nie może być przerwane.
+        /// </summary>
+        /// 
+        /// <param name="value">Blokować czy nie?</param>
+		//* ============================================================================================================
+        private void setLock( bool value )
+        {
+            // przy ustawianiu blokady, ustaw kursor na kursor oczekiwania
+            if( value == true )
+            {
+                this._locked = true;
+
+                this.Cursor = Cursor.Current = Cursors.WaitCursor;
+                Application.UseWaitCursor = true;
+
+                this.B_Update.Enabled = false;
+            }
+            // w przeciwnym wypadku ustaw kurson na domyślny
+            else
+            {
+                this._locked = false;
+
+                this.Cursor = Cursor.Current = Cursors.Default;
+                Application.UseWaitCursor = false;
+
+                this.B_Update.Enabled = true;
+            }
+        }
+
+#endregion
+
+#region POBIERANIE, KOMPRESJA I DEKOMPRESJA
+        /// @cond EVENTS
+
+        /// <summary>
+        /// Akcja wywoływana po zmianie postępu aktualizacji.
+        /// Zmienia aktualną pozycję wskaźnika na pasku postępu.
+        /// </summary>
 		/// 
-		/// Zwraca informacje o tym czy aktualizacja jest dostępna.
-		/// ------------------------------------------------------------------------------------------------------------
-		public bool UpdateAvaliable()
-		{
-			return this._version != null;
-		}
-
-		/// 
-		/// Sprawdza czy dostepna jest nowa aktualizacja dla programu i zapisuje jego wersje.
-		/// ------------------------------------------------------------------------------------------------------------
-		private void GetUpdateVersion()
-		{
-			Program.LogMessage( "Wyszukiwanie nowych aktualizacji..." );
-
-			string url = "http://app.aculo.pl/cdesigner/check/" + InfoForm.VERSION;
-
-			// sprawdź czy jest dostępna aktualizacja
-			HttpWebRequest  request  = (HttpWebRequest)WebRequest.Create( url );
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-			
-			// pobierz nową wersje programu (jeżeli 0, brak dostępnych aktualizacji)
-			Stream reader  = response.GetResponseStream();
-			string version = reader.ReadByte() == '0' ? null : new StreamReader(reader).ReadToEnd();
-			
-			response.Close();
-			reader.Close();
-
-			if( version == null )
-				Program.LogMessage( "Brak aktualizacji oprogramowania." );
-			else
-				Program.LogMessage( "Dostępna jest aktualizacja programu do wersji: v" + version + "." );
-
-			this._version = version;
-		}
-
-		/// 
-		/// Pobiera plik ReadMe z serwera.
-		/// ------------------------------------------------------------------------------------------------------------
-		private void GetReadmeFile( )
-		{
-			// sprawdź czy jest dostępna aktualizacja
-			HttpWebRequest  request  = (HttpWebRequest)WebRequest.Create( "http://app.aculo.pl/cdesigner/readme" );
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-			
-			// pobierz nową wersje programu (jeżeli 0, brak dostępnych aktualizacji)
-			Stream reader  = response.GetResponseStream();
-			this.rtbChanges.Text = new StreamReader(reader).ReadToEnd();
-			
-			response.Close();
-			reader.Close();
-		}
-
-		/// 
-		/// Zdarzenie wykonywane po kliknięciu w przycisk "Aktualizuj program".
-		/// Pobiera i przechodzi do dekompresji aktualizacji.
-		/// ------------------------------------------------------------------------------------------------------------
-		private void bUpdate_Click( object sender, EventArgs ev )
-		{
-			string key = "61EEBC877DBA9736FD93B2C1CC71C";
-
-			// aktualizacja nie została jeszcze zainstalowana, nie pobieraj ponownie, zainstaluj tą
-			/*
-			if( Directory.Exists("./temp/") )
-			{
-			}
-			// plik został pobrany wcześniej i wklejony do folderu, nie pobieraj ponownie, rozpakuj tą
-			if( File.Exists("./update.cbd") )
-			{
-			}
-			*/
-
-			// ustaw kursor oczekiwania i zabezpiecz przed zamknięciem
-			Cursor.Current = Cursors.WaitCursor;
-			this._close_on = false;
-
-			Application.UseWaitCursor = true;
-			this.bUpdate.Enabled      = false;
-
-			// pobierz plik z serwera
-			try { using( WebClient client = new WebClient() )
-			{
-				client.DownloadProgressChanged -= this.DownloadProgress;
-				client.DownloadProgressChanged += this.DownloadProgress;
-
-				client.DownloadFileCompleted -= this.DownloadCompleted;
-				client.DownloadFileCompleted += this.DownloadCompleted;
-
-				// CTRL+SHIFT+ALT pakuje aktualizacje
-				if( ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt) )
-					this.DownloadCompleted( null,new AsyncCompletedEventArgs(null, false, 0) );
-				else
-					client.DownloadFileAsync( new Uri("http://app.aculo.pl/cdesigner/download/" + key),
-						"./update.cbd" );
-			} }
-			// przechwyć błąd
-			catch( Exception ex )
-			{
-				Program.LogError( ex.Message, "Aktualizacja programu", false );
-
-				Cursor.Current = Cursors.Default;
-				this._close_on = true;
-
-				Application.UseWaitCursor = false;
-				this.bUpdate.Enabled      = true;
-			}
-		}
-
-		/// 
-		/// Wyświetla postęp pobierania pliku.
-		/// ------------------------------------------------------------------------------------------------------------
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void DownloadProgress( object sender, DownloadProgressChangedEventArgs ev )
 		{
-			this.pbUpdate.Value = ev.ProgressPercentage;
+			this.PRB_Update.Value = ev.ProgressPercentage;
 		}
 
+        /// <summary>
+        /// Akcja wywoływana po zakończeniu pobierania pliku aktualizacji.
+        /// Wywoływana bezpośrednio w trybie kompresji plików programu.
+        /// W zależności od trybu, funkcja uruchamia dekompresje lub kompresje plików w osobnym wątku.
+        /// </summary>
 		/// 
-		/// Zdarzenie wywoływane przy pobraniu całego pliku.
-		/// Tworzy i uruchamia wątek który wypakowuje aktualizacje.
-		/// Pozwala również utworzyć aktualizacje.
-		/// ------------------------------------------------------------------------------------------------------------
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void DownloadCompleted( object sender, AsyncCompletedEventArgs ev )
 		{
 			// błąd podczas pobierania aktualizacji
-			if( ev.Error != null )
+			if( ev != null && ev.Error != null )
 			{
-				Program.LogError( ev.Error.Message, "Aktualizacja programu", false );
+                this.setLock( false );
 
-				Cursor.Current = Cursors.Default;
-				this._close_on = true;
-
-				Application.UseWaitCursor = false;
-				this.bUpdate.Enabled      = true;
-
+                // wyświetl błąd
+                Program.LogError
+                (
+                    Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_ERRUPDATE ),
+                    Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                    false,
+                    ev.Error
+                );
 				return;
 			}
 
-			// CTRL+SHIFT+ALT pakuje aktualizacje
-			if( ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt) )
+			if( this._comprmode )
 			{
 				// utwórz aktualizacje
-				this.bwTask.DoWork -= this.DecompressUpdate;
-				this.bwTask.DoWork -= this.CompressUpdate;
-				this.bwTask.DoWork += this.CompressUpdate;
+				this.BW_Update.DoWork -= this.DecompressUpdate;
+				this.BW_Update.DoWork -= this.CompressUpdate;
+				this.BW_Update.DoWork += this.CompressUpdate;
 
-				this.bwTask.ProgressChanged -= this.DecompressionProgress;
-				this.bwTask.ProgressChanged -= this.CompressionProgress;
-				this.bwTask.ProgressChanged += this.CompressionProgress;
+				this.BW_Update.ProgressChanged -= this.DecompressionProgress;
+				this.BW_Update.ProgressChanged -= this.CompressionProgress;
+				this.BW_Update.ProgressChanged += this.CompressionProgress;
 
-				this.bwTask.RunWorkerAsync();
+				this.BW_Update.RunWorkerAsync();
 			}
 			else
 			{
 				// wypakuj aktualizacje
-				this.pbUpdate.Value = 0;
+				this.PRB_Update.Value = 0;
 
-				this.bwTask.DoWork -= this.DecompressUpdate;
-				this.bwTask.DoWork -= this.CompressUpdate;
-				this.bwTask.DoWork += this.DecompressUpdate;
+				this.BW_Update.DoWork -= this.DecompressUpdate;
+				this.BW_Update.DoWork -= this.CompressUpdate;
+				this.BW_Update.DoWork += this.DecompressUpdate;
 
-				this.bwTask.ProgressChanged -= this.DecompressionProgress;
-				this.bwTask.ProgressChanged -= this.CompressionProgress;
-				this.bwTask.ProgressChanged += this.DecompressionProgress;
+				this.BW_Update.ProgressChanged -= this.DecompressionProgress;
+				this.BW_Update.ProgressChanged -= this.CompressionProgress;
+				this.BW_Update.ProgressChanged += this.DecompressionProgress;
 
-				this.bwTask.RunWorkerAsync();
+				this.BW_Update.RunWorkerAsync();
 			}
 		}
 
+		/// <summary>
+		/// Akcja wywoływana podczas kompresji danych.
+        /// Uruchamiana jest już w osobnym procesie, kompresuje dane i zapisuje je do pliku.
+        /// Nazwa pliku jest numerem aktualnej wersji programu.
+		/// </summary>
 		/// 
-		/// Kompresja aktualizacji.
-		/// ------------------------------------------------------------------------------------------------------------
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void CompressUpdate( object sender, DoWorkEventArgs ev )
 		{
-			try // blok try/catch
+#       if DEBUG
+            Program.LogMessage( "Uruchomiono kompresję plików programu." );
+#       endif
+
+			try
 			{
-				List<string> files   = new List<string>();
-				string       version = "";
+				var files = new List<string>();
 
 				// dodaj plik z listą skompresowanych plików
 				files.Add( "./update.lst" );
+                files.AddRange( UpdateApp.ListChanges() );
 
-				// pobierz listę plików do kompresji
-				using( StreamReader lines = new StreamReader(File.Open("./update.lst", FileMode.Open, FileAccess.Read)) )
-				{
-					version = lines.ReadLine();
-					string line = lines.ReadLine();
+				// stwórz kopie zapasową [cbd - compressed backup data]
+				CBackupData.Compress( files, "./update/v" + Program.VERSION + ".cbd" );
 
-					while( line != null )
-					{
-						files.Add( line );
-						line = lines.ReadLine();
-					}
-				}
-
-				// stwórz kopie zapasową
-				CBackupData.Compress( files, "./update/v" + version.Substring(1, version.Length-2) + ".cbd" );
-
-				// .cbd [compressed backup data]
-				this.bwTask.ReportProgress( 100, (object)2 );
+				this.BW_Update.ReportProgress( 100, (object)2 );
 			}
 			catch( Exception ex )
 			{
 				// wyświetl komunikat o błędach
-				MessageBox.Show
+				Program.LogError
 				(
-					"Wystąpił błąd podczas aktualizowania programu.\n" + ex.Message,
-					"Błąd aktualizacji...",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Error
+                    Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_ERRCRESS ),
+                    Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                    false,
+                    ex
 				);
 
 				// błąd... nie przetwarzaj dalej
-				this.bwTask.ReportProgress( 100, (object)1 );
+				this.BW_Update.ReportProgress( 100, (object)1 );
+                this._haserror = true;
 			}
 		}
 
+        /// <summary>
+        /// Akcja wykonywana podczas postępu w kompresji danych.
+        /// Używana do aktualizacji wskaźnika postępu na kontrolce.
+        /// Po zakończeniu wyświetlany jest komunikat o sukcesie.
+        /// </summary>
 		/// 
-		/// Postęp kompresji
-		/// ------------------------------------------------------------------------------------------------------------
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void CompressionProgress( object sender, ProgressChangedEventArgs ev )
 		{
 			// aktualizuj status
-			this.pbUpdate.Value = ev.ProgressPercentage;
+			this.PRB_Update.Value = ev.ProgressPercentage;
 
 			// koniec kompresji, rozpocznij dekompresje
 			if( ev.ProgressPercentage == 100 )
@@ -295,106 +406,126 @@ namespace CDesigner
 				// błąd, przerwij aktualizacje...
 				if( (int)ev.UserState == 1 )
 				{
-					MessageBox.Show( "Błąd!" );
-
-					Cursor.Current = Cursors.Default;
-					this._close_on = true;
-
-					Application.UseWaitCursor = false;
-					this.bUpdate.Enabled      = true;
-
-					return;
+#               if DEBUG
+                    Program.LogMessage( "Podczas kompresji wystąpił błąd." );
+#               endif
+                    this.setLock( false );
 				}
+                // kompresja zakończona sukcesem
 				else if( (int)ev.UserState == 2 )
 				{
-					MessageBox.Show( "Zakończono!" );
-
-					Cursor.Current = Cursors.Default;
-					this._close_on = true;
-
-					Application.UseWaitCursor = false;
-					this.bUpdate.Enabled      = true;
-
-					return;
+                    Program.LogInfo
+                    (
+                        Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_SUCCESSZIP ),
+                        Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                        this
+                    );
+                    this.setLock( false );
 				}
 			}
 		}
 
+        /// <summary>
+        /// Akcja wywoływana podczas wypakowywania plików.
+        /// Uruchamiana jest już w osobnym procesie, wypakowuje dane z pliku aktualizacji.
+        /// Wszystkie pliki zapisane są w pliku update.lst dołączanym na samym początku.
+        /// </summary>
 		/// 
-		/// Dekompresja aktualizacji.
-		/// ------------------------------------------------------------------------------------------------------------
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void DecompressUpdate( object sender, DoWorkEventArgs ev )
 		{
-			Program.LogMessage( "Wypakowywanie aktualizacji: './update.cbd'..." );
-
+#       if DEBUG
+			Program.LogMessage( "Wypakowywanie aktualizacji: './update.cbd'." );
+#       endif
 			try
 			{
 				// wypakuj dane do folderu "./temp/"
-				CBackupData backup = new CBackupData( this.bwTask );
+				CBackupData backup = new CBackupData( this.BW_Update );
 				backup.DecompressUpdate( "./update.cbd", "./temp/" );
 			}
 			catch( Exception ex )
 			{
-				// błąd...
-				Program.LogError( ex.Message, "Przywracanie danych", false );
-				this.bwTask.ReportProgress( 100, 2 );
+				// wyświetl komunikat o błędach
+				Program.LogError
+				(
+                    Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_ERRDECRESS ),
+                    Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                    false,
+                    ex
+				);
+
+                // błąd... nie przetwarzaj dalej
+				this.BW_Update.ReportProgress( 100, 2 );
+                this._haserror = true;
 			}
 		}
 
+        /// <summary>
+        /// Akcja wywoływana podczas postępu w rozpakowywaniu danych.
+        /// Używana do aktualizacji wskaźnika postępu na kontrolce.
+        /// Po zakończeniu wyświetlane jest pytanie o to czy program ma zainstalować aktualizację.
+        /// Aktualizacja programu wiąże się z jego ponownym uruchomieniem.
+        /// Wszystkie aktualizacje przenoszone są do folderu z kopiami zapasowymi (updates) z nazwą jako numerem wersji.
+        /// </summary>
 		/// 
-		/// Status dekompresji aktualizacji.
-		/// ------------------------------------------------------------------------------------------------------------
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void DecompressionProgress( object sender, ProgressChangedEventArgs ev )
 		{
 			// aktualizuj status
-			this.pbUpdate.Value = ev.ProgressPercentage;
+			this.PRB_Update.Value = ev.ProgressPercentage;
 
 			// błąd dekompresji
 			if( (int)ev.UserState == 2 )
 			{
-				Cursor.Current = Cursors.Default;
-				this._close_on = true;
-
-				Application.UseWaitCursor = false;
-				this.bUpdate.Enabled      = true;
-
+#           if DEBUG
 				Program.LogMessage( "Wypakowywanie aktualizacji zakończone błędem." );
+#           endif
+                this.setLock( false );
 			}
 			// koniec dekompresji, skopiuj pliki
 			else if( (int)ev.UserState == 1 )
 			{
-				Cursor.Current = Cursors.Default;
-				this._close_on = true;
+                this.setLock( false );
 
-				Application.UseWaitCursor = false;
-				this.bUpdate.Enabled      = true;
-
-				// pokaż komunikat o ponownym uruchomieniu programu
-				DialogResult result = MessageBox.Show
+				// wyświetl komunikat o błędach
+				var result = Program.LogQuestion
 				(
-					"Aktualizacja została przygotowana do instalacji.\n" +
-					"Czy chcesz uruchomić ponownie program aby ją zainstalować?",
-					"Aktualizacja programu",
-					MessageBoxButtons.YesNo,
-					MessageBoxIcon.Information,
-					MessageBoxDefaultButton.Button1
+                    Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_INSTALLUP ),
+                    Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                    true,
+                    this
 				);
 
 				// przenieś plik do folderu z kopiami zapasowymi aktualizacji
-				if( File.Exists("./update/v" + this._version + ".cbd") )
-					File.Delete( "./update/v" + this._version + ".cbd" );
-				File.Move( "./update.cbd", "./update/v" + this._version + ".cbd" );
+				if( File.Exists("./update/v" + UpdateApp.Version + ".cbd") )
+					File.Delete( "./update/v" + UpdateApp.Version + ".cbd" );
+
+                // utwórz folder dla aktualizacji
+                if( !Directory.Exists("./update") )
+                    Directory.CreateDirectory( "./update" );
+
+				File.Move( "./update.cbd", "./update/v" + UpdateApp.Version + ".cbd" );
 
 				// instalacja aktualizacji
 				if( result == DialogResult.Yes )
 				{
+#               if DEBUG
 					Program.LogMessage( "Uruchamianie nowego procesu dla programu CDRestore." );
+#               endif
 
 					// uruchomienie programu CDRestore
 					Process process = new Process();
-					process.StartInfo.FileName = "CDRestore.exe";
+					process.StartInfo.FileName = "cdrestore.exe";
 					process.StartInfo.Arguments = "-i -w";
 					process.Start();
+
+#               if DEBUG
+                    Program.LogMessage( "Zamykanie aplikacji." );
+#               endif
 
 					// zamykanie aplikacji
 					Program.ExitApplication( true );
@@ -402,28 +533,207 @@ namespace CDesigner
 			}
 		}
 
+#endregion
+
+#region FORMULARZ
+
+        /// <summary>
+        /// Akcja wywoływana podczas zamykania okna.
+        /// Zapobiega zamknięciu okna podczas aktualizacji programu.
+        /// Po co zamykać okno w trakcie aktualizacji, skoro w tym oknie jest pasek postępu?
+        /// </summary>
 		/// 
-		/// Funkcja wywoływana podczas zamykania okna.
-		/// ------------------------------------------------------------------------------------------------------------
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void Update_FormClosing( object sender, FormClosingEventArgs ev )
 		{
 			// nie zamykaj podczas aktualizacji
-			if( !this._close_on )
+			if( this._locked )
 			{
-				Program.LogMessage( "Próba zamknięcia okna podczas aktualizacji programu..." );
+#           if DEBUG
+				Program.LogMessage( "Próba zamknięcia okna podczas aktualizacji programu." );
+#           endif
 
-				MessageBox.Show
-				(
-					this,
-					"Nie możesz zamknąć okna podczas aktualizacji programu.",
-					"Zamykanie okna",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Information
-				);
+                if( !this._haserror )
+                    Program.LogInfo
+                    (
+                        Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_CLOSEONUP ),
+                        Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                        this
+                    );
 
+                this._haserror = false;
 				ev.Cancel = true;
+
 				return;
 			}
 		}
-	}
+
+        /// <summary>
+        /// Funkcja przetwarza wciśnięte klawisze.
+        /// Podczas przetwarzania sprawdzane jest, czy użytkownik wpisał odpowiednie polecenie.
+        /// W tym momencie dostępne jest tylko jedno polecenie: kompresja, po którym funkcja wprowadza program w stan
+        /// kompresji, dzięki czemu wszystkie pliki programu są kompresowane - tworzona jest nowa aktualizacja programu.
+        /// </summary>
+        /// 
+        /// <param name="msg">Przechwycone zdarzenie wciśnięcia klawisza.</param>
+        /// <param name="keys">Informacje o wciśniętych klawiszach.</param>
+        /// 
+        /// <returns>Czy klawisz został przechwycony - jeżeli tak, zapobiega dalszemu przetwarzaniu klawisza.</returns>
+		//* ============================================================================================================
+		protected override bool ProcessCmdKey( ref Message msg, Keys keydata )
+        {
+            if( this._locked )
+                return false;
+
+            var extrastring = "kompresja";
+
+            // dodaj znak do ciągu
+            this._bonus += keydata.ToString();
+            this._bonus  = this._bonus.ToLower();
+
+            // sprawdź poprawność
+            bool correct = true;
+            switch( this._bonus.Length )
+            {
+                case 9 : correct = extrastring[8] == this._bonus[8] ? correct : false; goto case 8;
+                case 8 : correct = extrastring[7] == this._bonus[7] ? correct : false; goto case 7;
+                case 7 : correct = extrastring[6] == this._bonus[6] ? correct : false; goto case 6;
+                case 6 : correct = extrastring[5] == this._bonus[5] ? correct : false; goto case 5;
+                case 5 : correct = extrastring[4] == this._bonus[4] ? correct : false; goto case 4;
+                case 4 : correct = extrastring[3] == this._bonus[3] ? correct : false; goto case 3;
+                case 3 : correct = extrastring[2] == this._bonus[2] ? correct : false; goto case 2;
+                case 2 : correct = extrastring[1] == this._bonus[1] ? correct : false; goto case 1;
+                case 1 : correct = extrastring[0] == this._bonus[0] ? correct : false;
+                break;
+            }
+
+            // jeżeli ciąg znaków został wpisany poprawnie, przełącz tryb
+            if( correct && this._bonus.Length == extrastring.Length )
+            {
+                this._comprmode = !this._comprmode;
+#           if DEBUG
+                Program.LogMessage( "Wpisano poprawny ciąg znaków: " + this._bonus + "." );
+#           endif
+
+                // zmień tekst na przycisku
+                if( this._comprmode )
+                    this.B_Update.Text = Language.GetLine( "Update", "Buttons", (int)LANGCODE.I07_BUT_COMPRESS );
+                else
+                    this.B_Update.Text = Language.GetLine( "Update", "Buttons", (int)LANGCODE.I07_BUT_UPDATE );
+
+                // wyświetl informacje o włączonym trybie
+                Program.LogInfo
+                (
+                    this._comprmode
+                        ? Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_ACTIVEZIP )
+                        : Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_NACTIVEZIP ),
+                    Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                    this
+                );
+                this._bonus = "";
+            }
+            // jeżeli nie, resetuj ciąg znaków
+            else if( !correct || this._bonus.Length > extrastring.Length )
+            {
+#           if DEBUG
+                Program.LogMessage( "Niepoprawny układ: " + this._bonus + "." );
+#           endif
+                this._bonus = "";
+            }
+            return false;
+        }
+
+#endregion
+
+#region PASEK STATUSU
+
+        /// <summary>
+        /// Akcja wywoływana po kliknięciu na przycisk kompresji plików lub aktualizacji programu.
+        /// Jest to jeden i ten sam przycisk, zmieniający zdarzenie i treść po wpisaniu komendy: kompresja.
+        /// Może wywołać kompresje plików programu dla tworzenia aktualizacji lub rozpocząć pobieranie aktualizacji.
+        /// Po kliknięciu blokuje okno przed zamknięciem do zakończenia aktualizacji lub kompresji lub do czasu
+        /// wystąpienia błędu w podanych akcjach.
+        /// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void B_Update_Click( object sender, EventArgs ev )
+		{
+            if( this._locked )
+                return;
+
+            // ikonka oczekiwania na zakończenie pobierania i rozpakowywania danych
+            this.setLock( true );
+
+            try
+            {
+                // tryb kompresji, nie pobieraj, przejdź od razu do kolejnego etapu
+                if( this._comprmode )
+                {
+                    this.DownloadCompleted( null, new AsyncCompletedEventArgs(null, false, 0) );
+                    return;
+                }
+
+			    // aktualizacja nie została jeszcze zainstalowana, nie pobieraj ponownie, zainstaluj tą
+			    if( Directory.Exists("./temp/") )
+			    {
+			    }
+			    // plik został pobrany wcześniej, nie pobieraj ponownie, rozpakuj ten
+			    if( File.Exists("./update.cbd") )
+			    {
+			    }
+
+                // pobierz aktualizacje
+                using( var client = new WebClient() )
+                {
+                    client.DownloadProgressChanged -= this.DownloadProgress;
+                    client.DownloadProgressChanged += this.DownloadProgress;
+                    client.DownloadFileCompleted   -= this.DownloadCompleted;
+                    client.DownloadFileCompleted   += this.DownloadCompleted;
+                    
+                    client.DownloadFileAsync( new Uri(UpdateApp.DownloadLink()), "./update.cbd" );
+                }
+            }
+            catch( Exception ex )
+            {
+                // zmień kursor spowrotem na domyślny
+                this.setLock( false );
+
+                // wyświetl błąd
+                Program.LogError
+                (
+                    Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_ERRUPDATE ),
+                    Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
+                    false,
+                    ex
+                );
+            }
+		}
+
+        /// <summary>
+		/// Akcja wywoływana przy rysowaniu tabeli.
+		/// Rysuje linię na samej górze oddzielającą treść od "paska informacji" w oknie.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+        private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
+        {
+			ev.Graphics.DrawLine
+			(
+				new Pen( SystemColors.ControlDark ),
+				this.TLP_StatusBar.Bounds.X,
+				0,
+				this.TLP_StatusBar.Bounds.Right,
+				0
+			);
+        }
+
+        /// @endcond
+#endregion
+    }
 }

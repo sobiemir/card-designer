@@ -4,8 +4,6 @@
 /// Ładowanie brakujących bibliotek z folderu ./libraries.
 /// 
 /// Autor: Kamil Biały
-/// Copyright ⓒ 2015. Wszystkie prawa zastrzeżone.
-/// 
 /// Od wersji: 0.7.x.x
 /// Ostatnia zmiana: 2016-07-14
 /// 
@@ -44,35 +42,35 @@ namespace CDesigner.Utils
 		/// Dostępne biblioteki:
 		/// <list type="bullet">
 		///		<item><description>PdfSharp.dll</description></item>
-		///		<item><description>SQLite.Core.dll</description></item>
 		/// </list>
 		/// </summary>
 		/// @hideinitializer
+		//* ============================================================================================================
 		private static readonly string[] DLL_FILE =
 		{
-			"PdfSharp.dll",
-			"SQLite.Core.dll"
+			"PdfSharp.dll"
 		};
 
 		/// <summary>Przestrzenie nazw dla plików DLL.</summary>
 		/// Przestrzenie nazw dla dostępnych bibliotek:
 		/// <list type="bullet">
 		///		<item><description>PdfSharp <i>(PdfSharp)</i></description></item>
-		///		<item><description>System.Data.SQLite <i>(SQLite.Core)</i></description></item>
 		/// </list>
 		/// @hideinitializer
 		private static readonly string[] DLL_NAMESPACE =
 		{
-			"PdfSharp",
-			"System.Data.SQLite"
+			"PdfSharp"
 		};
 #endregion
 
 #region FUNKCJE PODSTAWOWE
+
 		/// <summary>
 		/// Rejestracja zdarzenia do rozwiązywania problemów z plikami DLL.
 		/// Może zostać wywołana kilkukrotnie, ustawienia zostaną nadpisane.
 		/// </summary>
+        /// 
+        /// <seealso cref="ResolveAssembly"/>
 		//* ============================================================================================================
 		public static void Register()
 		{
@@ -90,6 +88,8 @@ namespace CDesigner.Utils
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		/// 
 		/// <returns>Klasa z załadowaną biblioteką.</returns>
+        /// 
+        /// <seealso cref="Register"/>
 		//* ============================================================================================================
 		private static Assembly ResolveAssembly( object sender, ResolveEventArgs ev )
 		{
@@ -124,6 +124,7 @@ namespace CDesigner.Utils
 #		endif
 			return null;
 		}
+
 #endregion
 	}
 }

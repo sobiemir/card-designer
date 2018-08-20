@@ -1,9 +1,9 @@
-% ------------------------------------------------------
+% ------------------------------------------------------------
 % Język   : Polski
 % Program : CardDesigner
 % Wersja  : 0.8.x
 % Tłumacz : Kamil Biały
-% ------------------------------------------------------
+% ------------------------------------------------------------
 	
 % tłumaczenia globalne
 % ============================================================
@@ -13,14 +13,14 @@
 	|00 {{FiltrowanieDanych}}
 	|01 _PLIKBAZYDANYCH_
 	|02 _ZARZADZAJKOLUMNAMI_
-	|03 {{EdycjaDanych}}
+	|03 _EDYCJADANYCH_
 	|04 {{UstawieniaTypuKolumny}}
 	
 % nazwy wyskakujących okienek
 @MessageNames
 	|00 {{NieprawidlowyFormatPliku}}
 	|01 _WYBORSTRUMIENIABAZY_
-	|02 {{DodawanieKolumny}}
+	|02 _DODAWANIEKOLUMNY_
 	|03 {{WczytywaniePliku}}
 	|04 {{BladKrytyczny}}
 	|05 {{UstawieniaLokalizacji}}
@@ -79,7 +79,7 @@
 		|00 _AUTOWYKRYJ_
 		|01 _BEZNAGL_
 
-% formularz edycji kolumn i wierszy
+% formularz edycji kolumn
 % ============================================================
 #EditColumns
 
@@ -129,6 +129,7 @@
 		|05 _ZNAK_
 		|06 _DOMYSLNY_
 		
+	% typy filtrów
 	@FilterType
 		|00 _MALELITERY_
 		|01 _DUZELITERY_
@@ -143,6 +144,19 @@
 		|01 _PODAJNAZWEKOLUMNY_
 		|02 _KOLUMNAJUZUTWORZONA:{0}_
 		|03 _KOLUMNA{0}ISTNIEJENADPISAC_
+	
+% formularz edycji wierszy
+% ============================================================
+#EditRows
+	
+	% napisy na oknie
+	@Labels
+		|00 _WIERSZYNASTRONE_
+		|01 _Z{0}_
+		
+	@Buttons
+		|00 _ZAPISZ_
+		|01 _ANULUJ_
 	
 % formularz ustawień typu kolumny
 % ============================================================

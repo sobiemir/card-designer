@@ -8,13 +8,21 @@
 % tłumaczenia globalne
 % ============================================================
 
+% znaki specjalne dostępne dla danego języka
+@Locale
+	|00 ĘÓŁŚĄŻŹĆŃ
+	|01 ęółśążźćń
+
 % nazwy formularzy
 @FormNames
 	|00 Filtrowanie danych
 	|01 Ustawienia pliku bazy danych
 	|02 Zarządzanie kolumnami
 	|03 Edycja danych
-	|04 Ustawienia typu kolumny
+	|04 Nowy wzór
+	|05 O programie
+	|06 Aktualizacja oprogramowania
+	|07 Ustawienia typu kolumny
 	
 % nazwy wyskakujących okienek
 @MessageNames
@@ -24,8 +32,9 @@
 	|03 Wczytywanie pliku
 	|04 Błąd krytyczny
 	|05 Ustawienia lokalizacji
+	|06 Tworzenie wzoru
 
-% błędy globalne	
+% błędy globalne
 @GlobalErrors
 	|00 Błąd krytyczny
 	|01 Aplikacja jest już uruchomiona!\nNie można uruchomić dwóch instancji aplikacji CDesigner!
@@ -38,7 +47,7 @@
 
 	% nazwy rozszerzeń
 	@Extensions
-		|00 Kolumny rozdzielone przecinkiem
+		|00 Kolumny oddzielone przecinkiem
 		
 	% pole wyboru kodowania
 	@Encoding
@@ -145,6 +154,97 @@
 		|02 Dodano już kolumnę o nazwie {0}.
 		|03 Kolumna o nazwie {0} już istnieje. Zapisanie zmian spowoduje nadpisanie wartości starej kolumny. Dopóki zmiany nie zostaną zapisane, będziesz jeszcze mógł z niej korzystać w tym oknie.\n\nCzy na pewno chcesz utworzyć kolumnę o tej nazwie?
 	
+% formularz edycji wierszy
+% ============================================================
+#EditRows
+	
+	% napisy na oknie
+	@Labels
+		|00 Ilość wierszy na stronę:
+		|01 z {0}
+		
+	@Buttons
+		|00 Zapisz
+		|01 Zaniechaj
+		
+% formularz dodawania nowego wzoru
+% ============================================================
+#NewPattern
+
+	% napisy na oknie
+	@Labels
+		|00 Nazwa wzoru:
+		|01 Kopiuj z wzoru:
+		|02 Format papieru:
+		|03 Rozmiar (mm):
+		
+	% domyślne wartości dwóch pól wyboru
+	@ComboBox
+		|00 ---
+		|01 Własny
+		
+	% przyciski
+	@Buttons
+		|00 Utwórz
+		|01 Zaniechaj
+		
+	% wyskakujące wiadomości
+	@Messages
+		|00 Musisz uzupełnić nazwę wzoru.
+		|01 Wzór o podanej nazwie już istnieje!
+		|02 Musisz podać wymiary papieru dla wzoru.
+		|03 Nie można utworzyć wzoru w folderze głównym programu.\nSprawdź czy posiadasz odpowiednie uprawnienia do zapisywania danych w tym katalogu.
+		|04 Dopuszczalne znaki:\nZnaki alfabetu, cyfry, - + _ # oraz spacja.
+
+% okno z informacją o programie
+% ============================================================
+#Info
+	
+	% napisy na oknie
+	@Labels
+		|00 Data kompilacji:
+		|01 Autor:
+		|02 Szczegóły kopii programu
+		|03 Zarejestrowano dla:
+		|04 Numer seryjny:
+		|05 Data wygaśnięcia:
+		|06 Nigdy
+		
+	% przyciski
+	@Buttons
+		|00 Zamknij
+
+% okno z aktualizacją programu
+% ============================================================
+#Update
+
+	% etykiety
+	@Labels
+		|00 Dostępna jest nowa wersja programu!
+		|01 Posiadasz najnowszą wersję programu.
+		|02 Twoja wersja:
+		|03 Wersja aktualizacji:
+		|04 Lista zmian w poszczególnych wersjach
+		
+	% przyciski akcji
+	@Buttons
+		|00 Aktualizuj
+		|01 Zamknij
+		|02 Kompresuj
+		
+	% wyskakujące okna z wiadomościami
+	@Messages
+		|00 Nie można połączyć się z serwerem.\nSprawdź swoje połączenie z internetem.
+		|01 Wystąpił błąd podczas próby połączenia z serwerem.\nSkontaktuj się z administratorem.
+		|02 Tryb kompresji został aktywowany.
+		|03 Tryb kompresji został dezaktywowany.
+		|04 Wystąpił bład podczas pobierania aktualizacji.
+		|05 Nie możesz zamknąć tego okna podczas aktualizacji programu.
+		|06 Wystąpił błąd podczas kompresji plików.
+		|07 Kompresja plików zakończona sukcesem.
+		|08 Wystąpił błąd podczas rozpakowywania plików.\nSkontaktuj się z administratorem.
+		|09 Aktualizacja została przygotowana do instalacji.\nCzy chcesz uruchomić ponownie program aby ją zainstalować?
+		
 % formularz ustawień typu kolumny
 % ============================================================
 #TypeSettings

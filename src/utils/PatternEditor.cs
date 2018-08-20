@@ -1,4 +1,10 @@
-﻿using System;
+﻿// 11-11-2016 - DetectFormat - przeniesienie
+//              Tworzenie folderów podczas tworzenia wzoru
+//              Dodano usuwanie wzoru
+//              Przerobione wczytywanie wzoru
+//              Kopiowanie wzoru
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +17,7 @@ using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 
-namespace CDesigner
+namespace CDesigner.Utils
 {
 	public struct PageDetails
 	{
@@ -37,6 +43,22 @@ namespace CDesigner
 		private static string _last_created  = "";
 		private static double _pixel_per_dpi = 3.93714927048264;
 
+        public static string[] FormatNames = {
+            "A4",
+            "A5"
+        };
+
+        public static int DetectFormat( int width, int height )
+        {
+            int[,] format_dims = { {210, 297}, {148, 210} };
+
+            // szukaj formatu po rozmiarze
+            for( int x = 0; x < format_dims.GetLength(0); ++x )
+                if( format_dims[x,0] == width && format_dims[x,1] == height )
+                    return x;
+
+            return -1;
+        }
 
 		// ------------------------------------------------------------- LastCreated ----------------------------------
 		
@@ -45,10 +67,42 @@ namespace CDesigner
 			get { return PatternEditor._last_created; }
 		}
 
+        public static List<PatternInfo> GetPatterns()
+        {
+            // pobierz listę folderów
+            var patterns    = new List<PatternInfo>();
+			var directories = Directory.GetDirectories( "patterns" );
+
+			foreach( string pattern in directories )
+			{
+                // na linuksie są slashe a nie backslashe
+                string patname = pattern.Replace( "patterns\\", "" );
+                       patname = patname.Replace( "patterns/", "" );
+
+                // dodaj wzór do listy
+                patterns.Add( PatternEditor.ReadPatternEx(patname, true) );
+			}
+
+            return patterns;
+        }
+
+        public static void Delete( string pattern )
+        {
+            // sprawdź czy przypadkiem aktualnie nie jest wczytany ten szablon
+            // usuń z listy ostatnio używanych
+
+            // usuń folder i jego wszystkie pliki jeżeli tylko istnieje
+            if( Directory.Exists("patterns/" + pattern) )
+                Directory.Delete( "patterns/" + pattern, true );
+        }
+
 		// ------------------------------------------------------------- CreatePattern --------------------------------
 		
 		public static void Create( string pattern, short width, short height )
 		{
+            Directory.CreateDirectory( "patterns/" + pattern );
+			Directory.CreateDirectory( "patterns/" + pattern + "/images" );
+
 			FileStream   file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
 			BinaryWriter writer = new BinaryWriter( file );
 
@@ -60,6 +114,8 @@ namespace CDesigner
 			 * 2 | Wysokość
 			 * 1 | Ilość stron
 			 * 1 | Treść dynamiczna
+             TODO: 2 | Ilość wszystkich kontrolek
+             TODO: ? | Opis ??
 			 * ===================== LOOP =================
 			 *   1 | Ilość kontrolek na stronie
 			 *   1 | Użycie obrazu tła
@@ -95,7 +151,11 @@ namespace CDesigner
 			 *   1 | Drukuj kolor strony
 			 *   1 | Drukuj obraz strony
 			 * ============================================
+             TODO: 2 | Data utworzenia
+             TODO: 2 | Godzina utworzenia
+             TODO: 2 | Rok utworzenia
 			 * --------------------------------------------
+             TODO: 5 | CDFOT
 			**/
 
 			// ciąg rozpoznawczy
@@ -116,6 +176,77 @@ namespace CDesigner
             writer.Close( );
             file.Close( );
 		}
+
+        public static void ClonePattern( string name, string to_clone )
+        {
+            DirectoryInfo source = new DirectoryInfo( "patterns/" + to_clone );
+            DirectoryInfo target = new DirectoryInfo( "patterns/" + name );
+
+            PatternEditor.CopyFiles( source, target );
+        }
+
+        private static void CopyFiles( DirectoryInfo source, DirectoryInfo target )
+        {
+            Program.LogMessage( "Tworzenie folderu: " + target.FullName );
+            Directory.CreateDirectory( target.FullName );
+
+            foreach( FileInfo file in source.GetFiles() )
+            {
+                Program.LogMessage( "Kopiowanie pliku: " + file.Name );
+                file.CopyTo( Path.Combine(target.FullName, file.Name), true );
+            }
+
+            foreach( DirectoryInfo subdir in source.GetDirectories() )
+            {
+                DirectoryInfo nextsubdir = target.CreateSubdirectory( subdir.Name );
+                PatternEditor.CopyFiles( subdir, nextsubdir );
+            }
+        }
+
+        public static PatternInfo ReadPatternEx( string pattern, bool header = false )
+        {
+            // sprawdź czy wzór posiada plik konfiguracyjny
+            if( !File.Exists("patterns/" + pattern + "/config.cfg") )
+            {
+                var ninfo = new PatternInfo( pattern );
+
+                ninfo.HasConfigFile = false;
+                return ninfo;
+            }
+
+            // wczytaj plik konfiguracyjny
+            var file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.Open );
+            var info   = new PatternInfo( pattern );
+            var reader = new BinaryReader( file );
+
+            info.HasConfigFile = true;
+
+            // wczytaj początkowy ciąg znaków
+            var bytes = reader.ReadBytes( 5 );
+
+            // sprawdź poprawność
+            if( bytes[0] != 'C' || bytes[1] != 'D' || bytes[2] != 'C' || bytes[3] != 'F' || bytes[4] != 'G' )
+            {
+                info.Corrupted = true;
+                return info;
+            }
+
+            info.Corrupted      = false;
+            info.Size           = new Size( reader.ReadInt16(), reader.ReadInt16() );
+            info.Pages          = reader.ReadByte();
+            info.DynamicContent = reader.ReadBoolean();
+
+            // tylko informacje główne o wzorze
+            if( header )
+            {
+                reader.Close();
+                file.Close();
+
+                return info;
+            }
+
+            return info;
+        }
 
 		// ------------------------------------------------------------- LoadFromFile ---------------------------------
 		

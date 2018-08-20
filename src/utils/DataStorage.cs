@@ -1,9 +1,21 @@
 ﻿///
+/// $i[xx] DataStorage.cs
+/// 
+/// Schowek dla wczytanych danych z pliku.
+/// Pozwala na łatwy dostęp do danych zarówno z pliku jak i z bazy danych.
+/// Dostęp z bazy danych planowany jest do wdrożenia.
+/// Dzięki temu i pliki i baza danych posiadają jeden interfejs pozwalający na wykonywanie operacji na danych.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.8.x.x
+/// Ostatnia zmiana: 2016-11-08
+/// 
 /// CHANGELOG:
 /// [16.08.2016] Pierwsza wersja schowka dla danych w pamięci - ma on zastąpić aktualny DatafileStream.
 /// [21.08.2016] Tryb edycji danych - poruszanie się po wierszach.
 /// [27.08.2016] Poprawka trybu edycji - nowa zmienna dla aktualnie pobieranego wiersza.
 ///              Występował konflikt podczas pobierania wiersza który był usuwany ze schowka.
+/// [08.11.2016] Tworzenie pustej tablicy - dla możliwości tworzenia nowego pliku, regiony.
 ///
 
 using System;
@@ -27,7 +39,9 @@ namespace CDesigner.Utils
 	/// 
     public class DataStorage
     {
-		/// <summary>Lista kolumn pobranych z pliku.</summary>
+#region ZMIENNE
+
+        /// <summary>Lista kolumn pobranych z pliku.</summary>
         protected string[] _columns;
 
 		/// <summary>Tablica krotek pobranych z bazy danych.</summary>
@@ -53,6 +67,10 @@ namespace CDesigner.Utils
         
         /// <summary>Aktualny indeks edytowanego wiersza do pobrania (tylko w trybie edycji).</summary>
         private int _currentRowGet;
+
+#endregion
+
+#region KONSTRUKTOR / WŁAŚCIWOŚCI
 
         /// <summary>
         /// Konstruktor klasy.
@@ -138,7 +156,11 @@ namespace CDesigner.Utils
         {
             get { return this._rowsNumber; }
         }
-        
+
+#endregion
+
+#region MODYFIKACJE DANYCH
+
         /// <summary>
         /// Zamienia wartości wiersza o podanym identyfikatorze.
         /// Funkcja sprawdza podczas zamiany czy ilość kolumn jest zgodna z danymi nagłówkowymi.
@@ -154,7 +176,7 @@ namespace CDesigner.Utils
 
             this._rows[row] = data;
         }
-        
+
         /// <summary>
         /// Usuwa wiersz o podanym identyfikatorze.
         /// Funkcja wywoływana dla wielu wierszy jest dużo wolniejesza niż usuwanie rekordów podczas edycji.
@@ -200,50 +222,11 @@ namespace CDesigner.Utils
             this._currentRowGet = -1;
             this._isReady       = false;
 
-            if( this._columns == null )
+            if( columns == null )
                 return;
 
             // zapisz nowe kolumny
             this._columns = columns;
-        }
-        
-        /// <summary>
-        /// Sprawdza poprawność danych i kończy włączony wcześniej tryb edycji.
-        /// W przypadku niespójności danych funkcja rzuca wyjątkiem.
-        /// Poprzez termin niespójności danych uważa się na razie tylko złą ilość kolumn w wierszu.
-        /// Gdy dane będą spójne, funkcja ustawia flagę gotowości klasy do dalszych działań.
-        /// </summary>
-        /// 
-        /// <seealso cref="Ready"/>
-        /// <seealso cref="editMode"/>
-		//* ============================================================================================================
-        public void checkIntegrity()
-        {
-            if( this._saveColumns == 0 )
-                return;
-
-            this._isReady = false;
-
-            // usuń zbędne dane
-            if( this._rows.Count > this._currentRow )
-                this._rows.RemoveRange( this._currentRow, this._rows.Count - this._currentRow );
-
-            // sprawdź czy kolumny się zgadzają
-            if( this._columns.Count() != this._saveColumns )
-                throw new Exception( "Niepoprawna ilość kolumn." );
-
-            // teraz sprawdzaj kolumny po wierszach
-            for( int x = 0; x < this._rows.Count; ++x )
-                if( this._rows[x] == null || this._rows[x].Count() != this._saveColumns )
-                    throw new Exception( "Niepoprawna ilość kolumn w wierszu #" + x + "." );
-
-            // zmień na nową ilość kolumn
-            this._columnsNumber = this._saveColumns;
-
-            this._saveColumns   = -1;
-            this._currentRow    = -1;
-            this._currentRowGet = -1;
-            this._isReady       = true;
         }
         
         /// <summary>
@@ -311,7 +294,7 @@ namespace CDesigner.Utils
         }
 
         /// <summary>
-        /// Usuwa kolumnę na którą ustawiony jest kursor edycji.
+        /// Usuwa wiersz na którą ustawiony jest kursor edycji.
         /// Funkcję można wywołać tylko podczas edycji rekordów.
         /// Usuwanie nieużywanych kolumn odbywa się dopiero po zakończeniu edycji z racji szybszego wykonania.
         /// </summary>
@@ -328,5 +311,93 @@ namespace CDesigner.Utils
             this._currentRow--;
             this._rowsNumber--;
         }
+
+        /// <summary>
+        /// Dodaje nowy wiersz na sam koniec listy.
+        /// Funkcję można wywołać zarówno z poziomu edycji rekordów jak i bez włączonego trybu edycji rekordów.
+        /// Zwiększa licznik wszystkich wierszy i aktualny indeks kolumny w trybie edycji.
+        /// W trybie edycji można jej użyć tylko na końcu modyfikacji danych.
+        /// </summary>
+        /// 
+        /// <param name="values">Tablica z wartościami dla wiersza przeznaczona do dodania.</param>
+		//* ============================================================================================================
+        public void addNewRowToEnd( string[] values )
+        {
+            // zamień wiersz gdy istnieje, ale ma być usuwany
+            if( this._rows.Count > this._rowsNumber )
+                this._rows[this._rowsNumber - 1] = values;
+            // lub dodaj nową pozycję w liście
+            else
+                this._rows.Add( values );
+
+            this._rowsNumber++;
+
+            // zwiększ aktualny indeks wiersza
+            if( this._currentRow != -1 )
+                this._currentRow++;
+        }
+
+#endregion
+
+#region FUNKCJE DODATKOWE
+
+        /// <summary>
+        /// Tworzy pustą tablicę.
+        /// Przydatne podczas tworzenia nowych plików bazodanowych.
+        /// </summary>
+		//* ============================================================================================================
+        public void createEmpty()
+        {
+            this._columns       = new string[0];
+            this._rows          = new List<string[]>();
+            this._columnsNumber = 0;
+            this._rowsNumber    = 0;
+            this._isReady       = true;
+            this._overflow      = false;
+            this._saveColumns   = -1;
+            this._currentRow    = -1;
+            this._currentRowGet = -1;
+        }
+        
+        /// <summary>
+        /// Sprawdza poprawność danych i kończy włączony wcześniej tryb edycji.
+        /// W przypadku niespójności danych funkcja rzuca wyjątkiem.
+        /// Poprzez termin niespójności danych uważa się na razie tylko złą ilość kolumn w wierszu.
+        /// Gdy dane będą spójne, funkcja ustawia flagę gotowości klasy do dalszych działań.
+        /// </summary>
+        /// 
+        /// <seealso cref="Ready"/>
+        /// <seealso cref="editMode"/>
+		//* ============================================================================================================
+        public void checkIntegrity()
+        {
+            if( this._saveColumns == 0 )
+                return;
+
+            this._isReady = false;
+
+            // usuń zbędne dane
+            if( this._rows.Count > this._currentRow )
+                this._rows.RemoveRange( this._currentRow, this._rows.Count - this._currentRow );
+
+            // sprawdź czy kolumny się zgadzają
+            if( this._columns.Count() != this._saveColumns )
+                throw new Exception( "Niepoprawna ilość kolumn." );
+
+            // teraz sprawdzaj kolumny po wierszach
+            for( int x = 0; x < this._rows.Count; ++x )
+                if( this._rows[x] == null || this._rows[x].Count() != this._saveColumns )
+                    throw new Exception( "Niepoprawna ilość kolumn w wierszu #" + x + "." );
+
+            // zmień na nową ilość kolumn
+            this._columnsNumber = this._saveColumns;
+
+            this._saveColumns   = -1;
+            this._currentRow    = -1;
+            this._currentRowGet = -1;
+            this._isReady       = true;
+        }
+
+#endregion
     }
 }

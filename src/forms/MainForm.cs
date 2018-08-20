@@ -33,7 +33,26 @@ namespace CDesigner
 {
 	public partial class MainForm : Form
 	{
+        private InfoForm _infoForm;
+
+
+
+
+
+
 		private IOFileData _gStream;
+
+
+
+
+
+		//private DatabaseReader _reader;
+
+
+
+
+
+
 
 		// ------------------------------------------------------------- gmpUpdate_Click ------------------------------
 		/// <summary>
@@ -52,21 +71,20 @@ namespace CDesigner
 			{
 				UpdateForm update = new UpdateForm();
 				
-				if( !update.UpdateAvaliable() )
-				{
-					MessageBox.Show
-					(
-						this,
-						"Posiadasz już najnowszą wersję aplikacji.\nv" + InfoForm.VERSION + ".",
-						"Aktualizacja programu",
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Information
-					);
-					return;
-				}
+                //if( !update.UpdateAvaliable() )
+                //{
+                //    MessageBox.Show
+                //    (
+                //        this,
+                //        "Posiadasz już najnowszą wersję aplikacji.\nv" + Program.VERSION + ".",
+                //        "Aktualizacja programu",
+                //        MessageBoxButtons.OK,
+                //        MessageBoxIcon.Information
+                //    );
+                //    return;
+                //}
 		
-				if( update.ShowDialog(this) != DialogResult.OK )
-					return;
+                update.refreshAndOpen( this );
 			}
 			catch( WebException ex )
 			{
@@ -146,11 +164,25 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- Main -----------------------------------------
 		
+		private void GetProgramUpdates( object sender, DoWorkEventArgs ev )
+		{
+            var result = UpdateApp.CheckAvailability();
+            if( result )
+                UpdateApp.GetChangeLog();
+        }
+
 		public MainForm( )
 		{
 			Program.LogMessage( "Tworzenie okna głównego." );
 			this.InitializeComponent();
 
+            this.initializeForms();
+
+            // sprawdzanie aktualizacji w tle
+            this.BW_Updates.DoWork -= this.GetProgramUpdates;
+            this.BW_Updates.DoWork += this.GetProgramUpdates;
+
+            this.BW_Updates.RunWorkerAsync();
 
 			// pobierz ikonę programu
 			this.Icon = Program.GetIcon();
@@ -209,6 +241,11 @@ namespace CDesigner
 			Program.GLOBAL.SelectFile       = new OpenFileDialog();
 			Program.GLOBAL.DatafileSettings = new DatafileSettingsForm();
 		}
+
+        private void initializeForms()
+        {
+            this._infoForm = new InfoForm();
+        }
 
 		// ------------------------------------------------------------- Main_Resize ---------------------------------
 
@@ -319,23 +356,24 @@ namespace CDesigner
 					return;
 				}
 
-			// pobierz i dodaj katalogi do listy
-			string[] patterns = Directory.GetDirectories( "patterns" );
+            var patterns = PatternEditor.GetPatterns();
 
-			foreach( string pattern in patterns )
-			{
-				TreeNode item = this.mtvPatterns.Nodes.Add( pattern.Replace("patterns\\", "") );
+            foreach( var pattern in patterns )
+            {
+                TreeNode item = this.mtvPatterns.Nodes.Add( pattern.Name );
 
-				// brak pliku konfiguracji
-				if( !File.Exists(pattern + "/config.cfg") )
-				{
+                if( !pattern.HasConfigFile || pattern.Corrupted )
+                {
 #				if DEBUG
-					Console.WriteLine( "Błąd: Wzór " + pattern + " nie zawiera pliku konfiguracyjnego." );
+                    if( !pattern.HasConfigFile )
+					    Console.WriteLine( "Błąd: Wzór " + pattern.Name + " nie zawiera pliku konfiguracyjnego." );
+                    if( pattern.Corrupted )
+					    Console.WriteLine( "Błąd: Wzór " + pattern.Name + " jest uszkodzony." );
 #				endif
-					item.ForeColor = Color.OrangeRed;
-					continue;
-				}
-			}
+                    item.ForeColor = Color.OrangeRed;
+                    continue;
+                }
+            }
 			
 			this.mlStatus.Text = "Utworzono listę zapisanych wzorów.";
 		}
@@ -536,14 +574,27 @@ namespace CDesigner
 		
 		private void gmpNew_Click( object sender, EventArgs ev )
 		{
-#		if DEBUG
-			Console.WriteLine( "Otwieranie okna kreatora nowego wzoru." );
-#		endif
-			NewPattern window = new NewPattern();
+#       if DEBUG
+            Program.LogMessage( "** Okno tworzenia wzoru." );
+			Program.LogMessage( "** BEGIN ================================================================== **" );
+			Program.IncreaseLogIndent();
+#       endif
+			NewPatternForm window = new NewPatternForm();
 
 			// nowy wzór
 			if( window.ShowDialog(this) != DialogResult.OK )
+            {
+#       if DEBUG
+                Program.LogMessage( "Operacja anulowana." );
+			    Program.DecreaseLogIndent();
+			    Program.LogMessage( "** END ==================================================================== **" );
+#       endif
 				return;
+            }
+#       if DEBUG
+			Program.DecreaseLogIndent();
+			Program.LogMessage( "** END ==================================================================== **" );
+#       endif
 
 			// odśwież listę
 			this.RefreshProjectList();
@@ -763,7 +814,7 @@ namespace CDesigner
 				this.mSelectedData = data.dynamic;
 
 				// wykryj format wzoru
-				format = NewPattern.DetectFormat( data.size.Width, data.size.Height );
+				format = PatternEditor.DetectFormat( data.size.Width, data.size.Height );
 
 				// ustaw wartości pola numerycznego
 				this.mnPage.Maximum = data.pages;
@@ -792,7 +843,7 @@ namespace CDesigner
 						this.mlStatus.Text = "Wzór " + pattern + ". Format własny: " + data.size.Width + " x " + data.size.Height + " mm. Ilość stron: " + data.pages + ".";
 					else
 					{
-						string fname = NewPattern.FormatNames[format];
+						string fname = PatternEditor.FormatNames[format];
 						this.mlStatus.Text = "Wzór " + pattern + ". Format " + fname + ": " + data.size.Width + " x " + data.size.Height + " mm. Ilość stron: " + data.pages + ".";
 					}
 
@@ -813,7 +864,7 @@ namespace CDesigner
 					this.mlStatus.Text = "Wzór " + pattern + ". Format własny: " + data.size.Width + " x " + data.size.Height + " mm. Brak podglądu.";
 				else
 				{
-					string fname = NewPattern.FormatNames[format];
+					string fname = PatternEditor.FormatNames[format];
 					this.mlStatus.Text = "Wzór " + pattern + ". Format " + fname + ": " + data.size.Width + " x " + data.size.Height + " mm. Brak podglądu.";
 				}
 			}
@@ -1211,7 +1262,10 @@ CD_mtvPatterns_AfterSelect:
 			if( this.pLocked )
 				return;
 
-			this.mpbPreview.CheckLocation();
+            // na linuksie wariowało, ponieważ funkcja wywoływała się przed zakończeniem konstruktora
+            // wywoływała się w trakcie inicjalizacji elementów
+            if( this.mpbPreview != null )
+			    this.mpbPreview.CheckLocation();
 		}
 
 		// ------------------------------------------------------------- mpPreview_MouseDown -------------------------
@@ -2713,8 +2767,18 @@ CD_mtvPatterns_AfterSelect:
 
 		private void impInfo_Click( object sender, EventArgs ev )
 		{
-			InfoForm info = new InfoForm( );
-			info.ShowDialog( this );
+#		if DEBUG
+			Program.LogMessage( "** Okno wczytywania i ustawień pliku z danymi." );
+			Program.LogMessage( "** BEGIN ================================================================== **" );
+			Program.IncreaseLogIndent();
+#		endif
+
+            this._infoForm.refreshAndOpen( this );
+
+#		if DEBUG
+			Program.DecreaseLogIndent();
+			Program.LogMessage( "** END ==================================================================== **" );
+#		endif
 		}
 
 		private void issGeneratePDF_Click(object sender, EventArgs e)
@@ -2960,6 +3024,8 @@ CD_mtvPatterns_AfterSelect:
 			// zapisz strumień i odblokuj przycisk edytora kolumn
 			this._gStream = storage;
 			this.gmtColumnsEditor.Enabled = true;
+            this.gmtEditData.Enabled = true;
+            this.gmtSaveDataToFile.Enabled = true;
 
 			GC.Collect();
 
@@ -3010,5 +3076,57 @@ CD_mtvPatterns_AfterSelect:
 				0
 			);
 		}
+
+        private void gmtEditData_Click( object sender, EventArgs ev )
+        {
+                var edit = new EditRowsForm();
+                edit.Storage = this._gStream;
+                edit.refreshDataRange();
+                
+                edit.ShowDialog();
+        }
+
+        private void createEmpty_Click( object sender, EventArgs ev )
+        {
+			// wczytaj plik
+			IOFileData storage = new IOFileData();
+            storage.createEmpty();
+
+			MessageBox.Show
+			(
+				this,
+				"Utworzono pustą bazę w pamięci operacyjnej komputera.\n",
+				"Baza danych",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Information
+			);
+
+			// zapisz strumień i odblokuj przycisk edytora kolumn
+			this._gStream = storage;
+			this.gmtColumnsEditor.Enabled = true;
+            this.gmtEditData.Enabled = true;
+            this.gmtSaveDataToFile.Enabled = true;
+
+			GC.Collect();
+        }
+
+        private void saveDataToFile_Click(object sender, EventArgs e)
+        {
+            var dialog = new SaveFileDialog();
+
+            if( dialog.ShowDialog(this) == DialogResult.OK )
+                this._gStream.save( dialog.FileName );
+
+            /*
+			MessageBox.Show
+			(
+				this,
+				"Funkcjonalność jeszcze nie działa.",
+				"Baza danych",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Warning
+			);
+             */
+        }
 	}
 }

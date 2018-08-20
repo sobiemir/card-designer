@@ -6,10 +6,8 @@
 /// Wywoływane z menu lub po wyborze źródła danych z paska informacji.
 /// 
 /// Autor: Kamil Biały
-/// Copyright ⓒ 2015. Wszystkie prawa zastrzeżone.
-/// 
 /// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2016-07-26
+/// Ostatnia zmiana: 2016-11-08
 /// 
 /// CHANGELOG:
 /// [29.09.2015] Wersja początkowa.
@@ -20,6 +18,7 @@
 /// [04.07.2016] Dodatkowe tłumaczenia.
 /// [26.07.2016] Komentarze, poprawki kodu.
 /// [22.08.2016] Wczytywanie danych bez lub z nagłówkiem po przebudowaniu klasy parsera.
+/// [08.11.2016] Zmieniono klasę filtrów z DatabaseReader na IOFileData.
 ///
 
 using System;
@@ -54,22 +53,23 @@ namespace CDesigner.Forms
 	/// @todo <dfn><small>[1.0.x.x]</small></dfn> Automatyczne wykrywanie typów danych.
     /// @todo <dfn><small>[1.0.x.x]</small></dfn> Dopiero zapis (kliknięcie na przycisk wczytaj) zmienia strumień (_storage).
     /// @todo <dfn><small>[?.?.x.x]</small></dfn> Po wciśnięciu WIN na linuksie okno się zamyka (przechwytuje sygnał zamknięcia).
+    /// @todo <dfn><small>[?.?.x.x]</small></dfn> Informacja o tym że dane są wczytywane, jakiś pasek postępu czy coś...
 	/// 
 	public partial class DatafileSettingsForm : Form
 	{
 #region ZMIENNE
 
 		/// <summary>Blokada elementów przed przypadkowym odświeżeniem.</summary>
-		private bool _locked = false;
+		private bool _locked;
 
 		/// <summary>Strumień pliku bazy danych.</summary>
-		private IOFileData _storage = null;
+		private IOFileData _storage;
 
 		/// <summary>Aktualnie wyświetlana kolumna.</summary>
-		private int _column = -1;
+		private int _column;
 
         /// <summary>Informacja o tym, czy plik posiada definicje kolumn.</summary>
-        private bool _hascolumns = true;
+        private bool _hascolumns;
 
 #endregion
 
@@ -169,7 +169,7 @@ namespace CDesigner.Forms
 			OpenFileDialog dialog = Program.GLOBAL.SelectFile;
 
 			dialog.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SELECTDBASESTREAM );
-			dialog.Filter = DatabaseReader.JoinSupportedExtensions( true );
+			dialog.Filter = IOFileData.getExtensionsList( true );
 
 			DialogResult result = dialog.ShowDialog();
 
@@ -248,29 +248,29 @@ namespace CDesigner.Forms
 
 			// tłumaczenie elementów listy opcji kodowania pliku
 			values = Language.GetLines( "DatafileSettings", "Encoding" );
-			for( int x = 0; x < this.sbEncoding.Items.Count; ++x )
-				this.sbEncoding.Items[x] = (object)values[x];
+			for( int x = 0; x < this.CBX_Encoding.Items.Count; ++x )
+				this.CBX_Encoding.Items[x] = (object)values[x];
 
 			// tłumaczenie nagłówków tabeli
 			values = Language.GetLines( "DatafileSettings", "Headers" );
-			this.lvcRows.Text    = values[(int)LANGCODE.I02_HEA_ROWS];
-			this.lvcColumns.Text = values[(int)LANGCODE.I02_HEA_COLUMNS];
+			this.CH_Rows.Text    = values[(int)LANGCODE.I02_HEA_ROWS];
+			this.CH_Columns.Text = values[(int)LANGCODE.I02_HEA_COLUMNS];
 
 			// tłumaczenie przycisków
 			values = Language.GetLines( "DatafileSettings", "Buttons" );
-			this.bChange.Text = values[(int)LANGCODE.I02_BUT_CHANGE];
-			this.bSave.Text   = values[(int)LANGCODE.I02_BUT_SAVE];
-			this.bCancel.Text = values[(int)LANGCODE.I02_BUT_CANCEL];
+			this.B_Change.Text = values[(int)LANGCODE.I02_BUT_CHANGE];
+			this.B_Save.Text   = values[(int)LANGCODE.I02_BUT_SAVE];
+			this.B_Cancel.Text = values[(int)LANGCODE.I02_BUT_CANCEL];
 
 			// tłumaczenie nazw separatorów
 			values = Language.GetLines( "DatafileSettings", "Separator" );
-			for( int x = 0; x < this.sbSeparator.Items.Count; ++x )
-				this.sbSeparator.Items[x] = (object)values[x];
+			for( int x = 0; x < this.CBX_Separator.Items.Count; ++x )
+				this.CBX_Separator.Items[x] = (object)values[x];
 
 			// tłumaczenie tekstów na formularzu
 			values = Language.GetLines( "DatafileSettings", "Labels" );
-			this.cbAutoCheck.Text = values[(int)LANGCODE.I02_LAB_AUTODETECT];
-			this.cbNoColumns.Text = values[(int)LANGCODE.I02_LAB_NOHEADERS];
+			this.CB_AutoCheck.Text = values[(int)LANGCODE.I02_LAB_AUTODETECT];
+			this.CB_NoColumns.Text = values[(int)LANGCODE.I02_LAB_NOHEADERS];
 
 			// tytuł okna
 			this.Text = Language.GetLine( "FormNames", (int)LANGCODE.GFN_DATAFILESETTINGS );
@@ -297,24 +297,24 @@ namespace CDesigner.Forms
 			this._storage.parse( Settings.Info.i02_RowsNumber, this._hascolumns );
 
 			// kolumny
-			this.lvColumns.Items.Clear();
+			this.LV_Columns.Items.Clear();
 			for( int x = 0; x < this._storage.ColumnsNumber; ++x )
-				this.lvColumns.Items.Add( this._storage.Column[x] );
+				this.LV_Columns.Items.Add( this._storage.Column[x] );
 
 			// zaznacz pierwszy element
 			if( this._storage.ColumnsNumber > 0 )
 			{
-				this.lvColumns.Items[0].Selected = true;
+				this.LV_Columns.Items[0].Selected = true;
 				this._column = 0;
 			}
 
 			// wiersze
-			this.lvRows.Items.Clear();
+			this.LV_Rows.Items.Clear();
 			for( int x = 0; x < this._storage.RowsNumber; ++x )
-				this.lvRows.Items.Add( this._storage.Row[x][0] );
+				this.LV_Rows.Items.Add( this._storage.Row[x][0] );
 
 			// odśwież nagłówek
-			this.lvcRows.Text = Language.GetLine( "DatafileSettings", "Headers", (int)LANGCODE.I02_HEA_ROWS ) +
+			this.CH_Rows.Text = Language.GetLine( "DatafileSettings", "Headers", (int)LANGCODE.I02_HEA_ROWS ) +
 				" [" + this._storage.Column[0] + "]";
 
 			this._locked = false;
@@ -339,42 +339,42 @@ namespace CDesigner.Forms
 			// wyświetl informacje o kodowaniu
 			// nie można na case bo Encoding jest klasą...
 			if( this._storage.Encoding == Encoding.Default )
-				this.sbEncoding.SelectedIndex = 0;
+				this.CBX_Encoding.SelectedIndex = 0;
 			else if( this._storage.Encoding == Encoding.ASCII )
-				this.sbEncoding.SelectedIndex = 1;
+				this.CBX_Encoding.SelectedIndex = 1;
 			else if( this._storage.Encoding == Encoding.UTF8 )
-				this.sbEncoding.SelectedIndex = 2;
+				this.CBX_Encoding.SelectedIndex = 2;
 			else if( this._storage.Encoding == Encoding.BigEndianUnicode )
-				this.sbEncoding.SelectedIndex = 3;
+				this.CBX_Encoding.SelectedIndex = 3;
 			else if( this._storage.Encoding == Encoding.Unicode )
-				this.sbEncoding.SelectedIndex = 4;
+				this.CBX_Encoding.SelectedIndex = 4;
 			else if( this._storage.Encoding == Encoding.UTF32 )
-				this.sbEncoding.SelectedIndex = 5;
+				this.CBX_Encoding.SelectedIndex = 5;
 			else
-				this.sbEncoding.SelectedIndex = 6;
+				this.CBX_Encoding.SelectedIndex = 6;
 
-			this.tbSeparator.Enabled = false;
+			this.TB_Separator.Enabled = false;
 
 			// separator
 			switch( this._storage.Separator )
 			{
-			case ';' : this.sbSeparator.SelectedIndex = 0; break;
-			case ',' : this.sbSeparator.SelectedIndex = 1; break;
-			case '.' : this.sbSeparator.SelectedIndex = 2; break;
-			case '\t': this.sbSeparator.SelectedIndex = 3; break;
-			case ' ' : this.sbSeparator.SelectedIndex = 4; break;
+			case ';' : this.CBX_Separator.SelectedIndex = 0; break;
+			case ',' : this.CBX_Separator.SelectedIndex = 1; break;
+			case '.' : this.CBX_Separator.SelectedIndex = 2; break;
+			case '\t': this.CBX_Separator.SelectedIndex = 3; break;
+			case ' ' : this.CBX_Separator.SelectedIndex = 4; break;
 			default  :
-				this.sbSeparator.SelectedIndex = 5;
-				this.tbSeparator.Enabled = true;
+				this.CBX_Separator.SelectedIndex = 5;
+				this.TB_Separator.Enabled = true;
 			break;
 			}
 
 			// wyświetl separator i nazwę pliku
-			this.tbSeparator.Text = ((char)this._storage.Separator).ToString();
-			this.tbFileName.Text  = this._storage.FileName;
+			this.TB_Separator.Text = ((char)this._storage.Separator).ToString();
+			this.TB_FileName.Text  = this._storage.FileName;
 
             // wczytywanie danych bez kolumn
-            this.cbNoColumns.Checked = !this._hascolumns;
+            this.CB_NoColumns.Checked = !this._hascolumns;
 
 			this._locked = false;
 		}
@@ -395,25 +395,25 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
 		private void lvColumns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
-			if( this._locked || this.lvColumns.SelectedItems.Count == 0 || this._column == this.lvColumns.SelectedItems[0].Index )
+			if( this._locked || this.LV_Columns.SelectedItems.Count == 0 || this._column == this.LV_Columns.SelectedItems[0].Index )
 				return;
 
 			// wyświetlenie nazwy kolumny w nagłówku
-			this.lvcRows.Text = Language.GetLine( "DatafileSettings", "Headers", (int)LANGCODE.I02_HEA_ROWS ) +
-				" [" + this.lvColumns.SelectedItems[0].Text + "]";
-			this.lvRows.Items.Clear();
+			this.CH_Rows.Text = Language.GetLine( "DatafileSettings", "Headers", (int)LANGCODE.I02_HEA_ROWS ) +
+				" [" + this.LV_Columns.SelectedItems[0].Text + "]";
+			this.LV_Rows.Items.Clear();
 
 			// indeks zaznaczonej kolumny
-			int column = this.lvColumns.SelectedItems[0].Index;
+			int column = this.LV_Columns.SelectedItems[0].Index;
 
 			if( this._storage == null )
 				return;
 
 			// zmień wyświetlane rekordy
 			for( int x = 0; x < this._storage.RowsNumber; ++x )
-				this.lvRows.Items.Add( this._storage.Row[x][column] );
+				this.LV_Rows.Items.Add( this._storage.Row[x][column] );
 
-			this._column = this.lvColumns.SelectedItems[0].Index;
+			this._column = this.LV_Columns.SelectedItems[0].Index;
 
 #		if DEBUG
 			Program.LogMessage( "Wyświetlono dane z kolumny o indeksie: " + this._column + "." );
@@ -435,7 +435,7 @@ namespace CDesigner.Forms
 				return;
 
 			// rozpoznaj odpowiednie kodowanie i otwórz ponownie plik
-			switch( this.sbEncoding.SelectedIndex )
+			switch( this.CBX_Encoding.SelectedIndex )
 			{
 			case 1 : this._storage.Encoding = Encoding.ASCII; break;
 			case 2 : this._storage.Encoding = Encoding.UTF8; break;
@@ -450,7 +450,7 @@ namespace CDesigner.Forms
 			this.getPreview();
 
 #		if DEBUG
-			Program.LogMessage( "Zmieniono kodowanie strumienia danych na indeks: " + this.sbEncoding.SelectedIndex + "." );
+			Program.LogMessage( "Zmieniono kodowanie strumienia danych na indeks: " + this.CBX_Encoding.SelectedIndex + "." );
 #		endif
 		}
 
@@ -465,26 +465,26 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
 		private void sbSeparator_SelectedIndexChanged( object sender, EventArgs ev )
 		{
-			this.tbSeparator.Enabled = false;
+			this.TB_Separator.Enabled = false;
 
-			switch( this.sbSeparator.SelectedIndex )
+			switch( this.CBX_Separator.SelectedIndex )
 			{
-			case 0 : this.tbSeparator.Text = ";"; break;
-			case 1 : this.tbSeparator.Text = ","; break;
-			case 2 : this.tbSeparator.Text = "."; break;
-			case 3 : this.tbSeparator.Text = "(TAB)"; break;
-			case 4 : this.tbSeparator.Text = "(SPA)"; break;
+			case 0 : this.TB_Separator.Text = ";"; break;
+			case 1 : this.TB_Separator.Text = ","; break;
+			case 2 : this.TB_Separator.Text = "."; break;
+			case 3 : this.TB_Separator.Text = "(TAB)"; break;
+			case 4 : this.TB_Separator.Text = "(SPA)"; break;
 			default:
-				this.tbSeparator.Enabled = true;
-				this.tbSeparator.Text = "";
+				this.TB_Separator.Enabled = true;
+				this.TB_Separator.Text = "";
 			break;
 			}
 
 #		if DEBUG
-			if( this.sbSeparator.SelectedIndex == 5 )
+			if( this.CBX_Separator.SelectedIndex == 5 )
 				Program.LogMessage( "Włączono możliwość zdefiniowania własnego separatora kolumn." );
 			else
-				Program.LogMessage( "Zmieniono separator oddzielający kolumny na: " + this.tbSeparator.Text + "." );
+				Program.LogMessage( "Zmieniono separator oddzielający kolumny na: " + this.TB_Separator.Text + "." );
 #		endif
 		}
 
@@ -519,16 +519,16 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
 		private void tbSeparator_TextChanged( object sender, EventArgs ev )
 		{
-			if( this._locked || this.tbSeparator.Text == "" || this._storage == null )
+			if( this._locked || this.TB_Separator.Text == "" || this._storage == null )
 				return;
 			
 			// zmień separator i ponowne parsuj plik
-			if( this.tbSeparator.Text == "(SPA)" )
+			if( this.TB_Separator.Text == "(SPA)" )
 				this._storage.Separator = ' ';
-			else if( this.tbSeparator.Text == "(TAB)" )
+			else if( this.TB_Separator.Text == "(TAB)" )
 				this._storage.Separator = '\t';
 			else
-				this._storage.Separator = this.tbSeparator.Text[0];
+				this._storage.Separator = this.TB_Separator.Text[0];
 
 			this.getPreview();
 
@@ -547,7 +547,7 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
         private void cbNoColumns_CheckedChanged( object sender, EventArgs ev )
         {
-            this._hascolumns = !this.cbNoColumns.Checked;
+            this._hascolumns = !this.CB_NoColumns.Checked;
             this.getPreview();
         }
 
@@ -566,6 +566,8 @@ namespace CDesigner.Forms
 #		if DEBUG
 			Program.LogMessage( "Nowy strumień danych został zapisany." );
 #		endif
+            this._storage.parse( -1 );
+
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}
@@ -607,7 +609,7 @@ namespace CDesigner.Forms
 			OpenFileDialog dialog = Program.GLOBAL.SelectFile;
 
 			dialog.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.iMN_DatafileSelect );
-			dialog.Filter = DatabaseReader.JoinSupportedExtensions( true );
+			dialog.Filter = IOFileData.getExtensionsList( true );
 
 			// anulowano wybór...
 			if( dialog.ShowDialog() != DialogResult.OK )
@@ -646,19 +648,13 @@ namespace CDesigner.Forms
 			ev.Graphics.DrawLine
 			(
 				new Pen( SystemColors.ControlDark ),
-				this.tlpStatusBar.Bounds.X,
+				this.TLP_StatusBar.Bounds.X,
 				0,
-				this.tlpStatusBar.Bounds.Right,
+				this.TLP_StatusBar.Bounds.Right,
 				0
 			);
 		}
 
-		/// @endcond
-#endregion
-
-#region TWORZENIE KONTROLEK
-		/// @cond DESIGNER
-		
 		/// @endcond
 #endregion
 	}

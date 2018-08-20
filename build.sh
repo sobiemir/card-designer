@@ -51,14 +51,13 @@ resgen /useSourcePath \
 	/compile \
 		resx/ComboGroupBox.resx,obj/CDesigner.ComboGroupBox.resources \
 		resx/DatafileSettingsForm.resx,obj/CDesigner.DatafileSettingsForm.resources \
-		resx/DataFilterForm.resx,obj/CDesigner.DataFilterForm.resources \
 		resx/DataReader.resx,obj/CDesigner.DataReader.resources \
 		resx/DBConnection.resx,obj/CDesigner.DBConnection.resources \
 		resx/EditColumnsForm.resx,obj/CDesigner.EditColumnsForm.resources \
-		resx/EditDataForm.resx,obj/CDesigner.EditDataForm.resources \
+		resx/EditRowsForm.resx,obj/CDesigner.EditRowsForm.resources \
 		resx/InfoForm.resx,obj/CDesigner.InfoForm.resources \
 		resx/MainForm.resx,obj/CDesigner.MainForm.resources \
-		resx/NewPattern.resx,obj/CDesigner.NewPattern.resources \
+		resx/NewPatternForm.resx,obj/CDesigner.NewPatternForm.resources \
 		resx/SettingsForm.resx,obj/CDesigner.SettingsForm.resources \
 		resx/TypeSettings.resx,obj/CDesigner.TypeSettings.resources \
 		resx/UpdateForm.resx,obj/CDesigner.UpdateForm.resources \
@@ -127,14 +126,13 @@ $csc /reference:dll/PdfSharp.dll \
 	/out:build/cdesigner.exe \
 	/resource:obj/CDesigner.ComboGroupBox.resources \
 	/resource:obj/CDesigner.DatafileSettingsForm.resources \
-	/resource:obj/CDesigner.DataFilterForm.resources \
 	/resource:obj/CDesigner.DataReader.resources \
 	/resource:obj/CDesigner.DBConnection.resources \
 	/resource:obj/CDesigner.EditColumnsForm.resources \
-	/resource:obj/CDesigner.EditDataForm.resources \
+	/resource:obj/CDesigner.EditRowsForm.resources \
 	/resource:obj/CDesigner.InfoForm.resources \
 	/resource:obj/CDesigner.MainForm.resources \
-	/resource:obj/CDesigner.NewPattern.resources \
+	/resource:obj/CDesigner.NewPatternForm.resources \
 	/resource:obj/CDesigner.SettingsForm.resources \
 	/resource:obj/CDesigner.TypeSettings.resources \
 	/resource:obj/CDesigner.UpdateForm.resources \
@@ -147,11 +145,9 @@ $csc /reference:dll/PdfSharp.dll \
 	/utf8output \
 		src/utils/AssemblyLoader.cs \
 		src/utils/CBackupData.cs \
-		src/utils/DatabaseReader.cs \
 		src/utils/DatafileStream.cs \
 		src/utils/DataFilter.cs \
 		src/utils/DataStorage.cs \
-		src/utils/FilterCreator.cs \
 		src/utils/IODatabase.cs \
 		src/utils/IOFileData.cs \
 		src/utils/Language.cs \
@@ -160,32 +156,31 @@ $csc /reference:dll/PdfSharp.dll \
 		src/utils/ProgressStream.cs \
 		src/utils/Settings.cs \
 		src/utils/Structures.cs \
+		src/utils/UpdateApp.cs \
 		src/controls/AlignedPage.cs \
 		src/controls/AlignedPictureBox.cs \
 		src/controls/DataFilterRow.cs \
 		src/controls/GroupComboBox.cs \
 		src/controls/PageField.cs \
 		src/forms/DatafileSettingsForm.cs \
-		src/forms/DataFilterForm.cs \
 		src/forms/DataReader.cs \
 		src/forms/DBConnection.cs \
 		src/forms/EditColumnsForm.cs \
-		src/forms/EditDataForm.cs \
+		src/forms/EditRowsForm.cs \
 		src/forms/InfoForm.cs \
 		src/forms/MainForm.cs \
-		src/forms/NewPattern.cs \
+		src/forms/NewPatternForm.cs \
 		src/forms/SettingsForm.cs \
 		src/forms/TypeSettings.cs \
 		src/forms/UpdateForm.cs \
 		designer/DatafileSettingsForm.Designer.cs \
-		designer/DataFilterForm.Designer.cs \
 		designer/DataReader.Designer.cs \
 		designer/DBConnection.Designer.cs \
 		designer/EditColumnsForm.Designer.cs \
-		designer/EditDataForm.Designer.cs \
+		designer/EditRowsForm.Designer.cs \
 		designer/InfoForm.Designer.cs \
 		designer/MainForm.Designer.cs \
-		designer/NewPattern.Designer.cs \
+		designer/NewPatternForm.Designer.cs \
 		designer/SettingsForm.Designer.cs \
 		designer/TypeSettings.Designer.cs \
 		designer/UpdateForm.Designer.cs \
@@ -263,6 +258,7 @@ cp -f resources/transparent.png build/images/transparent.png
 cp -f resources/cdrestore.ico build/icons/cdrestore.ico
 cp -f resources/cdesigner.ico build/icons/cdesigner.ico
 cp -f properties/cdrestore/update.lst build/update.lst
+cp -f resources/information.jpg build/images/information.jpg
 cp -f resources/icons/image-field.png build/icons/image-field.png
 cp -f resources/icons/text-field.png build/icons/text-field.png
 cp -f resources/icons/exit-application.png build/icons/exit-application.png

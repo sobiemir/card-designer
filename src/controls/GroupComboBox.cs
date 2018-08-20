@@ -912,13 +912,6 @@ namespace CDesigner
 		/// ------------------------------------------------------------------------------------------------------------
 		public new void Add( GroupComboBoxItem item )
 		{
-			// int insert_index = 0;
-
-			// // wykryj indeks 
-			// for( int x = 0; x < this.Count; ++x )
-			// 	if( this[x].parent == item.parent )
-			// 		insert_index = x;
-
 			List<GroupComboBoxItem> items = new List<GroupComboBoxItem>( this._combos.Count );
 
 			// pobierz starą listę zaznaczonych elementów

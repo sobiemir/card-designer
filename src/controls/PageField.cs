@@ -180,10 +180,7 @@ namespace CDesigner
 		public PointF TextMargin
 		{
 			get { return this._dpi_text_margin; }
-			set
-			{
-				this._dpi_text_margin = value;
-			}
+			set { this._dpi_text_margin = value; }
 		}
 
 		// ------------------------------------------------------------- ApplyTextMargin ------------------------------

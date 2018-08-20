@@ -94,7 +94,7 @@ namespace CDesigner
 			reader.ReadString();
 
 			// ilość i długość ustawień
-			int count  = reader.ReadInt16();
+			int count = reader.ReadInt16();
 			reader.ReadInt32();
 
 			// opakuj strukturę
