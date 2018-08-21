@@ -1,7 +1,9 @@
-﻿namespace CDesigner
+﻿namespace CDesigner.Forms
 {
 	partial class EditRowsForm
 	{
+		/// @cond DESIGNER
+        
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -28,750 +30,748 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.tlMain = new System.Windows.Forms.TableLayoutPanel();
-            this.scMain = new System.Windows.Forms.SplitContainer();
-            this.tlDataGrid = new System.Windows.Forms.TableLayoutPanel();
-            this.pGrid = new System.Windows.Forms.Panel();
-            this.gvData = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tlDataControls = new System.Windows.Forms.TableLayoutPanel();
-            this.bRemoveRow = new System.Windows.Forms.Button();
-            this.bInsertRow = new System.Windows.Forms.Button();
-            this.bLastPage = new System.Windows.Forms.Button();
-            this.bNextPage = new System.Windows.Forms.Button();
-            this.bPrevPage = new System.Windows.Forms.Button();
-            this.lPageStat = new System.Windows.Forms.Label();
-            this.tbPageNum = new System.Windows.Forms.TextBox();
-            this.tbRowsPerPage = new System.Windows.Forms.TextBox();
-            this.lRowsPerPage = new System.Windows.Forms.Label();
-            this.bFirstPage = new System.Windows.Forms.Button();
-            this.scSidebar = new System.Windows.Forms.SplitContainer();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.lvColumns = new System.Windows.Forms.ListView();
-            this.lvcColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tlEditDataControls = new System.Windows.Forms.TableLayoutPanel();
-            this.gbType = new System.Windows.Forms.GroupBox();
-            this.cbColumnType = new System.Windows.Forms.ComboBox();
-            this.gbSearchAndReplace = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.bReplaceAll = new System.Windows.Forms.Button();
-            this.bCount = new System.Windows.Forms.Button();
-            this.bReplace = new System.Windows.Forms.Button();
-            this.cbCaseSensitive = new System.Windows.Forms.CheckBox();
-            this.cbExact = new System.Windows.Forms.CheckBox();
-            this.cbUseRegex = new System.Windows.Forms.CheckBox();
-            this.tbSearch = new System.Windows.Forms.TextBox();
-            this.tbReplace = new System.Windows.Forms.TextBox();
-            this.bSearchRange = new System.Windows.Forms.ComboBox();
-            this.bSearch = new System.Windows.Forms.Button();
-            this.tlStatusBar = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.bSave = new System.Windows.Forms.Button();
-            this.bCancel = new System.Windows.Forms.Button();
-            this.tlMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
-            this.scMain.Panel1.SuspendLayout();
-            this.scMain.Panel2.SuspendLayout();
-            this.scMain.SuspendLayout();
-            this.tlDataGrid.SuspendLayout();
-            this.pGrid.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gvData)).BeginInit();
-            this.tlDataControls.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scSidebar)).BeginInit();
-            this.scSidebar.Panel1.SuspendLayout();
-            this.scSidebar.Panel2.SuspendLayout();
-            this.scSidebar.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tlEditDataControls.SuspendLayout();
-            this.gbType.SuspendLayout();
-            this.gbSearchAndReplace.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.tlStatusBar.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
+            this.TLP_Main = new System.Windows.Forms.TableLayoutPanel();
+            this.SC_Main = new System.Windows.Forms.SplitContainer();
+            this.TLP_DataGrid = new System.Windows.Forms.TableLayoutPanel();
+            this.P_Grid = new System.Windows.Forms.Panel();
+            this.DGV_Data = new System.Windows.Forms.DataGridView();
+            this.DGVTBC_Col1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DGVTBC_Col2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DGVTBC_Col3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DGVTBC_Col4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TLP_DataControls = new System.Windows.Forms.TableLayoutPanel();
+            this.B_RemoveRow = new System.Windows.Forms.Button();
+            this.B_InsertRow = new System.Windows.Forms.Button();
+            this.B_LastPage = new System.Windows.Forms.Button();
+            this.B_NextPage = new System.Windows.Forms.Button();
+            this.P_PrevPage = new System.Windows.Forms.Button();
+            this.L_PageStat = new System.Windows.Forms.Label();
+            this.TB_PageNum = new System.Windows.Forms.TextBox();
+            this.TB_RowsPerPage = new System.Windows.Forms.TextBox();
+            this.L_RowsPerPage = new System.Windows.Forms.Label();
+            this.B_FirstPage = new System.Windows.Forms.Button();
+            this.SC_Sidebar = new System.Windows.Forms.SplitContainer();
+            this.TLP_ColumnView = new System.Windows.Forms.TableLayoutPanel();
+            this.LV_Columns = new System.Windows.Forms.ListView();
+            this.CH_Column = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TLP_Controls = new System.Windows.Forms.TableLayoutPanel();
+            this.GB_Type = new System.Windows.Forms.GroupBox();
+            this.CBX_ColumnType = new System.Windows.Forms.ComboBox();
+            this.GB_SearchAndReplace = new System.Windows.Forms.GroupBox();
+            this.TLP_SearchAndReplace = new System.Windows.Forms.TableLayoutPanel();
+            this.B_ReplaceAll = new System.Windows.Forms.Button();
+            this.B_Count = new System.Windows.Forms.Button();
+            this.B_Replace = new System.Windows.Forms.Button();
+            this.CB_CaseSensitive = new System.Windows.Forms.CheckBox();
+            this.CB_Exact = new System.Windows.Forms.CheckBox();
+            this.CB_UseRegex = new System.Windows.Forms.CheckBox();
+            this.TB_Search = new System.Windows.Forms.TextBox();
+            this.TB_Replace = new System.Windows.Forms.TextBox();
+            this.B_SearchRange = new System.Windows.Forms.ComboBox();
+            this.B_Search = new System.Windows.Forms.Button();
+            this.TLP_StatusBar = new System.Windows.Forms.TableLayoutPanel();
+            this.TLP_Buttons = new System.Windows.Forms.TableLayoutPanel();
+            this.B_Save = new System.Windows.Forms.Button();
+            this.B_Cancel = new System.Windows.Forms.Button();
+            this.TLP_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SC_Main)).BeginInit();
+            this.SC_Main.Panel1.SuspendLayout();
+            this.SC_Main.Panel2.SuspendLayout();
+            this.SC_Main.SuspendLayout();
+            this.TLP_DataGrid.SuspendLayout();
+            this.P_Grid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_Data)).BeginInit();
+            this.TLP_DataControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SC_Sidebar)).BeginInit();
+            this.SC_Sidebar.Panel1.SuspendLayout();
+            this.SC_Sidebar.Panel2.SuspendLayout();
+            this.SC_Sidebar.SuspendLayout();
+            this.TLP_ColumnView.SuspendLayout();
+            this.TLP_Controls.SuspendLayout();
+            this.GB_Type.SuspendLayout();
+            this.GB_SearchAndReplace.SuspendLayout();
+            this.TLP_SearchAndReplace.SuspendLayout();
+            this.TLP_StatusBar.SuspendLayout();
+            this.TLP_Buttons.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tlMain
+            // TLP_Main
             // 
-            this.tlMain.ColumnCount = 1;
-            this.tlMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlMain.Controls.Add(this.scMain, 0, 0);
-            this.tlMain.Controls.Add(this.tlStatusBar, 0, 1);
-            this.tlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlMain.Location = new System.Drawing.Point(0, 0);
-            this.tlMain.Name = "tlMain";
-            this.tlMain.RowCount = 2;
-            this.tlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tlMain.Size = new System.Drawing.Size(784, 522);
-            this.tlMain.TabIndex = 0;
+            this.TLP_Main.ColumnCount = 1;
+            this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_Main.Controls.Add(this.SC_Main, 0, 0);
+            this.TLP_Main.Controls.Add(this.TLP_StatusBar, 0, 1);
+            this.TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_Main.Location = new System.Drawing.Point(0, 0);
+            this.TLP_Main.Name = "TLP_Main";
+            this.TLP_Main.RowCount = 2;
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.TLP_Main.Size = new System.Drawing.Size(784, 522);
+            this.TLP_Main.TabIndex = 0;
             // 
-            // scMain
+            // SC_Main
             // 
-            this.scMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.scMain.Location = new System.Drawing.Point(6, 6);
-            this.scMain.Margin = new System.Windows.Forms.Padding(6);
-            this.scMain.Name = "scMain";
+            this.SC_Main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SC_Main.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SC_Main.Location = new System.Drawing.Point(6, 6);
+            this.SC_Main.Margin = new System.Windows.Forms.Padding(6);
+            this.SC_Main.Name = "SC_Main";
             // 
-            // scMain.Panel1
+            // SC_Main.Panel1
             // 
-            this.scMain.Panel1.Controls.Add(this.tlDataGrid);
-            this.scMain.Panel1MinSize = 500;
+            this.SC_Main.Panel1.Controls.Add(this.TLP_DataGrid);
+            this.SC_Main.Panel1MinSize = 500;
             // 
-            // scMain.Panel2
+            // SC_Main.Panel2
             // 
-            this.scMain.Panel2.Controls.Add(this.scSidebar);
-            this.scMain.Panel2MinSize = 204;
-            this.scMain.Size = new System.Drawing.Size(772, 478);
-            this.scMain.SplitterDistance = 519;
-            this.scMain.TabIndex = 1;
+            this.SC_Main.Panel2.Controls.Add(this.SC_Sidebar);
+            this.SC_Main.Panel2MinSize = 204;
+            this.SC_Main.Size = new System.Drawing.Size(772, 478);
+            this.SC_Main.SplitterDistance = 519;
+            this.SC_Main.TabIndex = 1;
             // 
-            // tlDataGrid
+            // TLP_DataGrid
             // 
-            this.tlDataGrid.ColumnCount = 1;
-            this.tlDataGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlDataGrid.Controls.Add(this.pGrid, 0, 1);
-            this.tlDataGrid.Controls.Add(this.tlDataControls, 0, 0);
-            this.tlDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlDataGrid.Location = new System.Drawing.Point(0, 0);
-            this.tlDataGrid.Margin = new System.Windows.Forms.Padding(0);
-            this.tlDataGrid.Name = "tlDataGrid";
-            this.tlDataGrid.RowCount = 2;
-            this.tlDataGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tlDataGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlDataGrid.Size = new System.Drawing.Size(519, 478);
-            this.tlDataGrid.TabIndex = 1;
+            this.TLP_DataGrid.ColumnCount = 1;
+            this.TLP_DataGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_DataGrid.Controls.Add(this.P_Grid, 0, 1);
+            this.TLP_DataGrid.Controls.Add(this.TLP_DataControls, 0, 0);
+            this.TLP_DataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_DataGrid.Location = new System.Drawing.Point(0, 0);
+            this.TLP_DataGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_DataGrid.Name = "TLP_DataGrid";
+            this.TLP_DataGrid.RowCount = 2;
+            this.TLP_DataGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.TLP_DataGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_DataGrid.Size = new System.Drawing.Size(519, 478);
+            this.TLP_DataGrid.TabIndex = 1;
             // 
-            // pGrid
+            // P_Grid
             // 
-            this.pGrid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pGrid.Controls.Add(this.gvData);
-            this.pGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pGrid.Location = new System.Drawing.Point(0, 26);
-            this.pGrid.Margin = new System.Windows.Forms.Padding(0);
-            this.pGrid.Name = "pGrid";
-            this.pGrid.Padding = new System.Windows.Forms.Padding(1);
-            this.pGrid.Size = new System.Drawing.Size(519, 452);
-            this.pGrid.TabIndex = 0;
+            this.P_Grid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.P_Grid.Controls.Add(this.DGV_Data);
+            this.P_Grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.P_Grid.Location = new System.Drawing.Point(0, 26);
+            this.P_Grid.Margin = new System.Windows.Forms.Padding(0);
+            this.P_Grid.Name = "P_Grid";
+            this.P_Grid.Padding = new System.Windows.Forms.Padding(1);
+            this.P_Grid.Size = new System.Drawing.Size(519, 452);
+            this.P_Grid.TabIndex = 0;
             // 
-            // gvData
+            // DGV_Data
             // 
-            this.gvData.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gvData.ColumnHeadersHeight = 28;
-            this.gvData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4});
-            this.gvData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gvData.EnableHeadersVisualStyles = false;
-            this.gvData.Location = new System.Drawing.Point(1, 1);
-            this.gvData.Margin = new System.Windows.Forms.Padding(0);
-            this.gvData.Name = "gvData";
-            this.gvData.Size = new System.Drawing.Size(515, 448);
-            this.gvData.TabIndex = 0;
-            this.gvData.VirtualMode = true;
-            this.gvData.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gvData_CellValueNeeded);
-            this.gvData.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gvData_CellValuePushed);
-            this.gvData.SelectionChanged += new System.EventHandler(this.gvData_SelectionChanged);
-            this.gvData.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.gvData_UserDeletedRow);
-            this.gvData.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.gvData_UserDeletingRow);
+            this.DGV_Data.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DGV_Data.ColumnHeadersHeight = 28;
+            this.DGV_Data.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DGVTBC_Col1,
+            this.DGVTBC_Col2,
+            this.DGVTBC_Col3,
+            this.DGVTBC_Col4});
+            this.DGV_Data.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DGV_Data.EnableHeadersVisualStyles = false;
+            this.DGV_Data.Location = new System.Drawing.Point(1, 1);
+            this.DGV_Data.Margin = new System.Windows.Forms.Padding(0);
+            this.DGV_Data.Name = "DGV_Data";
+            this.DGV_Data.Size = new System.Drawing.Size(515, 448);
+            this.DGV_Data.TabIndex = 0;
+            this.DGV_Data.VirtualMode = true;
+            this.DGV_Data.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.DGV_Data_CellValueNeeded);
+            this.DGV_Data.CellValuePushed += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.DGV_Data_CellValuePushed);
+            this.DGV_Data.SelectionChanged += new System.EventHandler(this.DGV_Data_SelectionChanged);
+            this.DGV_Data.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DGV_Data_UserDeletedRow);
+            this.DGV_Data.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DGV_Data_UserDeletingRow);
             // 
-            // Column1
+            // DGVTBC_Col1
             // 
-            this.Column1.HeaderText = "Column1";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 73;
+            this.DGVTBC_Col1.HeaderText = "Column1";
+            this.DGVTBC_Col1.Name = "DGVTBC_Col1";
+            this.DGVTBC_Col1.Width = 73;
             // 
-            // Column2
+            // DGVTBC_Col2
             // 
-            this.Column2.HeaderText = "Column2";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 73;
+            this.DGVTBC_Col2.HeaderText = "Column2";
+            this.DGVTBC_Col2.Name = "DGVTBC_Col2";
+            this.DGVTBC_Col2.Width = 73;
             // 
-            // Column3
+            // DGVTBC_Col3
             // 
-            this.Column3.HeaderText = "Column3";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 73;
+            this.DGVTBC_Col3.HeaderText = "Column3";
+            this.DGVTBC_Col3.Name = "DGVTBC_Col3";
+            this.DGVTBC_Col3.Width = 73;
             // 
-            // Column4
+            // DGVTBC_Col4
             // 
-            this.Column4.HeaderText = "Column4";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 73;
+            this.DGVTBC_Col4.HeaderText = "Column4";
+            this.DGVTBC_Col4.Name = "DGVTBC_Col4";
+            this.DGVTBC_Col4.Width = 73;
             // 
-            // tlDataControls
+            // TLP_DataControls
             // 
-            this.tlDataControls.ColumnCount = 10;
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this.tlDataControls.Controls.Add(this.bRemoveRow, 7, 0);
-            this.tlDataControls.Controls.Add(this.bInsertRow, 6, 0);
-            this.tlDataControls.Controls.Add(this.bLastPage, 5, 0);
-            this.tlDataControls.Controls.Add(this.bNextPage, 4, 0);
-            this.tlDataControls.Controls.Add(this.bPrevPage, 1, 0);
-            this.tlDataControls.Controls.Add(this.lPageStat, 3, 0);
-            this.tlDataControls.Controls.Add(this.tbPageNum, 2, 0);
-            this.tlDataControls.Controls.Add(this.tbRowsPerPage, 9, 0);
-            this.tlDataControls.Controls.Add(this.lRowsPerPage, 8, 0);
-            this.tlDataControls.Controls.Add(this.bFirstPage, 0, 0);
-            this.tlDataControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlDataControls.Location = new System.Drawing.Point(0, 0);
-            this.tlDataControls.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.tlDataControls.Name = "tlDataControls";
-            this.tlDataControls.RowCount = 1;
-            this.tlDataControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlDataControls.Size = new System.Drawing.Size(519, 24);
-            this.tlDataControls.TabIndex = 1;
+            this.TLP_DataControls.ColumnCount = 10;
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_DataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            this.TLP_DataControls.Controls.Add(this.B_RemoveRow, 7, 0);
+            this.TLP_DataControls.Controls.Add(this.B_InsertRow, 6, 0);
+            this.TLP_DataControls.Controls.Add(this.B_LastPage, 5, 0);
+            this.TLP_DataControls.Controls.Add(this.B_NextPage, 4, 0);
+            this.TLP_DataControls.Controls.Add(this.P_PrevPage, 1, 0);
+            this.TLP_DataControls.Controls.Add(this.L_PageStat, 3, 0);
+            this.TLP_DataControls.Controls.Add(this.TB_PageNum, 2, 0);
+            this.TLP_DataControls.Controls.Add(this.TB_RowsPerPage, 9, 0);
+            this.TLP_DataControls.Controls.Add(this.L_RowsPerPage, 8, 0);
+            this.TLP_DataControls.Controls.Add(this.B_FirstPage, 0, 0);
+            this.TLP_DataControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_DataControls.Location = new System.Drawing.Point(0, 0);
+            this.TLP_DataControls.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.TLP_DataControls.Name = "TLP_DataControls";
+            this.TLP_DataControls.RowCount = 1;
+            this.TLP_DataControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_DataControls.Size = new System.Drawing.Size(519, 24);
+            this.TLP_DataControls.TabIndex = 1;
             // 
-            // bRemoveRow
+            // B_RemoveRow
             // 
-            this.bRemoveRow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bRemoveRow.Enabled = false;
-            this.bRemoveRow.Location = new System.Drawing.Point(241, 0);
-            this.bRemoveRow.Margin = new System.Windows.Forms.Padding(0);
-            this.bRemoveRow.Name = "bRemoveRow";
-            this.bRemoveRow.Size = new System.Drawing.Size(24, 24);
-            this.bRemoveRow.TabIndex = 12;
-            this.bRemoveRow.UseVisualStyleBackColor = true;
-            this.bRemoveRow.Click += new System.EventHandler(this.bRemoveRow_Click);
+            this.B_RemoveRow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_RemoveRow.Enabled = false;
+            this.B_RemoveRow.Location = new System.Drawing.Point(241, 0);
+            this.B_RemoveRow.Margin = new System.Windows.Forms.Padding(0);
+            this.B_RemoveRow.Name = "B_RemoveRow";
+            this.B_RemoveRow.Size = new System.Drawing.Size(24, 24);
+            this.B_RemoveRow.TabIndex = 12;
+            this.B_RemoveRow.UseVisualStyleBackColor = true;
+            this.B_RemoveRow.Click += new System.EventHandler(this.B_RemoveRow_Click);
             // 
-            // bInsertRow
+            // B_InsertRow
             // 
-            this.bInsertRow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bInsertRow.Location = new System.Drawing.Point(217, 0);
-            this.bInsertRow.Margin = new System.Windows.Forms.Padding(11, 0, 0, 0);
-            this.bInsertRow.Name = "bInsertRow";
-            this.bInsertRow.Size = new System.Drawing.Size(24, 24);
-            this.bInsertRow.TabIndex = 11;
-            this.bInsertRow.UseVisualStyleBackColor = true;
-            this.bInsertRow.Click += new System.EventHandler(this.bInsertRow_Click);
+            this.B_InsertRow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_InsertRow.Location = new System.Drawing.Point(217, 0);
+            this.B_InsertRow.Margin = new System.Windows.Forms.Padding(11, 0, 0, 0);
+            this.B_InsertRow.Name = "B_InsertRow";
+            this.B_InsertRow.Size = new System.Drawing.Size(24, 24);
+            this.B_InsertRow.TabIndex = 11;
+            this.B_InsertRow.UseVisualStyleBackColor = true;
+            this.B_InsertRow.Click += new System.EventHandler(this.B_InsertRow_Click);
             // 
-            // bLastPage
+            // B_LastPage
             // 
-            this.bLastPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bLastPage.Location = new System.Drawing.Point(182, 0);
-            this.bLastPage.Margin = new System.Windows.Forms.Padding(0);
-            this.bLastPage.Name = "bLastPage";
-            this.bLastPage.Size = new System.Drawing.Size(24, 24);
-            this.bLastPage.TabIndex = 10;
-            this.bLastPage.UseVisualStyleBackColor = true;
-            this.bLastPage.Click += new System.EventHandler(this.bLastPage_Click);
+            this.B_LastPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_LastPage.Location = new System.Drawing.Point(182, 0);
+            this.B_LastPage.Margin = new System.Windows.Forms.Padding(0);
+            this.B_LastPage.Name = "B_LastPage";
+            this.B_LastPage.Size = new System.Drawing.Size(24, 24);
+            this.B_LastPage.TabIndex = 10;
+            this.B_LastPage.UseVisualStyleBackColor = true;
+            this.B_LastPage.Click += new System.EventHandler(this.B_LastPage_Click);
             // 
-            // bNextPage
+            // B_NextPage
             // 
-            this.bNextPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bNextPage.Location = new System.Drawing.Point(158, 0);
-            this.bNextPage.Margin = new System.Windows.Forms.Padding(0);
-            this.bNextPage.Name = "bNextPage";
-            this.bNextPage.Size = new System.Drawing.Size(24, 24);
-            this.bNextPage.TabIndex = 9;
-            this.bNextPage.UseVisualStyleBackColor = true;
-            this.bNextPage.Click += new System.EventHandler(this.bNextPage_Click);
+            this.B_NextPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_NextPage.Location = new System.Drawing.Point(158, 0);
+            this.B_NextPage.Margin = new System.Windows.Forms.Padding(0);
+            this.B_NextPage.Name = "B_NextPage";
+            this.B_NextPage.Size = new System.Drawing.Size(24, 24);
+            this.B_NextPage.TabIndex = 9;
+            this.B_NextPage.UseVisualStyleBackColor = true;
+            this.B_NextPage.Click += new System.EventHandler(this.B_NextPage_Click);
             // 
-            // bPrevPage
+            // P_PrevPage
             // 
-            this.bPrevPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bPrevPage.Location = new System.Drawing.Point(24, 0);
-            this.bPrevPage.Margin = new System.Windows.Forms.Padding(0);
-            this.bPrevPage.Name = "bPrevPage";
-            this.bPrevPage.Size = new System.Drawing.Size(24, 24);
-            this.bPrevPage.TabIndex = 8;
-            this.bPrevPage.UseVisualStyleBackColor = true;
-            this.bPrevPage.Click += new System.EventHandler(this.bPrevPage_Click);
+            this.P_PrevPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.P_PrevPage.Location = new System.Drawing.Point(24, 0);
+            this.P_PrevPage.Margin = new System.Windows.Forms.Padding(0);
+            this.P_PrevPage.Name = "P_PrevPage";
+            this.P_PrevPage.Size = new System.Drawing.Size(24, 24);
+            this.P_PrevPage.TabIndex = 8;
+            this.P_PrevPage.UseVisualStyleBackColor = true;
+            this.P_PrevPage.Click += new System.EventHandler(this.B_PrevPage_Click);
             // 
-            // lPageStat
+            // L_PageStat
             // 
-            this.lPageStat.AutoSize = true;
-            this.lPageStat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lPageStat.Location = new System.Drawing.Point(103, 0);
-            this.lPageStat.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
-            this.lPageStat.Name = "lPageStat";
-            this.lPageStat.Size = new System.Drawing.Size(52, 22);
-            this.lPageStat.TabIndex = 6;
-            this.lPageStat.Text = "z {0}";
-            this.lPageStat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.L_PageStat.AutoSize = true;
+            this.L_PageStat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.L_PageStat.Location = new System.Drawing.Point(103, 0);
+            this.L_PageStat.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
+            this.L_PageStat.Name = "L_PageStat";
+            this.L_PageStat.Size = new System.Drawing.Size(52, 22);
+            this.L_PageStat.TabIndex = 6;
+            this.L_PageStat.Text = "z {0}";
+            this.L_PageStat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tbPageNum
+            // TB_PageNum
             // 
-            this.tbPageNum.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbPageNum.Location = new System.Drawing.Point(51, 2);
-            this.tbPageNum.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
-            this.tbPageNum.Name = "tbPageNum";
-            this.tbPageNum.Size = new System.Drawing.Size(52, 20);
-            this.tbPageNum.TabIndex = 5;
-            this.tbPageNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.tbPageNum.TextChanged += new System.EventHandler(this.tbPageNum_TextChanged);
-            this.tbPageNum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbPageNum_KeyDown);
-            this.tbPageNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPageNum_KeyPress);
+            this.TB_PageNum.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TB_PageNum.Location = new System.Drawing.Point(51, 2);
+            this.TB_PageNum.Margin = new System.Windows.Forms.Padding(3, 2, 0, 3);
+            this.TB_PageNum.Name = "TB_PageNum";
+            this.TB_PageNum.Size = new System.Drawing.Size(52, 20);
+            this.TB_PageNum.TabIndex = 5;
+            this.TB_PageNum.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.TB_PageNum.TextChanged += new System.EventHandler(this.TB_PageNum_TextChanged);
+            this.TB_PageNum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TB_PageNum_KeyDown);
+            this.TB_PageNum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_PageNum_KeyPress);
             // 
-            // tbRowsPerPage
+            // TB_RowsPerPage
             // 
-            this.tbRowsPerPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbRowsPerPage.Location = new System.Drawing.Point(464, 2);
-            this.tbRowsPerPage.Margin = new System.Windows.Forms.Padding(0, 2, 0, 3);
-            this.tbRowsPerPage.Name = "tbRowsPerPage";
-            this.tbRowsPerPage.Size = new System.Drawing.Size(55, 20);
-            this.tbRowsPerPage.TabIndex = 1;
-            this.tbRowsPerPage.Text = "50";
-            this.tbRowsPerPage.TextChanged += new System.EventHandler(this.tbRowsPerPage_TextChanged);
-            this.tbRowsPerPage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbRowsPerPage_KeyDown);
-            this.tbRowsPerPage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbRowsPerPage_KeyPress);
+            this.TB_RowsPerPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TB_RowsPerPage.Location = new System.Drawing.Point(464, 2);
+            this.TB_RowsPerPage.Margin = new System.Windows.Forms.Padding(0, 2, 0, 3);
+            this.TB_RowsPerPage.Name = "TB_RowsPerPage";
+            this.TB_RowsPerPage.Size = new System.Drawing.Size(55, 20);
+            this.TB_RowsPerPage.TabIndex = 1;
+            this.TB_RowsPerPage.Text = "50";
+            this.TB_RowsPerPage.TextChanged += new System.EventHandler(this.TB_RowsPerPage_TextChanged);
+            this.TB_RowsPerPage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TB_RowsPerPage_KeyDown);
+            this.TB_RowsPerPage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_RowsPerPage_KeyPress);
             // 
-            // lRowsPerPage
+            // L_RowsPerPage
             // 
-            this.lRowsPerPage.AutoSize = true;
-            this.lRowsPerPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lRowsPerPage.Location = new System.Drawing.Point(265, 0);
-            this.lRowsPerPage.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
-            this.lRowsPerPage.Name = "lRowsPerPage";
-            this.lRowsPerPage.Size = new System.Drawing.Size(196, 22);
-            this.lRowsPerPage.TabIndex = 2;
-            this.lRowsPerPage.Text = "Ilość wierszy na stronę:";
-            this.lRowsPerPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_RowsPerPage.AutoSize = true;
+            this.L_RowsPerPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.L_RowsPerPage.Location = new System.Drawing.Point(265, 0);
+            this.L_RowsPerPage.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
+            this.L_RowsPerPage.Name = "L_RowsPerPage";
+            this.L_RowsPerPage.Size = new System.Drawing.Size(196, 22);
+            this.L_RowsPerPage.TabIndex = 2;
+            this.L_RowsPerPage.Text = "Ilość wierszy na stronę:";
+            this.L_RowsPerPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // bFirstPage
+            // B_FirstPage
             // 
-            this.bFirstPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bFirstPage.Location = new System.Drawing.Point(0, 0);
-            this.bFirstPage.Margin = new System.Windows.Forms.Padding(0);
-            this.bFirstPage.Name = "bFirstPage";
-            this.bFirstPage.Size = new System.Drawing.Size(24, 24);
-            this.bFirstPage.TabIndex = 7;
-            this.bFirstPage.UseVisualStyleBackColor = true;
-            this.bFirstPage.Click += new System.EventHandler(this.bFirstPage_Click);
+            this.B_FirstPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_FirstPage.Location = new System.Drawing.Point(0, 0);
+            this.B_FirstPage.Margin = new System.Windows.Forms.Padding(0);
+            this.B_FirstPage.Name = "B_FirstPage";
+            this.B_FirstPage.Size = new System.Drawing.Size(24, 24);
+            this.B_FirstPage.TabIndex = 7;
+            this.B_FirstPage.UseVisualStyleBackColor = true;
+            this.B_FirstPage.Click += new System.EventHandler(this.B_FirstPage_Click);
             // 
-            // scSidebar
+            // SC_Sidebar
             // 
-            this.scSidebar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scSidebar.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.scSidebar.Location = new System.Drawing.Point(0, 0);
-            this.scSidebar.Margin = new System.Windows.Forms.Padding(0);
-            this.scSidebar.Name = "scSidebar";
-            this.scSidebar.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.SC_Sidebar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SC_Sidebar.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SC_Sidebar.Location = new System.Drawing.Point(0, 0);
+            this.SC_Sidebar.Margin = new System.Windows.Forms.Padding(0);
+            this.SC_Sidebar.Name = "SC_Sidebar";
+            this.SC_Sidebar.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // scSidebar.Panel1
+            // SC_Sidebar.Panel1
             // 
-            this.scSidebar.Panel1.Controls.Add(this.tableLayoutPanel1);
-            this.scSidebar.Panel1MinSize = 150;
+            this.SC_Sidebar.Panel1.Controls.Add(this.TLP_ColumnView);
+            this.SC_Sidebar.Panel1MinSize = 150;
             // 
-            // scSidebar.Panel2
+            // SC_Sidebar.Panel2
             // 
-            this.scSidebar.Panel2.AutoScroll = true;
-            this.scSidebar.Panel2.Controls.Add(this.tlEditDataControls);
-            this.scSidebar.Panel2MinSize = 100;
-            this.scSidebar.Size = new System.Drawing.Size(249, 478);
-            this.scSidebar.SplitterDistance = 197;
-            this.scSidebar.TabIndex = 0;
+            this.SC_Sidebar.Panel2.AutoScroll = true;
+            this.SC_Sidebar.Panel2.Controls.Add(this.TLP_Controls);
+            this.SC_Sidebar.Panel2MinSize = 100;
+            this.SC_Sidebar.Size = new System.Drawing.Size(249, 478);
+            this.SC_Sidebar.SplitterDistance = 197;
+            this.SC_Sidebar.TabIndex = 0;
             // 
-            // tableLayoutPanel1
+            // TLP_ColumnView
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.lvColumns, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(249, 197);
-            this.tableLayoutPanel1.TabIndex = 1;
+            this.TLP_ColumnView.ColumnCount = 2;
+            this.TLP_ColumnView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_ColumnView.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_ColumnView.Controls.Add(this.LV_Columns, 0, 0);
+            this.TLP_ColumnView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_ColumnView.Location = new System.Drawing.Point(0, 0);
+            this.TLP_ColumnView.Name = "TLP_ColumnView";
+            this.TLP_ColumnView.RowCount = 2;
+            this.TLP_ColumnView.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_ColumnView.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            this.TLP_ColumnView.Size = new System.Drawing.Size(249, 197);
+            this.TLP_ColumnView.TabIndex = 1;
             // 
-            // lvColumns
+            // LV_Columns
             // 
-            this.lvColumns.CheckBoxes = true;
-            this.lvColumns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.lvcColumnName});
-            this.tableLayoutPanel1.SetColumnSpan(this.lvColumns, 2);
-            this.lvColumns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvColumns.FullRowSelect = true;
-            this.lvColumns.GridLines = true;
-            this.lvColumns.HideSelection = false;
-            this.lvColumns.Location = new System.Drawing.Point(0, 0);
-            this.lvColumns.Margin = new System.Windows.Forms.Padding(0);
-            this.lvColumns.Name = "lvColumns";
-            this.lvColumns.Size = new System.Drawing.Size(249, 169);
-            this.lvColumns.TabIndex = 0;
-            this.lvColumns.UseCompatibleStateImageBehavior = false;
-            this.lvColumns.View = System.Windows.Forms.View.Details;
-            this.lvColumns.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.lvColumns_ItemChecked);
-            this.lvColumns.SelectedIndexChanged += new System.EventHandler(this.lvColumns_SelectedIndexChanged);
+            this.LV_Columns.CheckBoxes = true;
+            this.LV_Columns.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.CH_Column});
+            this.TLP_ColumnView.SetColumnSpan(this.LV_Columns, 2);
+            this.LV_Columns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LV_Columns.FullRowSelect = true;
+            this.LV_Columns.GridLines = true;
+            this.LV_Columns.HideSelection = false;
+            this.LV_Columns.Location = new System.Drawing.Point(0, 0);
+            this.LV_Columns.Margin = new System.Windows.Forms.Padding(0);
+            this.LV_Columns.Name = "LV_Columns";
+            this.LV_Columns.Size = new System.Drawing.Size(249, 169);
+            this.LV_Columns.TabIndex = 0;
+            this.LV_Columns.UseCompatibleStateImageBehavior = false;
+            this.LV_Columns.View = System.Windows.Forms.View.Details;
             // 
-            // lvcColumnName
+            // CH_Column
             // 
-            this.lvcColumnName.Width = 200;
+            this.CH_Column.Width = 200;
             // 
-            // tlEditDataControls
+            // TLP_Controls
             // 
-            this.tlEditDataControls.AutoSize = true;
-            this.tlEditDataControls.ColumnCount = 1;
-            this.tlEditDataControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlEditDataControls.Controls.Add(this.gbType, 0, 0);
-            this.tlEditDataControls.Controls.Add(this.gbSearchAndReplace, 0, 1);
-            this.tlEditDataControls.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlEditDataControls.Location = new System.Drawing.Point(0, 0);
-            this.tlEditDataControls.Name = "tlEditDataControls";
-            this.tlEditDataControls.RowCount = 2;
-            this.tlEditDataControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.tlEditDataControls.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlEditDataControls.Size = new System.Drawing.Size(249, 276);
-            this.tlEditDataControls.TabIndex = 0;
+            this.TLP_Controls.AutoSize = true;
+            this.TLP_Controls.ColumnCount = 1;
+            this.TLP_Controls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_Controls.Controls.Add(this.GB_Type, 0, 0);
+            this.TLP_Controls.Controls.Add(this.GB_SearchAndReplace, 0, 1);
+            this.TLP_Controls.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TLP_Controls.Location = new System.Drawing.Point(0, 0);
+            this.TLP_Controls.Name = "TLP_Controls";
+            this.TLP_Controls.RowCount = 2;
+            this.TLP_Controls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.TLP_Controls.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.TLP_Controls.Size = new System.Drawing.Size(249, 276);
+            this.TLP_Controls.TabIndex = 0;
             // 
-            // gbType
+            // GB_Type
             // 
-            this.gbType.Controls.Add(this.cbColumnType);
-            this.gbType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbType.Location = new System.Drawing.Point(0, 0);
-            this.gbType.Margin = new System.Windows.Forms.Padding(0);
-            this.gbType.Name = "gbType";
-            this.gbType.Padding = new System.Windows.Forms.Padding(6);
-            this.gbType.Size = new System.Drawing.Size(249, 46);
-            this.gbType.TabIndex = 0;
-            this.gbType.TabStop = false;
-            this.gbType.Text = "Typ kolumny";
+            this.GB_Type.Controls.Add(this.CBX_ColumnType);
+            this.GB_Type.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GB_Type.Location = new System.Drawing.Point(0, 0);
+            this.GB_Type.Margin = new System.Windows.Forms.Padding(0);
+            this.GB_Type.Name = "GB_Type";
+            this.GB_Type.Padding = new System.Windows.Forms.Padding(6);
+            this.GB_Type.Size = new System.Drawing.Size(249, 46);
+            this.GB_Type.TabIndex = 0;
+            this.GB_Type.TabStop = false;
+            this.GB_Type.Text = "Typ kolumny";
             // 
-            // cbColumnType
+            // CBX_ColumnType
             // 
-            this.cbColumnType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbColumnType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbColumnType.FormattingEnabled = true;
-            this.cbColumnType.Items.AddRange(new object[] {
+            this.CBX_ColumnType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CBX_ColumnType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CBX_ColumnType.FormattingEnabled = true;
+            this.CBX_ColumnType.Items.AddRange(new object[] {
             "String",
             "Integer",
             "Decimal",
             "Character"});
-            this.cbColumnType.Location = new System.Drawing.Point(6, 19);
-            this.cbColumnType.Margin = new System.Windows.Forms.Padding(0);
-            this.cbColumnType.Name = "cbColumnType";
-            this.cbColumnType.Size = new System.Drawing.Size(237, 21);
-            this.cbColumnType.TabIndex = 0;
-            this.cbColumnType.SelectedIndexChanged += new System.EventHandler(this.cbColumnType_SelectedIndexChanged);
+            this.CBX_ColumnType.Location = new System.Drawing.Point(6, 19);
+            this.CBX_ColumnType.Margin = new System.Windows.Forms.Padding(0);
+            this.CBX_ColumnType.Name = "CBX_ColumnType";
+            this.CBX_ColumnType.Size = new System.Drawing.Size(237, 21);
+            this.CBX_ColumnType.TabIndex = 0;
             // 
-            // gbSearchAndReplace
+            // GB_SearchAndReplace
             // 
-            this.gbSearchAndReplace.AutoSize = true;
-            this.gbSearchAndReplace.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gbSearchAndReplace.Controls.Add(this.tableLayoutPanel2);
-            this.gbSearchAndReplace.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbSearchAndReplace.Location = new System.Drawing.Point(0, 52);
-            this.gbSearchAndReplace.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.gbSearchAndReplace.Name = "gbSearchAndReplace";
-            this.gbSearchAndReplace.Padding = new System.Windows.Forms.Padding(6);
-            this.gbSearchAndReplace.Size = new System.Drawing.Size(249, 224);
-            this.gbSearchAndReplace.TabIndex = 1;
-            this.gbSearchAndReplace.TabStop = false;
-            this.gbSearchAndReplace.Text = "Wyszukaj i zamień";
-            this.gbSearchAndReplace.SizeChanged += new System.EventHandler(this.gbSearchAndReplace_SizeChanged);
+            this.GB_SearchAndReplace.AutoSize = true;
+            this.GB_SearchAndReplace.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.GB_SearchAndReplace.Controls.Add(this.TLP_SearchAndReplace);
+            this.GB_SearchAndReplace.Dock = System.Windows.Forms.DockStyle.Top;
+            this.GB_SearchAndReplace.Location = new System.Drawing.Point(0, 52);
+            this.GB_SearchAndReplace.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.GB_SearchAndReplace.Name = "GB_SearchAndReplace";
+            this.GB_SearchAndReplace.Padding = new System.Windows.Forms.Padding(6);
+            this.GB_SearchAndReplace.Size = new System.Drawing.Size(249, 224);
+            this.GB_SearchAndReplace.TabIndex = 1;
+            this.GB_SearchAndReplace.TabStop = false;
+            this.GB_SearchAndReplace.Text = "Wyszukaj i zamień";
             // 
-            // tableLayoutPanel2
+            // TLP_SearchAndReplace
             // 
-            this.tableLayoutPanel2.AutoSize = true;
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.bReplaceAll, 0, 7);
-            this.tableLayoutPanel2.Controls.Add(this.bCount, 0, 7);
-            this.tableLayoutPanel2.Controls.Add(this.bReplace, 0, 6);
-            this.tableLayoutPanel2.Controls.Add(this.cbCaseSensitive, 0, 4);
-            this.tableLayoutPanel2.Controls.Add(this.cbExact, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this.cbUseRegex, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.tbSearch, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.tbReplace, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.bSearchRange, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this.bSearch, 1, 6);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(6, 19);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 8;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(237, 199);
-            this.tableLayoutPanel2.TabIndex = 0;
+            this.TLP_SearchAndReplace.AutoSize = true;
+            this.TLP_SearchAndReplace.ColumnCount = 2;
+            this.TLP_SearchAndReplace.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_SearchAndReplace.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_SearchAndReplace.Controls.Add(this.B_ReplaceAll, 0, 7);
+            this.TLP_SearchAndReplace.Controls.Add(this.B_Count, 0, 7);
+            this.TLP_SearchAndReplace.Controls.Add(this.B_Replace, 0, 6);
+            this.TLP_SearchAndReplace.Controls.Add(this.CB_CaseSensitive, 0, 4);
+            this.TLP_SearchAndReplace.Controls.Add(this.CB_Exact, 0, 3);
+            this.TLP_SearchAndReplace.Controls.Add(this.CB_UseRegex, 0, 2);
+            this.TLP_SearchAndReplace.Controls.Add(this.TB_Search, 0, 0);
+            this.TLP_SearchAndReplace.Controls.Add(this.TB_Replace, 0, 1);
+            this.TLP_SearchAndReplace.Controls.Add(this.B_SearchRange, 0, 5);
+            this.TLP_SearchAndReplace.Controls.Add(this.B_Search, 1, 6);
+            this.TLP_SearchAndReplace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_SearchAndReplace.Location = new System.Drawing.Point(6, 19);
+            this.TLP_SearchAndReplace.Name = "TLP_SearchAndReplace";
+            this.TLP_SearchAndReplace.RowCount = 8;
+            this.TLP_SearchAndReplace.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.TLP_SearchAndReplace.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_SearchAndReplace.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.TLP_SearchAndReplace.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.TLP_SearchAndReplace.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.TLP_SearchAndReplace.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.TLP_SearchAndReplace.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.TLP_SearchAndReplace.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.TLP_SearchAndReplace.Size = new System.Drawing.Size(237, 199);
+            this.TLP_SearchAndReplace.TabIndex = 0;
             // 
-            // bReplaceAll
+            // B_ReplaceAll
             // 
-            this.bReplaceAll.Dock = System.Windows.Forms.DockStyle.Top;
-            this.bReplaceAll.Location = new System.Drawing.Point(0, 175);
-            this.bReplaceAll.Margin = new System.Windows.Forms.Padding(0, 3, 2, 0);
-            this.bReplaceAll.Name = "bReplaceAll";
-            this.bReplaceAll.Size = new System.Drawing.Size(116, 24);
-            this.bReplaceAll.TabIndex = 11;
-            this.bReplaceAll.Text = "Zamień wszystkie";
-            this.bReplaceAll.UseVisualStyleBackColor = true;
+            this.B_ReplaceAll.Dock = System.Windows.Forms.DockStyle.Top;
+            this.B_ReplaceAll.Location = new System.Drawing.Point(0, 175);
+            this.B_ReplaceAll.Margin = new System.Windows.Forms.Padding(0, 3, 2, 0);
+            this.B_ReplaceAll.Name = "B_ReplaceAll";
+            this.B_ReplaceAll.Size = new System.Drawing.Size(116, 24);
+            this.B_ReplaceAll.TabIndex = 11;
+            this.B_ReplaceAll.Text = "Zamień wszystkie";
+            this.B_ReplaceAll.UseVisualStyleBackColor = true;
             // 
-            // bCount
+            // B_Count
             // 
-            this.bCount.Dock = System.Windows.Forms.DockStyle.Top;
-            this.bCount.Location = new System.Drawing.Point(120, 175);
-            this.bCount.Margin = new System.Windows.Forms.Padding(2, 3, 0, 0);
-            this.bCount.Name = "bCount";
-            this.bCount.Size = new System.Drawing.Size(117, 24);
-            this.bCount.TabIndex = 10;
-            this.bCount.Text = "Policz wystąpienia";
-            this.bCount.UseVisualStyleBackColor = true;
+            this.B_Count.Dock = System.Windows.Forms.DockStyle.Top;
+            this.B_Count.Location = new System.Drawing.Point(120, 175);
+            this.B_Count.Margin = new System.Windows.Forms.Padding(2, 3, 0, 0);
+            this.B_Count.Name = "B_Count";
+            this.B_Count.Size = new System.Drawing.Size(117, 24);
+            this.B_Count.TabIndex = 10;
+            this.B_Count.Text = "Policz wystąpienia";
+            this.B_Count.UseVisualStyleBackColor = true;
             // 
-            // bReplace
+            // B_Replace
             // 
-            this.bReplace.AutoSize = true;
-            this.bReplace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bReplace.Location = new System.Drawing.Point(0, 148);
-            this.bReplace.Margin = new System.Windows.Forms.Padding(0, 3, 2, 0);
-            this.bReplace.Name = "bReplace";
-            this.bReplace.Size = new System.Drawing.Size(116, 24);
-            this.bReplace.TabIndex = 9;
-            this.bReplace.Text = "Zamień";
-            this.bReplace.UseVisualStyleBackColor = true;
+            this.B_Replace.AutoSize = true;
+            this.B_Replace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_Replace.Location = new System.Drawing.Point(0, 148);
+            this.B_Replace.Margin = new System.Windows.Forms.Padding(0, 3, 2, 0);
+            this.B_Replace.Name = "B_Replace";
+            this.B_Replace.Size = new System.Drawing.Size(116, 24);
+            this.B_Replace.TabIndex = 9;
+            this.B_Replace.Text = "Zamień";
+            this.B_Replace.UseVisualStyleBackColor = true;
             // 
-            // cbCaseSensitive
+            // CB_CaseSensitive
             // 
-            this.cbCaseSensitive.AutoSize = true;
-            this.cbCaseSensitive.Checked = true;
-            this.cbCaseSensitive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.tableLayoutPanel2.SetColumnSpan(this.cbCaseSensitive, 2);
-            this.cbCaseSensitive.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbCaseSensitive.Location = new System.Drawing.Point(3, 98);
-            this.cbCaseSensitive.Name = "cbCaseSensitive";
-            this.cbCaseSensitive.Size = new System.Drawing.Size(231, 18);
-            this.cbCaseSensitive.TabIndex = 8;
-            this.cbCaseSensitive.Text = "Uwzględniaj wielkość liter";
-            this.cbCaseSensitive.UseVisualStyleBackColor = true;
+            this.CB_CaseSensitive.AutoSize = true;
+            this.CB_CaseSensitive.Checked = true;
+            this.CB_CaseSensitive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TLP_SearchAndReplace.SetColumnSpan(this.CB_CaseSensitive, 2);
+            this.CB_CaseSensitive.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_CaseSensitive.Location = new System.Drawing.Point(3, 98);
+            this.CB_CaseSensitive.Name = "CB_CaseSensitive";
+            this.CB_CaseSensitive.Size = new System.Drawing.Size(231, 18);
+            this.CB_CaseSensitive.TabIndex = 8;
+            this.CB_CaseSensitive.Text = "Uwzględniaj wielkość liter";
+            this.CB_CaseSensitive.UseVisualStyleBackColor = true;
             // 
-            // cbExact
+            // CB_Exact
             // 
-            this.cbExact.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.cbExact, 2);
-            this.cbExact.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbExact.Location = new System.Drawing.Point(3, 74);
-            this.cbExact.Name = "cbExact";
-            this.cbExact.Size = new System.Drawing.Size(231, 18);
-            this.cbExact.TabIndex = 7;
-            this.cbExact.Text = "Szukaj tylko całych wyrazów";
-            this.cbExact.UseVisualStyleBackColor = true;
+            this.CB_Exact.AutoSize = true;
+            this.TLP_SearchAndReplace.SetColumnSpan(this.CB_Exact, 2);
+            this.CB_Exact.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_Exact.Location = new System.Drawing.Point(3, 74);
+            this.CB_Exact.Name = "CB_Exact";
+            this.CB_Exact.Size = new System.Drawing.Size(231, 18);
+            this.CB_Exact.TabIndex = 7;
+            this.CB_Exact.Text = "Szukaj tylko całych wyrazów";
+            this.CB_Exact.UseVisualStyleBackColor = true;
             // 
-            // cbUseRegex
+            // CB_UseRegex
             // 
-            this.cbUseRegex.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.cbUseRegex, 2);
-            this.cbUseRegex.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbUseRegex.Location = new System.Drawing.Point(3, 50);
-            this.cbUseRegex.Name = "cbUseRegex";
-            this.cbUseRegex.Size = new System.Drawing.Size(231, 18);
-            this.cbUseRegex.TabIndex = 6;
-            this.cbUseRegex.Text = "Użyj wyrażeń regularnych";
-            this.cbUseRegex.UseVisualStyleBackColor = true;
+            this.CB_UseRegex.AutoSize = true;
+            this.TLP_SearchAndReplace.SetColumnSpan(this.CB_UseRegex, 2);
+            this.CB_UseRegex.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_UseRegex.Location = new System.Drawing.Point(3, 50);
+            this.CB_UseRegex.Name = "CB_UseRegex";
+            this.CB_UseRegex.Size = new System.Drawing.Size(231, 18);
+            this.CB_UseRegex.TabIndex = 6;
+            this.CB_UseRegex.Text = "Użyj wyrażeń regularnych";
+            this.CB_UseRegex.UseVisualStyleBackColor = true;
             // 
-            // tbSearch
+            // TB_Search
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this.tbSearch, 2);
-            this.tbSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbSearch.Location = new System.Drawing.Point(0, 0);
-            this.tbSearch.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.tbSearch.Name = "tbSearch";
-            this.tbSearch.Size = new System.Drawing.Size(237, 20);
-            this.tbSearch.TabIndex = 0;
+            this.TLP_SearchAndReplace.SetColumnSpan(this.TB_Search, 2);
+            this.TB_Search.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TB_Search.Location = new System.Drawing.Point(0, 0);
+            this.TB_Search.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.TB_Search.Name = "TB_Search";
+            this.TB_Search.Size = new System.Drawing.Size(237, 20);
+            this.TB_Search.TabIndex = 0;
             // 
-            // tbReplace
+            // TB_Replace
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this.tbReplace, 2);
-            this.tbReplace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbReplace.Location = new System.Drawing.Point(0, 25);
-            this.tbReplace.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.tbReplace.Name = "tbReplace";
-            this.tbReplace.Size = new System.Drawing.Size(237, 20);
-            this.tbReplace.TabIndex = 1;
+            this.TLP_SearchAndReplace.SetColumnSpan(this.TB_Replace, 2);
+            this.TB_Replace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TB_Replace.Location = new System.Drawing.Point(0, 25);
+            this.TB_Replace.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.TB_Replace.Name = "TB_Replace";
+            this.TB_Replace.Size = new System.Drawing.Size(237, 20);
+            this.TB_Replace.TabIndex = 1;
             // 
-            // bSearchRange
+            // B_SearchRange
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this.bSearchRange, 2);
-            this.bSearchRange.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bSearchRange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.bSearchRange.FormattingEnabled = true;
-            this.bSearchRange.Items.AddRange(new object[] {
+            this.TLP_SearchAndReplace.SetColumnSpan(this.B_SearchRange, 2);
+            this.B_SearchRange.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_SearchRange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.B_SearchRange.FormattingEnabled = true;
+            this.B_SearchRange.Items.AddRange(new object[] {
             "Cały zbiór danych",
             "Zaznaczone kolumny",
             "Zaznaczone wiersze",
             "Zaznaczone komórki"});
-            this.bSearchRange.Location = new System.Drawing.Point(0, 122);
-            this.bSearchRange.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.bSearchRange.Name = "bSearchRange";
-            this.bSearchRange.Size = new System.Drawing.Size(237, 21);
-            this.bSearchRange.TabIndex = 3;
+            this.B_SearchRange.Location = new System.Drawing.Point(0, 122);
+            this.B_SearchRange.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.B_SearchRange.Name = "B_SearchRange";
+            this.B_SearchRange.Size = new System.Drawing.Size(237, 21);
+            this.B_SearchRange.TabIndex = 3;
             // 
-            // bSearch
+            // B_Search
             // 
-            this.bSearch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bSearch.Location = new System.Drawing.Point(120, 148);
-            this.bSearch.Margin = new System.Windows.Forms.Padding(2, 3, 0, 0);
-            this.bSearch.Name = "bSearch";
-            this.bSearch.Size = new System.Drawing.Size(117, 24);
-            this.bSearch.TabIndex = 4;
-            this.bSearch.Text = "Wyszukaj";
-            this.bSearch.UseVisualStyleBackColor = true;
+            this.B_Search.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_Search.Location = new System.Drawing.Point(120, 148);
+            this.B_Search.Margin = new System.Windows.Forms.Padding(2, 3, 0, 0);
+            this.B_Search.Name = "B_Search";
+            this.B_Search.Size = new System.Drawing.Size(117, 24);
+            this.B_Search.TabIndex = 4;
+            this.B_Search.Text = "Wyszukaj";
+            this.B_Search.UseVisualStyleBackColor = true;
             // 
-            // tlStatusBar
+            // TLP_StatusBar
             // 
-            this.tlStatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.tlStatusBar.ColumnCount = 2;
-            this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 259F));
-            this.tlStatusBar.Controls.Add(this.tableLayoutPanel3, 1, 0);
-            this.tlStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlStatusBar.Location = new System.Drawing.Point(0, 490);
-            this.tlStatusBar.Margin = new System.Windows.Forms.Padding(0);
-            this.tlStatusBar.Name = "tlStatusBar";
-            this.tlStatusBar.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
-            this.tlStatusBar.RowCount = 1;
-            this.tlStatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlStatusBar.Size = new System.Drawing.Size(784, 32);
-            this.tlStatusBar.TabIndex = 2;
-            this.tlStatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.tlStatusBar_Paint);
+            this.TLP_StatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.TLP_StatusBar.ColumnCount = 2;
+            this.TLP_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 259F));
+            this.TLP_StatusBar.Controls.Add(this.TLP_Buttons, 1, 0);
+            this.TLP_StatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_StatusBar.Location = new System.Drawing.Point(0, 490);
+            this.TLP_StatusBar.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_StatusBar.Name = "TLP_StatusBar";
+            this.TLP_StatusBar.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.TLP_StatusBar.RowCount = 1;
+            this.TLP_StatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_StatusBar.Size = new System.Drawing.Size(784, 32);
+            this.TLP_StatusBar.TabIndex = 2;
+            this.TLP_StatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_StatusBar_Paint);
             // 
-            // tableLayoutPanel3
+            // TLP_Buttons
             // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Controls.Add(this.bSave, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.bCancel, 1, 0);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(525, 1);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(259, 31);
-            this.tableLayoutPanel3.TabIndex = 0;
+            this.TLP_Buttons.ColumnCount = 2;
+            this.TLP_Buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Buttons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Buttons.Controls.Add(this.B_Save, 0, 0);
+            this.TLP_Buttons.Controls.Add(this.B_Cancel, 1, 0);
+            this.TLP_Buttons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_Buttons.Location = new System.Drawing.Point(525, 1);
+            this.TLP_Buttons.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_Buttons.Name = "TLP_Buttons";
+            this.TLP_Buttons.RowCount = 1;
+            this.TLP_Buttons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_Buttons.Size = new System.Drawing.Size(259, 31);
+            this.TLP_Buttons.TabIndex = 0;
             // 
-            // bSave
+            // B_Save
             // 
-            this.bSave.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bSave.Location = new System.Drawing.Point(4, 3);
-            this.bSave.Margin = new System.Windows.Forms.Padding(4, 3, 2, 3);
-            this.bSave.Name = "bSave";
-            this.bSave.Size = new System.Drawing.Size(123, 25);
-            this.bSave.TabIndex = 0;
-            this.bSave.Text = "Zapisz";
-            this.bSave.UseVisualStyleBackColor = true;
-            this.bSave.Click += new System.EventHandler(this.bSave_Click);
+            this.B_Save.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_Save.Location = new System.Drawing.Point(4, 3);
+            this.B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 2, 3);
+            this.B_Save.Name = "B_Save";
+            this.B_Save.Size = new System.Drawing.Size(123, 25);
+            this.B_Save.TabIndex = 0;
+            this.B_Save.Text = "Zapisz";
+            this.B_Save.UseVisualStyleBackColor = true;
+            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
-            // bCancel
+            // B_Cancel
             // 
-            this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.bCancel.Location = new System.Drawing.Point(131, 3);
-            this.bCancel.Margin = new System.Windows.Forms.Padding(2, 3, 6, 3);
-            this.bCancel.Name = "bCancel";
-            this.bCancel.Size = new System.Drawing.Size(122, 25);
-            this.bCancel.TabIndex = 1;
-            this.bCancel.Text = "Zaniechaj";
-            this.bCancel.UseVisualStyleBackColor = true;
-            this.bCancel.Click += new System.EventHandler(this.bCancel_Click);
+            this.B_Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.B_Cancel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_Cancel.Location = new System.Drawing.Point(131, 3);
+            this.B_Cancel.Margin = new System.Windows.Forms.Padding(2, 3, 6, 3);
+            this.B_Cancel.Name = "B_Cancel";
+            this.B_Cancel.Size = new System.Drawing.Size(122, 25);
+            this.B_Cancel.TabIndex = 1;
+            this.B_Cancel.Text = "Zaniechaj";
+            this.B_Cancel.UseVisualStyleBackColor = true;
+            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
             // EditRowsForm
             // 
-            this.AcceptButton = this.bSave;
+            this.AcceptButton = this.B_Save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.bCancel;
+            this.CancelButton = this.B_Cancel;
             this.ClientSize = new System.Drawing.Size(784, 522);
-            this.Controls.Add(this.tlMain);
+            this.Controls.Add(this.TLP_Main);
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(800, 560);
             this.Name = "EditRowsForm";
             this.Text = "EditDataForm";
-            this.tlMain.ResumeLayout(false);
-            this.scMain.Panel1.ResumeLayout(false);
-            this.scMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
-            this.scMain.ResumeLayout(false);
-            this.tlDataGrid.ResumeLayout(false);
-            this.pGrid.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gvData)).EndInit();
-            this.tlDataControls.ResumeLayout(false);
-            this.tlDataControls.PerformLayout();
-            this.scSidebar.Panel1.ResumeLayout(false);
-            this.scSidebar.Panel2.ResumeLayout(false);
-            this.scSidebar.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scSidebar)).EndInit();
-            this.scSidebar.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tlEditDataControls.ResumeLayout(false);
-            this.tlEditDataControls.PerformLayout();
-            this.gbType.ResumeLayout(false);
-            this.gbSearchAndReplace.ResumeLayout(false);
-            this.gbSearchAndReplace.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
-            this.tlStatusBar.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
+            this.TLP_Main.ResumeLayout(false);
+            this.SC_Main.Panel1.ResumeLayout(false);
+            this.SC_Main.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SC_Main)).EndInit();
+            this.SC_Main.ResumeLayout(false);
+            this.TLP_DataGrid.ResumeLayout(false);
+            this.P_Grid.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_Data)).EndInit();
+            this.TLP_DataControls.ResumeLayout(false);
+            this.TLP_DataControls.PerformLayout();
+            this.SC_Sidebar.Panel1.ResumeLayout(false);
+            this.SC_Sidebar.Panel2.ResumeLayout(false);
+            this.SC_Sidebar.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SC_Sidebar)).EndInit();
+            this.SC_Sidebar.ResumeLayout(false);
+            this.TLP_ColumnView.ResumeLayout(false);
+            this.TLP_Controls.ResumeLayout(false);
+            this.TLP_Controls.PerformLayout();
+            this.GB_Type.ResumeLayout(false);
+            this.GB_SearchAndReplace.ResumeLayout(false);
+            this.GB_SearchAndReplace.PerformLayout();
+            this.TLP_SearchAndReplace.ResumeLayout(false);
+            this.TLP_SearchAndReplace.PerformLayout();
+            this.TLP_StatusBar.ResumeLayout(false);
+            this.TLP_Buttons.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TableLayoutPanel tlMain;
-		private System.Windows.Forms.SplitContainer scMain;
-		private System.Windows.Forms.TableLayoutPanel tlDataGrid;
-		private System.Windows.Forms.Panel pGrid;
-		private System.Windows.Forms.DataGridView gvData;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-		private System.Windows.Forms.TableLayoutPanel tlDataControls;
-		private System.Windows.Forms.Button bRemoveRow;
-		private System.Windows.Forms.Button bInsertRow;
-		private System.Windows.Forms.Button bLastPage;
-		private System.Windows.Forms.Button bNextPage;
-		private System.Windows.Forms.Button bPrevPage;
-		private System.Windows.Forms.Label lPageStat;
-		private System.Windows.Forms.TextBox tbPageNum;
-		private System.Windows.Forms.TextBox tbRowsPerPage;
-		private System.Windows.Forms.Label lRowsPerPage;
-		private System.Windows.Forms.Button bFirstPage;
-		private System.Windows.Forms.TableLayoutPanel tlStatusBar;
-		private System.Windows.Forms.SplitContainer scSidebar;
-		private System.Windows.Forms.ListView lvColumns;
-		private System.Windows.Forms.ColumnHeader lvcColumnName;
-		private System.Windows.Forms.TableLayoutPanel tlEditDataControls;
-		private System.Windows.Forms.GroupBox gbType;
-		private System.Windows.Forms.GroupBox gbSearchAndReplace;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-		private System.Windows.Forms.TextBox tbSearch;
-		private System.Windows.Forms.TextBox tbReplace;
-		private System.Windows.Forms.ComboBox cbColumnType;
-		private System.Windows.Forms.ComboBox bSearchRange;
-		private System.Windows.Forms.Button bSearch;
-		private System.Windows.Forms.Button bReplaceAll;
-		private System.Windows.Forms.Button bCount;
-		private System.Windows.Forms.Button bReplace;
-		private System.Windows.Forms.CheckBox cbCaseSensitive;
-		private System.Windows.Forms.CheckBox cbExact;
-		private System.Windows.Forms.CheckBox cbUseRegex;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Button bSave;
-        private System.Windows.Forms.Button bCancel;
+		private System.Windows.Forms.TableLayoutPanel TLP_Main;
+		private System.Windows.Forms.SplitContainer SC_Main;
+		private System.Windows.Forms.TableLayoutPanel TLP_DataGrid;
+		private System.Windows.Forms.Panel P_Grid;
+		private System.Windows.Forms.DataGridView DGV_Data;
+		private System.Windows.Forms.DataGridViewTextBoxColumn DGVTBC_Col1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn DGVTBC_Col2;
+		private System.Windows.Forms.DataGridViewTextBoxColumn DGVTBC_Col3;
+		private System.Windows.Forms.DataGridViewTextBoxColumn DGVTBC_Col4;
+		private System.Windows.Forms.TableLayoutPanel TLP_DataControls;
+		private System.Windows.Forms.Button B_RemoveRow;
+		private System.Windows.Forms.Button B_InsertRow;
+		private System.Windows.Forms.Button B_LastPage;
+		private System.Windows.Forms.Button B_NextPage;
+		private System.Windows.Forms.Button P_PrevPage;
+		private System.Windows.Forms.Label L_PageStat;
+		private System.Windows.Forms.TextBox TB_PageNum;
+		private System.Windows.Forms.TextBox TB_RowsPerPage;
+		private System.Windows.Forms.Label L_RowsPerPage;
+		private System.Windows.Forms.Button B_FirstPage;
+		private System.Windows.Forms.TableLayoutPanel TLP_StatusBar;
+		private System.Windows.Forms.SplitContainer SC_Sidebar;
+		private System.Windows.Forms.ListView LV_Columns;
+		private System.Windows.Forms.ColumnHeader CH_Column;
+		private System.Windows.Forms.TableLayoutPanel TLP_Controls;
+		private System.Windows.Forms.GroupBox GB_Type;
+		private System.Windows.Forms.GroupBox GB_SearchAndReplace;
+		private System.Windows.Forms.TableLayoutPanel TLP_SearchAndReplace;
+		private System.Windows.Forms.TextBox TB_Search;
+		private System.Windows.Forms.TextBox TB_Replace;
+		private System.Windows.Forms.ComboBox CBX_ColumnType;
+		private System.Windows.Forms.ComboBox B_SearchRange;
+		private System.Windows.Forms.Button B_Search;
+		private System.Windows.Forms.Button B_ReplaceAll;
+		private System.Windows.Forms.Button B_Count;
+		private System.Windows.Forms.Button B_Replace;
+		private System.Windows.Forms.CheckBox CB_CaseSensitive;
+		private System.Windows.Forms.CheckBox CB_Exact;
+		private System.Windows.Forms.CheckBox CB_UseRegex;
+		private System.Windows.Forms.TableLayoutPanel TLP_ColumnView;
+        private System.Windows.Forms.TableLayoutPanel TLP_Buttons;
+        private System.Windows.Forms.Button B_Save;
+        private System.Windows.Forms.Button B_Cancel;
+
+        /// @endcond
 	}
 }

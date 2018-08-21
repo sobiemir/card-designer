@@ -1,5 +1,5 @@
 ﻿///
-/// $i[xx] DataStorage.cs
+/// $u10 DataStorage.cs
 /// 
 /// Schowek dla wczytanych danych z pliku.
 /// Pozwala na łatwy dostęp do danych zarówno z pliku jak i z bazy danych.
@@ -208,7 +208,7 @@ namespace CDesigner.Utils
         /// <seealso cref="removeCurrentRow"/>
         /// <seealso cref="checkIntegrity"/>
         /// 
-        /// <param name="data">Tablica zawierająca nowe kolumny lub NULL.</param>
+        /// <param name="columns">Tablica zawierająca nowe kolumny lub NULL.</param>
 		//* ============================================================================================================
         public void editMode( string[] columns )
         {

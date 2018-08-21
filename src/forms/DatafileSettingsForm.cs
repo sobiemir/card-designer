@@ -1,24 +1,27 @@
 ﻿///
-/// $i02 DatabaseSettingsForm.cs
+/// $i07 DatabaseSettingsForm.cs (I02)
 /// 
 /// Okno ustawień pliku bazy danych (kodowanie, separator).
 /// Wyświetlane jest zaraz po wybraniu pliku bazy danych.
 /// Wywoływane z menu lub po wyborze źródła danych z paska informacji.
 /// 
 /// Autor: Kamil Biały
-/// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2016-11-08
+/// Od wersji: 0.7.x.x
+/// Ostatnia zmiana: 2016-12-24
 /// 
 /// CHANGELOG:
-/// [29.09.2015] Wersja początkowa.
+/// [28.07.2015] Wersja początkowa.
 /// [30.01.2016] Dodano ograniczenie wyświetlania wierszy.
-/// [28.02.2016] Zmieniono koncepcje zmiany separatora (na combobox).
-///              Przebudowano układ kontrolek i dodano nowe.
-///              Posegregowano funkcje na regiony.
+/// [14.02.2016] Zmiana nazwy klasy i pliku z DatabaseSettingsForm na DatafileSettingsForm,
+///              tłumaczenia formularza, komentarze, logi, odświeżanie danych po zmianie pliku i kodowania,
+///              odświeżanie po zmianie separatora.
+/// [28.02.2016] Zmieniono koncepcje zmiany separatora (na combobox), dodano nowe kontrolki,
+///              przebudowano układ i posegregowano funkcje na regiony.
 /// [04.07.2016] Dodatkowe tłumaczenia.
 /// [26.07.2016] Komentarze, poprawki kodu.
 /// [22.08.2016] Wczytywanie danych bez lub z nagłówkiem po przebudowaniu klasy parsera.
 /// [08.11.2016] Zmieniono klasę filtrów z DatabaseReader na IOFileData.
+/// [24.12.2016] Zmiana koncepcji nazewnictwa zmiennych, ukrycie kontrolki automatycznego wykrywania.
 ///
 
 using System;
@@ -69,7 +72,7 @@ namespace CDesigner.Forms
 		private int _column;
 
         /// <summary>Informacja o tym, czy plik posiada definicje kolumn.</summary>
-        private bool _hascolumns;
+        private bool _hasColumns;
 
 #endregion
 
@@ -83,12 +86,9 @@ namespace CDesigner.Forms
 		public DatafileSettingsForm()
 		{
             this._column     = -1;
-            this._hascolumns = true;
+            this._hasColumns = true;
             this._locked     = false;
             this._storage    = null;
-
-			// inicjalizacja zmiennych globalnych (potrzebne przy bezpośrednim odpalaniu formularza)
-			Program.InitializeGlobals();
 
 			this.InitializeComponent();
 
@@ -144,8 +144,8 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
         public bool HasColumns
         {
-            get { return this._hascolumns; }
-            set { this._hascolumns = value; }
+            get { return this._hasColumns; }
+            set { this._hasColumns = value; }
         }
 
 #endregion
@@ -236,7 +236,7 @@ namespace CDesigner.Forms
 		/// Zmiana lokalizacji odbywa się poprzez klasę Language.
 		/// </summary>
 		//* ============================================================================================================
-		protected void translateForm()
+		public void translateForm()
 		{
 #		if DEBUG
 			Program.LogMessage( "Tłumaczenie kontrolek znajdujących się na formularzu." );
@@ -292,7 +292,7 @@ namespace CDesigner.Forms
 			this._locked = true;
 
 			// parsuj plik
-			this._storage.parse( Settings.Info.i02_RowsNumber, this._hascolumns );
+			this._storage.parse( Settings.Info.i02_RowsNumber, this._hasColumns );
 
 			// kolumny
 			this.LV_Columns.Items.Clear();
@@ -372,7 +372,7 @@ namespace CDesigner.Forms
 			this.TB_FileName.Text  = this._storage.FileName;
 
             // wczytywanie danych bez kolumn
-            this.CB_NoColumns.Checked = !this._hascolumns;
+            this.CB_NoColumns.Checked = !this._hasColumns;
 
 			this._locked = false;
 		}
@@ -391,9 +391,10 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void lvColumns_SelectedIndexChanged( object sender, EventArgs ev )
+		private void LV_Columns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
-			if( this._locked || this.LV_Columns.SelectedItems.Count == 0 || this._column == this.LV_Columns.SelectedItems[0].Index )
+			if( this._locked || this.LV_Columns.SelectedItems.Count == 0 ||
+                this._column == this.LV_Columns.SelectedItems[0].Index )
 				return;
 
 			// wyświetlenie nazwy kolumny w nagłówku
@@ -427,7 +428,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void sbEncoding_SelectedIndexChanged( object sender, EventArgs ev )
+		private void CBX_Encoding_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			if( this._locked || this._storage == null )
 				return;
@@ -461,7 +462,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void sbSeparator_SelectedIndexChanged( object sender, EventArgs ev )
+		private void CBX_Separator_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			this.TB_Separator.Enabled = false;
 
@@ -495,7 +496,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void tbFileName_KeyPress( object sender, KeyPressEventArgs ev )
+		private void TB_FileName_KeyPress( object sender, KeyPressEventArgs ev )
 		{
 			// przepuszczaj klawisze kontrolne
 			if( char.IsControl(ev.KeyChar) )
@@ -515,7 +516,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void tbSeparator_TextChanged( object sender, EventArgs ev )
+		private void TB_Separator_TextChanged( object sender, EventArgs ev )
 		{
 			if( this._locked || this.TB_Separator.Text == "" || this._storage == null )
 				return;
@@ -543,9 +544,9 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-        private void cbNoColumns_CheckedChanged( object sender, EventArgs ev )
+        private void CB_NoColumns_CheckedChanged( object sender, EventArgs ev )
         {
-            this._hascolumns = !this.CB_NoColumns.Checked;
+            this._hasColumns = !this.CB_NoColumns.Checked;
             this.getPreview();
         }
 
@@ -559,7 +560,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void bSave_Click( object sender, EventArgs ev )
+		private void B_Save_Click( object sender, EventArgs ev )
 		{
 #		if DEBUG
 			Program.LogMessage( "Nowy strumień danych został zapisany." );
@@ -579,7 +580,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void bCancel_Click( object sender, EventArgs ev )
+		private void B_Cancel_Click( object sender, EventArgs ev )
 		{
 #		if DEBUG
 			Program.LogMessage( "Zrezygnowano ze zmiany strumienia danych." );
@@ -598,7 +599,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void bChange_Click( object sender, EventArgs ev )
+		private void B_Change_Click( object sender, EventArgs ev )
 		{
 #		if DEBUG
 			Program.LogMessage( "Otwieranie okna wyboru strumienia danych." );
@@ -606,7 +607,7 @@ namespace CDesigner.Forms
 
 			OpenFileDialog dialog = Program.GLOBAL.SelectFile;
 
-			dialog.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.iMN_DatafileSelect );
+			dialog.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SELECTFILE );
 			dialog.Filter = IOFileData.getExtensionsList( true );
 
 			// anulowano wybór...
@@ -641,7 +642,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void tlpStatusBar_Paint( object sender, PaintEventArgs ev )
+		private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine
 			(

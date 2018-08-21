@@ -1,4 +1,4 @@
-% $def TESTDEFLANG
+$def TESTDEFLANG
 
 % ------------------------------------------------------------
 % Język   : Polski

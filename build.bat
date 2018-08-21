@@ -36,17 +36,13 @@ echo ### Generating resources for CDesigner...
 
 resgen /useSourcePath ^
 	/compile ^
-		resx\ComboGroupBox.resx,obj\CDesigner.ComboGroupBox.resources ^
 		resx\DatafileSettingsForm.resx,obj\CDesigner.DatafileSettingsForm.resources ^
-		resx\DataReader.resx,obj\CDesigner.DataReader.resources ^
-		resx\DBConnection.resx,obj\CDesigner.DBConnection.resources ^
+		resx\DataReaderForm.resx,obj\CDesigner.DataReaderForm.resources ^
 		resx\EditColumnsForm.resx,obj\CDesigner.EditColumnsForm.resources ^
 		resx\EditRowsForm.resx,obj\CDesigner.EditRowsForm.resources ^
 		resx\InfoForm.resx,obj\CDesigner.InfoForm.resources ^
 		resx\MainForm.resx,obj\CDesigner.MainForm.resources ^
 		resx\NewPatternForm.resx,obj\CDesigner.NewPatternForm.resources ^
-		resx\SettingsForm.resx,obj\CDesigner.SettingsForm.resources ^
-		resx\TypeSettings.resx,obj\CDesigner.TypeSettings.resources ^
 		resx\UpdateForm.resx,obj\CDesigner.UpdateForm.resources ^
 		properties\Resources.resx,obj\CDesigner.Properties.Resources.resources
 
@@ -112,17 +108,13 @@ echo ### Compiling CDesigner application...
 
 csc /reference:dll\PdfSharp.dll ^
 	/out:build\cdesigner.exe ^
-	/resource:obj\CDesigner.ComboGroupBox.resources ^
 	/resource:obj\CDesigner.DatafileSettingsForm.resources ^
-	/resource:obj\CDesigner.DataReader.resources ^
-	/resource:obj\CDesigner.DBConnection.resources ^
+	/resource:obj\CDesigner.DataReaderForm.resources ^
 	/resource:obj\CDesigner.EditColumnsForm.resources ^
 	/resource:obj\CDesigner.EditRowsForm.resources ^
 	/resource:obj\CDesigner.InfoForm.resources ^
 	/resource:obj\CDesigner.MainForm.resources ^
 	/resource:obj\CDesigner.NewPatternForm.resources ^
-	/resource:obj\CDesigner.SettingsForm.resources ^
-	/resource:obj\CDesigner.TypeSettings.resources ^
 	/resource:obj\CDesigner.UpdateForm.resources ^
 	/resource:obj\CDesigner.Properties.Resources.resources ^
 	/appconfig:properties\app.config ^
@@ -133,10 +125,8 @@ csc /reference:dll\PdfSharp.dll ^
 	/utf8output ^
 		src\utils\AssemblyLoader.cs ^
 		src\utils\DataBackup.cs ^
-		src\utils\DatafileStream.cs ^
 		src\utils\DataFilter.cs ^
 		src\utils\DataStorage.cs ^
-		src\utils\IODatabase.cs ^
 		src\utils\IOFileData.cs ^
 		src\utils\Language.cs ^
 		src\utils\PatternEditor.cs ^
@@ -147,30 +137,22 @@ csc /reference:dll\PdfSharp.dll ^
 		src\utils\UpdateApp.cs ^
 		src\controls\AlignedPage.cs ^
 		src\controls\AlignedPictureBox.cs ^
-		src\controls\DataFilterRow.cs ^
-		src\controls\GroupComboBox.cs ^
 		src\controls\PageField.cs ^
 		src\forms\DatafileSettingsForm.cs ^
-		src\forms\DataReader.cs ^
-		src\forms\DBConnection.cs ^
+		src\forms\DataReaderForm.cs ^
 		src\forms\EditColumnsForm.cs ^
 		src\forms\EditRowsForm.cs ^
 		src\forms\InfoForm.cs ^
 		src\forms\MainForm.cs ^
 		src\forms\NewPatternForm.cs ^
-		src\forms\SettingsForm.cs ^
-		src\forms\TypeSettings.cs ^
 		src\forms\UpdateForm.cs ^
 		designer\DatafileSettingsForm.Designer.cs ^
-		designer\DataReader.Designer.cs ^
-		designer\DBConnection.Designer.cs ^
+		designer\DataReaderForm.Designer.cs ^
 		designer\EditColumnsForm.Designer.cs ^
 		designer\EditRowsForm.Designer.cs ^
 		designer\InfoForm.Designer.cs ^
 		designer\MainForm.Designer.cs ^
 		designer\NewPatternForm.Designer.cs ^
-		designer\SettingsForm.Designer.cs ^
-		designer\TypeSettings.Designer.cs ^
 		designer\UpdateForm.Designer.cs ^
 		properties\AssemblyInfo.cs ^
 		properties\Resources.Designer.cs

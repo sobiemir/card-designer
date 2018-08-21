@@ -1,13 +1,18 @@
-﻿/**
- * Rozszerzenie klasy PictureBox.
- * Dodaje przyleganie obrazu do rodzica względem podanej wartości.
- *
- * Copyright ⓒ 2015. Wszystkie prawa zastrzeżone.
- *
- * Autor  - Kamil Biały
- * Wersja - 1.0
- * Zmiana - 2015-06-01
- */
+﻿///
+/// $c02 AlignedPictureBox.cs
+/// 
+/// Plik zawiera klasę rozszerzającą klasę PictureBox o funkcje przylegania.
+/// Dzięki temu kontrolka umieszczona w innej kontrolce może w prosty sposób przylegać
+/// do jednej z krawędzi.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.4.x.x
+/// Ostatnia zmiana: 2016-12-23
+/// 
+/// CHANGELOG:
+/// [01.06.2016] Pierwsza wersja pliku.
+/// [23.12.2016] Komentarze, regiony.
+///
 
 using System;
 using System.Collections.Generic;
@@ -16,42 +21,74 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace CDesigner
+namespace CDesigner.Controls
 {
-	/**
-	 * Rozszerzenie klasy PictureBox.
-	 * Pozwala na przyleganie obrazu do dowolnej części rodzica (lewo, prawo, środek...).
-	 * Używany na stronie początkowej (z listą wzorów).
-	 * 
-	 * Przyleganie i wartości zmiennej _align (Align):
-	 * 0 - lewo   - góra
-	 * 1 - środek - góra
-	 * 2 - prawo  - góra
-	 * 3 - lewo   - środek
-	 * 4 - środek - środek
-	 * 5 - prawo  - środek
-	 * 6 - lewo   - dół
-	 * 7 - środek - dół
-	 * 8 - prawo  - dół
-	 */
+    /// 
+    /// <summary>
+    /// Klasa rozszerzająca klasę PictureBox o funkcje przylegania.
+    /// Kontrolka dzięki temu może przylegać do krawędzi w zależności od podanej wartości.
+    /// Typy przylegania wypisane są w właściwości, która go zmienia.
+    /// </summary>
+    ///
 	public class AlignedPictureBox : PictureBox
 	{
-		private int _align = 0;
+#region ZMIENNE
 
-		// ------------------------------------------------------------- Align ----------------------------------------
-		
+        /// <summary>Wartość odpowiadająca pozycji przylegania kontrolki.</summary>
+		private int _align;
+        
+#endregion
+        
+#region KONSTRUKTOR / WŁAŚCIWOŚCI
+        
+        /// <summary>
+        /// Konstruktor klasy.
+        /// Uzupełnia zmienne domyślnymi wartościami i wywołuje konstruktor z klasy bazowej.
+        /// </summary>
+		//* ============================================================================================================
+        public AlignedPictureBox()
+            : base()
+        {
+            this._align = 0;
+        }
+
+        /// <summary>
+        /// Właściwość odpowiadająca za przyleganie kontrolki.
+        /// Jako wartość przyjmuje typ INT. Dopuszczalne wartości dla właściwości:
+        /// 
+	    /// <list type="bullet">
+	    ///		<item><description>0 <i>(góra - lewo)</i></description></item>
+	    ///		<item><description>1 <i>(góra - środek)</i></description></item>
+	    ///		<item><description>2 <i>(góra - prawo)</i></description></item>
+	    ///		<item><description>3 <i>(środek - lewo)</i></description></item>
+	    ///		<item><description>4 <i>(środek)</i></description></item>
+	    ///		<item><description>5 <i>(środek - prawo)</i></description></item>
+	    ///		<item><description>6 <i>(dół - lewo)</i></description></item>
+	    ///		<item><description>7 <i>(dół - środek)</i></description></item>
+	    ///		<item><description>8 <i>(dół - prawo)</i></description></item>
+	    /// </list>
+        /// </summary>
+		//* ============================================================================================================
 		public int Align
 		{
 			get { return this._align; }
 			set { this._align = value; }
 		}
+        
+#endregion
+        
+#region FUNKCJE PODSTAWOWE
 
-		// ------------------------------------------------------------- CheckLocation --------------------------------
-		
-		public void CheckLocation( )
+        /// <summary>
+        /// Sprawdzanie pozycji kontrolki.
+        /// Funkcja sprawdza umieszczenie kontrolki wewnątrz innej kontrolki.
+        /// Dzięki tej funkcji kontrolka przylega zawsze do wyznaczonego punktu.
+        /// </summary>
+		//* ============================================================================================================
+		public void checkLocation()
 		{
-			Panel parent   = (Panel)this.Parent;
-			Point location = this.Location;
+			var parent   = (Panel)this.Parent;
+			var location = this.Location;
 
 			// brak obrazka lub przyleganie do lewej
 			if( this.Image == null || parent == null || this._align == 0 )
@@ -95,8 +132,18 @@ namespace CDesigner
 			this.Location = location;
 		}
 
-		// ------------------------------------------------------------- OnPaint --------------------------------------
-		
+#endregion
+
+#region AKCJE
+        
+        /// <summary>
+        /// Akcja wywoływana podczas ryoswania kontrolki.
+        /// Upewnia się, czy kontrolka nie jest rysowana gdy nie jest widoczna.
+        /// Wywołuje akcję z klasy bazowej.
+        /// </summary>
+        /// 
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		protected override void OnPaint( PaintEventArgs ev )
 		{
 			// dla pewności - pewnie oryginalnie jest, ale...
@@ -105,5 +152,7 @@ namespace CDesigner
 
 			base.OnPaint( ev );
 		}
+
+#endregion
 	};
 }

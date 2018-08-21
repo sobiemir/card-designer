@@ -1,5 +1,5 @@
 ﻿///
-/// $i04 EditRowsForm.cs
+/// $i08 EditRowsForm.cs (I04)
 /// 
 /// Okno edycji wierszy bazy danych.
 /// Uruchamia okno edycji, dodawania i usuwania wierszy.
@@ -7,14 +7,19 @@
 /// Modyfikacja kolumn odbywa się za pomocą innego formularza.
 /// 
 /// Autor: Kamil Biały
-/// Od wersji: 0.7.x.x
-/// Ostatnia zmiana: 2016-09-03
+/// Od wersji: 0.8.x.x
+/// Ostatnia zmiana: 2016-12-24
 /// 
 /// CHANGELOG:
-/// [19.02.2016] Wersja początkowa.
+/// [13.02.2016] Wersja początkowa.
 /// [30.03.2016] Szybsze wyświetlanie danych - dodawanie pustych rekordów do tabeli oraz wyświetlanie
 ///              bezpośrednio ze źródła danych - mniejszy narzut na obliczenia i pamięć.
-/// [03.09.2016] Wersja edytora przystosowana do nowych standardów wraz z komentarzami i zapisem danych.
+/// [24.07.2016] Drobna zmiana nazewnictwa typu numerycznego dla bitmap i typów.
+/// [12.11.2016] Zmiana nazwy pliku i klasy z EditDataForm na EditRowsForm, komentarze, regiony,
+///              tłumaczenia formularza, przerobione funkcje odświeżania danych, usuwanie wierszy,
+///              zapis danych po formacie do strumienia (przerobienie strumienia danych na nowy),
+///              ukrycie dodatkowego panelu bocznego.
+/// [24.12.2016] Usunięcie niepotrzebnych funkcji, nazwy przerobione na nowy standard.
 ///
 
 using System;
@@ -28,7 +33,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using CDesigner.Utils;
 
-namespace CDesigner
+namespace CDesigner.Forms
 {
 	/// 
 	/// <summary>
@@ -56,7 +61,7 @@ namespace CDesigner
         private DataStorage _storage;
         
         /// <summary>Ilość wyświetlanych wierszy na stronę.</summary>
-		private int _rows_per_page;
+		private int _rowPerPage;
 
         /// <summary>Numer aktualnie wyświetlanej strony liczony od 0.</summary>
 		private int _page;
@@ -65,31 +70,31 @@ namespace CDesigner
 		private int _pages;
 
         /// <summary>Indeks pierwszego wiersza w tabeli z danymi.</summary>
-		private int _first_row;
+		private int _firstRow;
 
         /// <summary>Identyfikator usuwanego elementu.</summary>
-		private int _delete_id;
+		private int _deleteID;
 
         /// <summary>Ilość usuwanych rekordów - funkcje czekają na skompletowanie wszystkich.</summary>
-		private int _delete_pending;
-
-		/// <summary>Blokada kontrolek (lub innych elementów) przed odświeżeniem.</summary>
-		private bool _locked;
+		private int _deletePending;
 
         /// <summary>Lista identyfikatorów wszystkich przeznaczonych do usunięcia wierszy.</summary>
-		private List<int> _deleting_rows;
+		private List<int> _deletingRows;
 
         /// <summary>Lista zaznaczonych kolumn w tabeli.</summary>
-		private List<bool> _cols_selected;
+		private List<bool> _colsSelected;
+
+        /// <summary>Informacja o tym, czy formularz blokuje akcje kontrolek czy nie.</summary>
+        private bool _locked;
 
         /// <summary>Lista z identyfikatorami kolumn ułożona w kolejności wyświetlania w tabeli.</summary>
-        private List<int> _rows_data;
+        private List<int> _rowsData;
 
         /// <summary>Lista wierszy ze schowka w których zaszły zmiany - zawiera indeksy do zmian.</summary>
-        private List<int> _rows_changes;
+        private List<int> _rowsChanges;
 
         /// <summary>Lista wszystkich zmian w postaci edycji i dodawania.</summary>
-        private List<object[]> _change_log;
+        private List<object[]> _changeLog;
 
 #endregion
 
@@ -109,43 +114,43 @@ namespace CDesigner
 			this.Icon = Program.GetIcon();
 
             // ilość wierszy na stronę - ustawienie początkowe
-			this._rows_per_page = Settings.Info.EDF_RowsNumber;
+			this._rowPerPage = Settings.Info.EDF_RowsNumber;
 
-			this._cols_selected  = new List<bool>();
-            this._storage        = null;
-            this._rows_data      = null;
-            this._rows_changes   = null;
-            this._change_log     = null;
-            this._deleting_rows  = new List<int>();
-            this._locked         = false;
-            this._delete_id      = 0;
-            this._delete_pending = 0;
+			this._colsSelected  = new List<bool>();
+            this._storage       = null;
+            this._rowsData      = null;
+            this._rowsChanges   = null;
+            this._changeLog     = null;
+            this._deletingRows  = new List<int>();
+            this._deleteID      = 0;
+            this._deletePending = 0;
+            this._locked        = false;
 
-            this._page      = 0;
-            this._pages     = 0;
-            this._first_row = 0;
+            this._page     = 0;
+            this._pages    = 0;
+            this._firstRow = 0;
 
 			// podwójne buforowanie siatki - wydajność!
-			var type = this.gvData.GetType();
+			var type = this.DGV_Data.GetType();
 			var info = type.GetProperty( "DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic );
-			info.SetValue( this.gvData, true, null );
+			info.SetValue( this.DGV_Data, true, null );
 
 			// ikony przycisków
-			this.bInsertRow.Image = Program.GetBitmap( BITMAPCODE.ItemAdd );
-			this.bRemoveRow.Image = Program.GetBitmap( BITMAPCODE.ItemRemove );
-			this.bFirstPage.Image = Program.GetBitmap( BITMAPCODE.FirstPage );
-			this.bPrevPage.Image  = Program.GetBitmap( BITMAPCODE.PrevPage );
-			this.bNextPage.Image  = Program.GetBitmap( BITMAPCODE.NextPage );
-			this.bLastPage.Image  = Program.GetBitmap( BITMAPCODE.LastPage );
+			this.B_InsertRow.Image = Program.GetBitmap( BITMAPCODE.ItemAdd );
+			this.B_RemoveRow.Image = Program.GetBitmap( BITMAPCODE.ItemRemove );
+			this.B_FirstPage.Image = Program.GetBitmap( BITMAPCODE.FirstPage );
+			this.P_PrevPage.Image  = Program.GetBitmap( BITMAPCODE.PrevPage );
+			this.B_NextPage.Image  = Program.GetBitmap( BITMAPCODE.NextPage );
+			this.B_LastPage.Image  = Program.GetBitmap( BITMAPCODE.LastPage );
 
             // ilość wierszy na stronę i aktualna strona - z pustego i Salomon nie naleje
-            this.tbRowsPerPage.Text = this._rows_per_page.ToString();
-            this.lPageStat.Text     = "";
+            this.TB_RowsPerPage.Text = this._rowPerPage.ToString();
+            this.L_PageStat.Text     = "";
 
             this.translateForm();
 
             // ukryj drugi panel - na razie nie jest potrzebny
-            this.scMain.Panel2Collapsed = true;
+            this.SC_Main.Panel2Collapsed = true;
 		}
 
         /// <summary>
@@ -161,29 +166,29 @@ namespace CDesigner
                 this._storage = value;
 
                 // wyczyść wiersze
-                this.gvData.Rows.Clear();
-                this.gvData.Columns.Clear();
+                this.DGV_Data.Rows.Clear();
+                this.DGV_Data.Columns.Clear();
 
                 GC.Collect();
 
                 // dodaj kolumnę identyfikatora
-                this.gvData.Columns.Add( "gvcID", "ID" );
+                this.DGV_Data.Columns.Add( "gvcID", "ID" );
 
-                this.gvData.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-                this.gvData.Columns[0].ReadOnly = true;
-                this.gvData.Columns[0].Width    = 40;
-                this.gvData.Columns[0].DefaultCellStyle.BackColor = SystemColors.Control;
+                this.DGV_Data.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+                this.DGV_Data.Columns[0].ReadOnly = true;
+                this.DGV_Data.Columns[0].Width    = 40;
+                this.DGV_Data.Columns[0].DefaultCellStyle.BackColor = SystemColors.Control;
 
                 // dodaj kolumny z bazy
                 for( int x = 0; x < value.ColumnsNumber; ++x )
                 {
-                    this.gvData.Columns.Add( "gvc" + x, value.Column[x] );
-                    this.gvData.Columns[x+1].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    this.DGV_Data.Columns.Add( "gvc" + x, value.Column[x] );
+                    this.DGV_Data.Columns[x+1].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
 
                 // wyczyść listę kolumn
-                this.lvColumns.Items.Clear();
-                this._cols_selected.Clear();
+                this.LV_Columns.Items.Clear();
+                this._colsSelected.Clear();
 
                 // zablokuj
                 this._locked = true;
@@ -191,22 +196,22 @@ namespace CDesigner
                 // dodaj kolumny z bazy
                 for( int x = 0; x < value.ColumnsNumber; ++x )
                 {
-                    this.lvColumns.Items.Add( value.Column[x] );
-                    this.lvColumns.Items[x].Checked = true;
+                    this.LV_Columns.Items.Add( value.Column[x] );
+                    this.LV_Columns.Items[x].Checked = true;
 
-                    this._cols_selected.Add( false );
+                    this._colsSelected.Add( false );
                 }
 
                 // przydziel pamięć na dane
-                this._rows_data    = new List<int>( this._storage.RowsNumber );
-                this._rows_changes = new List<int>( this._storage.RowsNumber );
-                this._change_log   = new List<object[]>();
+                this._rowsData    = new List<int>( this._storage.RowsNumber );
+                this._rowsChanges = new List<int>( this._storage.RowsNumber );
+                this._changeLog   = new List<object[]>();
 
                 // przypisz realny numer wiersza i informacje o braku edycji
                 for( int x = 0; x < this._storage.RowsNumber; ++x )
                 {
-                    this._rows_data.Add( x );
-                    this._rows_changes.Add( -1 );
+                    this._rowsData.Add( x );
+                    this._rowsChanges.Add( -1 );
                 }
 
                 // odblokuj
@@ -241,13 +246,13 @@ namespace CDesigner
 		//* ============================================================================================================
 		public int RowsPerPage
 		{
-			get { return this._rows_per_page; }
+			get { return this._rowPerPage; }
 			set
 			{
 				if( value < 0 )
 					value = 1;
 
-				this._rows_per_page = value;
+				this._rowPerPage = value;
 			}
 		}
         
@@ -276,11 +281,11 @@ namespace CDesigner
 		protected void translateForm()
         {
             var values = Language.GetLines( "EditRows", "Labels" );
-            this.lRowsPerPage.Text = values[(int)LANGCODE.I04_LAB_ROWSONPAGE];
+            this.L_RowsPerPage.Text = values[(int)LANGCODE.I04_LAB_ROWSONPAGE];
 
             values = Language.GetLines( "EditRows", "Buttons" );
-            this.bCancel.Text = values[(int)LANGCODE.I04_BUT_CANCEL];
-            this.bSave.Text   = values[(int)LANGCODE.I04_BUT_SAVE];
+            this.B_Cancel.Text = values[(int)LANGCODE.I04_BUT_CANCEL];
+            this.B_Save.Text   = values[(int)LANGCODE.I04_BUT_SAVE];
             
             // tytuł okna
 			this.Text = Language.GetLine( "FormNames", (int)LANGCODE.GFN_EDITDATA );
@@ -300,10 +305,10 @@ namespace CDesigner
 		{
 			int totalrows = 0;
 
-			this.gvData.SuspendLayout();
+			this.DGV_Data.SuspendLayout();
 
 			// wyświetl wszystkie wiersze na jednej stronie
-			if( this._rows_per_page == 0 )
+			if( this._rowPerPage == 0 )
 			{
 				// ilość wszystkich stron
 				this._pages = 1;
@@ -311,79 +316,79 @@ namespace CDesigner
 			
 				// indeks elementu początkowego i ostatniego
 				int startelem = 0;
-				int endelem   = this._rows_data.Count;
+				int endelem   = this._rowsData.Count;
 
 				// ilość wyświetlanych wierszy
 				totalrows = endelem - startelem;
 			
 				// zapisz indeksy pierwszego i ostatniego elementu
-				this._first_row = startelem;
+				this._firstRow = startelem;
 			}
 			// podziel wiersze na strony
 			else
 			{
 				// ilość wszystkich stron
-				this._pages = this._rows_data.Count / this._rows_per_page + 1;
+				this._pages = this._rowsData.Count / this._rowPerPage + 1;
 			
 				// zmień stronę jeżeli indeks wykracza poza granicę
 				if( this._page > this._pages - 1 )
 					this.Page = this._pages;
 			
 				// indeks elementu początkowego i ostatniego
-				int startelem = this._page * this._rows_per_page;
-				int endelem   = (this._page + 1) * this._rows_per_page;
+				int startelem = this._page * this._rowPerPage;
+				int endelem   = (this._page + 1) * this._rowPerPage;
 
 				// poprawka ostatniego elementu (gdy wykracza poza faktyczną ilość elementów w tablicy)
-				if( endelem > this._rows_data.Count )
-					endelem = this._rows_data.Count;
+				if( endelem > this._rowsData.Count )
+					endelem = this._rowsData.Count;
 
 				// ilość wyświetlanych wierszy
 				totalrows = endelem - startelem;
 			
 				// zapisz indeksy pierwszego i ostatniego elementu
-				this._first_row = startelem;
+				this._firstRow = startelem;
 			}
 
 			// dodaj pusty wiersz gdy brak wierszy (raczej nie powinno się zdarzyć)
-			if( this.gvData.Rows.Count == 0 )
-				this.gvData.Rows.Add();
+			if( this.DGV_Data.Rows.Count == 0 )
+				this.DGV_Data.Rows.Add();
 			
 			// ilość wierszy...
-			int cond = this.gvData.AllowUserToAddRows
-				? this.gvData.Rows.Count - 1
-				: this.gvData.Rows.Count;
+			int cond = this.DGV_Data.AllowUserToAddRows
+				? this.DGV_Data.Rows.Count - 1
+				: this.DGV_Data.Rows.Count;
 
 			// usuń wiersze
 			if( cond > totalrows )
 			{
 				// szybciej jest wyczyścić wszystko i dodać wiersze niż usunąć...
-				this.gvData.Rows.Clear();
+				this.DGV_Data.Rows.Clear();
 
 				if( totalrows > 0 )
-					this.gvData.Rows.Add( totalrows );
+					this.DGV_Data.Rows.Add( totalrows );
 			}
 			// dodaj wiersze
 			else if( cond < totalrows )
-				this.gvData.Rows.Add( totalrows - (this.gvData.Rows.Count - 1) );
+				this.DGV_Data.Rows.Add( totalrows - (this.DGV_Data.Rows.Count - 1) );
 			
 			// zablokuj możliwość dodawania wierszy do środka tabeli
-			if( totalrows == this._rows_per_page )
-				this.gvData.AllowUserToAddRows = false;
+			if( totalrows == this._rowPerPage )
+				this.DGV_Data.AllowUserToAddRows = false;
 			else
-				this.gvData.AllowUserToAddRows = true;
+				this.DGV_Data.AllowUserToAddRows = true;
 
-			this.gvData.ResumeLayout( false );
+			this.DGV_Data.ResumeLayout( false );
 
 			// wyświetl ilość stron i aktualną stronę
-			this.lPageStat.Text = String.Format
+			this.L_PageStat.Text = String.Format
             (
                 Language.GetLine("EditRows", "Labels", (int)LANGCODE.I04_LAB_PAGEOFNUM),
                 this._pages
             );
-			this.tbPageNum.Text = (this._page + 1).ToString();
+			this.TB_PageNum.Text = (this._page + 1).ToString();
 
 			// odśwież kontrolkę
-			this.gvData.Refresh();
+			this.DGV_Data.Refresh();
 		}
         
         /// <summary>
@@ -397,9 +402,9 @@ namespace CDesigner
 		//* ============================================================================================================
         private void _removeRow( int index )
         {
-            for( int x = index; x < this._rows_data.Count - 1; ++x )
-                this._rows_data[x] = this._rows_data[x+1];
-            this._rows_data.RemoveAt( this._rows_data.Count - 1 );
+            for( int x = index; x < this._rowsData.Count - 1; ++x )
+                this._rowsData[x] = this._rowsData[x+1];
+            this._rowsData.RemoveAt( this._rowsData.Count - 1 );
         }
 #endregion
 
@@ -417,33 +422,33 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-        private void gvData_CellValueNeeded( object sender, DataGridViewCellValueEventArgs ev )
+        private void DGV_Data_CellValueNeeded( object sender, DataGridViewCellValueEventArgs ev )
 		{
-            var index = ev.RowIndex + this._first_row;
+            var index = ev.RowIndex + this._firstRow;
 
 			// kolumna indeksu
 			if( ev.ColumnIndex == 0 )
 				ev.Value = index + 1;
 			// wiersz spoza zakresu...
-			else if( index >= this._rows_data.Count )
+			else if( index >= this._rowsData.Count )
 				ev.Value = "";
 			// pobierz wartość z tablicy
 			else
             {
                 // nowy rekord
-                if( this._rows_data[index] < 0 )
+                if( this._rowsData[index] < 0 )
                 {
-                    int changeidx = -this._rows_data[index] - 1;
-                    ev.Value = this._change_log[changeidx][ev.ColumnIndex-1];
+                    int changeidx = -this._rowsData[index] - 1;
+                    ev.Value = this._changeLog[changeidx][ev.ColumnIndex-1];
                 }
                 else
                 {
-                    int rowidx    = this._rows_data[index];
-                    int changeidx = this._rows_changes[rowidx]; 
+                    int rowidx    = this._rowsData[index];
+                    int changeidx = this._rowsChanges[rowidx]; 
 
                     // zmieniony rekord
-                    if( changeidx != -1 && this._change_log[changeidx][ev.ColumnIndex-1] != null )
-                        ev.Value = this._change_log[changeidx][ev.ColumnIndex-1].ToString();
+                    if( changeidx != -1 && this._changeLog[changeidx][ev.ColumnIndex-1] != null )
+                        ev.Value = this._changeLog[changeidx][ev.ColumnIndex-1].ToString();
                     // brak zmian
                     else
                         ev.Value = this._storage.Row[rowidx][ev.ColumnIndex-1];
@@ -461,50 +466,53 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void gvData_CellValuePushed( object sender, DataGridViewCellValueEventArgs ev )
+		private void DGV_Data_CellValuePushed( object sender, DataGridViewCellValueEventArgs ev )
 		{
+            if( this._locked )
+                return;
+
 			bool need_refresh = false;
-			int  row          = ev.RowIndex + this._first_row;
-            int  changeidx    = this._change_log.Count;
+			int  row          = ev.RowIndex + this._firstRow;
+            int  changeidx    = this._changeLog.Count;
 
 			// sprawdź czy indeks nie wykracza poza zakres
-			if( row >= this._rows_data.Count )
+			if( row >= this._rowsData.Count )
 			{
 				// jeżeli wykracza za dużo, nic nie rób...
-				if( row >= this._rows_data.Count + 1 )
+				if( row >= this._rowsData.Count + 1 )
 					return;
 
                 // dodaj nowe rekordy
-				this._rows_data.Add( -changeidx - 1 );
+				this._rowsData.Add( -changeidx - 1 );
 				need_refresh = true;
 			}
             
             // oblicz indeksy
             int colidx = ev.ColumnIndex - 1;
-            int rowidx = this._rows_data[row] < 0
-                ? -this._rows_data[row] - 1
-                : this._rows_changes[this._rows_data[row]];
+            int rowidx = this._rowsData[row] < 0
+                ? -this._rowsData[row] - 1
+                : this._rowsChanges[this._rowsData[row]];
 
             // przydziel miejsce jeżeli brak
             if( need_refresh || rowidx == -1 )
             {
                 var values = new object[this._storage.ColumnsNumber];
-                this._change_log.Add( values );
+                this._changeLog.Add( values );
 
 				// i uzupełnij je pustymi wartościami - w przypadku starych pól są to nule
 				for( int x = 0; x < this._storage.ColumnsNumber; ++x )
-					this._change_log[changeidx][x] = need_refresh ? "" : null;
+					this._changeLog[changeidx][x] = need_refresh ? "" : null;
 
                 // istniejące rekordy
-                if( this._rows_data[row] >= 0 )
-                    this._rows_changes[this._rows_data[row]] = changeidx;
+                if( this._rowsData[row] >= 0 )
+                    this._rowsChanges[this._rowsData[row]] = changeidx;
 
                 rowidx = changeidx;
             }
 
 			// uzupełnij pustą lub zmień wartość wybranej komórki
             if( ev.Value != null )
-		        this._change_log[rowidx][colidx] = (object)ev.Value.ToString();
+		        this._changeLog[rowidx][colidx] = (object)ev.Value.ToString();
 
 			// odśwież dane
 			if( need_refresh )
@@ -519,45 +527,48 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void gvData_UserDeletingRow( object sender, DataGridViewRowCancelEventArgs ev )
+		private void DGV_Data_UserDeletingRow( object sender, DataGridViewRowCancelEventArgs ev )
 		{
+            if( this._locked )
+                return;
+
 			// oczekiwanie na usuwanie
-			if( this._delete_pending > 0 )
+			if( this._deletePending > 0 )
 				return;
 
 			// jeżeli zaznaczonych jest więcej niż jeden rekord, ustaw oczekiwanie na usunięcie
-			if( this.gvData.SelectedRows.Count > 1 )
+			if( this.DGV_Data.SelectedRows.Count > 1 )
 			{
 				// pobierz indeksy usuwanych wierszy
-				for( int x = 0; x < this.gvData.SelectedRows.Count; ++x )
+				for( int x = 0; x < this.DGV_Data.SelectedRows.Count; ++x )
 				{
 					// pomiń nowy wiersz
-					if( this.gvData.AllowUserToAddRows &&
-						this.gvData.SelectedRows[x].Index == this.gvData.Rows.Count - 1 )
+					if( this.DGV_Data.AllowUserToAddRows &&
+						this.DGV_Data.SelectedRows[x].Index == this.DGV_Data.Rows.Count - 1 )
 						continue;
 
-					this._deleting_rows.Add( this.gvData.SelectedRows[x].Index );
+					this._deletingRows.Add( this.DGV_Data.SelectedRows[x].Index );
 				}
 
 				// oczekiwanie jest równe ilości wierszy do usunięcia
-				this._delete_pending = this._deleting_rows.Count;
+				this._deletePending = this._deletingRows.Count;
 				return;
 			}
 
 			// nowo dodany element podczas usuwania sygnalizuje wartość o 1 większą
 			// dzieje się tak ponieważ usuwany jest wiersz po nim, a nie obecny...
-			if( ev.Row.Index + this._first_row >= this._rows_data.Count )
+			if( ev.Row.Index + this._firstRow >= this._rowsData.Count )
 			{
 				// teraz to już przesadziło...
-				if( ev.Row.Index + this._first_row - 1 >= this._rows_data.Count )
+				if( ev.Row.Index + this._firstRow - 1 >= this._rowsData.Count )
 				{
-					this._delete_id = -1;
+					this._deleteID = -1;
 					return;
 				}
-				this._delete_id = ev.Row.Index + this._first_row - 1;
+				this._deleteID = ev.Row.Index + this._firstRow - 1;
 			}
 			else
-				this._delete_id = ev.Row.Index + this._first_row;
+				this._deleteID = ev.Row.Index + this._firstRow;
 		}
 
         /// <summary>
@@ -569,46 +580,47 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-        private void gvData_UserDeletedRow( object sender, DataGridViewRowEventArgs ev )
+        private void DGV_Data_UserDeletedRow( object sender, DataGridViewRowEventArgs ev )
 		{
+            if( this._locked )
+                return;
+
 			// oczekiwanie włączone...
-			if( this._delete_pending > 0 )
+			if( this._deletePending > 0 )
 			{
 				// ostatni "tik" oczekiwania, usuń wszystkie zaznaczone wiersze
-				if( this._delete_pending == 1 )
+				if( this._deletePending == 1 )
 				{
 					// uporządkuj malejąco (usuwanie od największego)
-					this._deleting_rows.OrderByDescending( w => w );
+					this._deletingRows.OrderByDescending( w => w );
 
-					for( int x = 0; x < this._deleting_rows.Count; ++x )
-						this._removeRow( this._deleting_rows[x] );
+					for( int x = 0; x < this._deletingRows.Count; ++x )
+						this._removeRow( this._deletingRows[x] );
 
 					// wyczyść tablicę
-					this._deleting_rows.Clear();
+					this._deletingRows.Clear();
 
 					// odśwież widok
 					this.refreshDataRange();
 				}
 
 				// nie pozwól na wykonanie kodu poniżej podczas oczekiwania
-				this._delete_pending--;
+				this._deletePending--;
 				return;
 			}
 
 			// usuń wiersz
-			if( this._delete_id != -1 )
-                this._removeRow( this._delete_id );
+			if( this._deleteID != -1 )
+                this._removeRow( this._deleteID );
 
 			// odśwież widok
 			this.refreshDataRange();
 		}
 
-        /// @endcond
 #endregion
 
 #region OBSŁUGA KONTROLI TABELI DANYCH
-        /// @cond EVENTS
-        
+
         /// <summary>
         /// Akcja wywoływana podczas kliknięcia w przycisk przejścia do ostatniej strony.
         /// Gdy tabela nie ma więcej stron lub po prostu aktualną stroną jest ostatnia strona, to funkcja nic nie robi.
@@ -617,9 +629,9 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void bLastPage_Click( object sender, EventArgs ev )
+		private void B_LastPage_Click( object sender, EventArgs ev )
 		{
-			if( this._page == this._pages -1 )
+            if( this._locked || this._page == this._pages -1 )
 				return;
 
 			this._page = this._pages - 1;
@@ -635,9 +647,9 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void bFirstPage_Click( object sender, EventArgs ev )
+		private void B_FirstPage_Click( object sender, EventArgs ev )
 		{
-			if( this._page == 0 )
+			if( this._locked || this._page == 0 )
 				return;
 
 			this._page = 0;
@@ -653,9 +665,9 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void bPrevPage_Click( object sender, EventArgs ev )
+		private void B_PrevPage_Click( object sender, EventArgs ev )
 		{
-			if( this._page == 0 )
+			if( this._locked || this._page == 0 )
 				return;
 
 			this._page -= 1;
@@ -672,9 +684,9 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void bNextPage_Click( object sender, EventArgs ev )
+		private void B_NextPage_Click( object sender, EventArgs ev )
 		{
-			if( this._page == this._pages - 1 )
+			if( this._locked || this._page == this._pages - 1 )
 				return;
 
 			this._page += 1;
@@ -690,29 +702,29 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void tbPageNum_TextChanged( object sender, EventArgs ev )
+		private void TB_PageNum_TextChanged( object sender, EventArgs ev )
 		{
 			int value = 0;
 			
 			// jeżeli tekst jest pusty, zostaw go w spokoju...
-			if( this.tbPageNum.Text == "" )
+			if( this.TB_PageNum.Text == "" )
 				return;
 
 			// spróbuj zamienić podany tekst na liczbę
-			if( !Int32.TryParse(this.tbPageNum.Text, out value) )
+			if( !Int32.TryParse(this.TB_PageNum.Text, out value) )
 				// jeżeli nie da rady, wpisz aktualną stronę
-				this.tbPageNum.Text = this._page.ToString();
+				this.TB_PageNum.Text = this._page.ToString();
 			else
 			{
 				// jeżeli podana wartość jest większa niż liczba wszystkich stron
 				if( value >= this._pages )
-					this.tbPageNum.Text = this._pages.ToString();
+					this.TB_PageNum.Text = this._pages.ToString();
 				// jeżeli wartość jest mniejsza niż 1
 				else if( value < 1 )
-					this.tbPageNum.Text = "1";
+					this.TB_PageNum.Text = "1";
 			}
 
-			string text = this.tbPageNum.Text;
+			string text = this.TB_PageNum.Text;
 			int    zcnt = 0;
 
 			// sprawdź czy tekst zawiera zera wiodące...
@@ -724,7 +736,7 @@ namespace CDesigner
 
 			// usuń zera wiodące jeżeli istnieją
 			if( zcnt > 0 )
-				this.tbPageNum.Text = text.Remove( 0, zcnt );
+				this.TB_PageNum.Text = text.Remove( 0, zcnt );
 		}
         
         /// <summary>
@@ -735,7 +747,7 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void tbPageNum_KeyPress( object sender, KeyPressEventArgs ev )
+		private void TB_PageNum_KeyPress( object sender, KeyPressEventArgs ev )
 		{
 			// przepuszczaj klawisze kontrolne
 			if( char.IsControl(ev.KeyChar) )
@@ -745,7 +757,7 @@ namespace CDesigner
 			if( ev.KeyChar < '0' || ev.KeyChar > '9' )
 				ev.Handled = true;
 			else
-				this.tbPageNum_TextChanged( sender, null );
+				this.TB_PageNum_TextChanged( sender, null );
 		}
         
         /// <summary>
@@ -757,7 +769,7 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void tbPageNum_KeyDown( object sender, KeyEventArgs ev )
+		private void TB_PageNum_KeyDown( object sender, KeyEventArgs ev )
 		{
 			// po wciśnięciu klawisza ENTER zmień stronę
 			if( ev.KeyCode == Keys.Enter )
@@ -765,7 +777,7 @@ namespace CDesigner
 				int value = 0;
 
 				// sprawdź czy wartośc można zamienić na typ INT
-				if( !Int32.TryParse(this.tbPageNum.Text, out value) )
+				if( !Int32.TryParse(this.TB_PageNum.Text, out value) )
 					return;
 
 				// zmień stronę
@@ -786,23 +798,23 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void tbRowsPerPage_TextChanged( object sender, EventArgs ev )
+		private void TB_RowsPerPage_TextChanged( object sender, EventArgs ev )
 		{
 			int value = 0;
 			
 			// jeżeli tekst jest pusty, zostaw go w spokoju...
-			if( this.tbRowsPerPage.Text == "" )
+			if( this.TB_RowsPerPage.Text == "" )
 				return;
 
 			// spróbuj zamienić podany tekst na liczbę
-			if( !Int32.TryParse(this.tbRowsPerPage.Text, out value) )
+			if( !Int32.TryParse(this.TB_RowsPerPage.Text, out value) )
 				// jeżeli nie da rady, wpisz aktualną ilość wierszy na stronę
-				this.tbRowsPerPage.Text = this._rows_per_page.ToString();
+				this.TB_RowsPerPage.Text = this._rowPerPage.ToString();
 			// jeżeli podana wartość jest mniejsza od 5 i jest różna od 0
 			else if( value < 0 )
-				this.tbRowsPerPage.Text = "1";
+				this.TB_RowsPerPage.Text = "1";
 
-			string text = this.tbRowsPerPage.Text;
+			string text = this.TB_RowsPerPage.Text;
 			int    zcnt = 0;
 
 			// sprawdź czy tekst zawiera zera wiodące...
@@ -814,7 +826,7 @@ namespace CDesigner
 
 			// usuń zera wiodące jeżeli istnieją
 			if( zcnt > 0 )
-				this.tbRowsPerPage.Text = text.Remove( 0, zcnt );
+				this.TB_RowsPerPage.Text = text.Remove( 0, zcnt );
 		}
         
         /// <summary>
@@ -825,7 +837,7 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void tbRowsPerPage_KeyPress( object sender, KeyPressEventArgs ev )
+		private void TB_RowsPerPage_KeyPress( object sender, KeyPressEventArgs ev )
 		{
 			// przepuszczaj klawisze kontrolne
 			if( char.IsControl(ev.KeyChar) )
@@ -835,7 +847,7 @@ namespace CDesigner
 			if( ev.KeyChar < '0' || ev.KeyChar > '9' )
 				ev.Handled = true;
 			else
-				this.tbRowsPerPage_TextChanged( sender, null );
+				this.TB_RowsPerPage_TextChanged( sender, null );
 		}
         
         /// <summary>
@@ -847,7 +859,7 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void tbRowsPerPage_KeyDown( object sender, KeyEventArgs ev )
+		private void TB_RowsPerPage_KeyDown( object sender, KeyEventArgs ev )
 		{
 			// po wciśnięciu klawisza ENTER zmień ilość wierszy na stronę
 			if( ev.KeyCode == Keys.Enter )
@@ -855,11 +867,11 @@ namespace CDesigner
 				int value = 0;
 
 				// sprawdź czy wartośc można zamienić na typ INT
-				if( !Int32.TryParse(this.tbRowsPerPage.Text, out value) )
+				if( !Int32.TryParse(this.TB_RowsPerPage.Text, out value) )
 					return;
 
 				// zmień ilość wierszy na stronę
-				if( value != this._rows_per_page )
+				if( value != this._rowPerPage )
 				{
 					this.RowsPerPage = value;
 					this.refreshDataRange();
@@ -878,8 +890,11 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void bInsertRow_Click( object sender, EventArgs ev )
+		private void B_InsertRow_Click( object sender, EventArgs ev )
 		{
+            if( this._locked )
+                return;
+
 			// przejdź do ostatniej strony jeżeli ta nie jest ostatnią
 			if( this._page != this._pages - 1 )
 			{
@@ -888,14 +903,14 @@ namespace CDesigner
 			}
 
 			// pobierz komórkę w pierwszej kolumnie i ostatnim wierszu
-			int              last = this.gvData.Rows.Count - 1;
+			int              last = this.DGV_Data.Rows.Count - 1;
 			DataGridViewCell cell = null;
 
 			// sprawdź czy komórka jest widoczna
 			for( int x = 1; x <= this._storage.ColumnsNumber; ++x )
-				if( this.gvData.Rows[last].Cells[x].Visible == true )
+				if( this.DGV_Data.Rows[last].Cells[x].Visible == true )
 				{
-					cell = this.gvData.Rows[last].Cells[x];
+					cell = this.DGV_Data.Rows[last].Cells[x];
 					break;
 				}
 
@@ -904,8 +919,8 @@ namespace CDesigner
 				return;
 
 			// ustaw komórkę do edycji
-			this.gvData.CurrentCell = cell;
-			this.gvData.BeginEdit( true );
+			this.DGV_Data.CurrentCell = cell;
+			this.DGV_Data.BeginEdit( true );
 		}
 
         /// <summary>
@@ -918,30 +933,33 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void bRemoveRow_Click( object sender, EventArgs ev )
+		private void B_RemoveRow_Click( object sender, EventArgs ev )
 		{
+            if( this._locked )
+                return;
+
 			// pobierz indeksy usuwanych wierszy
-			for( int x = 0; x < this.gvData.SelectedRows.Count; ++x )
+			for( int x = 0; x < this.DGV_Data.SelectedRows.Count; ++x )
 			{
 				// pomiń nowy wiersz
-				if( this.gvData.AllowUserToAddRows && this.gvData.SelectedRows[x].Index == this.gvData.Rows.Count - 1 )
+				if( this.DGV_Data.AllowUserToAddRows && this.DGV_Data.SelectedRows[x].Index == this.DGV_Data.Rows.Count - 1 )
 					continue;
 
-				this._deleting_rows.Add( this.gvData.SelectedRows[x].Index );
+				this._deletingRows.Add( this.DGV_Data.SelectedRows[x].Index );
 			}
 
 			// uporządkuj malejąco (usuwanie od największego) - aby uniknąć problemów z indeksami
-			this._deleting_rows.OrderByDescending( w => w );
+			this._deletingRows.OrderByDescending( w => w );
 
 			// usuń z tablicy i z listy
-			for( int x = 0; x < this._deleting_rows.Count; ++x )
+			for( int x = 0; x < this._deletingRows.Count; ++x )
 			{
-				this.gvData.Rows.RemoveAt( this._deleting_rows[x] );
-                this._removeRow( this._deleting_rows[x] );
+				this.DGV_Data.Rows.RemoveAt( this._deletingRows[x] );
+                this._removeRow( this._deletingRows[x] );
 			}
 
 			// wyczyść usuwane wiersze
-			this._deleting_rows.Clear();
+			this._deletingRows.Clear();
 
 			// odśwież widok
 			this.refreshDataRange();
@@ -956,55 +974,53 @@ namespace CDesigner
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void gvData_SelectionChanged( object sender, EventArgs ev )
+		private void DGV_Data_SelectionChanged( object sender, EventArgs ev )
 		{
 			// wyzeruj wszystkie kolumny
-			for( int x = 0; x < this._cols_selected.Count; ++x )
-				this._cols_selected[x] = false;
+			for( int x = 0; x < this._colsSelected.Count; ++x )
+				this._colsSelected[x] = false;
 
 			// sprawdź które można zaznaczyć
-			foreach( DataGridViewCell cell in this.gvData.SelectedCells )
+			foreach( DataGridViewCell cell in this.DGV_Data.SelectedCells )
 			{
 				if( cell.ColumnIndex == 0 )
 					continue;
-				this._cols_selected[cell.ColumnIndex-1] = true;
+				this._colsSelected[cell.ColumnIndex-1] = true;
 			}
 
 			// zablokuj
 			this._locked = true;
 
 			// wyczyść zaznaczenia
-			this.lvColumns.SelectedIndices.Clear();
+			this.LV_Columns.SelectedIndices.Clear();
 
 			// zaznacz
-			for( int x = 0; x < this._cols_selected.Count; ++x )
-				if( this._cols_selected[x] )
-					this.lvColumns.SelectedIndices.Add( x );
+			for( int x = 0; x < this._colsSelected.Count; ++x )
+				if( this._colsSelected[x] )
+					this.LV_Columns.SelectedIndices.Add( x );
 
 			// odblokuj
 			this._locked = false;
 
 			// sprawdź czy to nie jest czasem nowy wiersz...
-			if( this.gvData.SelectedRows.Count == 1 && this.gvData.AllowUserToAddRows &&
-				this.gvData.SelectedRows[0].Index == this.gvData.Rows.Count - 1 )
+			if( this.DGV_Data.SelectedRows.Count == 1 && this.DGV_Data.AllowUserToAddRows &&
+				this.DGV_Data.SelectedRows[0].Index == this.DGV_Data.Rows.Count - 1 )
 			{
-				this.bRemoveRow.Enabled = false;
+				this.B_RemoveRow.Enabled = false;
 				return;
 			}
 
 			// aktywuj lub deaktywuj przycisk
-			if( this.gvData.SelectedRows.Count > 0 )
-				this.bRemoveRow.Enabled = true;
+			if( this.DGV_Data.SelectedRows.Count > 0 )
+				this.B_RemoveRow.Enabled = true;
 			else
-				this.bRemoveRow.Enabled = false;
+				this.B_RemoveRow.Enabled = false;
 		}
 
-        /// @endcond
 #endregion
 
 #region PASEK AKCJI
-        /// @cond EVENTS
-
+        
 		/// <summary>
         /// Analiza wciśniętych klawiszy w obrębie formularza.
         /// Funkcja tworzy skrót do ukrywania / pokazywania panelu bocznego z ustawieniami dodatkowymi.
@@ -1020,7 +1036,7 @@ namespace CDesigner
 			// pokaż / ukryj panel boczny
 			if( keys == Keys.F2 )
 			{
-				this.scMain.Panel2Collapsed = !this.scMain.Panel2Collapsed;
+				this.SC_Main.Panel2Collapsed = !this.SC_Main.Panel2Collapsed;
 				return true;
 			}
 			return base.ProcessCmdKey( ref msg, keys );
@@ -1034,14 +1050,14 @@ namespace CDesigner
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void tlStatusBar_Paint( object sender, PaintEventArgs ev )
+		private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine
 			(
 				new Pen( SystemColors.ControlDark ),
-				this.tlStatusBar.Bounds.X,
+				this.TLP_StatusBar.Bounds.X,
 				0,
-				this.tlStatusBar.Bounds.Right,
+				this.TLP_StatusBar.Bounds.Right,
 				0
 			);
 		}
@@ -1054,10 +1070,13 @@ namespace CDesigner
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="bSave_Click" />
+        /// <seealso cref="B_Save_Click" />
 		//* ============================================================================================================
-        private void bCancel_Click( object sender, EventArgs ev )
+        private void B_Cancel_Click( object sender, EventArgs ev )
         {
+            if( this._locked )
+                return;
+
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
@@ -1072,10 +1091,13 @@ namespace CDesigner
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="bCancel_Click" />
+        /// <seealso cref="B_Cancel_Click" />
 		//* ============================================================================================================
-        private void bSave_Click( object sender, EventArgs ev )
+        private void B_Save_Click( object sender, EventArgs ev )
         {
+            if( this._locked )
+                return;
+
             int dataidx = 0;
             int rowidx  = 0;
 
@@ -1085,12 +1107,12 @@ namespace CDesigner
             while( this._storage.nextRow() )
             {
                 // koniec zmian, teraz nowe wiersze, usuń pozostałości
-                if( this._rows_data[dataidx] < 0 || this._rows_data[dataidx] != rowidx )
+                if( this._rowsData[dataidx] < 0 || this._rowsData[dataidx] != rowidx )
                     this._storage.removeCurrentRow();
-                else if( this._rows_data[dataidx] == rowidx )
+                else if( this._rowsData[dataidx] == rowidx )
                 {
                     // brak zmian
-                    if( this._rows_changes[rowidx] == -1 )
+                    if( this._rowsChanges[rowidx] == -1 )
                     {
                         rowidx++;
                         dataidx++;
@@ -1098,12 +1120,12 @@ namespace CDesigner
                     }
 
                     string[] values = this._storage.getCurrentRow();
-                    int      logidx = this._rows_changes[rowidx];
+                    int      logidx = this._rowsChanges[rowidx];
 
                     // przypisz nowe wartości
                     for( int x = 0; x < this._storage.ColumnsNumber; ++x )
-                        if( this._change_log[logidx][x] != null )
-                            values[x] = this._change_log[logidx][x].ToString();
+                        if( this._changeLog[logidx][x] != null )
+                            values[x] = this._changeLog[logidx][x].ToString();
 
                     // zamień
                     this._storage.replaceCurrentRow( values );
@@ -1114,17 +1136,17 @@ namespace CDesigner
             }
 
             // nowe rekordy
-            for( int x = dataidx; x < this._rows_data.Count; ++x )
+            for( int x = dataidx; x < this._rowsData.Count; ++x )
             {
-                if( this._rows_data[x] >= 0 )
+                if( this._rowsData[x] >= 0 )
                     continue;
 
                 string[] values = new string[this._storage.ColumnsNumber];
 
-                rowidx = -this._rows_data[x] - 1;
+                rowidx = -this._rowsData[x] - 1;
 
                 for( int y = 0; y < this._storage.ColumnsNumber; ++y )
-                    values[y] = this._change_log[rowidx][y].ToString();
+                    values[y] = this._changeLog[rowidx][y].ToString();
 
                 this._storage.addNewRowToEnd( values );
             }
@@ -1135,87 +1157,6 @@ namespace CDesigner
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
-
-        /// @endcond
-#endregion
-
-#region PASEK BOCZNY - NA RAZIE NIE UŻYWANE
-        /// @cond EVENTS
-
-        ///
-		/// ------------------------------------------------------------------------------------------------------------
-		private void lvColumns_ItemChecked( object sender, ItemCheckedEventArgs ev )
-		{
-			if( this._locked )
-				return;
-
-			this.gvData.Columns[ev.Item.Index + 1].Visible = ev.Item.Checked;
-		}
-
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		private void lvColumns_SelectedIndexChanged( object sender, EventArgs ev )
-		{
-			// brak zaznaczenia...
-			if( this.lvColumns.SelectedItems.Count == 0 )
-				return;
-
-			// pobierz ostatni element
-			ListViewItem item = this.lvColumns.SelectedItems[this.lvColumns.SelectedItems.Count - 1];
-
-			// zablokuj
-			this._locked = true;
-
-			// zaznacz element w polu wyboru
-			/*switch( this._storage.Types[item.Index] )
-			{
-				case DATATYPE.String:    this.cbColumnType.SelectedIndex = 0; break;
-				case DATATYPE.Integer:   this.cbColumnType.SelectedIndex = 1; break;
-				case DATATYPE.Float:     this.cbColumnType.SelectedIndex = 2; break;
-				case DATATYPE.Character: this.cbColumnType.SelectedIndex = 3; break;
-			}*/
-
-			// odblokuj
-			this._locked = false;
-		}
-
-		///
-		/// ------------------------------------------------------------------------------------------------------------
-		private void gbSearchAndReplace_SizeChanged( object sender, EventArgs ev )
-		{
-			Size size;
-			bool goup = false;
-
-			// sprawdź rozmiar pierwszego przycisku
-			size = TextRenderer.MeasureText( this.bReplaceAll.Text, this.bReplaceAll.Font );
-			goup = size.Width > this.bReplaceAll.Width - 8 ? true : false;
-
-			// sprawdź rozmiar drugiego przycisku
-			if( !goup )
-			{
-				size = TextRenderer.MeasureText( this.bCount.Text, this.bCount.Font );
-				goup = size.Width > this.bCount.Width - 8 ? true : false;
-			}
-
-			// powiększ lub pomniejsz przyciski
-			if( goup )
-			{
-				this.bReplaceAll.Height = 40;
-				this.bCount.Height      = 40;
-			}
-			else
-			{
-				this.bReplaceAll.Height = 24;
-				this.bCount.Height      = 24;
-			}
-
-			// automatycznie dostosuj rozmiar kolumny
-			this.lvcColumnName.Width = -2;
-		}
-
-		private void cbColumnType_SelectedIndexChanged( object sender, EventArgs ev )
-		{
-		}
 
         /// @endcond
 #endregion

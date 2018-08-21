@@ -1,5 +1,5 @@
 ﻿///
-/// $i06 InfoForm.cs
+/// $i04 InfoForm.cs (I06)
 /// 
 /// Okno informacji o programie.
 /// Wyświetla informacje o programie i informacje o zarejestrowanym użytkowniku.
@@ -42,7 +42,7 @@ namespace CDesigner.Forms
 #region ZMIENNE
 
         /// <summary>Przechwytywanie ciągu znaków po którym wyświetlona zostanie ukryta zawartość.</summary>
-        private string _bonus = "";
+        private string _bonus;
 
 #endregion
 
@@ -56,6 +56,8 @@ namespace CDesigner.Forms
 		public InfoForm()
 		{
 			this.InitializeComponent();
+
+            this._bonus = "";
 
             this.PB_AppLogo.Image      = Program.GetBitmap( BITMAPCODE.CDesigner256 );
             this.PB_RegisterLogo.Image = Program.GetBitmap( BITMAPCODE.REGISTER_LOGO );

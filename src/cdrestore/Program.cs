@@ -51,7 +51,7 @@ _CD_CHECK_ACCESS_TO_SFILE:
                 try
                 {
                     // sprawdź czy plik nie jest blokowany
-                    using( FileStream stream = File.Open("./CDesigner.exe", FileMode.Open, FileAccess.ReadWrite) )
+                    using( FileStream stream = File.Open("./cdesigner.exe", FileMode.Open, FileAccess.ReadWrite) )
                         stream.Close();
 
 #				if TRACE
@@ -90,7 +90,7 @@ _CD_CHECK_ACCESS_TO_SFILE:
 
                     // uruchomienie programu CDesigner
                     Process process = new Process();
-                    process.StartInfo.FileName = "CDesigner.exe";
+                    process.StartInfo.FileName = "cdesigner.exe";
                     process.StartInfo.Arguments = "-w";
                     process.Start();
 
@@ -190,7 +190,7 @@ _CD_CHECK_ACCESS_TO_SFILE:
 				Program.LogMessage( " - " + names[x] + "..." );
 				
 				// plik CDRestore musi podmienić CDesigner...
-				if( names[x] == "CDRestore.exe" )
+				if( names[x] == "cdrestore.exe" )
 				{
 					if( File.Exists("./cdrestore.res") )
 						File.Delete( "./cdrestore.res" );

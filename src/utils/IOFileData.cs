@@ -1,9 +1,11 @@
 ﻿///
-/// $i[xx] IOFileData.cs
+/// $u11 IOFileData.cs
 /// 
-/// Okno edycji bazy danych.
-/// Uruchamia okno filtrowania danych.
-/// Pozwala na uruchomienie filtrowania danych i łączenie komórek.
+/// Plik zawiera klasę wczytującą dane z plików bazodanowych.
+/// Na razie obsługuje tylko jeden format takich plików - format CSV.
+/// Klasa dziedziczy po klasie DataStorage, co pozwala na łatwe poruszanie się po wczytanych danych.
+/// Używana głównie przy podglądzie wydruku i operacjach edycji kolumn i wierszy.
+/// Domyślnie po wczytaniu, program operuje na klasie DataStorage.
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.8.x.x
@@ -27,10 +29,11 @@ namespace CDesigner.Utils
 	/// 
 	/// <summary>
 	/// Klasa umożliwiająca odczyt lub zapis danych do pliku.
-    /// Pozwala na wczytanie całego lub wybranej części pliku, co znacznie przyspiesza mniejsze operacje
-    /// które nie muszą być widoczne dla wszystkich danych.
-    /// W tym momencie klasa może wczytać i zapisać tylko pliki w formacie <em>csv</em>.
-    /// Szczegóły dotyczące wczytywania konkretnych typów plików znajdują się w funkcjach parsujących te formaty.
+    /// Pozwala na wczytanie całego pliku bazodanowego, na razie tylko w formacie <em>csv</em>.
+    /// Klasa pozwala na wybranie konkretnego kodowania podczas wczytywania, separatora, a nawet
+    /// znaku obejmującego wartość w kolumnie.
+    /// Zapis również możliwy jest tylko do pliku <em>csv</em>.
+    /// Planowana jest rozbudowa klasy o możliwość wczytywania innych formatów.
 	/// </summary>
 	///
 	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Wczytywanie danych z formatu <em>arff</em>.
@@ -41,6 +44,7 @@ namespace CDesigner.Utils
     public class IOFileData : DataStorage
     {
 #region ZMIENNE
+
         /// <summary>Lista obsługiwanych formatów dla plików bazodanowych.</summary>
         private static string[] _parsers = {"csv"};
         
@@ -61,9 +65,11 @@ namespace CDesigner.Utils
 		
         /// <summary>Format nowej linii (CR / LF / CR+LF).</summary>
         private LINEENDING _lineEnding;
+
 #endregion
 
 #region KONSTRUKTORY / WŁAŚCIWOŚCI
+
         /// <summary>
         /// Pusty konstruktor klasy.
         /// Uzupełnia dane domyślnymi wartościami i wywołuje konstruktor klasy bazowej.
@@ -92,7 +98,6 @@ namespace CDesigner.Utils
         /// <param name="file">Nazwa wczytywanego do pamięci pliku.</param>
         /// <param name="encoding">Kodowanie znaków w pliku.</param>
         /// <param name="separator">Separator kolumn w pliku, domyślnie średnik.</param>
-        /// <param name="autocheck">Automatyczne sprawdzanie typów danych.</param>
         /// 
         /// <seealso cref="parse"/>
 		//* ============================================================================================================
@@ -190,7 +195,7 @@ namespace CDesigner.Utils
 			    }
 			    catch( IOException ex )
 			    {
-				    Program.LogError( ex.Message, Language.GetLine("MessageNames", (int)MSGBLIDX.FileLoading), false );
+				    Program.LogError( ex.Message, Language.GetLine("MessageNames", (int)LANGCODE.GMN_FILELOADING), false );
 				    this._isReady = false;
 			    }
 
@@ -228,6 +233,7 @@ namespace CDesigner.Utils
         {
             get { return IOFileData._parsers; }
         }
+
 #endregion
 
 #region PODSTAWOWE FUNKCJE
@@ -828,5 +834,6 @@ namespace CDesigner.Utils
             return false;
         }
 #endregion
+
     }
 }

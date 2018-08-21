@@ -1,6 +1,6 @@
-% $pol Angielski
-% $eng English
-% $def English
+$pol Angielski
+$eng English
+$def English
 
 % ------------------------------------------------------
 % Język   : Polski
@@ -12,6 +12,11 @@
 % tłumaczenia globalne
 % ============================================================
 
+% nazwy rozszerzeń
+@Extensions
+	|00 Comma Separated Values
+	|01 Compressed Backup Data
+	
 % znaki specjalne dostępne dla danego języka
 @Locale
 	|00 
@@ -19,43 +24,45 @@
 
 % nazwy formularzy
 @FormNames
-	|00 Filtrowanie danych
-	|01 Ustawienia pliku bazy danych
-	|02 Zarządzanie kolumnami
-	|03 Edycja danych
+	|00 Data filter
+	|01 Database settings
+	|02 Column manager
+	|03 Data editor
 	|04 New pattern
 	|05 About program
-	|06 Update window
-	|07 Ustawienia typu kolumny
+	|06 Program update
+	|07 Column type settings
+	|08 Column assignment
+	|09 CDesigner - Document series creator
 	
 % nazwy wyskakujących okienek
 @MessageNames
-	|00 Nieprawidłowy format pliku
-	|01 Wybór pliku z bazą danych
-	|02 Dodawanie kolumny
-	|03 Wczytywanie pliku
-	|04 Błąd krytyczny
-	|05 Ustawienia lokalizacji
-	|06 Tworzenie wzoru
+	|00 Incorrect file format
+	|01 Choose file
+	|02 Column add
+	|03 File loading
+	|04 Critical error
+	|05 Localization settings
+	|06 Pattern creation
+	|07 Save as
+	|08 Pattern importer
+	|09 Database manager
+	|10 Pattern editor
 
 % błędy globalne
 @GlobalErrors
-	|00 Błąd krytyczny
-	|01 Aplikacja jest już uruchomiona!\nNie można uruchomić dwóch instancji aplikacji CDesigner!
-	|02 Nie można uruchomić aplikacji CDesigner ponieważ aplikacja CDRestore jest uruchomiona.
-	|03 Wybrana opcja nie jest dostępna w tej wersji programu.
+	|00 Critical error!
+	|01 Application is already running!\nYou can't run two instances of CDesigner application!
+	|02 You can't run CDesigner application, becouse CDRestore is running. 
+	|03 This option is not available in current version.
 	
 % formularz ustawień pliku bazy danych i wczytywania pliku
 % ============================================================
 #DatafileSettings
-
-	% nazwy rozszerzeń
-	@Extensions
-		|00 Kolumny oddzielone przecinkiem
 		
 	% pole wyboru kodowania
 	@Encoding
-		|00 Domyślne kodowanie
+		|00 Default encoding
 		|01 ASCII
 		|02 UTF-8
 		|03 UTF-16 BigEndian
@@ -65,32 +72,32 @@
 	
 	% pole wyboru typu separatora
 	@Separator
-		|00 Średnik
-		|01 Przecinek
-		|02 Kropka
-		|03 Tabulator
-		|04 Spacja
-		|05 Inny znak
+		|00 Semicolon
+		|01 Comma
+		|02 Dot
+		|03 Tab
+		|04 Space
+		|05 Other char
 		
 	% nagłówki tabel
 	@Headers
-		|00 Podgląd wierszy
-		|01 Kolumny
+		|00 Rows preview
+		|01 Columns
 		
 	% przyciski
 	@Buttons
-		|00 Zmień plik
-		|01 Wczytaj
-		|02 Zaniechaj
+		|00 Change file
+		|01 Load
+		|02 Cancel
 		
 	% wiadomości informacji / błędów
 	@Messages
-		|00 Brak obsługi bazy danych o podanym rozszerzeniu: {0}.\nObsługiwane rozszerzenia: {1}.
+		|00 File extension '{0}' is not supported by program.\nSupported extensions: {1}.
 
 	% napisy na formularzu
 	@Labels
-		|00 Automatycznie wykrywaj typy kolumn
-		|01 Bez nagłówka
+		|00 Auto detect column types
+		|01 Without header
 
 % formularz edycji kolumn i wierszy
 % ============================================================
@@ -98,65 +105,65 @@
 
 	% nagłówki tabel
 	@Headers
-		|00 Nazwa
-		|01 Przypisane kolumny
-		|02 Podgląd wierszy
-		|03 Dostępne kolumny
-		|04 Filtry dla kolumny
-		|06 STARE KOLUMNY
-		|07 NOWE KOLUMNY
+		|00 Name
+		|01 Assigned columns
+		|02 Rows preview
+		|03 Available columns
+		|04 Filters for column
+		|06 OLD COLUMNS
+		|07 NEW COLUMNS
 		
 	% napisy na oknie
 	@Labels
-		|00 Typ kolumny
-		|01 Ustawienia filtrowania
-		|02 Typ filtra
-		|03 Modyfikator
-		|04 Wynik
-		|05 Wyklucz znalezione wiersze ze zbioru
-		|06 Zastosuj filtr dla wszystkich kopii kolumny
+		|00 Column type
+		|01 Filter settings
+		|02 Filter type
+		|03 Modifier
+		|04 Result
+		|05 Exclude found rows from collection
+		|06 Apply filter for all column copies
 		
 	% kroki w formularzu (przejścia)
 	@Steps
-		|00 Kreator kolumn
-		|01 Filtry i typy
+		|00 Column creator
+		|01 Filter and types
 		
 	% przyciski
 	@Buttons
-		|00 Dodaj
-		|01 Wyczyść
-		|02 Usuń
-		|03 Zapisz
-		|04 Anuluj
-		|05 Zmień
-		|06 Zatwierdź
-		|07 Zaawansowane
+		|00 Add
+		|01 Clear
+		|02 Remove
+		|03 Save
+		|04 Cancel
+		|05 Change
+		|06 Apply
+		|07 Advanced
 		
 	% typy kolumn
 	@ColumnTypes
-		|00 Tekst
-		|01 Liczba
-		|02 Procent
-		|03 Data
-		|04 Waluta
-		|05 Znak
-		|06 Domyślny
+		|00 Text
+		|01 Number
+		|02 Percent
+		|03 Date
+		|04 Currency
+		|05 Character
+		|06 Default
 		
 	% rodzaje
 	@FilterType
-		|00 Małe litery
-		|01 Duże litery
-		|02 Nazwa własna
-		|03 Równy
-		|04 Różny
+		|00 Lowercase
+		|01 Uppercase
+		|02 Title case
+		|03 Equal
+		|04 Not equal
 		|05 Format
 	
 	% wyskakujące okienka z wiadomościami
 	@Messages
-		|00 Dopuszczalne znaki:\nZnaki alfabetu, cyfry, . - + _ oraz spacja.
-		|01 Aby dodać kolumnę musisz podać jej nazwę.
-		|02 Dodano już kolumnę o nazwie {0}.
-		|03 Kolumna o nazwie {0} już istnieje. Zapisanie zmian spowoduje nadpisanie wartości starej kolumny. Dopóki zmiany nie zostaną zapisane, będziesz jeszcze mógł z niej korzystać w tym oknie.\n\nCzy na pewno chcesz utworzyć kolumnę o tej nazwie?
+		|00 Available characters:\nAlphabetic characters, numbers, . - + _ and space.
+		|01 Column name cannot be empty.
+		|02 This column, named '{0}', was created before!
+		|03 Column '{0}' already exists. If you save your changes, then old column with this name will be overwritten. You can use this column as long as you not saving changes.\n\nDo you really want to create this column?
 	
 % formularz edycji wierszy
 % ============================================================
@@ -164,12 +171,12 @@
 	
 	% napisy na oknie
 	@Labels
-		|00 Ilość wierszy na stronę:
-		|01 z {0}
+		|00 Rows per page:
+		|01 from {0}
 		
 	@Buttons
-		|00 Zapisz
-		|01 Zaniechaj
+		|00 Save
+		|01 Cancel
 		
 % formularz dodawania nowego wzoru
 % ============================================================
@@ -180,7 +187,7 @@
 		|00 Pattern name:
 		|01 Copy from pattern:
 		|02 Paper format:
-		|03 Size (mm):
+		|03 Size ( mm ):
 	
 	% domyślne wartości dwóch pól wyboru
 	@ComboBox
@@ -224,8 +231,8 @@
 
 	% etykiety
 	@Labels
-		|00 Dostępna jest nowa wersja programu!
-		|01 Posiadasz najnowszą wersję programu.
+		|00 New version is available!
+		|01 Update is not available, you have the newest version.
 		|02 Program version:
 		|03 Update version:
 		|04 Changelog
@@ -238,16 +245,43 @@
 		
 	% wyskakujące okna z wiadomościami
 	@Messages
-		|00 Nie można połączyć się z serwerem.\nSprawdź swoje połączenie z internetem.
-		|01 Wystąpił błąd podczas próby połączenia z serwerem.\nSkontaktuj się z administratorem.
-		|02 Tryb kompresji został aktywowany.
-		|03 Tryb kompresji został dezaktywowany.
-		|04 Wystąpił bład podczas pobierania aktualizacji.
-		|05 Nie możesz zamknąć tego okna podczas aktualizacji programu.
-		|06 Wystąpił błąd podczas kompresji plików.
-		|07 Kompresja plików zakończona sukcesem.
-		|08 Wystąpił błąd podczas rozpakowywania plików.\nSkontaktuj się z administratorem.
-		|09 Aktualizacja została przygotowana do instalacji.\nCzy chcesz uruchomić ponownie program aby ją zainstalować?
+		|00 Program cannot connect to server.\nPlease, check your internet connection.
+		|01 Error occured during connecting with server.\nConcat with your admin.
+		|02 Compression mode activated.
+		|03 Compression mode deactivated.
+		|04 Error occured during downloading program update.
+		|05 You can't close this window during program update.
+		|06 Error occured during creating the archive.
+		|07 File compression completed successfully.
+		|08 Error occured during extraction the archive.\nContact with your admin.
+		|09 Update is extracted and ready for install.\nDo you want to restart program and install it?
+	
+% formularz przypisywania kolumn do pól
+% ============================================================
+#DataReader
+	
+	% nagłówki kolumn
+	@Headers
+		|00 Available fields
+		|01 Assigned columns
+		|02 Available columns
+		
+	% napisy na formularzu
+	@Labels
+		|00 Page:
+		|01 no column...
+		
+	% przyciski
+	@Buttons
+		|00 Save
+		|01 Cancel
+		
+	% wiadomości
+	@Messages
+		|00 Available characters:\nAlphabetic characters, numbers, - + _ # : [ ] < > and space.
+		|01 Format text should not have characters other than:\nAlphabetic characters, numbers, - + _ # : [ ] < > and space.
+		|02 Format does not have column named '{0}' (#{1}).\nDo you really want to skip it?
+		|03 Format text can't be empty.
 	
 % Lista pozycji w menu
 % ============================================================	
@@ -260,12 +294,14 @@
 		|02 Recently opened
 		|03 Clear pattern list
 		|04 Close
+		|05 Import...
+		|06 Export all available...
 	
 	% menu dla narzędzi
 	@Tools
 		|00 &Tools
 		|01 Load file with data...
-		|02 Create database in memory
+		|02 Create memory database
 		|03 Edit columns...
 		|04 Edit rows...
 		|05 Save database to file
@@ -285,6 +321,10 @@
 		|00 Home
 		|01 Editor
 		|02 Printout
+		
+	@Messages
+		|00 Created empty database in computer memory.
+		|01 This pattern is not exists and will be removed from list!
 
 % okno zawierające listę wzorów
 % ============================================================
@@ -298,25 +338,34 @@
 	% lista kontrolek z napisem na oknie
 	@Labels
 		|00 Show details for selected pattern
-		|01 Page
+		|01 Page:
 		
 	% informacje o wzorze
 	@Pattern
-		|00 Nazwa
-		|01 Format
-		|02 Rozmiar
-		|03 Miejsce na dane
-		|04 Ilość stron
+		|00 Name: {0}.
+		|01 Format: {0}.
+		|02 Size: {0} x {1} mm.
+		|03 Data fields: {0}.
+		|04 Page count: {0}.
+		|05 Custom
+		|06 Yes
+		|07 No
 		
 	% menu wyświetlane po kliknięciu prawym w listę wzorów
 	@PatternContext
-		|00 Nowy wzór...
-		|01 Edytuj zaznaczony
-		|02 Podgląd
-		|03 Wczytaj dane...
-		|04 Importuj...
-		|05 Eksportuj
-		|06 Usuń wzór
+		|00 New pattern...
+		|01 Edit selected
+		|02 Preview
+		|03 Load data...
+		|04 Import...
+		|05 Export selected
+		|06 Remove pattern
+
+	@Messages
+		|00 There is always a risk, that importing file will having folders with patterns, that already exists. In this case, all patterns with the same names will be overwritten.\nDo you really want to continue import process?
+		|01 Import was completed successfully.
+		|02 Do you really want to remove this pattern?
+		|03 This pattern is damaged, becouse his configuration file does not exists!
 		
 % formularz edycji wzoru
 % ============================================================
@@ -324,31 +373,135 @@
 
 	% menu wyświetlane po kliknięciu prawym w stronę
 	@PageContext
-		|00 Dodaj pole
-		|01 Usuń wszystkie pola
-		|02 Kolor tła strony...
-		|03 Obraz tła strony...
-		|04 Wyczyść tło
-		|05 Rysuj kolor strony
-		|06 Rysuj obraz strony
-		|07 Dodaj stronę
-		|08 Usuń stronę
+		|00 Add field
+		|01 Remove all fields
+		|02 Page color...
+		|03 Page image...
+		|04 Clear background
+		|05 Draw page color
+		|06 Draw page image
+		|07 Add page
+		|08 Remove page
 	
 	% menu wyświetlane po kliknięciu prawym w pole
 	@LabelContext
-		|00 Kolor tła pola...
-		|01 Obraz tła pola...
-		|02 Wyczyść tło
-		|03 Obraz dynamiczny
-		|04 Rysuj kolor pola
-		|05 Obraz statyczny
-		|06 Kolor czcionki...
-		|07 Zmień czcionkę...
-		|08 Tekst dynamiczny
-		|09 Tekst statyczny
-		|10 Kolor ramki...
-		|11 Wyświetlaj ramkę
-		|12 Usuń
+		|00 Field color...
+		|01 Field image...
+		|02 Clear background
+		|03 Dynamic image
+		|04 Draw field fill
+		|05 Static image
+		|06 Font color...
+		|07 Change font...
+		|08 Dynamic text
+		|09 Static text
+		|10 Border color...
+		|11 Display border
+		|12 Remove
+		
+	% przyciski
+	@Buttons
+		|00 Load data
+		|01 Preview
+		|02 Save
+		|03 Page color
+		|04 Page image
+		|05 Border color
+		|06 Field color
+		|07 Field image
+		|08 Font name
+		|09 Font color
+		
+	% przełącznik pomiędzy panelami
+	@Switcher
+		|00 Field
+		|01 Details
+		|02 Page
+
+	% napisy na formularzu
+	@Labels
+		|00 Page:
+		|01 Position X ( mm ):
+		|02 Position Y ( mm ):
+		|03 Width ( mm ):
+		|04 Height ( mm ):
+		|05 Field appearance:
+		|06 Font settings:
+		|07 Text position:
+		|08 Margin:
+		|09 Text transform:
+		|10 Border size:
+		|11 Field to PDF generation settings:
+		|12 Image settings:
+		|13 Anchor position:
+		|14 Additional text margin:
+		|15 Page width:
+		|16 Page height:
+		|17 Page appearance:
+		|18 Page to PDF generation settings:
+		|19 Image settings:
+		|20 new field
+
+	% pozycja tekstu
+	@TextPosition
+		|00 Top - Left
+		|01 Top - Middle
+		|02 Top - Right
+		|03 Middle - Left
+		|04 Center
+		|05 Middle - Right
+		|06 Bottom - Left
+		|07 Bottom - Middle
+		|08 Bottom - Right
+		
+	% transformacja tekstu
+	@TextTransform
+		|00 Do not change
+		|01 Uppercase
+		|02 Lowercase
+		|03 Title case
+
+	% pola zaznaczenia
+	@Checkboxes
+		|00 Auto save without creating preview
+		|01 Generate with page color
+		|02 Generate with assigned image
+		|03 Apply margin for image
+		|04 Draw border outside the image
+		|05 Display border around field
+		|06 Generate with field color
+		|07 Draw text from dynamic data source
+		|08 Display static text on field
+		|09 Generate with assigned image
+		|10 Dynamic image
+		|11 Draw border outside the image
+		|12 Apply margin for image
+		|13 Apply additional margin for text
+		
+	% pozycja punktu zaczepienia
+	@AnchorPosition
+		|00 Top - Left ( top left corner )
+		|01 Top - Right ( top right corner )
+		|02 Bottom - Left ( bottom left corner )
+		|03 Bottom - Right ( bottom right corner )
+
+	% wyskakujące wiadomości
+	@Messages
+		|00 Available characters:\nAlphabetic characters, numbers, - + _ and space.
+		|01 Pattern has only one page - you can't remove it!
+		
+% formularz podglądu wydruku
+% ============================================================
+#PrintoutPreview
+
+	% przyciski
+	@Buttons
+		|00 Find errors
+		|01 Generate PDF
+
+	% napisy na formularzu
+	@Labels
+		|00 Page:
 		
 % formularz ustawień typu kolumny
 % ============================================================

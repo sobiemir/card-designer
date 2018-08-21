@@ -1,22 +1,26 @@
 ﻿///
-/// $i[xx] DataFilter.cs
+/// $u07 DataFilter.cs
 /// 
-/// Okno edycji bazy danych.
-/// Uruchamia okno filtrowania danych.
-/// Pozwala na uruchomienie filtrowania danych i łączenie komórek.
+/// Plik zawierający klasę filtrowania kolumn.
+/// Pozwala na połączenie kilku kolumn w jedną oraz wykluczenie istniejących.
+/// W przypadku gdy nazwa nowej kolumny będzie taka sama jak nazwa starej, zostanie ona zastąpiona nową.
+/// Umożliwia stosowanie filtrów dla każdej kolumny zosobna.
 /// 
 /// Autor: Kamil Biały
-/// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2016-08-28
+/// Od wersji: 0.7.x.x
+/// Ostatnia zmiana: 2016-12-24
 /// 
 /// CHANGELOG:
-/// [29.08.2015] Wersja początkowa.
+/// [05.08.2015] Wersja początkowa.
+/// [02.02.2016] Zmiana nazwy pliku i klasy z DataFilter na FilterCreator, stosowanie filtrów,
+///              dodawanie, usuwanie, wszystkie brakujące elementy (wersja początkowa była wersja testową).
 /// [15.07.2016] Regiony, komentarze.
-/// [14.08.2016] Wyszukiwanie konkretnego filtra i indeksu filtra.
-///              Utworzenie oddzielnej funkcji do filtrowania danych.
+/// [11.08.2016] Zamiana nazwy pliku i klasy spowrotem z FilterCreator na DataFilter, przełączenie na nowy standard.
+/// [14.08.2016] Wyszukiwanie konkretnego filtra i indeksu filtra, utworzenie oddzielnej funkcji do filtrowania danych.
 ///              Filtowanie, zamiana, wykluczanie wartości (operacje na typach tekstowych).
 /// [27.08.2016] Pernamentny zapis filtrów do klasy DataStorage.
 /// [28.08.2016] Naprawiony problem z pobieraniem filtrów z kolumn podrzędnych.
+/// [24.12.2016] Nowa konwencja nazewnictwa funkcji.
 ///
 
 using System;
@@ -161,13 +165,13 @@ namespace CDesigner.Utils
         /// Aby otrzymać indeks globalny wystarczy dodać do ilości starych kolumn indeks lokalny nowej kolumny.
 		/// </summary>
 		/// 
-        /// <seealso cref="GetRows"/>
+        /// <seealso cref="getRows"/>
         /// 
 		/// <param name="column">Indeks nowej kolumny do przeliczenia.</param>
 		/// 
 		/// <returns>Lokalny indeks nowej kolumny.</returns>
 		//* ============================================================================================================
-		public int CalcNewColumnIndex( int column )
+		public int calcNewColumnIndex( int column )
 		{
 			// początkowy indeks kolumny i kopia (dla identyfikacji numeru kolumny)
 			int col      = column - this._storage.ColumnsNumber;
@@ -201,14 +205,14 @@ namespace CDesigner.Utils
 		/// wywoływaniu właściwości SubColumns.
 		/// </summary>
 		/// 
-        /// <seealso cref="GetRows"/>
+        /// <seealso cref="getRows"/>
         /// 
 		/// <param name="column">Indeks nowej kolumny do przeliczenia.</param>
 		/// <param name="subidx">Zwracany indeks kolumny podrzędnej.</param>
 		/// 
 		/// <returns>Lokalny indeks nowej kolumny.</returns>
 		//* ============================================================================================================
-		public int CalcNewColumnIndex( int column, out int subidx )
+		public int calcNewColumnIndex( int column, out int subidx )
 		{
 			// początkowy indeks kolumny i kopia (dla identyfikacji numeru kolumny)
 			int col      = column - this._storage.ColumnsNumber;
@@ -248,15 +252,15 @@ namespace CDesigner.Utils
         /// Do kolumny można przypisać format z którego będzie korzystał łącznik kolumn podrzędnych.
 		/// </summary>
         /// 
-        /// <seealso cref="RemoveSubColumns"/>
-        /// <seealso cref="AddSubColumn"/>
-        /// <seealso cref="RemoveColumn"/>
+        /// <seealso cref="removeSubColumns"/>
+        /// <seealso cref="addSubColumn"/>
+        /// <seealso cref="removeColumn"/>
         /// 
 		/// <param name="name">Nazwa kolumny do utworzenia.</param>
         /// 
         /// <returns>Identyfikator nowej kolumny.</returns>
 		//* ============================================================================================================
-		public int AddColumn( string name )
+		public int addColumn( string name )
 		{
 			this._newColumns.Add( name );
 			this._joinData.Add( new List<int>() );
@@ -285,13 +289,13 @@ namespace CDesigner.Utils
         /// Stare można wyciąć podczas filtrowania wszystkich danych.
 		/// </summary>
 		/// 
-        /// <seealso cref="RemoveSubColumns"/>
-        /// <seealso cref="AddSubColumn"/>
-        /// <seealso cref="AddColumn"/>
+        /// <seealso cref="removeSubColumns"/>
+        /// <seealso cref="addSubColumn"/>
+        /// <seealso cref="addColumn"/>
         /// 
 		/// <param name="colidx">Lokalny identyfikator nowej kolumny.</param>
 		//* ============================================================================================================
-		public void RemoveColumn( int colidx )
+		public void removeColumn( int colidx )
 		{
 			if( colidx < 0 || colidx >= this._joinData.Count )
 				return;
@@ -308,14 +312,14 @@ namespace CDesigner.Utils
 		/// Możliwe jest tworzenie łączeń tylko ze starych kolumn.
 		/// </summary>
 		/// 
-        /// <seealso cref="RemoveSubColumns"/>
-        /// <seealso cref="RemoveColumn"/>
-        /// <seealso cref="AddColumn"/>
+        /// <seealso cref="removeSubColumns"/>
+        /// <seealso cref="removeColumn"/>
+        /// <seealso cref="addColumn"/>
         /// 
 		/// <param name="colidx">Lokalny identyfikator nowej kolumny.</param>
 		/// <param name="subidx">Identyfikator starej kolumny podrzędnej.</param>
 		//* ============================================================================================================
-		public void AddSubColumn( int colidx, int subidx )
+		public void addSubColumn( int colidx, int subidx )
 		{
 			if( colidx < 0 || colidx >= this._joinData.Count )
 				return;
@@ -334,13 +338,13 @@ namespace CDesigner.Utils
         /// Wraz z kolumnami podrzędnymi czyści również wszystkie filtry należące do tych kolumn.
 		/// </summary>
         /// 
-        /// <seealso cref="AddSubColumn"/>
-        /// <seealso cref="RemoveColumn"/>
-        /// <seealso cref="AddColumn"/>
+        /// <seealso cref="addSubColumn"/>
+        /// <seealso cref="removeColumn"/>
+        /// <seealso cref="addColumn"/>
         /// 
 		/// <param name="colidx">Identyfikator kolumny złożonej.</param>
 		//* ============================================================================================================
-        public void RemoveSubColumns( int colidx )
+        public void removeSubColumns( int colidx )
 		{
 			if( colidx < 0 || colidx >= this._joinData.Count )
 				return;
@@ -356,6 +360,7 @@ namespace CDesigner.Utils
 			// usuń format
 			this._filters[colidx + this._storage.ColumnsNumber][0].Modifier = "";
 		}
+
 #endregion
 
 #region FILTROWANIE
@@ -369,8 +374,8 @@ namespace CDesigner.Utils
         /// Dokładny opis poszczególnych pól znajduje się w opisie struktury.
 		/// </summary>
         /// 
-        /// <seealso cref="AddFilter"/>
-        /// <seealso cref="ReplaceFilter"/>
+        /// <seealso cref="addFilter"/>
+        /// <seealso cref="replaceFilter"/>
         /// 
 		/// <param name="filter">Typ filtra.</param>
 		/// <param name="modifier">Modyfikator dla filtra (używany lub nie w zależności od typu).</param>
@@ -380,7 +385,7 @@ namespace CDesigner.Utils
         /// 
         /// <returns>Nowo utworzony filtr.</returns>
 		//* ============================================================================================================
-		public FilterInfo CreateFilter( FILTERTYPE filter, string modifier, string result, bool exclude, bool copy )
+		public FilterInfo createFilter( FILTERTYPE filter, string modifier, string result, bool exclude, bool copy )
 		{
 			FilterInfo finfo = new FilterInfo();
 
@@ -402,15 +407,15 @@ namespace CDesigner.Utils
         /// stosowania filtrów na wartości.
 		/// </summary>
         /// 
-        /// <seealso cref="GetRows"/>
-        /// <seealso cref="ReplaceFilter"/>
-        /// <seealso cref="RemoveFilter"/>
+        /// <seealso cref="getRows"/>
+        /// <seealso cref="replaceFilter"/>
+        /// <seealso cref="removeFilter"/>
         /// 
 		/// <param name="column">Indeks kolumny zawierającej filtry.</param>
 		/// <param name="subcol">Indeks kolumny podrzędnej.</param>
 		/// <param name="finfo">Nowy filtr do dodania.</param>
 		//* ============================================================================================================
-		public void AddFilter( int column, int subcol, FilterInfo finfo )
+		public void addFilter( int column, int subcol, FilterInfo finfo )
 		{
 			// poza zakresem
 			if( column >= this.Filter.Count || column < 0 )
@@ -427,15 +432,15 @@ namespace CDesigner.Utils
         /// filtry dziedziczone należy więc obliczyć wcześniej.
 		/// </summary>
         /// 
-        /// <seealso cref="AddFilter"/>
-        /// <seealso cref="ReplaceFilter"/>
-        /// <seealso cref="IsInherited"/>
+        /// <seealso cref="addFilter"/>
+        /// <seealso cref="replaceFilter"/>
+        /// <seealso cref="isInherited"/>
         /// 
 		/// <param name="column">Indeks kolumny do poszukiwania filtrów.</param>
 		/// <param name="subcol">Indeks kolumny podrzędnej.</param>
 		/// <param name="filter">Indeks filtru do usunięcia.</param>
 		//* ============================================================================================================
-		public void RemoveFilter( int column, int subcol, int filter )
+		public void removeFilter( int column, int subcol, int filter )
 		{
 			// poza zakresem
 			if( column >= this.Filter.Count || column < 0 || filter < 0 || filter >= this.Filter[column].Count )
@@ -444,7 +449,7 @@ namespace CDesigner.Utils
             // indeks filtra
             int index = subcol == -1
                 ? filter
-                : this.FindSubFilterIndex( column, subcol, filter );
+                : this.findSubFilterIndex( column, subcol, filter );
 
             // nie ma takiego filtra
             if( index == -1 )
@@ -459,17 +464,17 @@ namespace CDesigner.Utils
         /// Filtr nie musi zawierać informacji o kolumnie podrzędnej - dodawane jest to automatycznie.
 		/// </summary>
         /// 
-        /// <seealso cref="CreateFilter"/>
-        /// <seealso cref="AddFilter"/>
-        /// <seealso cref="RemoveFilter"/>
-        /// <seealso cref="IsInherited"/>
+        /// <seealso cref="createFilter"/>
+        /// <seealso cref="addFilter"/>
+        /// <seealso cref="removeFilter"/>
+        /// <seealso cref="isInherited"/>
         /// 
 		/// <param name="column">Indeks kolumny do poszukiwania filtrów.</param>
 		/// <param name="subcol">Indeks kolumny podrzędnej.</param>
 		/// <param name="filter">Indeks filtru do podmiany.</param>
         /// <param name="finfo">Nowy filtr przeznaczony do podmiany.</param>
 		//* ============================================================================================================
-		public void ReplaceFilter( int column, int subcol, int filter, FilterInfo finfo )
+		public void replaceFilter( int column, int subcol, int filter, FilterInfo finfo )
 		{
 			// poza zakresem
 			if( column >= this.Filter.Count || column < 0 || filter < 0 || filter >= this.Filter[column].Count )
@@ -478,7 +483,7 @@ namespace CDesigner.Utils
             // indeks filtra
             int index = subcol == -1
                 ? filter
-                : this.FindSubFilterIndex( column, subcol, filter );
+                : this.findSubFilterIndex( column, subcol, filter );
 
             // nie ma takiego filtra
             if( index == -1 )
@@ -500,8 +505,8 @@ namespace CDesigner.Utils
         /// Nie uwzględnia filtrów dziedziczonych.
 		/// </summary>
         /// 
-        /// <seealso cref="ReplaceFilter"/>
-        /// <seealso cref="RemoveFilter"/>
+        /// <seealso cref="replaceFilter"/>
+        /// <seealso cref="removeFilter"/>
         /// 
 		/// <param name="column">Indeks kolumny do poszukiwania filtrów.</param>
 		/// <param name="subcol">Indeks kolumny podrzędnej.</param>
@@ -509,7 +514,7 @@ namespace CDesigner.Utils
 		/// 
 		/// <returns>Bezpośredni indeks dla filtru podrzędnego.</returns>
 		//* ============================================================================================================
-        public int FindSubFilterIndex( int column, int subcol, int filter )
+        public int findSubFilterIndex( int column, int subcol, int filter )
         {
             int index   = 0;
             var filters = this.Filter[column];
@@ -537,8 +542,8 @@ namespace CDesigner.Utils
         /// dziedziczonych.
 		/// </summary>
         /// 
-        /// <seealso cref="GetFilter" />
-        /// <seealso cref="FindSubFilterIndex" />
+        /// <seealso cref="getFilter" />
+        /// <seealso cref="findSubFilterIndex" />
         /// 
 		/// <param name="column">Indeks kolumny do poszukiwania filtrów.</param>
 		/// <param name="subcol">Indeks kolumny podrzędnej.</param>
@@ -547,7 +552,7 @@ namespace CDesigner.Utils
 		/// 
 		/// <returns>Indeks źródła filtru gdy jest dziedziczony lub -1.</returns>
 		//* ============================================================================================================
-        public int IsInherited( int column, int subcol, int filter, out int selected )
+        public int isInherited( int column, int subcol, int filter, out int selected )
         {
             // pobierz identyfikator kolumny kopiowanej
             int realid = this._joinData[column][subcol];
@@ -579,8 +584,8 @@ namespace CDesigner.Utils
         /// Normalnie filtry dziedziczone powinny być wypisywane na samej górze w liście filtrów.
 		/// </summary>
         /// 
-        /// <seealso cref="IsInherited" />
-        /// <seealso cref="FindSubFilterIndex" />
+        /// <seealso cref="isInherited" />
+        /// <seealso cref="findSubFilterIndex" />
         /// 
 		/// <param name="column">Indeks kolumny do poszukiwania filtrów.</param>
 		/// <param name="subcol">Indeks kolumny podrzędnej.</param>
@@ -588,7 +593,7 @@ namespace CDesigner.Utils
 		/// 
 		/// <returns>Informacje o znalezionym filtrze lub NULL.</returns>
 		//* ============================================================================================================
-        public FilterInfo GetFilter( int column, int subcol, int filter )
+        public FilterInfo getFilter( int column, int subcol, int filter )
         {
             if( subcol == -1 )
                 return this.Filter[column][filter];
@@ -618,9 +623,9 @@ namespace CDesigner.Utils
         /// Działanie nie jest szybkie, ale pozwala na anulowanie zmian wcześniej wprowadzonych.
 		/// </summary>
         /// 
-        /// <seealso cref="ApplyFilterForOldColumn" />
-        /// <seealso cref="ApplyFilterForNewColumn" />
-        /// <seealso cref="CalcNewColumnIndex" />
+        /// <seealso cref="applyFilterForOldColumn" />
+        /// <seealso cref="applyFilterForNewColumn" />
+        /// <seealso cref="calcNewColumnIndex" />
         /// 
 		/// <param name="column">Indeks kolumny do pobrania.</param>
 		/// <param name="rows">Ilość zwracanych rekordów.</param>
@@ -628,7 +633,7 @@ namespace CDesigner.Utils
 		/// 
 		/// <returns>Lista przefiltrowanych danych ze strumienia.</returns>
 		//* ============================================================================================================
-		public List<string> GetRows( int column, int rows = 0, bool calc = false )
+		public List<string> getRows( int column, int rows = 0, bool calc = false )
 		{
 			// identyfikator nowej kolumny (gdy wartość jest większa niż ilość starych kolumn)
 			int newcol_idx = -1;
@@ -638,7 +643,7 @@ namespace CDesigner.Utils
 
 			// oblicz nowy identyfikator
 			if( calc && column >= this._storage.ColumnsNumber )
-				newcol_idx = this.CalcNewColumnIndex( column );
+				newcol_idx = this.calcNewColumnIndex( column );
 
 			if( rows < 1 )
 				rows = this._storage.RowsNumber;
@@ -664,10 +669,10 @@ namespace CDesigner.Utils
 			}
 			// filtruj stare kolumny
 			else if( column < this._storage.ColumnsNumber )
-				retval = this.ApplyFilterForOldColumn( column, 0, rows );
+				retval = this.applyFilterForOldColumn( column, 0, rows );
 			// filtruj nowo utworzone kolumny
 			else
-				retval = this.ApplyFilterForNewColumn( column, 0, rows );
+				retval = this.applyFilterForNewColumn( column, 0, rows );
 
 			return retval;
 		}
@@ -681,8 +686,8 @@ namespace CDesigner.Utils
         /// filtrowana jest względem przypisanych do niej filtrów oraz filtrów które są dziedziczone z kolumny głównej.
 		/// </summary>
         /// 
-        /// <seealso cref="ApplyFilterForOldColumn" />
-        /// <seealso cref="ApplyFilterForValue" />
+        /// <seealso cref="applyFilterForOldColumn" />
+        /// <seealso cref="applyFilterForValue" />
 		/// 
 		/// <param name="column">Kolumna z której będą pobierane wiersze.</param>
 		/// <param name="start">Pozycja początkowa dla filtrowania.</param>
@@ -690,7 +695,7 @@ namespace CDesigner.Utils
 		/// 
 		/// <returns>Lista przefiltrowanych wierszy w kolumnie.</returns>
 		//* ============================================================================================================
-		private List<string> ApplyFilterForNewColumn( int column, int start, int rows )
+		private List<string> applyFilterForNewColumn( int column, int start, int rows )
 		{
 			List<string> values = new List<string>( rows );
 			List<int>    cols   = this._joinData[column - this._storage.ColumnsNumber];
@@ -740,7 +745,7 @@ namespace CDesigner.Utils
 				// zastosuj filtry dla poszczególnych kolumn
 				for( int x = 0; x < cols.Count; ++x )
 				{
-					string colval = this.ApplyFilterForValue( this._storage.Row[pos][cols[x]], filters[x] );
+					string colval = this.applyFilterForValue( this._storage.Row[pos][cols[x]], filters[x] );
 
                     // pomiń gdy wartość nie spełnia warunku filtra
                     if( colval == null )
@@ -773,8 +778,8 @@ namespace CDesigner.Utils
         /// wraz z ich kolumnami podrzędnymi.
 		/// </summary>
 		/// 
-        /// <seealso cref="ApplyFilterForNewColumn" />
-        /// <seealso cref="ApplyFilterForValue" />
+        /// <seealso cref="applyFilterForNewColumn" />
+        /// <seealso cref="applyFilterForValue" />
         /// 
 		/// <param name="column">Kolumna z której będą pobierane wiersze.</param>
 		/// <param name="start">Pozycja początkowa dla filtrowania.</param>
@@ -782,7 +787,7 @@ namespace CDesigner.Utils
 		/// 
 		/// <returns>Lista wybranych i przefiltrowanych wierszy w kolumnie.</returns>
 		//* ============================================================================================================
-		private List<string> ApplyFilterForOldColumn( int column, int start, int rows )
+		private List<string> applyFilterForOldColumn( int column, int start, int rows )
 		{
 			var values = new List<string>( rows );
 			var filter = this.Filter[column];
@@ -791,7 +796,7 @@ namespace CDesigner.Utils
             {
                 // filtruj wartość z tabeli (krotkę)
                 string value = this._storage.Row[x][column];
-                value = this.ApplyFilterForValue( value, filter );
+                value = this.applyFilterForValue( value, filter );
 
                 // dodaj gdy spełnia warunki filtrowania
                 if( value != null )
@@ -809,7 +814,7 @@ namespace CDesigner.Utils
         /// 
         /// <param name="columns">Lista dostępności kolumn, które mają być ukryte a które nie.</param>
 		//* ============================================================================================================
-        public void SetActiveColumns( List<bool> columns )
+        public void setActiveColumns( List<bool> columns )
         {
             if( columns.Count != this._columnActive.Count )
                 return;
@@ -826,7 +831,7 @@ namespace CDesigner.Utils
         /// 
         /// <returns>Informacja o tym czy operacja się powiodła czy nie.</returns>
 		//* ============================================================================================================
-        public bool ApplyFilters()
+        public bool applyFilters()
         {
             var formats = new string[this._joinData.Count];
             var newfmts = new List<List<List<FilterInfo>>>( this._joinData.Count );
@@ -900,7 +905,7 @@ namespace CDesigner.Utils
                 {
                     if( !this._columnActive[x] )
                         continue;
-                    newrow[idx] = this.ApplyFilterForValue( row[x], this._filters[x] );
+                    newrow[idx] = this.applyFilterForValue( row[x], this._filters[x] );
 
                     if( newrow[idx] == null )
                     {
@@ -925,7 +930,7 @@ namespace CDesigner.Utils
                     // podkolumny
                     for( int y = 0; y < this._joinData[x].Count; ++y )
                     {
-                        string colval = this.ApplyFilterForValue( row[this._joinData[x][y]], newfmts[x][y] );
+                        string colval = this.applyFilterForValue( row[this._joinData[x][y]], newfmts[x][y] );
  
                         if( colval == null )
                         {
@@ -969,15 +974,15 @@ namespace CDesigner.Utils
         /// Zwraca przefiltrowaną wartość lub NULL, które zostaje zwrócone gdy filtr odrzuci wartość od warunku.
 		/// </summary>
 		/// 
-        /// <seealso cref="ApplyFilterForOldColumn" />
-        /// <seealso cref="ApplyFilterForNewColumn" />
+        /// <seealso cref="applyFilterForOldColumn" />
+        /// <seealso cref="applyFilterForNewColumn" />
         /// 
 		/// <param name="value">Wartość do przefiltrowania.</param>
 		/// <param name="filters">Lista filtrów stosowanych dla podanej wartości.</param>
 		/// 
 		/// <returns>Nowa przefiltrowana wartość lub NULL gdy nie spełni warunku filtru.</returns>
 		//* ============================================================================================================
-        private string ApplyFilterForValue( string value, List<FilterInfo> filters )
+        private string applyFilterForValue( string value, List<FilterInfo> filters )
         {
             for( int x = 0; x < filters.Count; ++x )
                 switch( filters[x].Filter )
@@ -1024,6 +1029,7 @@ namespace CDesigner.Utils
 
             return value;
         }
+
 #endregion
 	}
 }

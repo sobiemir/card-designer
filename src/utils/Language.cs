@@ -1,5 +1,5 @@
 ﻿///
-/// $c03 Language.cs
+/// $u08 Language.cs
 /// 
 /// Wczytywanie tłumaczeń dla danego języka.
 /// Wyszukiwanie odbywa się po podaniu sekcji, podsekcji i indeksu.
@@ -7,12 +7,14 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2016-12-03
+/// Ostatnia zmiana: 2016-12-22
 /// 
 /// CHANGELOG:
+/// [14.09.2015] Pierwsza wersja klasy.
 /// [01.12.2015] Dodano zamianę znaków \n na nową linię.
 /// [06.12.2015] Dodano zamianę znaków \$ na znak \
 /// [03.12.2016] Dodano parser dla nazw języka w różnych językach, rozpoczynający się od znaku $.
+/// [22.12.2016] Pobieranie języka z ustawień.
 ///
 
 using System;
@@ -209,9 +211,10 @@ namespace CDesigner.Utils
 #		endif
 
 			// domyślny język lub język pobrany z ustawień
-			if( lang == null )
-			//	lang = Settings.Info.Language;
-				lang = "pol";
+			if( lang == null && Settings.Info.Language != null )
+				lang = Settings.Info.Language;
+            else if( lang == null )
+                lang = "pol";
 
 			// nie wywołano funkcji inicjalizacji
 			if( !Language._init )
@@ -226,6 +229,9 @@ namespace CDesigner.Utils
 			
 			Dictionary<string, List<string>> section = Language._line[" "];
 			List<string> subsect = null;
+
+            // pobierz dane nagłówkowe
+            Language.GetLanguageHeader( file );
 
 			// przetwarzaj treść
 			try { while( (chr = file.Read()) != -1 )

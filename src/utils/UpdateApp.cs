@@ -1,5 +1,5 @@
 ﻿///
-/// $cXX UpdateApp.cs
+/// $u12 UpdateApp.cs
 /// 
 /// Plik zawierający klasę do pobierania informacji o aktualizacji aplikacji.
 /// Pobiera informacje o zmianach w poszczególnych wersjach i numer wersji do której program będzie aktualizowany.
@@ -32,6 +32,41 @@ namespace CDesigner.Utils
     /// Funkcje wyodrębnione w celu wywoływania w innym procesie.
     /// </summary>
     /// 
+	/// <example>
+	/// Przykład użycia klasy:
+	/// <code>
+    /// // sprawdza, czy atkualizacjia jest dostępna
+    /// if( !UpdateApp.CheckAvailability() )
+    /// {
+    ///     Console.WriteLine( "Aktualizacja nie jest dostępna." );
+    ///     goto _G_EXCEPTION_RESOLVE;
+    /// }
+    /// 
+    /// Console.WriteLine( "Dostępna jest nowa wersja programu: " +
+    ///     UpdateApp.VERSION + ", " + UpdateApp.BUILD_DATE );
+    /// 
+    /// pobiera listę zmian w poszczególnych wersjach
+    /// if( !UpdateApp.GetChangeLog() )
+    /// {
+    ///     Console.WriteLine( "Nie można pobrać informacji o zmianach." );
+    ///     goto _G_EXCEPTION_RESOLVE;
+    /// }
+    /// 
+    /// // wyświetla listę zmian
+    /// Console.WriteLine( "Lista zmian począwszy od wersji początkowej:" );
+    /// Console.WriteLine( UpdateApp.ChangeLog );
+    /// return;
+    /// 
+    /// _G_EXCEPTION_RESOLVE:
+    /// 
+    /// // sprawdź, czy nie wystąpił błąd
+    /// if( UpdateApp.ConnectionError.Response == null )
+    ///     Console.WriteLine( "Nie można połączyć się z serwerem." );
+    /// else
+    ///     Console.WriteLine( "Wystąpił błąd: " + UpdateApp.ConnectionError.Message );
+	/// </code>
+	/// </example>
+    /// 
     public static class UpdateApp
     {
 #region ZMIENNE
@@ -59,23 +94,27 @@ namespace CDesigner.Utils
         /// Czy aktualizacja jest dostępna?
         /// Sprawdza numer wersji i flagę błędu, która uzupełniana jest przy błędzie łączenia z serwerem.
         /// Właściwość tylko do odczytu.
-        /// </summary>
+		/// </summary>
         /// 
         /// <seealso cref="CheckAvailability"/>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static bool Available
         {
-            get { return UpdateApp.CONNECT_ERROR == null && UpdateApp.VERSION != null; }
+            get
+            {
+                return UpdateApp.CONNECT_ERROR == null && UpdateApp.VERSION != null
+                    && UpdateApp.VERSION != Program.VERSION;
+            }
         }
 
         /// <summary>
         /// Lista zmian w poszczególnych wersjach.
         /// Zwraca pobraną wcześniej listę zmian we wszystkich wersjach programu.
         /// Właściwość tylko do odczytu.
-        /// </summary>
+		/// </summary>
         /// 
         /// <seealso cref="GetChangeLog"/>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static string ChangeLog
         {
             get { return UpdateApp.CHANGELOG; }
@@ -85,10 +124,10 @@ namespace CDesigner.Utils
         /// Numer nowej wersji programu, który jest dostępny do aktualizacji.
         /// Zwraca pobraną wcześniej odpowiednią funkcją wersję programu dostępną do aktualizacji.
         /// Właściwość tylko do odczytu.
-        /// </summary>
+		/// </summary>
         /// 
         /// <seealso cref="CheckAvailability"/>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static string Version
         {
             get { return UpdateApp.VERSION; }
@@ -99,11 +138,11 @@ namespace CDesigner.Utils
         /// W przypadku gdy pobieranie wersji lub pliku z listą zmian nie przebiegnie pomyślnie, zmienna będzie
         /// przechowywała informacje o wyjątku, który wystąpił podczas próby połączenia się z serwerem.
         /// Właściwość tylko do odczytu.
-        /// </summary>
+		/// </summary>
         /// 
         /// <seealso cref="GetChangeLog"/>
         /// <seealso cref="CheckAvailability"/>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static WebException ConnectionError
         {
             get { return UpdateApp.CONNECT_ERROR; }
@@ -113,10 +152,10 @@ namespace CDesigner.Utils
         /// Data kompilacji aktualizacji.
         /// Pobierana jest z wersji programu i jest równie ważnym znacznikiem aktualizacji.
         /// Właściwość tylko do odczytu.
-        /// </summary>
+		/// </summary>
         /// 
         /// <seealso cref="CheckAvailability"/>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static DateTime BuildDate
         {
             get { return UpdateApp.BUILD_DATE; }
@@ -138,13 +177,13 @@ namespace CDesigner.Utils
         /// <seealso cref="ConnectionError"/>
         /// <seealso cref="Version"/>
         /// <seealso cref="Available"/>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static bool CheckAvailability()
         {
 #       if DEBUG
             Program.LogMessage( "Wyszukiwanie dostępnych aktualizacji." );
 #       endif
-            string url = "http://app.aculo.pl/cdesigner/check/" + Program.VERSION;
+			string url = "http://app.aculo.pl/cdesigner/check/" + Program.VERSION;
 
             try
             {
@@ -171,29 +210,26 @@ namespace CDesigner.Utils
                 UpdateApp.CONNECT_ERROR = null;
                 UpdateApp.VERSION       = version;
 
-                // podziel wersje na 4 części
-                string[] expl = UpdateApp.VERSION.Split('.');
+			    // podziel wersje na 4 części
+			    string[] expl = UpdateApp.VERSION == null
+                    ? Program.VERSION.Split('.')
+                    : UpdateApp.VERSION.Split('.');
 
-                // pobierz datę kompilacji z wersji aplikacji
-                try
-                {
-                    UpdateApp.BUILD_DATE = new DateTime( 2000, 1, 1 ).Add( new TimeSpan
-                    (
-                        TimeSpan.TicksPerDay    * Convert.ToInt32(expl[2]) +
-                        TimeSpan.TicksPerSecond * 2 * Convert.ToInt32(expl[3])
-                    ) );
-                }
-                // błąd konwertowania wersji aplikacji...
- #          pragma warning disable 0168
-                catch( Exception ex )
- #          pragma warning restore 0168
-                {
-                    UpdateApp.BUILD_DATE = new DateTime( 1970, 1, 1 );
-
-#               if DEBUG
-                    Program.LogMessage( "Problem z pobieraniem daty z wersji: " + ex.Message );
-#               endif
-                }
+			    // pobierz datę kompilacji z wersji aplikacji
+			    try
+			    {
+				    UpdateApp.BUILD_DATE = new DateTime( 2000, 1, 1 ).Add( new TimeSpan
+				    (
+					    TimeSpan.TicksPerDay    * Convert.ToInt32(expl[2]) +
+					    TimeSpan.TicksPerSecond * 2 * Convert.ToInt32(expl[3])
+				    ) );
+			    }
+			    // błąd konwertowania wersji aplikacji...
+			    catch( Exception ex )
+			    {
+				    UpdateApp.BUILD_DATE = new DateTime( 1970, 1, 1 );
+				    Program.LogMessage( "Problem z pobieraniem daty z wersji: " + ex.Message );
+			    }
             }
             catch( WebException ex )
             {
@@ -216,7 +252,7 @@ namespace CDesigner.Utils
         /// 
         /// <seealso cref="ChangeLog"/>
         /// <seealso cref="ConnectionError"/>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static bool GetChangeLog()
         {
 #       if DEBUG
@@ -225,8 +261,8 @@ namespace CDesigner.Utils
             try
             {
                 // pobierz dane dotyczące wersji
-                var request   = (HttpWebRequest)WebRequest.Create( "http://app.aculo.pl/cdesigner/readme" );
-                var response  = (HttpWebResponse)request.GetResponse();
+			    var request   = (HttpWebRequest)WebRequest.Create( "http://app.aculo.pl/cdesigner/readme" );
+			    var response  = (HttpWebResponse)request.GetResponse();
                 var reader    = response.GetResponseStream();
                 var changelog = new StreamReader(reader).ReadToEnd();
 
@@ -263,14 +299,16 @@ namespace CDesigner.Utils
         /// Wszystkie te pliki będą podmieniane w procesie aktualizacji po jej akceptacji.
         /// </summary>
         /// 
+        /// <seealso cref="Forms.UpdateForm"/>
+        /// 
         /// <returns>Lista plików do kompresji.</returns>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static List<string> ListChanges()
         {
             List<string> files = new List<string>();
 
-            files.Add( "./CDesigner.exe" );
-            files.Add( "./CDRestore.exe" );
+            files.Add( "./cdesigner.exe" );
+            files.Add( "./cdrestore.exe" );
             
             // na razie dodaj plik konfiguracyjny - potem dodawaj tylko zmiany
             files.Add( "./cdset.nfo" );
@@ -299,15 +337,13 @@ namespace CDesigner.Utils
         /// Adres zawiera klucz dostępu do aktualizacji, działa na zasadzie hasła.
         /// </summary>
         /// 
+        /// <seealso cref="Forms.UpdateForm"/>
+        /// 
         /// <returns>Link do pobrania aktualizacji.</returns>
-        //* ============================================================================================================
+		//* ============================================================================================================
         public static string DownloadLink()
         {
             return "http://app.aculo.pl/cdesigner/download/" + UpdateApp.KEY;
-        }
-
-        public static void CopyCDRestoreFiles()
-        {
         }
 
 #endregion

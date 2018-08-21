@@ -39,7 +39,7 @@ namespace CDRestore
 			// pobierz wersje aplikacji
 			try
 			{
-				String version = AssemblyName.GetAssemblyName("CDesigner.exe").Version.ToString();
+				String version = AssemblyName.GetAssemblyName("cdesigner.exe").Version.ToString();
 				this.L_Version.Text = "Zainstalowana wersja: " + version;
 			}
 			catch( FileNotFoundException ex )
@@ -298,7 +298,7 @@ namespace CDRestore
 				// pobierz wersje aplikacji
 				try
 				{
-					String version = AssemblyName.GetAssemblyName("CDesigner.exe").Version.ToString();
+					String version = AssemblyName.GetAssemblyName("cdesigner.exe").Version.ToString();
 					this.L_Version.Text = "Zainstalowana wersja: " + version;
 				}
 				catch( FileNotFoundException ex )
@@ -334,7 +334,7 @@ namespace CDRestore
 
 					// uruchomienie programu CDesigner
 					Process process = new Process();
-					process.StartInfo.FileName = "CDesigner.exe";
+					process.StartInfo.FileName = "cdesigner.exe";
 					process.StartInfo.Arguments = "-w";
 					process.Start();
 

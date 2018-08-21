@@ -1,5 +1,5 @@
 ﻿///
-/// $i07 UpdateForm.cs
+/// $i05 UpdateForm.cs (I07)
 /// 
 /// Okno aktualizacji programu.
 /// Wyświetla listę zmian w poszczególnych wersjach oraz wersje programu aktualnego i aktualizowanego.
@@ -9,7 +9,7 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.6.x
-/// Ostatnia zmiana: 2016-11-14
+/// Ostatnia zmiana: 2016-12-10
 /// 
 /// CHANGELOG:
 /// [27.06.2015] Wersja początkowa - pobieranie i kompresja aktualizacji.
@@ -18,6 +18,7 @@
 ///              i wydzielenie funkcji do osobnej klasy. Odświeżenie wyglądu formularza.
 /// [19.11.2016] W przypadku istniejących plików instalacyjnych, wyświetla pytanie czy jes zainstalować.
 ///              Kopiowanie pliku cdrestore jeszcze w trakcie działania cdesigner.
+/// [10.12.2016] Blokowanie wyświetlania okna podczas gdy wystąpił błąd z połączeniem.
 ///
 
 using System;
@@ -54,10 +55,10 @@ namespace CDesigner.Forms
         private string _bonus;
 
         /// <summary>Czy włączony tryb kompresji?</summary>
-        private bool _comprmode;
+        private bool _comprMode;
 
         /// <summary>Czy wystąpił błąd podczas kompresji lub aktualizacji?</summary>
-        private bool _haserror;
+        private bool _hasError;
 
 #endregion
 
@@ -75,8 +76,8 @@ namespace CDesigner.Forms
             
             this._locked    = false;
             this._bonus     = "";
-            this._comprmode = false;
-            this._haserror  = false;
+            this._comprMode = false;
+            this._hasError  = false;
 
             this.PB_AppLogo.Image = Program.GetBitmap( BITMAPCODE.CDesigner128 );
 
@@ -139,8 +140,10 @@ namespace CDesigner.Forms
         /// 
         /// <seealso cref="refreshAndOpen"/>
         /// <seealso cref="Language"/>
+        /// 
+        /// <returns>Czy odświeżanie kontrolki przebiegło pomyślnie?</returns>
 		//* ============================================================================================================
-        public void refreshForm()
+        public bool refreshForm()
         {
 #       if DEBUG
 			Program.LogMessage( "Odświeżanie wszystkich potrzebnych danych." );
@@ -154,13 +157,13 @@ namespace CDesigner.Forms
                     if( !UpdateApp.CheckAvailability() )
                     {
                         this.checkException();
-                        return;
+                        return false;
                     }
                     // pobierz zmiany w kolejnych wersjach
                     if( !UpdateApp.GetChangeLog() )
                     {
                         this.checkException();
-                        return;
+                        return false;
                     }
                 }
                 catch( Exception ex )
@@ -173,7 +176,7 @@ namespace CDesigner.Forms
                         false,
                         ex
                     );
-                    return;
+                    return false;
                 }
 
             // tłumacz etykiety
@@ -187,6 +190,8 @@ namespace CDesigner.Forms
                 this.B_Update.Enabled = true;
             else
                 this.B_Update.Enabled = false;
+
+            return true;
         }
         
         /// <summary>
@@ -198,7 +203,7 @@ namespace CDesigner.Forms
 		/// </summary>
         /// 
         /// <param name="parent">Rodzic do którego przypisany będzie komunikat.</param>
-        /// <param name="dialog">Czy wyświetlić jako okno modalne?</param>
+        /// <param name="modal">Czy wyświetlić jako okno modalne?</param>
         /// 
         /// <returns>Wartość zwracana przez okno modalne lub DialogResult.None.</returns>
         /// 
@@ -207,8 +212,9 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
         public DialogResult refreshAndOpen( Form parent = null, bool modal = true )
         {
-            this.refreshForm();
-            return Program.OpenForm( this, parent, modal );
+            if( this.refreshForm() )
+                return Program.OpenForm( this, parent, modal );
+            return DialogResult.None;
         }
 
         /// <summary>
@@ -313,7 +319,7 @@ namespace CDesigner.Forms
 				return;
 			}
 
-			if( this._comprmode )
+			if( this._comprMode )
 			{
 				// utwórz aktualizacje
 				this.BW_Update.DoWork -= this.DecompressUpdate;
@@ -384,7 +390,7 @@ namespace CDesigner.Forms
 
 				// błąd... nie przetwarzaj dalej
 				this.BW_Update.ReportProgress( 100, (object)1 );
-                this._haserror = true;
+                this._hasError = true;
 			}
 		}
 
@@ -445,7 +451,7 @@ namespace CDesigner.Forms
 			{
 				// wypakuj dane do folderu "./temp/"
 				DataBackup backup = new DataBackup( this.BW_Update );
-				backup.DecompressUpdate( "./update.cbd", "./temp/" );
+				backup.decompressUpdate( "./update.cbd", "./temp/" );
 			}
 			catch( Exception ex )
 			{
@@ -460,7 +466,7 @@ namespace CDesigner.Forms
 
                 // błąd... nie przetwarzaj dalej
 				this.BW_Update.ReportProgress( 100, 2 );
-                this._haserror = true;
+                this._hasError = true;
 			}
 		}
 
@@ -521,7 +527,7 @@ namespace CDesigner.Forms
 
 					// uruchomienie programu CDRestore
 					Process process = new Process();
-					process.StartInfo.FileName = "CDRestore.exe";
+					process.StartInfo.FileName = "cdrestore.exe";
 					process.StartInfo.Arguments = "-i -w";
 					process.Start();
 
@@ -557,7 +563,7 @@ namespace CDesigner.Forms
 				Program.LogMessage( "Próba zamknięcia okna podczas aktualizacji programu." );
 #           endif
 
-                if( !this._haserror )
+                if( !this._hasError )
                     Program.LogInfo
                     (
                         Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_CLOSEONUP ),
@@ -565,7 +571,7 @@ namespace CDesigner.Forms
                         this
                     );
 
-                this._haserror = false;
+                this._hasError = false;
 				ev.Cancel = true;
 
 				return;
@@ -614,13 +620,13 @@ namespace CDesigner.Forms
             // jeżeli ciąg znaków został wpisany poprawnie, przełącz tryb
             if( correct && this._bonus.Length == extrastring.Length )
             {
-                this._comprmode = !this._comprmode;
+                this._comprMode = !this._comprMode;
 #           if DEBUG
                 Program.LogMessage( "Wpisano poprawny ciąg znaków: " + this._bonus + "." );
 #           endif
 
                 // zmień tekst na przycisku
-                if( this._comprmode )
+                if( this._comprMode )
                     this.B_Update.Text = Language.GetLine( "Update", "Buttons", (int)LANGCODE.I07_BUT_COMPRESS );
                 else
                     this.B_Update.Text = Language.GetLine( "Update", "Buttons", (int)LANGCODE.I07_BUT_UPDATE );
@@ -628,7 +634,7 @@ namespace CDesigner.Forms
                 // wyświetl informacje o włączonym trybie
                 Program.LogInfo
                 (
-                    this._comprmode
+                    this._comprMode
                         ? Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_ACTIVEZIP )
                         : Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_NACTIVEZIP ),
                     Language.GetLine( "FormNames", (int)LANGCODE.GFN_PROGRAMUPDATE ),
@@ -673,7 +679,7 @@ namespace CDesigner.Forms
             try
             {
                 // tryb kompresji, nie pobieraj, przejdź od razu do kolejnego etapu
-                if( this._comprmode )
+                if( this._comprMode )
                 {
                     this.DownloadCompleted( null, new AsyncCompletedEventArgs(null, false, 0) );
                     return;

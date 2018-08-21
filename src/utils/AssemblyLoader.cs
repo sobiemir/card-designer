@@ -1,14 +1,14 @@
 ﻿///
-/// $c04 AssemblyLoader.cs
+/// $u04 AssemblyLoader.cs
 /// 
 /// Ładowanie brakujących bibliotek z folderu ./libraries.
 /// 
 /// Autor: Kamil Biały
-/// Od wersji: 0.7.x.x
+/// Od wersji: 0.6.x.x
 /// Ostatnia zmiana: 2016-07-14
 /// 
 /// CHANGELOG:
-/// [16.07.2015] Wersja początkowa.
+/// [18.06.2015] Wersja początkowa.
 /// [14.07.2016] Odświeżone komentarze i regiony.
 ///
 

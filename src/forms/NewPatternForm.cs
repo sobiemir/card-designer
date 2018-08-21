@@ -1,5 +1,5 @@
 ﻿///
-/// $i05 NewPatternForm.cs
+/// $i02 NewPatternForm.cs (I05)
 /// 
 /// Okno edycji dodawania nowego wzoru.
 /// Tworzy lub kopiuje wybrany wzór i bezpośrednio po zamknięciu otwiera zakładkę edycji wzoru.
@@ -7,7 +7,7 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.1.x
-/// Ostatnia zmiana: 2016-12-03
+/// Ostatnia zmiana: 2016-12-24
 /// 
 /// CHANGELOG:
 /// [23.03.2015] Wersja początkowa.
@@ -16,6 +16,7 @@
 /// [11.11.2016] Odblokowanie pola wyboru kopiowania wzoru i oprogramowanie akcji.
 ///              Opisanie kodu, regiony, uporządkowanie kodu.
 /// [03.12.2016] Tłumaczenia formatów (pole własny).
+/// [24.12.2016] Nazwy zmiennych przeformatowane do nowego stylu.
 ///
 
 using System;
@@ -52,16 +53,16 @@ namespace CDesigner.Forms
 		private string _name;
         
 		/// <summary>Informacja o tym czy wyświetlany jest dymek z wiadomością.</summary>
-		private bool _tooltip_show;
+		private bool _tooltipShow;
 
         /// <summary>Nazwy zdefiniowanych formatów dla wzorów.</summary>
-        private string[] _format_names;
+        private string[] _formatNames;
 
         /// <summary>Wymiary dla formatów podanych w kontrolce powyżej.</summary>
-        private int[,] _format_dims;
+        private int[,] _formatDims;
 
         /// <summary>Lista dostępnych wzorów w aplikacji.</summary>
-        private List<PatternInfo> _patterns;
+        private List<PatternData> _patterns;
 
 #endregion
 
@@ -81,12 +82,12 @@ namespace CDesigner.Forms
 
             // inicjalizacja zmiennych
             this._name         = "";
-            this._tooltip_show = false;
+            this._tooltipShow = false;
             this._patterns     = null;
 
             // TODO: Z ustawień!!!
-            this._format_names = new string[] { "A4", "A5" };
-            this._format_dims  = new int[,] { {210, 297}, {148, 210} };
+            this._formatNames = new string[] { "A4", "A5" };
+            this._formatDims  = new int[,] { {210, 297}, {148, 210} };
 
             // wyświetlanie nazw aktualnych wzorów
             this.fillAvailablePatterns();
@@ -176,7 +177,7 @@ namespace CDesigner.Forms
             this.CBX_PaperFormat.Items.Add( Language.GetLine("NewPattern", "ComboBox", (int)LANGCODE.I05_CBX_CUSTOMSIZE) );
 
             // wyświetlanie nazw dostępnych formatów
-            foreach( string format_name in this._format_names )
+            foreach( string format_name in this._formatNames )
                 this.CBX_PaperFormat.Items.Add( format_name );
         }
 
@@ -239,8 +240,8 @@ namespace CDesigner.Forms
             if( this.CBX_PaperFormat.SelectedIndex > 0 )
             {
                 // uzupełnij wartości w polach numerycznych
-                this.N_Width.Value  = this._format_dims[this.CBX_PaperFormat.SelectedIndex - 1, 0];
-                this.N_Height.Value = this._format_dims[this.CBX_PaperFormat.SelectedIndex - 1, 1];
+                this.N_Width.Value  = this._formatDims[this.CBX_PaperFormat.SelectedIndex - 1, 0];
+                this.N_Height.Value = this._formatDims[this.CBX_PaperFormat.SelectedIndex - 1, 1];
 
                 // zablokuj pola
                 this.N_Width.Enabled  = false;
@@ -283,7 +284,7 @@ namespace CDesigner.Forms
 #		    endif
 
                 // pokaż dymek jeżeli wisano zły znak
-				if( !this._tooltip_show )
+				if( !this._tooltipShow )
 				{
 					this.TT_BadChars.Show
 					(
@@ -291,7 +292,7 @@ namespace CDesigner.Forms
 						this.TB_PatternName,
 						new Point( -20, this.TB_PatternName.Height + 2 )
 					);
-					this._tooltip_show = true;
+					this._tooltipShow = true;
 				}
 
                 // wydaj dźwięk
@@ -302,14 +303,14 @@ namespace CDesigner.Forms
 			}
 
             // ukryj dymek jeżeli wpisano poprawny znak przed samoczynnym schowaniem się dymku
-			if( this._tooltip_show )
+			if( this._tooltipShow )
 			{
 #           if DEBUG
 		        Program.LogMessage( "Wpisanie poprawnego znaku - chowanie dymku." );
 #		    endif
 
 				this.TT_BadChars.Hide( this.TB_PatternName );
-				this._tooltip_show = false;
+				this._tooltipShow = false;
 			}
 		}
 
@@ -323,14 +324,14 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
 		private void TB_PatternName_Leave( object sender, EventArgs ev )
 		{
-			if( this._tooltip_show )
+			if( this._tooltipShow )
 			{
 #           if DEBUG
 		        Program.LogMessage( "Zmiana aktywnej kontrolki - chowanie dymku." );
 #		    endif
 
 				this.TT_BadChars.Hide( this.TB_PatternName );
-				this._tooltip_show = false;
+				this._tooltipShow = false;
 			}
 		}
 
@@ -530,14 +531,14 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
 		private void NewPatternForm_Move( object sender, EventArgs ev )
 		{
-			if( this._tooltip_show )
+			if( this._tooltipShow )
 			{
 #           if DEBUG
 		        Program.LogMessage( "Przesuwanie okna - chowanie dymku." );
 #		    endif
 
 				this.TT_BadChars.Hide( this.TB_PatternName );
-				this._tooltip_show = false;
+				this._tooltipShow = false;
 			}
         }
 

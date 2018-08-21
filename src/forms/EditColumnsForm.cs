@@ -1,5 +1,5 @@
 ﻿///
-/// $i03 EditColumnsForm.cs
+/// $i06 EditColumnsForm.cs (I03)
 /// 
 /// Okno edycji kolumn bazy danych.
 /// Uruchamia okno tworzenia kolumn i filtrowania danych.
@@ -7,16 +7,23 @@
 /// Modyfikacja danych odbywa się za pomocą innego formularza.
 /// 
 /// Autor: Kamil Biały
-/// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2016-08-28
+/// Od wersji: 0.6.x.x
+/// Ostatnia zmiana: 2016-12-24
 /// 
 /// CHANGELOG:
-/// [04.09.2015] Wersja początkowa.
-/// [19.02.2016] Nowa wersja edytora kolumn.
-///              Zmieniona koncepcja - przeniesienie filtrowania kolumn do edytora.
+/// [29.06.2015] Wersja początkowa.
+/// [28.07.2015] Zmiana nazwy klasy i pliku z JoinColsForm na EditColumnsForm,
+///              dodano przycisk przechodzący do formularza filtrowania danych,
+///              utworzono logikę (utworzony było samo okno z kontrolkami bez akcji).
+/// [05.08.2015] Uruchomienie filtrów dla kolumn, sprawdzanie poprawności wpisanych danych,
+///              funkcja odświeżająca wyświetlane dane.
+/// [15.02.2016] Nowy przycisk edytora wierszy - podpięcie formularza edycji wierszy.
+/// [19.04.2016] Nowa wersja edytora kolumn - zmieniona koncepcja - przeniesienie filtrowania kolumn do edytora.
 /// [06.07.2016] Wdrażanie tłumaczeń, regiony, komentarze.
 /// [15.08.2016] Podstawowe filtrowanie, wyświetlanie rezultatów filtrów.
 /// [27.08.2016] Zapis filtrów do strumienia po kliknięciu w przycisk.
+/// [15.12.2016] Możliwe do wpisania znaki pobierane z pliku językowego.
+/// [24.12.2016] Zmiana koncepcji nazewnictwa zmiennych.
 ///
 
 using System;
@@ -102,16 +109,16 @@ namespace CDesigner.Forms
 		private DataFilter _filter;
 
 		/// <summary>Informacja o tym czy wyświetlany jest dymek z wiadomością.</summary>
-		private bool _show_tooltip;
+		private bool _showTooltip;
 
 		/// <summary>Aktualnie zaznaczona kolumna w sekcji z filtrami (dla nowych filtrów).</summary>
-		private int _current_column;
+		private int _currentColumn;
 
 		/// <summary>Indeks nowo utworzonej kolumny, liczony od 0.</summary>
-		private int _real_newindex;
+		private int _realNewIndex;
 		
 		/// <summary>Indeks kolumny podrzędnej liczony od 0.</summary>
-		private int _real_subindex;
+		private int _realSubIndex;
 
 #endregion
 
@@ -135,15 +142,15 @@ namespace CDesigner.Forms
 
             this._storage      = null;
 			this._filter       = new DataFilter();
-            this._show_tooltip = false;
+            this._showTooltip = false;
             this._locked       = false;
 
-            this._current_column = -1;
-            this._real_newindex  = -1;
-            this._real_subindex  = -1;
+            this._currentColumn = -1;
+            this._realNewIndex  = -1;
+            this._realSubIndex  = -1;
 
 			// zaznacz pierwszy krok
-			this.cbStep.SelectedIndex = 0;
+			this.CBX_Step.SelectedIndex = 0;
 
 			// tłumaczenia kontrolek
 			this.translateForm();
@@ -215,52 +222,52 @@ namespace CDesigner.Forms
 
 			// nagłówki tabel
 			var values = Language.GetLines( "EditColumns", "Headers" );
-			this.lvcColumnName.Text    = values[(int)LANGCODE.I03_HEA_COLUMNNAME];
-			this.lvcJoinedColumns.Text = values[(int)LANGCODE.I03_HEA_COLUMNS];
-			this.lvcDataPreview.Text   = values[(int)LANGCODE.I03_HEA_ROWS];
-			this.lvcRecordPreview.Text = values[(int)LANGCODE.I03_HEA_ROWS];
-			this.lvcColumns.Text       = values[(int)LANGCODE.I03_HEA_AVALIABLE];
-			this.lvcFilterList.Text    = values[(int)LANGCODE.I03_HEA_FILTERS];
+			this.CH_ColumnName.Text    = values[(int)LANGCODE.I03_HEA_COLUMNNAME];
+			this.CH_JoinedColumns.Text = values[(int)LANGCODE.I03_HEA_COLUMNS];
+			this.CH_DataPreview.Text   = values[(int)LANGCODE.I03_HEA_ROWS];
+			this.CB_RecordPreview.Text = values[(int)LANGCODE.I03_HEA_ROWS];
+			this.CH_Columns.Text       = values[(int)LANGCODE.I03_HEA_AVALIABLE];
+			this.CH_FilterList.Text    = values[(int)LANGCODE.I03_HEA_FILTERS];
 
-			this.lvAllColumns.Groups[0].Header = values[(int)LANGCODE.I03_HEA_OLDCOLUMNS];
-			this.lvAllColumns.Groups[1].Header = values[(int)LANGCODE.I03_HEA_NEWCOLUMNS];
+			this.LV_AllColumns.Groups[0].Header = values[(int)LANGCODE.I03_HEA_OLDCOLUMNS];
+			this.LV_AllColumns.Groups[1].Header = values[(int)LANGCODE.I03_HEA_NEWCOLUMNS];
 
 			// kroki
 			values = Language.GetLines( "EditColumns", "Steps" );
-			for( int x = 0; x < this.cbStep.Items.Count; ++x )
-				this.cbStep.Items[x] = (object)values[x];
+			for( int x = 0; x < this.CBX_Step.Items.Count; ++x )
+				this.CBX_Step.Items[x] = (object)values[x];
 
 			// przyciski
 			values = Language.GetLines( "EditColumns", "Buttons" );
-			this.bAddColumn.Text     = values[(int)LANGCODE.I03_BUT_ADD];
-			this.bClearColumn.Text   = values[(int)LANGCODE.I03_BUT_CLEAR];
-			this.bDeleteColumn.Text  = values[(int)LANGCODE.I03_BUT_REMOVE];
-			this.bSave.Text          = values[(int)LANGCODE.I03_BUT_SAVE];
-			this.bCancel.Text        = values[(int)LANGCODE.I03_BUT_CANCEL];
-			this.bAddFilter.Text     = values[(int)LANGCODE.I03_BUT_ADD];
-			this.bChangeFilter.Text  = values[(int)LANGCODE.I03_BUT_CHANGE];
-			this.bDeleteFilter.Text  = values[(int)LANGCODE.I03_BUT_REMOVE];
-			this.bChangeColType.Text = values[(int)LANGCODE.I03_BUT_CHANGETYPE];
-			this.bTypeSettings.Text  = values[(int)LANGCODE.I03_BUT_ADVANCED];
+			this.B_AddColumn.Text     = values[(int)LANGCODE.I03_BUT_ADD];
+			this.B_ClearColumn.Text   = values[(int)LANGCODE.I03_BUT_CLEAR];
+			this.B_DeleteColumn.Text  = values[(int)LANGCODE.I03_BUT_REMOVE];
+			this.B_Save.Text          = values[(int)LANGCODE.I03_BUT_SAVE];
+			this.B_Cancel.Text        = values[(int)LANGCODE.I03_BUT_CANCEL];
+			this.B_AddFilter.Text     = values[(int)LANGCODE.I03_BUT_ADD];
+			this.B_ChangeFilter.Text  = values[(int)LANGCODE.I03_BUT_CHANGE];
+			this.B_DeleteFilter.Text  = values[(int)LANGCODE.I03_BUT_REMOVE];
+			this.B_ChangeColType.Text = values[(int)LANGCODE.I03_BUT_CHANGETYPE];
+			this.B_AdvancedSets.Text  = values[(int)LANGCODE.I03_BUT_ADVANCED];
 
 			// napisy na formularzu
 			values = Language.GetLines( "EditColumns", "Labels" );
-			this.gbColumnType.Text   = values[(int)LANGCODE.I03_LAB_COLUMNTYPE];
-			this.gbFilterConfig.Text = values[(int)LANGCODE.I03_LAB_FILTERCONF];
-			this.lFilterType.Text    = values[(int)LANGCODE.I03_LAB_FILTERTYPE];
-			this.lModifier.Text      = values[(int)LANGCODE.I03_LAB_MODIFIER];
-			this.lResult.Text        = values[(int)LANGCODE.I03_LAB_RESULT];
-			this.cbExclude.Text      = values[(int)LANGCODE.I03_LAB_EXCLUDE];
-			this.cbAllCopies.Text    = values[(int)LANGCODE.I03_LAB_APPLYCOPY];
+			this.GB_ColumnType.Text   = values[(int)LANGCODE.I03_LAB_COLUMNTYPE];
+			this.GB_FilterConfig.Text = values[(int)LANGCODE.I03_LAB_FILTERCONF];
+			this.L_FilterType.Text    = values[(int)LANGCODE.I03_LAB_FILTERTYPE];
+			this.L_Modifier.Text      = values[(int)LANGCODE.I03_LAB_MODIFIER];
+			this.L_Result.Text        = values[(int)LANGCODE.I03_LAB_RESULT];
+			this.CB_Exclude.Text      = values[(int)LANGCODE.I03_LAB_EXCLUDE];
+			this.CB_AllCopies.Text    = values[(int)LANGCODE.I03_LAB_APPLYCOPY];
 
 			// lista typów dla kolumn
 			values = Language.GetLines( "EditColumns", "ColumnTypes" );
-			this.cbColType.Items.Clear();
+			this.CBX_ColType.Items.Clear();
 			for( int x = 0; x < values.Count - 1; ++x )
-				this.cbColType.Items.Add( values[x] );
+				this.CBX_ColType.Items.Add( values[x] );
 
 			// zapisane ustawienia typów
-			this.cbSaved.Items.Add( values[values.Count-1] );
+			this.CBX_Saved.Items.Add( values[values.Count-1] );
 
 			// nazwa formy
 			this.Text = Language.GetLine( "FormNames", (int)LANGCODE.GFN_EDITCOLUMNS );
@@ -281,24 +288,24 @@ namespace CDesigner.Forms
 			this._locked = true;
 
 			// wyczyść tabele
-			this.lvDatabaseColumns.Items.Clear();
-			this.lvAllColumns.Items.Clear();
+			this.LV_DatabaseColumns.Items.Clear();
+			this.LV_AllColumns.Items.Clear();
 
 			// uzupełnij tabele nazwami kolumn
 			for( int x = 0; x < this._storage.ColumnsNumber; ++x )
 			{
-				this.lvDatabaseColumns.Items.Add( this._storage.Column[x] );
-				this.lvDatabaseColumns.Items[x].Checked = true;
+				this.LV_DatabaseColumns.Items.Add( this._storage.Column[x] );
+				this.LV_DatabaseColumns.Items[x].Checked = true;
 
-				this.lvAllColumns.Items.Add( this._storage.Column[x] );
-				this.lvAllColumns.Items[x].Tag = null;
-				this.lvAllColumns.Items[x].Group = this.lvAllColumns.Groups[0];
+				this.LV_AllColumns.Items.Add( this._storage.Column[x] );
+				this.LV_AllColumns.Items[x].Tag = null;
+				this.LV_AllColumns.Items[x].Group = this.LV_AllColumns.Groups[0];
 			}
 
 			// wyświetl wiersze pierwszej kolumny
-			if( this.lvDatabaseColumns.Items.Count > 0 )
+			if( this.LV_DatabaseColumns.Items.Count > 0 )
 			{
-				this.lvDatabaseColumns.Items[0].Selected = true;
+				this.LV_DatabaseColumns.Items[0].Selected = true;
                 this.refreshColumnRowsIFS( 0 );
 			}
 
@@ -319,10 +326,10 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
 		public FILTERTYPE getSelectedFilterType()
 		{
-			if( this.cbFilterType.Items.Count == 1 )
+			if( this.CB_FilterType.Items.Count == 1 )
 				return FILTERTYPE.Format;
 
-			switch( this.cbFilterType.SelectedIndex )
+			switch( this.CB_FilterType.SelectedIndex )
 			{
 				case 0: return FILTERTYPE.LowerCase;
 				case 1: return FILTERTYPE.UpperCase;
@@ -353,10 +360,10 @@ namespace CDesigner.Forms
 			
 			// jeżeli jest to nowa kolumna, oblicz prawdziwy indeks kolumny i indeks podrzędny
 			if( selected >= this._storage.ColumnsNumber )
-				newindex = this._filter.CalcNewColumnIndex( selected, out subindex );
+				newindex = this._filter.calcNewColumnIndex( selected, out subindex );
 
-			this._real_newindex  = newindex;
-			this._real_subindex  = subindex;
+			this._realNewIndex  = newindex;
+			this._realSubIndex  = subindex;
 			
 			// tłumaczenia
 			var values = Language.GetLines( "EditColumns", "FilterType" );
@@ -364,10 +371,10 @@ namespace CDesigner.Forms
 			// tylko format (nowa kolumna)
 			if( newindex != -1 && subindex == -1 )
 			{
-				this.cbFilterType.Items.Clear();
-				this.cbFilterType.Items.Add( values[5] );
+				this.CB_FilterType.Items.Clear();
+				this.CB_FilterType.Items.Add( values[5] );
 
-				this.cbFilterType.SelectedIndex = 0;
+				this.CB_FilterType.SelectedIndex = 0;
 
 				return;
 			}
@@ -376,12 +383,12 @@ namespace CDesigner.Forms
 			int x;
 
 			// wyczyść i dodaj nowe typy
-			this.cbFilterType.Items.Clear();
+			this.CB_FilterType.Items.Clear();
 			
 			for( x = 0; x < 5; ++x )
-				this.cbFilterType.Items.Add( values[x] );
+				this.CB_FilterType.Items.Add( values[x] );
 
-			this.cbFilterType.SelectedIndex = 0;
+			this.CB_FilterType.SelectedIndex = 0;
 		}
 
 		/// <summary>
@@ -397,77 +404,77 @@ namespace CDesigner.Forms
 		{
 			var values = Language.GetLines( "EditColumns", "FilterType" );
 
-			this.lvFilterList.Items.Clear();
+			this.LV_FilterList.Items.Clear();
 
-			if( this._real_newindex != -1 )
+			if( this._realNewIndex != -1 )
 			{
 				// filtry dziedziczone (nie można ich usunąć)
-                if( this._real_subindex != -1 )
+                if( this._realSubIndex != -1 )
                 {
-                    int inhcol = this._filter.SubColumns[this._real_newindex][this._real_subindex];
+                    int inhcol = this._filter.SubColumns[this._realNewIndex][this._realSubIndex];
 
                     for( int x = 0, y = this._filter.Filter[inhcol].Count; x < y; ++x )
                     {
                         if( this._filter.Filter[inhcol][x].FilterCopy )
-                            this.lvFilterList.Items.Add( "# " + values[(int)this._filter.Filter[inhcol][x].Filter] );
+                            this.LV_FilterList.Items.Add( "# " + values[(int)this._filter.Filter[inhcol][x].Filter] );
                     }
                 }
 
 				// filtry przypisane tylko do wybranej kolumny
-				for( int x = 0, y = this._filter.Filter[this._current_column].Count; x < y; ++x )
+				for( int x = 0, y = this._filter.Filter[this._currentColumn].Count; x < y; ++x )
 				{
-					var filter = this._filter.Filter[this._current_column][x];
+					var filter = this._filter.Filter[this._currentColumn][x];
 
 					// tylko format i aż format
-					if( this._real_subindex == -1 && filter.SubColumn == -1 )
+					if( this._realSubIndex == -1 && filter.SubColumn == -1 )
 					{
-						this.lvFilterList.Items.Add( values[(int)FILTERTYPE.Format] );
+						this.LV_FilterList.Items.Add( values[(int)FILTERTYPE.Format] );
 						break;
 					}
-					else if( this._real_subindex != -1 && filter.SubColumn == this._real_subindex )
+					else if( this._realSubIndex != -1 && filter.SubColumn == this._realSubIndex )
 					{
-						this.lvFilterList.Items.Add( values[(int)filter.Filter] );
+						this.LV_FilterList.Items.Add( values[(int)filter.Filter] );
 					}
 				}
 
 				// zaznacz pierwszy filtr gdy są dostępne
-				if( this.lvFilterList.Items.Count > 0 )
+				if( this.LV_FilterList.Items.Count > 0 )
 				{
-					this.lvFilterList.SelectedIndices.Clear();
-					this.lvFilterList.SelectedIndices.Add( 0 );
+					this.LV_FilterList.SelectedIndices.Clear();
+					this.LV_FilterList.SelectedIndices.Add( 0 );
 				}
                 else
                 {
-                    this.cbFilterType.SelectedIndex = 0;
-                    this.tbModifier.Text            = "";
-                    this.tbResult.Text              = "";
-                    this.cbAllCopies.Checked        = false;
-                    this.cbExclude.Checked          = false;
+                    this.CB_FilterType.SelectedIndex = 0;
+                    this.TB_Modifier.Text            = "";
+                    this.TB_Result.Text              = "";
+                    this.CB_AllCopies.Checked        = false;
+                    this.CB_Exclude.Checked          = false;
                 }
 				return;
 			}
 
 			// filtry przypisane tylko do wybranej kolumny
-			for( int x = 0, y = this._filter.Filter[this._current_column].Count; x < y; ++x )
+			for( int x = 0, y = this._filter.Filter[this._currentColumn].Count; x < y; ++x )
 			{
-				FilterInfo filter = this._filter.Filter[this._current_column][x];
+				FilterInfo filter = this._filter.Filter[this._currentColumn][x];
 
-				this.lvFilterList.Items.Add( values[(int)filter.Filter] );
+				this.LV_FilterList.Items.Add( values[(int)filter.Filter] );
 			}
 
 			// zaznacz pierwszy filtr gdy są dostępne
-			if( this.lvFilterList.Items.Count > 0 )
+			if( this.LV_FilterList.Items.Count > 0 )
 			{
-				this.lvFilterList.SelectedIndices.Clear();
-				this.lvFilterList.SelectedIndices.Add( 0 );
+				this.LV_FilterList.SelectedIndices.Clear();
+				this.LV_FilterList.SelectedIndices.Add( 0 );
 			}
             else
             {
-                this.cbFilterType.SelectedIndex = 0;
-                this.tbModifier.Text            = "";
-                this.tbResult.Text              = "";
-                this.cbAllCopies.Checked        = false;
-                this.cbExclude.Checked          = false;
+                this.CB_FilterType.SelectedIndex = 0;
+                this.TB_Modifier.Text            = "";
+                this.TB_Result.Text              = "";
+                this.CB_AllCopies.Checked        = false;
+                this.CB_Exclude.Checked          = false;
             }
 		}
         
@@ -482,20 +489,20 @@ namespace CDesigner.Forms
         public void refreshColumnRowsISS( int index )
         {
 			// zaznaczony element
-			var item  = this.lvAllColumns.SelectedItems[0];
+			var item  = this.LV_AllColumns.SelectedItems[0];
 			int s2rnl = Settings.Info.ECF_RowsNumberS2;
 			int limit = this._storage.RowsNumber > s2rnl ? s2rnl : this._storage.RowsNumber;
 
 			// pobierz przefiltrowane dane
-			var rows = this._filter.GetRows( index, limit );
+			var rows = this._filter.getRows( index, limit );
 
 			// wyświetl wiersze z podanej kolumny
-			this.lvPreviewAllRows.Items.Clear();
+			this.LV_PreviewAllRows.Items.Clear();
 			for( int x = 0; x < rows.Count; ++x )
-				this.lvPreviewAllRows.Items.Add( rows[x] );
+				this.LV_PreviewAllRows.Items.Add( rows[x] );
 
 			// zmień nagłowek tabeli
-			this.lvcRecordPreview.Text = Language.GetLine( "EditColumns", "Headers", 2 ) +
+			this.CB_RecordPreview.Text = Language.GetLine( "EditColumns", "Headers", 2 ) +
 				" [" + (index >= this._storage.ColumnsNumber
 					? this._filter.NewColumns[index - this._filter.Storage.ColumnsNumber]
 					: item.Text)
@@ -516,15 +523,15 @@ namespace CDesigner.Forms
             int limit = this._storage.RowsNumber > s1rnl ? s1rnl : this._storage.RowsNumber;
 
             // pobierz przefiltrowane dane
-            var rows = this._filter.GetRows( index, limit );
+            var rows = this._filter.getRows( index, limit );
 
             // wyświetl wiersze
-            this.lvPreviewRows.Items.Clear();
+            this.LV_PreviewRows.Items.Clear();
             for( int x = 0; x < rows.Count; ++x )
-                this.lvPreviewRows.Items.Add( rows[x] );
+                this.LV_PreviewRows.Items.Add( rows[x] );
 
 			// zmień nagłowek tabeli
-			this.lvcDataPreview.Text = Language.GetLine( "EditColumns", "Headers", 2 ) +
+			this.CH_DataPreview.Text = Language.GetLine( "EditColumns", "Headers", 2 ) +
 				" [" + (index >= this._storage.ColumnsNumber
 					? this._filter.NewColumns[index - this._filter.Storage.ColumnsNumber]
 					: this._storage.Column[index])
@@ -575,13 +582,13 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="bDeleteColumn_Click" />
-        /// <seealso cref="bClearColumn_Click" />
+        /// <seealso cref="B_DeleteColumn_Click" />
+        /// <seealso cref="B_ClearColumn_Click" />
 		//* ============================================================================================================
-		private void bAddColumn_Click( object sender, EventArgs ev )
+		private void B_AddColumn_Click( object sender, EventArgs ev )
 		{
 			// usuń białe znaki z przodu i z tyłu
-			string text  = this.tbColumnName.Text.Trim();
+			string text  = this.TB_ColumnName.Text.Trim();
 
 			// brak nazwy kolumny
 			if( text == "" )
@@ -589,19 +596,19 @@ namespace CDesigner.Forms
 				Program.LogInfo
 				(
 					Language.GetLine( "EditColumns", "Messages", 1 ),
-					Language.GetLine( "MessageNames", (int)LANGCODE.iFN_EditColumns )
+					Language.GetLine( "MessageNames", (int)LANGCODE.GFN_EDITCOLUMNS )
 				);
 				return;
 			}
 
 			// sprawdź czy kolumna o tej nazwie została już dodana
-			foreach( ListViewItem item in this.lvNewColumns.Items )
+			foreach( ListViewItem item in this.LV_NewColumns.Items )
 				if( item.SubItems[0].Text == text )
 				{
 					Program.LogInfo
 					(
 						String.Format( Language.GetLine("EditColumns", "Messages", 2), item.Text ),
-						Language.GetLine( "MessageNames", (int)LANGCODE.iFN_EditColumns )
+						Language.GetLine( "MessageNames", (int)LANGCODE.GFN_EDITCOLUMNS )
 					);
 					return;
 				}
@@ -614,7 +621,7 @@ namespace CDesigner.Forms
 					(
 						this,
 						String.Format( Language.GetLine("EditColumns", "Messages", 3), column ),
-						Language.GetLine( "MessageNames", (int)LANGCODE.iFN_EditColumns ),
+						Language.GetLine( "MessageNames", (int)LANGCODE.GFN_EDITCOLUMNS ),
 						MessageBoxButtons.YesNo,
 						MessageBoxIcon.Warning,
 						MessageBoxDefaultButton.Button2
@@ -636,23 +643,23 @@ namespace CDesigner.Forms
 			var list = new List<int>();
 
 			// dodaj kolumnę
-			var newitem = this.lvNewColumns.Items.Add( text );
-			this.lvNewColumns.Items[newitem.Index].SubItems.Add("").Tag = list;
+			var newitem = this.LV_NewColumns.Items.Add( text );
+			this.LV_NewColumns.Items[newitem.Index].SubItems.Add("").Tag = list;
 
 			// [1]: indeks kolumny (0 -> lvAllColumns.Count)
 			// [2]: indeks rodzica nowej kolumny (stream.ColumnNumber -> lvAllColumns.ColumnNumber)
-			int[] info = { this.lvDatabaseColumns.Items.Count + newitem.Index, -1 };
+			int[] info = { this.LV_DatabaseColumns.Items.Count + newitem.Index, -1 };
 
 			// kolumna w tabeli z wszystkimi kolumnami
-			newitem = this.lvAllColumns.Items.Add( text );
-			this.lvAllColumns.Items[newitem.Index].Tag = info;
-			this.lvAllColumns.Items[newitem.Index].Group = this.lvAllColumns.Groups[1];
+			newitem = this.LV_AllColumns.Items.Add( text );
+			this.LV_AllColumns.Items[newitem.Index].Tag = info;
+			this.LV_AllColumns.Items[newitem.Index].Group = this.LV_AllColumns.Groups[1];
 
 			// dodaj kolumnę do filtrów
-			this._filter.AddColumn( text );
+			this._filter.addColumn( text );
 
 			// wyczyść nazwę nowej kolumny w kontrolce tekstu
-			this.tbColumnName.Text = "";
+			this.TB_ColumnName.Text = "";
 
 #		if DEBUG
 			Program.LogMessage( "Dodano nową kolumnę: " + text + "." );
@@ -669,39 +676,39 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="bAddColumn_Click" />
-        /// <seealso cref="bClearColumn_Click" />
+        /// <seealso cref="B_AddColumn_Click" />
+        /// <seealso cref="B_ClearColumn_Click" />
 		//* ============================================================================================================
-		private void bDeleteColumn_Click( object sender, EventArgs ev )
+		private void B_DeleteColumn_Click( object sender, EventArgs ev )
 		{
-			if( this.lvNewColumns.SelectedItems.Count == 0 )
+			if( this.LV_NewColumns.SelectedItems.Count == 0 )
 				return;
 
-			var item = this.lvNewColumns.SelectedItems[0];
+			var item = this.LV_NewColumns.SelectedItems[0];
 
-			for( int x = this.lvAllColumns.Items.Count - 1; x >= 0; --x )
+			for( int x = this.LV_AllColumns.Items.Count - 1; x >= 0; --x )
 			{
-				if( this.lvAllColumns.Items[x].Tag == null )
+				if( this.LV_AllColumns.Items[x].Tag == null )
 					continue;
 
-				int[] info = (int[])this.lvAllColumns.Items[x].Tag;
+				int[] info = (int[])this.LV_AllColumns.Items[x].Tag;
 
 				// usuń wszystkie podkolumny danej kolumny wraz z kolumną
-				if( info[1] == item.Index || info[0] == item.Index + this.lvDatabaseColumns.Items.Count )
-					this.lvAllColumns.Items.RemoveAt( x );
+				if( info[1] == item.Index || info[0] == item.Index + this.LV_DatabaseColumns.Items.Count )
+					this.LV_AllColumns.Items.RemoveAt( x );
 			}
 
             // zaznacz pierwszą kolumnę ze schowka po usunięciu nowej jeżeli była ona zaznaczona któraś z nowych kolumn
             // gdy sprawdzimy tylko czy była zaznaczona aktualna, może się wysypać przez indeksy
-            if( this._real_newindex != -1 || this._real_subindex != -1 )
+            if( this._realNewIndex != -1 || this._realSubIndex != -1 )
             {
-                this.lvAllColumns.SelectedIndices.Clear();
-                this.lvAllColumns.SelectedIndices.Add( 0 );
+                this.LV_AllColumns.SelectedIndices.Clear();
+                this.LV_AllColumns.SelectedIndices.Add( 0 );
             }
 
             // usuń kolumnę z filtrów
-			this._filter.RemoveColumn( item.Index );
-			this.lvNewColumns.Items.Remove( item );
+			this._filter.removeColumn( item.Index );
+			this.LV_NewColumns.Items.Remove( item );
 
 #			if DEBUG
 				Program.LogMessage( "Usunięto kolumnę o nazwie: " + item.Text + "." );
@@ -720,34 +727,34 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="bAddColumn_Click" />
-        /// <seealso cref="bDeleteColumn_Click" />
+        /// <seealso cref="B_AddColumn_Click" />
+        /// <seealso cref="B_DeleteColumn_Click" />
 		//* ============================================================================================================
-		private void bClearColumn_Click( object sender, EventArgs ev )
+		private void B_ClearColumn_Click( object sender, EventArgs ev )
 		{
-			if( this.lvNewColumns.SelectedItems.Count == 0 )
+			if( this.LV_NewColumns.SelectedItems.Count == 0 )
 				return;
 
-			var item = this.lvNewColumns.SelectedItems[0];
+			var item = this.LV_NewColumns.SelectedItems[0];
 
 			// wyczyść podkolumny
 			((List<int>)item.SubItems[1].Tag).Clear();
 			item.SubItems[1].Text = "";
 
-			for( int x = this.lvAllColumns.Items.Count - 1; x >= 0; --x )
+			for( int x = this.LV_AllColumns.Items.Count - 1; x >= 0; --x )
 			{
-				if( this.lvAllColumns.Items[x].Tag == null )
+				if( this.LV_AllColumns.Items[x].Tag == null )
 					continue;
 
-				int[] info = (int[])this.lvAllColumns.Items[x].Tag;
+				int[] info = (int[])this.LV_AllColumns.Items[x].Tag;
 
 				// usuń wszystkie podkolumny danej kolumny
 				if( info[1] == item.Index )
-					this.lvAllColumns.Items.RemoveAt( x );
+					this.LV_AllColumns.Items.RemoveAt( x );
 			}
 
 			// usuń z filtrów
-			this._filter.RemoveSubColumns( item.Index );
+			this._filter.removeSubColumns( item.Index );
 
 #			if DEBUG
 				Program.LogMessage( "Kolumna o nazwie " + item.Text + " została wyczyszczona." );
@@ -757,11 +764,9 @@ namespace CDesigner.Forms
 			GC.Collect();
 		}
 
-        /// @endcond
 #endregion
 
 #region OBSŁUGA LIST - KREATOR KOLUMN
-        /// @cond EVENTS
 
         /// <summary>
         /// Akcja wywoływana podczas wpisywania nazwy kolumny w pole tekstowe.
@@ -772,28 +777,30 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="tpTooltip_Draw" />
+        /// <seealso cref="TP_Tooltip_Draw" />
 		//* ============================================================================================================
-		private void tbColumnName_KeyPress( object sender, KeyPressEventArgs ev )
+		private void TB_ColumnName_KeyPress( object sender, KeyPressEventArgs ev )
 		{
 			// backspace i ctrl
 			if( ev.KeyChar == 8 || ModifierKeys == Keys.Control )
 				return;
 
 			// sprawdź czy nazwa zawiera niedozwolone znaki
-			var regex = new Regex( @"^[0-9a-zA-Z" + Program.AvaliableChars + @" .\-+_]+$" );
+            var lang_chars   = Language.GetLines( "Locale" );
+			var locale_chars = lang_chars[(int)LANGCODE.GLO_BIGCHARS] + lang_chars[(int)LANGCODE.GLO_SMALLCHARS];
+			var regex        = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" .\-+_]+$" );
 			if( !regex.IsMatch(ev.KeyChar.ToString()) )
 			{
 				// pokaż informacje o dozwolonych znakach
-				if( !this._show_tooltip )
+				if( !this._showTooltip )
 				{
-					this.tpTooltip.Show
+					this.TP_Tooltip.Show
 					(
 						Language.GetLine( "EditColumns", "Messages", 0 ),
-						this.tbColumnName,
-						new Point( 0, this.tbColumnName.Height + 2 )
+						this.TB_ColumnName,
+						new Point( 0, this.TB_ColumnName.Height + 2 )
 					);
-					this._show_tooltip = true;
+					this._showTooltip = true;
 				}
 
 				// dźwięk systemowy
@@ -804,10 +811,10 @@ namespace CDesigner.Forms
 			}
 
 			// schowaj informacje o dozwolonych znakach
-			if( this._show_tooltip )
+			if( this._showTooltip )
 			{
-				this.tpTooltip.Hide( this.tbColumnName );
-				this._show_tooltip = false;
+				this.TP_Tooltip.Hide( this.TB_ColumnName );
+				this._showTooltip = false;
 			}
 		}
 
@@ -820,17 +827,17 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="lvNewColumns_SelectedIndexChanged" />
+        /// <seealso cref="LV_NewColumns_SelectedIndexChanged" />
 		//* ============================================================================================================
-		private void lvDatabaseColumns_SelectedIndexChanged( object sender, EventArgs ev )
+		private void LV_DatabaseColumns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			if( this._locked )
 				return;
-			if( this.lvDatabaseColumns.SelectedItems.Count == 0 )
+			if( this.LV_DatabaseColumns.SelectedItems.Count == 0 )
 				return;
 
 			// zaznaczony element
-			var item = this.lvDatabaseColumns.SelectedItems[0];
+			var item = this.LV_DatabaseColumns.SelectedItems[0];
 
             // odśwież rekordy z wybranej kolumny
             this.refreshColumnRowsIFS( item.Index );
@@ -849,30 +856,30 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="lvDatabaseColumns_SelectedIndexChanged" />
+        /// <seealso cref="LV_DatabaseColumns_SelectedIndexChanged" />
 		//* ============================================================================================================
-		private void lvNewColumns_SelectedIndexChanged( object sender, EventArgs ev )
+		private void LV_NewColumns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			// blokada
 			if( this._locked )
 				return;
 
-			if( this.lvNewColumns.SelectedItems.Count == 0 )
+			if( this.LV_NewColumns.SelectedItems.Count == 0 )
 			{
-				this.bClearColumn.Enabled  = false;
-				this.bDeleteColumn.Enabled = false;
+				this.B_ClearColumn.Enabled  = false;
+				this.B_DeleteColumn.Enabled = false;
 
 				return;
 			}
 
 			// zaznaczony element
-			var item = this.lvNewColumns.SelectedItems[0];
+			var item = this.LV_NewColumns.SelectedItems[0];
     
             // wyświetl wiersze
             this.refreshColumnRowsIFS( item.Index + this._storage.ColumnsNumber );
 
-			this.bClearColumn.Enabled  = true;
-			this.bDeleteColumn.Enabled = true;
+			this.B_ClearColumn.Enabled  = true;
+			this.B_DeleteColumn.Enabled = true;
 		}
 
         /// <summary>
@@ -889,21 +896,21 @@ namespace CDesigner.Forms
         /// <seealso cref="lvNewColumns_DragOver" />
         /// <seealso cref="lvNewColumns_DragDrop" />
 		//* ============================================================================================================
-		private void lvDatabaseColumns_MouseDown( object sender, MouseEventArgs ev )
+		private void LV_DatabaseColumns_MouseDown( object sender, MouseEventArgs ev )
 		{
 			// pobierz element pod wskaźnikiem myszy
-			var item = this.lvDatabaseColumns.GetItemAt( ev.X, ev.Y );
+			var item = this.LV_DatabaseColumns.GetItemAt( ev.X, ev.Y );
 
 			if( item == null )
 				return;
 
 			// zapobiega podwójnemu wczytywaniu danych
-			this._locked = item.Index == 0 && this.lvPreviewRows.Items.Count == 0 ? false : true;
+			this._locked = item.Index == 0 && this.LV_PreviewRows.Items.Count == 0 ? false : true;
 			item.Selected = true;
 			this._locked = false;
 
 			// przenieś-upuść
-			this.lvDatabaseColumns.DoDragDrop( item, DragDropEffects.Move );
+			this.LV_DatabaseColumns.DoDragDrop( item, DragDropEffects.Move );
 		}
 
         /// <summary>
@@ -919,7 +926,7 @@ namespace CDesigner.Forms
         /// <seealso cref="lvNewColumns_DragOver" />
         /// <seealso cref="lvNewColumns_DragDrop" />
 		//* ============================================================================================================
-		private void dragDropEffects_Move( object sender, DragEventArgs ev )
+		private void LV_DragDropEffects_Move( object sender, DragEventArgs ev )
 		{
 			ev.Effect = DragDropEffects.Move;
 		}
@@ -937,11 +944,11 @@ namespace CDesigner.Forms
         /// <seealso cref="dragDropEffects_Move" />
         /// <seealso cref="lvNewColumns_DragDrop" />
 		//* ============================================================================================================
-		private void lvNewColumns_DragOver( object sender, DragEventArgs ev )
+		private void LV_NewColumns_DragOver( object sender, DragEventArgs ev )
 		{
 			// zaznaczona kolumna
-			var point = this.lvNewColumns.PointToClient( new Point(ev.X, ev.Y) );
-			var item  = this.lvNewColumns.GetItemAt( point.X, point.Y );
+			var point = this.LV_NewColumns.PointToClient( new Point(ev.X, ev.Y) );
+			var item  = this.LV_NewColumns.GetItemAt( point.X, point.Y );
 
 			if( item == null )
 				return;
@@ -970,11 +977,11 @@ namespace CDesigner.Forms
         /// <seealso cref="dragDropEffects_Move" />
         /// <seealso cref="lvNewColumns_DragOver" />
 		//* ============================================================================================================
-		private void lvNewColumns_DragDrop( object sender, DragEventArgs ev )
+		private void LV_NewColumns_DragDrop( object sender, DragEventArgs ev )
 		{
 			// zaznaczona kolumna
-			var point = this.lvNewColumns.PointToClient( new Point(ev.X, ev.Y) );
-			var item  = this.lvNewColumns.GetItemAt( point.X, point.Y );
+			var point = this.LV_NewColumns.PointToClient( new Point(ev.X, ev.Y) );
+			var item  = this.LV_NewColumns.GetItemAt( point.X, point.Y );
 
 			if( item == null )
 				return;
@@ -990,45 +997,43 @@ namespace CDesigner.Forms
 				item.SubItems[1].Text = copy.Text;
 			else
 				item.SubItems[1].Text += ", " + copy.Text;
-
+			
             // dodaj kolumnę do filtrów
 			list.Add( copy.Index );
-			this._filter.AddSubColumn( item.Index, copy.Index );
+			this._filter.addSubColumn( item.Index, copy.Index );
 
             // odświeżanie listy w drugim kroku
-			for( int x = this.lvAllColumns.Items.Count - 1; x >= 0; --x )
+			for( int x = this.LV_AllColumns.Items.Count - 1; x >= 0; --x )
 			{
-				if( this.lvAllColumns.Items[x].Tag == null )
+				if( this.LV_AllColumns.Items[x].Tag == null )
 					continue;
 
-				int[] info = (int[])this.lvAllColumns.Items[x].Tag;
+				int[] info = (int[])this.LV_AllColumns.Items[x].Tag;
 
-				if( info[1] == item.Index || info[0] == item.Index + this.lvDatabaseColumns.Items.Count )
+				if( info[1] == item.Index || info[0] == item.Index + this.LV_DatabaseColumns.Items.Count )
 				{
 					int[] newinfo  = { copy.Index, item.Index };
-					var   inserted = this.lvAllColumns.Items.Insert( x+1, "      " + copy.Text );
+					var   inserted = this.LV_AllColumns.Items.Insert( x+1, "      " + copy.Text );
 					
 					inserted.Tag   = newinfo;
-					inserted.Group = this.lvAllColumns.Groups[1];
+					inserted.Group = this.LV_AllColumns.Groups[1];
 					
 					// odświeżenie listy (jakoś to mnie nie przekonuje), ale cóż...
-					string head = this.lvAllColumns.Groups[1].Header;
-					this.lvAllColumns.Groups[1].Header = "";
-					this.lvAllColumns.Groups[1].Header = head;
+					string head = this.LV_AllColumns.Groups[1].Header;
+					this.LV_AllColumns.Groups[1].Header = "";
+					this.LV_AllColumns.Groups[1].Header = head;
 
 					break;
 				}
 			}
 
-			this.lvAllColumns.Update();
-			this.lvNewColumns.Focus();
+			this.LV_AllColumns.Update();
+			this.LV_NewColumns.Focus();
 		}
 
-        /// @endcond
 #endregion
 
 #region OBSŁUGA LIST - FILTROWANIE
-        /// @cond EVENTS
 
 		/// <summary>
 		/// Akcja wywoływana po zmianie wyświetlanej kolumny w filtrach.
@@ -1039,7 +1044,7 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void lvAllColumns_SelectedIndexChanged( object sender, EventArgs ev )
+		private void LV_AllColumns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			int newcol_idx = -1;
 
@@ -1047,40 +1052,40 @@ namespace CDesigner.Forms
 				return;
 
 			// zakończ funkcję gdy nie zaznaczono elementu, nie zmieniaj aktualnie zaznaczonego
-			if( this.lvAllColumns.SelectedItems.Count == 0 )
+			if( this.LV_AllColumns.SelectedItems.Count == 0 )
 				return;
 
 			// odblokuj kontrolkę zmiany filtru
-			this.cbFilterType.Enabled = true;
+			this.CB_FilterType.Enabled = true;
 
 			// zaznaczony element
-			var item = this.lvAllColumns.SelectedItems[0];
+			var item = this.LV_AllColumns.SelectedItems[0];
 
 			// zapisz indeks
 			int index = item.Index;
 			
 			// oblicz nowy identyfikator
 			if( index >= this._storage.ColumnsNumber )
-				newcol_idx = this._filter.CalcNewColumnIndex( index );
+				newcol_idx = this._filter.calcNewColumnIndex( index );
 			if( newcol_idx != -1 )
 				index = this._filter.Storage.ColumnsNumber + newcol_idx;
 
 			// nie odświeżaj gdy indeks kolumn ten sam
-			if( this._current_column == index )
+			if( this._currentColumn == index )
 			{
 				this.refreshFilters( item.Index );
 
-				if( this._real_newindex != -1 && this._real_subindex != -1 )
+				if( this._realNewIndex != -1 && this._realSubIndex != -1 )
                 {
-					this.bAddFilter.Enabled    = true;
-                    this.bChangeFilter.Enabled = false;
-                    this.bDeleteFilter.Enabled = false;
+					this.B_AddFilter.Enabled    = true;
+                    this.B_ChangeFilter.Enabled = false;
+                    this.B_DeleteFilter.Enabled = false;
                 }
-                else if( this._real_newindex != -1 && this._real_subindex == -1 )
+                else if( this._realNewIndex != -1 && this._realSubIndex == -1 )
                 {
-                    this.bAddFilter.Enabled    = false;
-                    this.bChangeFilter.Enabled = true;
-                    this.bDeleteFilter.Enabled = false;
+                    this.B_AddFilter.Enabled    = false;
+                    this.B_ChangeFilter.Enabled = true;
+                    this.B_DeleteFilter.Enabled = false;
                 }
 
                 this.displayColumnFilters();
@@ -1088,26 +1093,26 @@ namespace CDesigner.Forms
 			}
 
             // odświeżanie listy filtrów
-			this._current_column = index;
+			this._currentColumn = index;
 			this.refreshFilters( item.Index );
 
-			if( !(this._real_newindex != -1 && this._real_subindex == -1) )
+			if( !(this._realNewIndex != -1 && this._realSubIndex == -1) )
             {
-				this.bAddFilter.Enabled    = true;
-                this.bChangeFilter.Enabled = false;
-                this.bDeleteFilter.Enabled = false;
+				this.B_AddFilter.Enabled    = true;
+                this.B_ChangeFilter.Enabled = false;
+                this.B_DeleteFilter.Enabled = false;
             }
-            else if( this._real_newindex != -1 && this._real_subindex == -1 )
+            else if( this._realNewIndex != -1 && this._realSubIndex == -1 )
             {
-                this.bAddFilter.Enabled    = false;
-                this.bChangeFilter.Enabled = true;
-                this.bDeleteFilter.Enabled = false;
+                this.B_AddFilter.Enabled    = false;
+                this.B_ChangeFilter.Enabled = true;
+                this.B_DeleteFilter.Enabled = false;
             }
             // odśwież listę
             this.refreshColumnRowsISS( index );
 
 			// typ kolumny
-			this.cbColType.SelectedIndex = (int)this._filter.ColumnType[index].SelectedType;
+			this.CBX_ColType.SelectedIndex = (int)this._filter.ColumnType[index].SelectedType;
             
 #		if DEBUG
 			// informacja o danych z kolumny
@@ -1129,46 +1134,46 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void lvFilterList_SelectedIndexChanged( object sender, EventArgs ev )
+		private void LV_FilterList_SelectedIndexChanged( object sender, EventArgs ev )
         {
             // blokuj przyciski gdy nic nie zostało zaznaczone
-            if( this.lvFilterList.SelectedIndices.Count == 0 )
+            if( this.LV_FilterList.SelectedIndices.Count == 0 )
             {
-                this.bChangeFilter.Enabled = false;
-                this.bDeleteFilter.Enabled = false;
+                this.B_ChangeFilter.Enabled = false;
+                this.B_DeleteFilter.Enabled = false;
 
                 return;
             }
 
             // pobierz indeks filtrowanej kolumny
-            int selected  = this.lvFilterList.SelectedIndices[0];
+            int selected  = this.LV_FilterList.SelectedIndices[0];
             int filteridx = selected;
-            int inherited = this._real_newindex != -1 && this._real_subindex != -1
-                ? this._filter.IsInherited( this._real_newindex, this._real_subindex, selected, out filteridx )
+            int inherited = this._realNewIndex != -1 && this._realSubIndex != -1
+                ? this._filter.isInherited( this._realNewIndex, this._realSubIndex, selected, out filteridx )
                 : -1;
 
             FilterInfo info;
 
             // pobierz filtr dla kolumny podrzędnej lub filtr dziedziczony
             if( inherited == -1 )
-                info = this._filter.GetFilter( this._current_column, this._real_subindex, filteridx );
+                info = this._filter.getFilter( this._currentColumn, this._realSubIndex, filteridx );
             else
-                info = this._filter.GetFilter( inherited, -1, filteridx );
+                info = this._filter.getFilter( inherited, -1, filteridx );
 
             // typ filtra
-            this.cbFilterType.SelectedIndex = this._filterTypeToCBIndex( info.Filter );
+            this.CB_FilterType.SelectedIndex = this._filterTypeToCBIndex( info.Filter );
 
             // opcje
-            this.tbModifier.Text     = info.Modifier;
-            this.tbResult.Text       = info.Result;
-            this.cbExclude.Checked   = info.Exclude;
-            this.cbAllCopies.Checked = info.FilterCopy;
+            this.TB_Modifier.Text     = info.Modifier;
+            this.TB_Result.Text       = info.Result;
+            this.CB_Exclude.Checked   = info.Exclude;
+            this.CB_AllCopies.Checked = info.FilterCopy;
 
             // przyciski
-            this.bChangeFilter.Enabled = inherited != -1
+            this.B_ChangeFilter.Enabled = inherited != -1
                 ? false
                 : true;
-            this.bDeleteFilter.Enabled = (this._real_newindex != -1 && this._real_subindex == -1) || inherited != -1
+            this.B_DeleteFilter.Enabled = (this._realNewIndex != -1 && this._realSubIndex == -1) || inherited != -1
                 ? false
                 : true;
 		}
@@ -1181,53 +1186,53 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void cbFilterType_SelectedIndexChanged( object sender, EventArgs ev )
+		private void CB_FilterType_SelectedIndexChanged( object sender, EventArgs ev )
 		{
-			switch( this.cbFilterType.SelectedIndex )
+			switch( this.CB_FilterType.SelectedIndex )
 			{
 				// duże litery / format
 				case 0:
-                    this.tbResult.Enabled  = false;
-                    this.cbExclude.Enabled = false;
+                    this.TB_Result.Enabled  = false;
+                    this.CB_Exclude.Enabled = false;
 
 					// to tylko format
-					if( this.cbFilterType.Items.Count == 1 )
+					if( this.CB_FilterType.Items.Count == 1 )
                     {
-						this.tbModifier.Enabled  = true;
-                        this.cbAllCopies.Enabled = false;
+						this.TB_Modifier.Enabled  = true;
+                        this.CB_AllCopies.Enabled = false;
 					}
                     // a tu duże litery, tylko dla starych kolumn
-                    else if( this._real_newindex == -1 )
+                    else if( this._realNewIndex == -1 )
                     {
-                        this.tbModifier.Enabled  = false;
-						this.cbAllCopies.Enabled = true;
+                        this.TB_Modifier.Enabled  = false;
+						this.CB_AllCopies.Enabled = true;
                     }
                     // i duże litery dla kolumn podrzędnych nowych kolumn
                     else
                     {
-                        this.tbModifier.Enabled  = false;
-                        this.cbAllCopies.Enabled = false;
+                        this.TB_Modifier.Enabled  = false;
+                        this.CB_AllCopies.Enabled = false;
                     }
 				break;
 				// małe litery / nazwa własna
 				case 1:
 				case 2:
-                    this.tbModifier.Enabled = false;
-                    this.tbResult.Enabled   = false;
-                    this.cbExclude.Enabled  = false;
+                    this.TB_Modifier.Enabled = false;
+                    this.TB_Result.Enabled   = false;
+                    this.CB_Exclude.Enabled  = false;
 
-					if( this._real_newindex == -1 )
-						this.cbAllCopies.Enabled = true;
+					if( this._realNewIndex == -1 )
+						this.CB_AllCopies.Enabled = true;
 				break;
 				// równy / różny
 				case 3:
 				case 4:
-					this.tbResult.Enabled   = true;
-					this.tbModifier.Enabled = true;
-					this.cbExclude.Enabled  = true;
+					this.TB_Result.Enabled   = true;
+					this.TB_Modifier.Enabled = true;
+					this.CB_Exclude.Enabled  = true;
 
-					if( this._real_newindex == -1 )
-						this.cbAllCopies.Enabled = true;
+					if( this._realNewIndex == -1 )
+						this.CB_AllCopies.Enabled = true;
 				break;
 			}
 		}
@@ -1241,22 +1246,20 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-        private void cbExclude_CheckedChanged( object sender, EventArgs ev )
+        private void CB_Exclude_CheckedChanged( object sender, EventArgs ev )
         {
-            if( this.cbExclude.Checked )
+            if( this.CB_Exclude.Checked )
             {
-                this.tbResult.Text    = "";
-                this.tbResult.Enabled = false;
+                this.TB_Result.Text    = "";
+                this.TB_Result.Enabled = false;
             }
             else
-                this.tbResult.Enabled = true;
+                this.TB_Result.Enabled = true;
         }
 
-        /// @endcond
 #endregion
 
 #region PRZYCISKI - FILTROWANIE
-        /// @cond EVENTS
 
         /// <summary>
         /// Akcja wywoływana podczas dodawania nowego filtru.
@@ -1266,24 +1269,24 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-		private void bAddFilter_Click( object sender, EventArgs ev )
+		private void B_AddFilter_Click( object sender, EventArgs ev )
 		{
-			FilterInfo filter = this._filter.CreateFilter
+			FilterInfo filter = this._filter.createFilter
 			(
 				this.getSelectedFilterType(),
-				this.tbModifier.Text,
-				this.tbResult.Text,
-				this.cbExclude.Checked,
-				this.cbAllCopies.Checked && this._real_subindex == -1
+				this.TB_Modifier.Text,
+				this.TB_Result.Text,
+				this.CB_Exclude.Checked,
+				this.CB_AllCopies.Checked && this._realSubIndex == -1
 			);
-			this._filter.AddFilter( this._current_column, this._real_subindex, filter );
+			this._filter.addFilter( this._currentColumn, this._realSubIndex, filter );
 
 #		if DEBUG
-			Program.LogMessage( "Dodano nowy filtr: Kolumna(#" + this._current_column + ")" +
-                (this._real_subindex != -1 ? (", Rząd(#" + this._real_subindex + "), ") : "") );
+			Program.LogMessage( "Dodano nowy filtr: Kolumna(#" + this._currentColumn + ")" +
+                (this._realSubIndex != -1 ? (", Rząd(#" + this._realSubIndex + "), ") : "") );
 #		endif
             // odśwież listę wierszy
-            this.refreshColumnRowsISS( this._current_column );
+            this.refreshColumnRowsISS( this._currentColumn );
             
             // wyświetl listę filtrów
             this.displayColumnFilters();
@@ -1297,23 +1300,23 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Parametry zdarzenia</param>
 		//* ============================================================================================================
-        private void bDeleteFilter_Click( object sender, EventArgs ev )
+        private void B_DeleteFilter_Click( object sender, EventArgs ev )
         {
-            if( this.lvFilterList.SelectedIndices.Count == 0 )
+            if( this.LV_FilterList.SelectedIndices.Count == 0 )
                 return;
 
-            int selected  = this.lvFilterList.SelectedIndices[0];
+            int selected = this.LV_FilterList.SelectedIndices[0];
 
             // usuń filtr
-            this._filter.RemoveFilter( this._current_column, this._real_subindex, selected );
+            this._filter.removeFilter( this._currentColumn, this._realSubIndex, selected );
 
 #		if DEBUG
-			Program.LogMessage( "Usunięto filtr: Kolumna(#" + this._current_column + "), " +
-                (this._real_subindex != -1 ? ("Rząd(#" + this._real_subindex + "), ") : "") +
-                "Filtr(#" + this.lvFilterList.SelectedIndices[0] + ")" );
+			Program.LogMessage( "Usunięto filtr: Kolumna(#" + this._currentColumn + "), " +
+                (this._realSubIndex != -1 ? ("Rząd(#" + this._realSubIndex + "), ") : "") +
+                "Filtr(#" + this.LV_FilterList.SelectedIndices[0] + ")" );
 #		endif
             // odśwież listę wierszy
-            this.refreshColumnRowsISS( this._current_column );
+            this.refreshColumnRowsISS( this._currentColumn );
 
             // odśwież listę filtrów
             this.displayColumnFilters();
@@ -1328,44 +1331,43 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Parametry zdarzenia</param>
 		//* ============================================================================================================
-        private void bChangeFilter_Click( object sender, EventArgs ev )
+        private void B_ChangeFilter_Click( object sender, EventArgs ev )
         {
-            if( this.lvFilterList.SelectedIndices.Count == 0 )
+            if( this.LV_FilterList.SelectedIndices.Count == 0 )
                 return;
 
             // utwórz nowy filtr i podmień stary
-			FilterInfo filter = this._filter.CreateFilter
+			FilterInfo filter = this._filter.createFilter
 			(
 				this.getSelectedFilterType(),
-				this.tbModifier.Text,
-				this.tbResult.Text,
-				this.cbExclude.Checked,
-				this.cbAllCopies.Checked
+				this.TB_Modifier.Text,
+				this.TB_Result.Text,
+				this.CB_Exclude.Checked,
+				this.CB_AllCopies.Checked
 			);
 
-            int selected  = this.lvFilterList.SelectedIndices[0];
-			this._filter.ReplaceFilter( this._current_column, this._real_subindex, selected, filter );
+            int selected = this.LV_FilterList.SelectedIndices[0];
+
+			this._filter.replaceFilter( this._currentColumn, this._realSubIndex, selected, filter );
 
 #		if DEBUG
-			Program.LogMessage( "Zmieniono filtr: Kolumna(#" + this._current_column + "), " +
-                (this._real_subindex != -1 ? ("Rząd(#" + this._real_subindex + "), ") : "") +
-                "Filtr(#" + this.lvFilterList.SelectedIndices[0] + ")" );
+			Program.LogMessage( "Zmieniono filtr: Kolumna(#" + this._currentColumn + "), " +
+                (this._realSubIndex != -1 ? ("Rząd(#" + this._realSubIndex + "), ") : "") +
+                "Filtr(#" + this.LV_FilterList.SelectedIndices[0] + ")" );
 #		endif
             // odśwież listę wierszy
-            this.refreshColumnRowsISS( this._current_column );
+            this.refreshColumnRowsISS( this._currentColumn );
 
             // odśwież listę filtrów
             this.displayColumnFilters();
 
             // zaznacz aktualnie edytowany filtr
-            this.lvFilterList.Items[selected].Selected = true;
+            this.LV_FilterList.Items[selected].Selected = true;
         }
 
-        /// @endcond
 #endregion
 
 #region PASEK AKCJI
-        /// @cond EVENTS
 
         /// <summary>
         /// Akcja wywoływana po zmiane elementu w polu wyboru.
@@ -1376,24 +1378,24 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void cbStep_SelectedIndexChanged( object sender, EventArgs ev )
+		private void CBX_Step_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			if( this._locked )
 				return;
 
-			if( this.cbStep.SelectedIndex == 0 )
+			if( this.CBX_Step.SelectedIndex == 0 )
 			{
-				this.tlCreateColumns.Visible   = true;
-				this.lvDatabaseColumns.Visible = true;
-				this.scFiltersAndTypes.Visible = false;
-				this.lvAllColumns.Visible      = false;
+				this.TLP_CreateColumns.Visible   = true;
+				this.LV_DatabaseColumns.Visible = true;
+				this.SC_FiltersAndTypes.Visible = false;
+				this.LV_AllColumns.Visible      = false;
 			}
 			else
 			{
-				this.scFiltersAndTypes.Visible = true;
-				this.lvAllColumns.Visible      = true;
-				this.tlCreateColumns.Visible   = false;
-				this.lvDatabaseColumns.Visible = false;
+				this.SC_FiltersAndTypes.Visible = true;
+				this.LV_AllColumns.Visible      = true;
+				this.TLP_CreateColumns.Visible   = false;
+				this.LV_DatabaseColumns.Visible = false;
 			}
 		}
 
@@ -1413,11 +1415,11 @@ namespace CDesigner.Forms
 			{
 			// CTRL + 1
 			case Keys.Control | Keys.D1:
-				this.cbStep.SelectedIndex = 0;
+				this.CBX_Step.SelectedIndex = 0;
 			break;
 			// CTRL + 2
 			case Keys.Control | Keys.D2:
-				this.cbStep.SelectedIndex = 1;
+				this.CBX_Step.SelectedIndex = 1;
 			break;
 			default:
 				return base.ProcessCmdKey( ref msg, keydata );
@@ -1434,7 +1436,7 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void tpTooltip_Draw( object sender, DrawToolTipEventArgs ev )
+		private void TP_Tooltip_Draw( object sender, DrawToolTipEventArgs ev )
 		{
 			ev.DrawBackground();
 			ev.DrawBorder();
@@ -1449,12 +1451,12 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void toolTip_Hide( object sender, EventArgs ev )
+		private void TP_Tooltip_Hide( object sender, EventArgs ev )
 		{
-			if( this._show_tooltip )
+			if( this._showTooltip )
 			{
-				this.tpTooltip.Hide( this.tbColumnName );
-				this._show_tooltip = false;
+				this.TP_Tooltip.Hide( this.TB_ColumnName );
+				this._showTooltip = false;
 			}
 		}
 
@@ -1466,14 +1468,14 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-		private void tlStatusBar_Paint( object sender, PaintEventArgs ev )
+		private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
 		{
 			ev.Graphics.DrawLine
 			(
 				new Pen( SystemColors.ControlDark ),
-				this.tlStatusBar.Bounds.X,
+				this.TLP_StatusBar.Bounds.X,
 				0,
-				this.tlStatusBar.Bounds.Right,
+				this.TLP_StatusBar.Bounds.Right,
 				0
 			);
 		}
@@ -1487,21 +1489,21 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="bCancel_Click" />
+        /// <seealso cref="B_Cancel_Click" />
 		//* ============================================================================================================
-        private void bSave_Click( object sender, EventArgs ev )
+        private void B_Save_Click( object sender, EventArgs ev )
         {
             this._locked = true;
 
             // aktywne kolumny
             var columns = new List<bool>();
 
-            foreach( ListViewItem item in this.lvDatabaseColumns.Items )
+            foreach( ListViewItem item in this.LV_DatabaseColumns.Items )
                 columns.Add( item.Checked );
 
             // zastosuj filtry i zapisz
-            this._filter.SetActiveColumns( columns );
-            this._filter.ApplyFilters();
+            this._filter.setActiveColumns( columns );
+            this._filter.applyFilters();
 
             this._locked = false;
             
@@ -1521,9 +1523,9 @@ namespace CDesigner.Forms
         /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
         /// <param name="ev">Argumenty zdarzenia.</param>
         /// 
-        /// <seealso cref="bSave_Click" />
+        /// <seealso cref="B_Save_Click" />
 		//* ============================================================================================================
-        private void bCancel_Click( object sender, EventArgs ev )
+        private void B_Cancel_Click( object sender, EventArgs ev )
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();

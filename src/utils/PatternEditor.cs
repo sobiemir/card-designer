@@ -1,9 +1,33 @@
-﻿// 11-11-2016 - DetectFormat - przeniesienie
-//              Tworzenie folderów podczas tworzenia wzoru
-//              Dodano usuwanie wzoru
-//              Przerobione wczytywanie wzoru
-//              Kopiowanie wzoru
-// 04-12-2016   Import i eksport wzorów
+﻿///
+/// $u02 PatternEditor.cs
+/// 
+/// Plik zawierający klasę zarządzania wzorami aplikacji.
+/// Pozwala na utworzenie, klonowanie i usuwanie poszczególnych wzorów.
+/// Dodatkowo umożliwia wyświetlanie wzorów w podanym panelu (generowanie podglądu) w dwóch wersjach,
+/// wersja szkicu - dla generatora (dynamiczne dane) - i wersja pełna - dla edytora.
+/// Umożliwia również zapis wzoru w trzech wariantach - zapis do pliku PDF, zapis wzoru do pliku
+/// konfiguracyjnego oraz zapis do pliku JPEG jako podgląd wzoru, wyświetlany w głównym formularzu aplikacji.
+/// 
+/// Autor: Kamil Biały
+/// Od wersji: 0.2.x.x
+/// Ostatnia zmiana: 2016-12-25
+/// 
+/// CHANGELOG:
+/// [05.05.2015] Pierwsza wersja klasy.
+/// [10.05.2015] Zmiana konwencji zapisu danych dla koloru i obrazu (i/c zamieniono na 1/0),
+///              ulepszono funkcję odczytu danych ze wzoru, funkcja rysowania podglądu dla generatora,
+///              dodano możliwość rysowania względem skali wzoru.
+/// [16.05.2015] Zmieniono organizację zapisu do pliku (dodano ciąg CDCFG), zamiana wymiarów z liczb całkowitych
+///              na liczby zmiennoprzecinkowe, funkcja generowania wzoru do pliku PDF.
+/// [01.06.2015] Granice dla rodzica (blokada rysowania kontrolki poza granicami).
+/// [06.06.2015] Transformacja wyświetlanego tekstu, zmiana kontrolki Panel na AlignedPage dla wyświetlania stron.
+/// [09.06.2015] Poprawne dodawanie stron do pliku PDF (nie uwzględniało stron wzoru),
+///              usuwanie starych plików konfiguracyjnych.
+/// [11.11.2016] Funkcja pobierania listy wzorów, klonowanie wzoru, tworzenie folderów podczas tworzenia wzoru.
+/// [12.04.2016] Import i eksport wzorów.
+/// [16.12.2015] Zamiana klasy DataContent na DataStorage w funkcji DrawRow.
+/// [25.12.2015] Porządkowanie kodu, komentarze, regiony.
+///
 
 using System;
 using System.Collections.Generic;
@@ -18,18 +42,49 @@ using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing.Layout;
 
+using CDesigner.Controls;
+
 namespace CDesigner.Utils
 {
+    /// 
+    /// <summary>
+    /// Klasa pozwalająca na zarządzanie wzorami.
+    /// Wzory wymagają zarówno utworzenia, jak i zapisania, wygenerowania i wyświetlenia.
+    /// Klasa spełnia wszelkie powyższe funkcje, pozwala na utworzenie nowego wzoru o podanej nazwie,
+    /// klonowanie go i zapis nowych danych dla edytowanego wzoru.
+    /// Dodatkowo pozwala na wyświetlanie wzoru w postaci podglądu wydruku i wyświetlanie całego dla edytora.
+    /// Proces zapisu składa się z kilku części, co za tym idzie, generowanie dokumentu <em>PDF</em>,
+    /// zapis wzoru do pliku konfiguracyjnego (prosty zapis) oraz zapis do pliku <em>JPG</em> dla podglądu.
+    /// Klasa umożliwia również import i eksport wzorów, zapisanych w folderze <em>patterns</em>.
+    /// </summary>
+    /// 
 	public class PatternEditor
-	{
-		private static string _last_created  = "";
-		private static double _pixel_per_dpi = 3.93714927048264;
+    {
+#region ZMIENNE
 
-        public static string[] FormatNames = {
+        /// <summary>Ilość pikseli na DPI.</summary>
+        /// @hideinitializer
+		private static double _pixelPerDPI = 3.93714927048264;
+
+        /// <summary>Nazwy dostępnych formatów.</summary>
+        /// @hideinitializer
+        public static readonly string[] FormatNames = {
             "A4",
             "A5"
         };
 
+#endregion
+
+        /// <summary>
+        /// Wykrywa rozmiar z podanych rozmiarów wzoru.
+        /// Wymiary zdefiniowane są w tablicy FormatNames, funkcja zwraca tylko jej indeks.
+        /// </summary>
+        /// 
+        /// <param name="width">Szerokość wzoru.</param>
+        /// <param name="height">Wysokość wzoru.</param>
+        /// 
+        /// <returns>Indeks nazwy formatu.</returns>
+		//* ============================================================================================================
         public static int DetectFormat( int width, int height )
         {
             int[,] format_dims = { {210, 297}, {148, 210} };
@@ -42,17 +97,18 @@ namespace CDesigner.Utils
             return -1;
         }
 
-		// ------------------------------------------------------------- LastCreated ----------------------------------
-		
-		public static string LastCreated
-		{
-			get { return PatternEditor._last_created; }
-		}
-
-        public static List<PatternInfo> GetPatterns()
+        /// <summary>
+        /// Pobiera listę dostępnych wzorów.
+        /// Wszystkie wzory przechowywane są w folderze patterns.
+        /// Nazwa folderu jest jednocześnie nazwą folderu w którym się znajduje.
+        /// </summary>
+        /// 
+        /// <returns>Lista dostępnych wzorów.</returns>
+		//* ============================================================================================================
+        public static List<PatternData> GetPatterns()
         {
             // pobierz listę folderów
-            var patterns    = new List<PatternInfo>();
+            var patterns    = new List<PatternData>();
 			var directories = Directory.GetDirectories( "patterns" );
 
 			foreach( string pattern in directories )
@@ -62,20 +118,10 @@ namespace CDesigner.Utils
                        patname = patname.Replace( "patterns/", "" );
 
                 // dodaj wzór do listy
-                patterns.Add( PatternEditor.ReadPatternEx(patname, true) );
+                patterns.Add( PatternEditor.ReadPattern(patname, true) );
 			}
 
             return patterns;
-        }
-
-        public static void Delete( string pattern )
-        {
-            // sprawdź czy przypadkiem aktualnie nie jest wczytany ten szablon
-            // usuń z listy ostatnio używanych
-
-            // usuń folder i jego wszystkie pliki jeżeli tylko istnieje
-            if( Directory.Exists("patterns/" + pattern) )
-                Directory.Delete( "patterns/" + pattern, true );
         }
 
         /// <summary>
@@ -91,46 +137,139 @@ namespace CDesigner.Utils
 		//* ============================================================================================================
         public static void Import( string file )
         {
+            // usuń folder tymczasowy jeżeli istnieje
             if( Directory.Exists("./temp") )
                 Directory.Delete( "./temp", true );
+
+            // utwórz i rozpakuj dane
             Directory.CreateDirectory( "./temp" );
             DataBackup.Decompress( file, "./temp" );
-            if( Directory.Exists("./temp/patterns/") ) {
+            
+            // sprawdź czy rozpakowane dane zawierają folder patterns
+            if( Directory.Exists("./temp/patterns/") )
+            {
+                // jeżeli tak, kopiuj wszystkie wzory do folderu patterns
                 var dirs = Directory.GetDirectories( "./temp" );
-                foreach( var dir in dirs ) {
+                foreach( var dir in dirs )
+                {
                     var idir = new DirectoryInfo( dir );
                     if( Directory.Exists("./patterns/" + idir.Name) )
                         Directory.Delete( "./patterns/" + idir.Name );
-                    Directory.Move( "./temp/patterns/" + idir.Name,
-                        "./patterns/" + idir.Name );
+
+                    Directory.Move( "./temp/patterns/" + idir.Name, "./patterns/" + idir.Name );
                 }
             }
+            // usuń folder tymczasowy
             Directory.Delete( "./temp", true );
         }
 
+        /// <summary>
+        /// Eksport wzoru do pliku o podanej w argumencie nazwie.
+        /// Eksportuje wzór podany w argumencie poprzez jego kompresje bez szyfrowania.
+        /// Możliwy jest eksport kilku wzorów poprzez podanie pustego ciągu znaków w argumencie dla nazwy wzoru.
+        /// </summary>
+        /// 
+        /// <param name="pattern">Nazwa wzoru do eksportu lub pusty ciąg znaków.</param>
+        /// <param name="outpath">Nazwa pliku wyjściowego.</param>
+        /// 
+        /// <seealso cref="Import"/>
+		//* ============================================================================================================
         public static void Export( string pattern, string outpath )
         {
+            // sprawdź czy istnieje podany wzór
             if( !Directory.Exists("./patterns/" + pattern) )
                 return;
-            var files = Program.GetFilesFromFolder( "./patterns/" +
-                pattern, true );
+
+            // pobierz wszystkie pliki z podanego wzoru i kompresuj je
+            var files = Program.GetFilesFromFolder( "./patterns/" + pattern, true );
             DataBackup.CreateFileList( files, "./patterns/update.lst" );
             files.Insert( 0, "./patterns/update.lst" );
+            
             DataBackup.Compress( files, outpath, false );
+            
+            // usuń plik z listą plików
             File.Delete( "./patterns/update.lst" );
         }
 
-		// ------------------------------------------------------------- CreatePattern --------------------------------
-		
+		/// <summary>
+		/// Usuwanie wzoru z programu.
+        /// Funkcja usuwa wzór z aplikacji poprzez usunięcie jego folderu.
+		/// </summary>
+        /// 
+		/// <param name="pattern">Nazwa wzoru do usunięcia.</param>
+		//* ============================================================================================================
+        public static void Delete( string pattern )
+        {
+            // sprawdź czy przypadkiem aktualnie nie jest wczytany ten szablon
+            // usuń z listy ostatnio używanych
+
+            // usuń folder i jego wszystkie pliki jeżeli tylko istnieje
+            if( Directory.Exists("patterns/" + pattern) )
+                Directory.Delete( "patterns/" + pattern, true );
+        }
+
+        /// <summary>
+        /// Tworzenie nowego wzoru o podanych wymiarach i nazwie.
+        /// Funkcja tworzy nowy wzór poprzez utworzenie folderu i umieszczenie w nim pliku konfiguracyjnego.
+        /// Plik konfiguracyjny posiada odpowiednią strukturę opartą hierarchie drzewa.
+        /// Składa się on z 3 różnych składowych - dane wzoru, dane strony i dane pola, opisane w tabeli poniżej:
+        /// <table>
+        ///     <tr><th>Bajty</th><th>Nazwa</th><th>Opis</th></tr>
+        ///     <tr><td>5</td><td>IDENTITY</td><td>Identyfikator, zawsze 5 litery CDCFG.</td></tr>
+        ///     <tr><td>2</td><td>WIDTH</td><td>Szerokość wzoru wyrażona w milimetrach.</td></tr>
+        ///     <tr><td>2</td><td>HEIGHT</td><td>Wysokość wzoru wyrażona w milimetrach.</td></tr>
+        ///     <tr><td>1</td><td>PAGES</td><td>Ilość stron znajdujących się we wzorze.</td></tr>
+        ///     <tr><td>1</td><td>DYNAMIC</td><td>Treść dynamiczna - czy dane mają być wczytywane.</td></tr>
+        ///     <tr><th colspan="3">Pętla danych strony</th></tr>
+        ///     <tr><td>1</td><td>FIELDS</td><td>Ilość pól utworzonych na stronie.</td></tr>
+        ///     <tr><td>1</td><td>USEIMAGE</td><td>Czy strona używa obrazka w tle?</td></tr>
+        ///     <tr><td>4</td><td>COLOR</td><td>Wyświetlany kolor strony.</td></tr>
+        ///     <tr><th colspan="3">Pętla danych pola</th></tr>
+        ///     <tr><td>?</td><td>NAME</td><td>Tekst wyświetlany na polu.</td></tr>
+        ///     <tr><td>4</td><td>POSX</td><td>Pozycja pola względem osi X.</td></tr>
+        ///     <tr><td>4</td><td>POSY</td><td>Pozycja pola względem osi Y.</td></tr>
+        ///     <tr><td>4</td><td>WIDTH</td><td>Szerokość pola w milimetrach.</td></tr>
+        ///     <tr><td>4</td><td>HEIGHT</td><td>Wysokość pola w milimetrach.</td></tr>
+        ///     <tr><td>4</td><td>BORDERSIZE</td><td>Rozmiar ramki rysowanej dookoła pola.</td></tr>
+        ///     <tr><td>4</td><td>BORDERCOLOR</td><td>Kolor ramki rysowanej dookoła pola.</td></tr>
+        ///     <tr><td>1</td><td>USEIMAGE</td><td>Wyświetlanie obrazu jako tła w polu.</td></tr>
+        ///     <tr><td>4</td><td>COLOR</td><td>Kolor tła wyświetlanego przed ramką i tekstem.</td></tr>
+        ///     <tr><td>4</td><td>FONTCOLOR</td><td>Kolor czcionki dla tekstu.</td></tr>
+        ///     <tr><td>?</td><td>FONTNAME</td><td>Nazwa czcionki którą wypisywany jest tekst.</td></tr>
+        ///     <tr><td>1</td><td>FONTSTYLE</td><td>Style czcionki (pogrubienie, pochylenie, itp).</td></tr>
+        ///     <tr><td>4</td><td>FONTSIZE</td><td>Rozmiar wyświetlanego tekstu.</td></tr>
+        ///     <tr><td>4</td><td>TEXTALIGN</td><td>Położenie tekstu względem pola.</td></tr>
+        ///     <tr><td>1</td><td>TRANSFORM</td><td>Transformacja tekstu (duże, małe litery, itp).</td></tr>
+        ///     <tr><td>1</td><td>MARGIN</td><td>Margines dla tekstu wyświetlanego w polu.</td></tr>
+        ///     <tr><td>4</td><td>MARGINLR</td><td>Margines lewy i prawy.</td></tr>
+        ///     <tr><td>4</td><td>MARGINTB</td><td>Margines górny i dolny.</td></tr>
+        ///     <tr><td>4</td><td>PADDING</td><td>Margines wewnętrzny dla wyświetlanego tekstu.</td></tr>
+        ///     <tr><td>1</td><td>IMAGEDB</td><td>Tło pola pobierane z bazy danych.</td></tr>
+        ///     <tr><td>1</td><td>PRINTCOLOR</td><td>Generowanie dokumentu z kolorem pola.</td></tr>
+        ///     <tr><td>1</td><td>PRINTIMAGE</td><td>Generowanie dokumentu z obrazem pola.</td></tr>
+        ///     <tr><td>1</td><td>TEXTDB</td><td>Napis na polu pobierany z bazy danych.</td></tr>
+        ///     <tr><td>1</td><td>PRINTTEXT</td><td>Generowanie dokumentu z tekstem (tekst statyczny).</td></tr>
+        ///     <tr><td>1</td><td>PRINTBORDER</td><td>Generowanie dokumentu razem z ramką pola.</td></tr>
+        ///     <tr><td>4</td><td>STICKPOINT</td><td>Punkt zaczepienia pola względem którego liczone są wymiary.</td></tr>
+        ///     <tr><th colspan="3"></th></tr>
+        ///     <tr><td>1</td><td>PRINTCOLOR</td><td>Generowanie dokumentu razem z kolorem strony.</td></tr>
+        ///     <tr><td>1</td><td>PRINTIMAGE</td><td>Generowanie dokumentu razem z obrazem strony.</td></tr>
+        /// </table>
+        /// </summary>
+        /// 
+        /// <param name="pattern">Nazwa wzoru do utworzenia.</param>
+        /// <param name="width">Szerokość wzoru.</param>
+        /// <param name="height">Wysokość wzoru.</param>
+		//* ============================================================================================================
 		public static void Create( string pattern, short width, short height )
 		{
             Directory.CreateDirectory( "patterns/" + pattern );
 			Directory.CreateDirectory( "patterns/" + pattern + "/images" );
 
-			FileStream   file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
-			BinaryWriter writer = new BinaryWriter( file );
+			var file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
+			var writer = new BinaryWriter( file );
 
-			/**
+			/*
 			 * Struktura wzoru:
 			 * 5 | CDCFG
 			 * --------------------------------------------
@@ -180,10 +319,10 @@ namespace CDesigner.Utils
              TODO: 2 | Rok utworzenia
 			 * --------------------------------------------
              TODO: 5 | CDFOT
-			**/
+			*/
 
 			// ciąg rozpoznawczy
-			byte[] text = new byte[5] { (byte)'C', (byte)'D', (byte)'C', (byte)'F', (byte)'G' };
+			var text = new byte[5] { (byte)'C', (byte)'D', (byte)'C', (byte)'F', (byte)'G' };
 			writer.Write( text, 0, 5 );
 
             writer.Write( width );
@@ -201,25 +340,50 @@ namespace CDesigner.Utils
             file.Close();
 		}
 
+        /// <summary>
+        /// Klonowanie wzoru o podanej nazwie.
+        /// Klonowanie polega na skopiowaniu wszystkich plików z jednego folderu do drugiego.
+        /// Funkcja najpierw tworzy listę plików, a potem je kopiuje.
+        /// </summary>
+        /// 
+        /// <param name="name">Nazwa wzoru do sklonowania.</param>
+        /// <param name="to_clone">Nazwa nowego wzoru.</param>
+		//* ============================================================================================================
         public static void ClonePattern( string name, string to_clone )
         {
-            DirectoryInfo source = new DirectoryInfo( "patterns/" + to_clone );
-            DirectoryInfo target = new DirectoryInfo( "patterns/" + name );
+            var source = new DirectoryInfo( "patterns/" + to_clone );
+            var target = new DirectoryInfo( "patterns/" + name );
 
             PatternEditor.CopyFiles( source, target );
         }
 
+        /// <summary>
+        /// Kopiowanie plików z wybranego folderu do innego.
+        /// Kopiuje wszystkie pliki z jednego folderu do drugiego.
+        /// Funkcja działa rekursywnie, a więc pobiera foldery z folderu i wchodzi do nich, kopiując pliki.
+        /// </summary>
+        /// 
+        /// <param name="source">Informacje o folderze z którego dane mają być kopiowane.</param>
+        /// <param name="target">Informacje o folderze do którego dane będą kopiowane.</param>
+		//* ============================================================================================================
         private static void CopyFiles( DirectoryInfo source, DirectoryInfo target )
         {
+#       if DEBUG
             Program.LogMessage( "Tworzenie folderu: " + target.FullName );
+#       endif
+            // utwórz folder gdy nie istnieje
             Directory.CreateDirectory( target.FullName );
 
+            // kopiuj pliki
             foreach( FileInfo file in source.GetFiles() )
             {
+#           if DEBUG
                 Program.LogMessage( "Kopiowanie pliku: " + file.Name );
+#           endif
                 file.CopyTo( Path.Combine(target.FullName, file.Name), true );
             }
 
+            // pobierz podfoldery
             foreach( DirectoryInfo subdir in source.GetDirectories() )
             {
                 DirectoryInfo nextsubdir = target.CreateSubdirectory( subdir.Name );
@@ -227,58 +391,30 @@ namespace CDesigner.Utils
             }
         }
 
-        public static PatternInfo ReadPatternEx( string pattern, bool header = false )
-        {
+		/// <summary>
+		/// Wczytywanie wybranego wzoru.
+        /// Funkcja wczytuje zapisane dane wzoru z pliku konfiguracyjnego.
+        /// Pozwala na wczytanie samego nagłówka, dzięki czemu narzut na odczyt i pamięć jest mniejszy.
+        /// Funkcja nie sprawdza dokładnie pliku, czy nie jest uszkodzony, tylko sam początek (ciąg CDCFG).
+		/// </summary>
+        /// 
+		/// <param name="pattern">Wzór do odczytania.</param>
+		/// <param name="header">Wczytywanie tylko nagłówka wzoru.</param>
+        /// 
+		/// <returns>Odczytane dane wzoru.</returns>
+		//* ============================================================================================================
+		public static PatternData ReadPattern( string pattern, bool header = false )
+		{
             // sprawdź czy wzór posiada plik konfiguracyjny
             if( !File.Exists("patterns/" + pattern + "/config.cfg") )
-            {
-                var ninfo = new PatternInfo( pattern );
+                return new PatternData( pattern );
 
-                ninfo.HasConfigFile = false;
-                return ninfo;
-            }
+			var file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
+			var reader = new BinaryReader( file );
+			var data   = new PatternData( pattern );
 
-            // wczytaj plik konfiguracyjny
-            var file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.Open );
-            var info   = new PatternInfo( pattern );
-            var reader = new BinaryReader( file );
-
-            info.HasConfigFile = true;
-
-            // wczytaj początkowy ciąg znaków
-            var bytes = reader.ReadBytes( 5 );
-
-            // sprawdź poprawność
-            if( bytes[0] != 'C' || bytes[1] != 'D' || bytes[2] != 'C' || bytes[3] != 'F' || bytes[4] != 'G' )
-            {
-                info.Corrupted = true;
-                return info;
-            }
-
-            info.Corrupted      = false;
-            info.Size           = new Size( reader.ReadInt16(), reader.ReadInt16() );
-            info.Pages          = reader.ReadByte();
-            info.DynamicContent = reader.ReadBoolean();
-
-            // tylko informacje główne o wzorze
-            if( header )
-            {
-                reader.Close();
-                file.Close();
-
-                return info;
-            }
-
-            return info;
-        }
-
-		// ------------------------------------------------------------- LoadFromFile ---------------------------------
-		
-		public static PatternData ReadPattern( string pattern, bool only_header = false )
-		{
-			FileStream   file   = new FileStream( "patterns/" + pattern + "/config.cfg", FileMode.OpenOrCreate );
-			BinaryReader reader = new BinaryReader( file );
-			PatternData  data   = new PatternData();
+            data.HasConfigFile = true;
+            data.Corrupted     = true;
 
 			// ciąg początkowy - rozpoznawczy CDCFG
 			byte[] bytes = reader.ReadBytes( 5 );
@@ -286,83 +422,83 @@ namespace CDesigner.Utils
 				return data;
 
 			// odczytaj opcje podstawowe wzoru
-			data.name    = pattern;
-			data.size    = new Size( reader.ReadInt16(), reader.ReadInt16() );
-			data.pages   = reader.ReadByte();
-			data.dynamic = reader.ReadBoolean();
+            data.Corrupted = false;
+			data.Name      = pattern;
+			data.Size      = new Size( reader.ReadInt16(), reader.ReadInt16() );
+			data.Pages     = reader.ReadByte();
+			data.Dynamic   = reader.ReadBoolean();
 
 			// tylko nagłówek
-			if( only_header )
+			if( header )
 			{
-				data.page = null;
-
 				reader.Close();
 				file.Close();
 
 				return data;
 			}
 			else
-				data.page = new PageData[data.pages];
+				data.Page = new PageData[data.Pages];
 
 			PageData  page_data;
 			FieldData field_data;
 
 			// odczytaj dane strony
-			for( int x = 0; x < data.pages; ++x )
+			for( int x = 0; x < data.Pages; ++x )
 			{
 				page_data = new PageData();
 			
 				// dane podstawowe
-				page_data.fields     = reader.ReadByte();
-				page_data.image      = reader.ReadBoolean();
-				page_data.color      = Color.FromArgb( reader.ReadInt32() );
-				page_data.field      = new FieldData[page_data.fields];
+				page_data.Fields     = reader.ReadByte();
+				page_data.Image      = reader.ReadBoolean();
+				page_data.Color      = Color.FromArgb( reader.ReadInt32() );
+				page_data.Field      = new FieldData[page_data.Fields];
 
 				// odczytaj dane kontrolki
-				for( int y = 0; y < page_data.fields; ++y )
+				for( int y = 0; y < page_data.Fields; ++y )
 				{
 					field_data = new FieldData();
 
 					// dane podstawowe
-					field_data.name            = reader.ReadString();
-					field_data.bounds          = new RectangleF( reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle() );
-					field_data.border_size     = reader.ReadSingle();
-					field_data.border_color    = Color.FromArgb( reader.ReadInt32() );
-					field_data.image           = reader.ReadBoolean();
-					field_data.image_path      = null;
-					field_data.color           = Color.FromArgb( reader.ReadInt32() );
-					field_data.font_color      = Color.FromArgb( reader.ReadInt32() );
-					field_data.font_name       = reader.ReadString();
-					field_data.font_style      = (FontStyle)reader.ReadByte();
-					field_data.font_size       = reader.ReadSingle();
-					field_data.text_align      = (ContentAlignment)reader.ReadInt32();
-					field_data.text_transform  = reader.ReadByte();
-					field_data.text_add_margin = reader.ReadBoolean();
-					field_data.text_leftpad    = reader.ReadSingle();
-					field_data.text_toppad     = reader.ReadSingle();
-					field_data.padding         = reader.ReadSingle();
+					field_data.Name            = reader.ReadString();
+					field_data.Bounds          = new RectangleF( reader.ReadSingle(), reader.ReadSingle(),
+                        reader.ReadSingle(), reader.ReadSingle() );
+					field_data.BorderSize     = reader.ReadSingle();
+					field_data.BorderColor    = Color.FromArgb( reader.ReadInt32() );
+					field_data.Image           = reader.ReadBoolean();
+					field_data.ImagePath      = null;
+					field_data.Color           = Color.FromArgb( reader.ReadInt32() );
+					field_data.FontColor      = Color.FromArgb( reader.ReadInt32() );
+					field_data.FontName       = reader.ReadString();
+					field_data.FontStyle      = (FontStyle)reader.ReadByte();
+					field_data.FontSize       = reader.ReadSingle();
+					field_data.TextAlign      = (ContentAlignment)reader.ReadInt32();
+					field_data.TextTransform  = reader.ReadByte();
+					field_data.TextAddMargin = reader.ReadBoolean();
+					field_data.TextLeftpad    = reader.ReadSingle();
+					field_data.TextToppad     = reader.ReadSingle();
+					field_data.Padding         = reader.ReadSingle();
 
 					// dane dodatkowe
-					field_data.extra = new FieldExtraData();
-					field_data.extra.image_from_db = reader.ReadBoolean();
-					field_data.extra.print_color   = reader.ReadBoolean();
-					field_data.extra.print_image   = reader.ReadBoolean();
-					field_data.extra.text_from_db  = reader.ReadBoolean();
-					field_data.extra.print_text    = reader.ReadBoolean();
-					field_data.extra.print_border  = reader.ReadBoolean();
-					field_data.extra.pos_align     = reader.ReadInt32();
-					field_data.extra.column        = -1;
+					field_data.Extra = new FieldExtraData();
+					field_data.Extra.ImageFromDB = reader.ReadBoolean();
+					field_data.Extra.PrintColor   = reader.ReadBoolean();
+					field_data.Extra.PrintImage   = reader.ReadBoolean();
+					field_data.Extra.TextFromDB  = reader.ReadBoolean();
+					field_data.Extra.PrintText    = reader.ReadBoolean();
+					field_data.Extra.PrintBorder  = reader.ReadBoolean();
+					field_data.Extra.PosAlign     = reader.ReadInt32();
+					field_data.Extra.Column        = -1;
 					
-					page_data.field[y] = field_data;
+					page_data.Field[y] = field_data;
 				}
 
 				// informacje dodatkowe
-				page_data.extra = new PageExtraData();
-				page_data.extra.print_color = reader.ReadBoolean();
-				page_data.extra.print_image = reader.ReadBoolean();
-				page_data.extra.image_path  = null;
+				page_data.Extra = new PageExtraData();
+				page_data.Extra.PrintColor = reader.ReadBoolean();
+				page_data.Extra.PrintImage = reader.ReadBoolean();
+				page_data.Extra.ImagePath  = null;
 
-				data.page[x] = page_data;
+				data.Page[x] = page_data;
 			}
 
 			// zamknij strumienie
@@ -372,16 +508,16 @@ namespace CDesigner.Utils
 			return data;
 		}
 
-		// ------------------------------------------------------------- GetDPIPixelScale -----------------------------
-		
-		public static Size GetDPIPageSize( Size size, double scale )
-		{
-			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
-			return new Size( Convert.ToInt32(size.Width * dpi_pxs), Convert.ToInt32(size.Height * dpi_pxs) );
-		}
-
-		// ------------------------------------------------------------- DrawPreview ----------------------------------
-		
+		/// <summary>
+		/// Rysowanie podglądu wzoru.
+        /// Funkcja rysuje podgląd wzoru taki jaki został zapisany bez względu na to, co zostało ukryte.
+        /// Wykorzystywany w edytorze wzorów do pełnego odwzorowania zapisanego wzoru.
+		/// </summary>
+        /// 
+		/// <param name="data">Dane wzoru do narysowania.</param>
+		/// <param name="panel">Panel zawierający strony wzoru.</param>
+		/// <param name="scale">Skala w jakiej ma zostać narysowany podgląd.</param>
+		//* ============================================================================================================
 		public static void DrawPreview( PatternData data, Panel panel, double scale )
 		{
 			// wyczyść strony i pola
@@ -389,30 +525,30 @@ namespace CDesigner.Utils
 			GC.Collect();
 
 			// brak stron...
-			if( data.pages == 0 )
+			if( data.Pages == 0 )
 				return;
 
-			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
+			double dpi_pxs = scale * PatternEditor._pixelPerDPI;
 			Size   pp_size = new Size
 			(
-				Convert.ToInt32((double)data.size.Width * dpi_pxs),
-				Convert.ToInt32((double)data.size.Height * dpi_pxs)
+				Convert.ToInt32((double)data.Size.Width * dpi_pxs),
+				Convert.ToInt32((double)data.Size.Height * dpi_pxs)
 			);
 
 			PageData  page_data;
 			FieldData field_data;
 
 			// dodawaj strony
-			for( int x = 0; x < data.pages; ++x )
+			for( int x = 0; x < data.Pages; ++x )
 			{
 				AlignedPage page = new AlignedPage();
 				page.Align = 1;
 
-				page_data = data.page[x];
+				page_data = data.Page[x];
 
 				// tło strony
-				if( page_data.image && File.Exists("patterns/" + data.name + "/images/page" + x + ".jpg" ) )
-					using( Image image = Image.FromFile("patterns/" + data.name + "/images/page" + x + ".jpg" ) )
+				if( page_data.Image && File.Exists("patterns/" + data.Name + "/images/page" + x + ".jpg" ) )
+					using( Image image = Image.FromFile("patterns/" + data.Name + "/images/page" + x + ".jpg" ) )
 					{
 						Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
 						using( Graphics canvas = Graphics.FromImage(new_image) )
@@ -426,7 +562,7 @@ namespace CDesigner.Utils
 					page.BackgroundImage = null;
 
 				// kolor strony
-				page.BackColor             = page_data.color;
+				page.BackColor             = page_data.Color;
 				page.BackgroundImageLayout = ImageLayout.Stretch;
 
 				// skalowanie
@@ -438,30 +574,30 @@ namespace CDesigner.Utils
 					page.Hide();
 
 				// dodawaj pola
-				for( int y = 0; y < page_data.fields; ++y )
+				for( int y = 0; y < page_data.Fields; ++y )
 				{
-					PageField field = new PageField();
-					field_data = page_data.field[y];
+					var field = new PageField();
+					field_data = page_data.Field[y];
 
 					// wygląd pola
-					field.Text          = field_data.name;
-					field.DPIBounds     = field_data.bounds;
-					field.DPIBorderSize = field_data.border_size;
-					field.BorderColor   = field_data.border_color;
+					field.Text          = field_data.Name;
+					field.DPIBounds     = field_data.Bounds;
+					field.DPIBorderSize = field_data.BorderSize;
+					field.BorderColor   = field_data.BorderColor;
 
 					// granice rodzica
-					field.SetParentBounds( data.size.Width, data.size.Height );
+					field.setParentBounds( data.Size.Width, data.Size.Height );
 
 					// tło pola
-					if( field_data.image && File.Exists("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg") )
-						using( Image image = Image.FromFile("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg" ) )
+					if( field_data.Image && File.Exists("patterns/" + data.Name + "/images/field" + y + "_" + x + ".jpg") )
+						using( Image image = Image.FromFile("patterns/" + data.Name + "/images/field" + y + "_" + x + ".jpg" ) )
 						{
 							Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
 							using( Graphics canvas = Graphics.FromImage(new_image) )
 								canvas.DrawImageUnscaled( image, 0, 0 );
 
 							field.BackImage = new_image;
-							field.BackImagePath = "patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg";
+							field.BackImagePath = "patterns/" + data.Name + "/images/field" + y + "_" + x + ".jpg";
 
 							image.Dispose();
 						}
@@ -472,41 +608,50 @@ namespace CDesigner.Utils
 					}
 
 					// kolory
-					field.BackColor = field_data.color;
-					field.ForeColor = field_data.font_color;
+					field.BackColor = field_data.Color;
+					field.ForeColor = field_data.FontColor;
 
 					// czcionka
 					FontFamily font_family;
-					try   { font_family = new FontFamily( field_data.font_name ); }
+					try   { font_family = new FontFamily( field_data.FontName ); }
 					catch { font_family = new FontFamily( "Arial" ); }
 
-					field.Font            = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.World );
-					field.DPIFontSize     = field_data.font_size;
-					field.TextAlign       = field_data.text_align;
-					field.TextTransform   = field_data.text_transform;
-					field.DPIPadding      = field_data.padding;
-					field.TextMargin      = new PointF( field_data.text_leftpad, field_data.text_toppad );
-					field.ApplyTextMargin = field_data.text_add_margin;
+					field.Font            = new Font( font_family, 8.25f, field_data.FontStyle, GraphicsUnit.World );
+					field.DPIFontSize     = field_data.FontSize;
+					field.TextAlign       = field_data.TextAlign;
+					field.TextTransform   = field_data.TextTransform;
+					field.DPIPadding      = field_data.Padding;
+					field.TextMargin      = new PointF( field_data.TextLeftpad, field_data.TextToppad );
+					field.ApplyTextMargin = field_data.TextAddMargin;
 					
 					// skalowanie
 					field.DPIScale = scale;
 					field.Margin   = new Padding(0);
 
 					// dodatkowe informacje
-					field.Tag = field_data.extra;
+					field.Tag = field_data.Extra;
 
 					page.Controls.Add( field );
 				}
 
 				// dodatkowe informacje
-				page.Tag = page_data.extra;
+				page.Tag = page_data.Extra;
 
 				panel.Controls.Add( page );
 			}
 		}
 
-		// ------------------------------------------------------------- DrawSketch -----------------------------------
-		
+		/// <summary>
+		/// Rysowanie szkicu wzoru.
+        /// Szkic wzoru to rysunek, gdzie wyświetlane są wszystkie elementy oprócz wartości dynamicznych, zmienianych
+        /// przy przełączaniu się pomiędzy kolejnymi wierszami danych ze schowka.
+        /// Pokazywane są tutaj wszystkie elementy, zaznaczone do generowania w edytorze wzorów, pozostałe są ukrywane.
+		/// </summary>
+        /// 
+		/// <param name="data">Dane wzoru do narysowania.</param>
+		/// <param name="panel">Panel zawierający strony wzoru.</param>
+		/// <param name="scale">Skala wzoru do rysowania.</param>
+		//* ============================================================================================================
 		public static void DrawSketch( PatternData data, Panel panel, double scale )
 		{
 			// wyczyść strony i pola
@@ -514,33 +659,34 @@ namespace CDesigner.Utils
 			GC.Collect();
 
 			// brak stron...
-			if( data.pages == 0 )
+			if( data.Pages == 0 )
 				return;
 
-			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
-			Size   pp_size = new Size
+			var dpi_pxs = scale * PatternEditor._pixelPerDPI;
+			var pp_size = new Size
 			(
-				Convert.ToInt32((double)data.size.Width * dpi_pxs),
-				Convert.ToInt32((double)data.size.Height * dpi_pxs)
+				Convert.ToInt32((double)data.Size.Width * dpi_pxs),
+				Convert.ToInt32((double)data.Size.Height * dpi_pxs)
 			);
 
 			PageData  page_data;
 			FieldData field_data;
 
 			// dodawaj strony
-			for( int x = 0; x < data.pages; ++x )
+			for( int x = 0; x < data.Pages; ++x )
 			{
-				AlignedPage page = new AlignedPage();
+				var page = new AlignedPage();
 				page.Align = 1;
 
-				page_data = data.page[x];
+				page_data = data.Page[x];
 
 				// tło strony
-				if( page_data.extra.print_image && page_data.image && File.Exists("patterns/" + data.name + "/images/page" + x + ".jpg" ) )
-					using( Image image = Image.FromFile("patterns/" + data.name + "/images/page" + x + ".jpg" ) )
+				if( page_data.Extra.PrintImage && page_data.Image &&
+                    File.Exists("patterns/" + data.Name + "/images/page" + x + ".jpg" ) )
+					using( var image = Image.FromFile("patterns/" + data.Name + "/images/page" + x + ".jpg" ) )
 					{
-						Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
-						using( Graphics canvas = Graphics.FromImage(new_image) )
+						var new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
+						using( var canvas = Graphics.FromImage(new_image) )
 							canvas.DrawImageUnscaled( image, 0, 0 );
 
 						page.BackgroundImage = new_image;
@@ -550,7 +696,7 @@ namespace CDesigner.Utils
 					page.BackgroundImage = null;
 
 				// kolor strony
-				page.BackColor             = (page_data.extra.print_color) ? page_data.color : SystemColors.Window;
+				page.BackColor             = (page_data.Extra.PrintColor) ? page_data.Color : SystemColors.Window;
 				page.BackgroundImageLayout = ImageLayout.Stretch;
 
 				// skalowanie
@@ -562,30 +708,31 @@ namespace CDesigner.Utils
 					page.Hide();
 
 				// dodawaj pola
-				for( int y = 0; y < page_data.fields; ++y )
+				for( int y = 0; y < page_data.Fields; ++y )
 				{
-					PageField field = new PageField();
-					field_data = page_data.field[y];
+					var field = new PageField();
+					field_data = page_data.Field[y];
 
 					// wygląd pola
-					field.Text          = field_data.extra.print_text ? field_data.name : "";
-					field.DPIBounds     = field_data.bounds;
-					field.DPIBorderSize = field_data.extra.print_border ? field_data.border_size : 0;
-					field.BorderColor   = field_data.border_color;
+					field.Text          = field_data.Extra.PrintText ? field_data.Name : "";
+					field.DPIBounds     = field_data.Bounds;
+					field.DPIBorderSize = field_data.Extra.PrintBorder ? field_data.BorderSize : 0;
+					field.BorderColor   = field_data.BorderColor;
 
 					// granice rodzica
-					field.SetParentBounds( data.size.Width, data.size.Height );
+					field.setParentBounds( data.Size.Width, data.Size.Height );
 
 					// tło pola
-					if( field_data.extra.print_image && field_data.image && File.Exists("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg") )
-						using( Image image = Image.FromFile("patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg" ) )
+					if( field_data.Extra.PrintImage && field_data.Image &&
+                        File.Exists("patterns/" + data.Name + "/images/field" + y + "_" + x + ".jpg") )
+						using( var image = Image.FromFile("patterns/" + data.Name + "/images/field" + y + "_" + x + ".jpg") )
 						{
-							Image new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
-							using( Graphics canvas = Graphics.FromImage(new_image) )
+							var new_image = new Bitmap( image.Width, image.Height, PixelFormat.Format32bppArgb );
+							using( var canvas = Graphics.FromImage(new_image) )
 								canvas.DrawImage( image, 0, 0 );
 
 							field.BackImage = new_image;
-							field.BackImagePath = "patterns/" + data.name + "/images/field" + y + "_" + x + ".jpg";
+							field.BackImagePath = "patterns/" + data.Name + "/images/field" + y + "_" + x + ".jpg";
 
 							image.Dispose();
 						}
@@ -596,43 +743,50 @@ namespace CDesigner.Utils
 					}
 
 					// kolory
-					field.BackColor = field_data.extra.print_color ? field_data.color : Color.Transparent;
-					field.ForeColor = field_data.font_color;
+					field.BackColor = field_data.Extra.PrintColor ? field_data.Color : Color.Transparent;
+					field.ForeColor = field_data.FontColor;
 
-					// czcionka
+					// czcionka - trzeba mieć pewność że da się ją rady wczytać
 					FontFamily font_family;
-					try   { font_family = new FontFamily( field_data.font_name ); }
+					try   { font_family = new FontFamily( field_data.FontName ); }
 					catch { font_family = new FontFamily( "Arial" ); }
 
-					field.Font            = new Font( font_family, 8.25f, field_data.font_style, GraphicsUnit.Point );
-					field.DPIFontSize     = field_data.font_size;
-					field.TextAlign       = field_data.text_align;
-					field.TextTransform   = field_data.text_transform;
-					field.DPIPadding      = field_data.padding;
-					field.TextMargin      = new PointF( field_data.text_leftpad, field_data.text_toppad );
-					field.ApplyTextMargin = field_data.text_add_margin;
+					field.Font            = new Font( font_family, 8.25f, field_data.FontStyle, GraphicsUnit.Point );
+					field.DPIFontSize     = field_data.FontSize;
+					field.TextAlign       = field_data.TextAlign;
+					field.TextTransform   = field_data.TextTransform;
+					field.DPIPadding      = field_data.Padding;
+					field.TextMargin      = new PointF( field_data.TextLeftpad, field_data.TextToppad );
+					field.ApplyTextMargin = field_data.TextAddMargin;
 					
 					// skalowanie
 					field.DPIScale = scale;
-					field.Margin   = new Padding(0);
+					field.Margin   = new Padding( 0 );
 
 					// dodatkowe informacje
-					field.Tag = field_data.extra;
+					field.Tag = field_data.Extra;
 
 					page.Controls.Add( field );
 				}
 
 				// dodatkowe informacje
-				page.Tag = page_data.extra;
+				page.Tag = page_data.Extra;
 
 				panel.Controls.Add( page );
 			}
 		}
 
-		// ------------------------------------------------------------- DrawRow --------------------------------------
-		
-		// @TODO
-		public static void DrawRow( Panel panel, DataContent data_content, int row )
+        /// <summary>
+        /// Rysowanie wiersza wzoru.
+        /// Funkcja uzupełnia dynamiczne pola tekstowe danymi, przekazanymi ze schowka.
+        /// Każde pole dynamiczne, do którego przypisana jest kolumna uzupełniane jest z podanego wiersza.
+        /// </summary>
+        /// 
+        /// <param name="panel">Panel z danymi wzoru.</param>
+        /// <param name="storage">Schowek z danymi do odczytu.</param>
+        /// <param name="row">Indeks wiersza do podmiany.</param>
+		//* ============================================================================================================
+		public static void DrawRow( Panel panel, DataStorage storage, int row )
 		{
 			AlignedPage page;
 			PageField   field;
@@ -645,78 +799,56 @@ namespace CDesigner.Utils
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
 					field = (PageField)page.Controls[y];
-					int replace = ((FieldExtraData)field.Tag).column;
+					int replace = ((FieldExtraData)field.Tag).Column;
 
 					// sprawdź czy pola można zmienić i czy wartości są im przypisane
-					if( ((FieldExtraData)field.Tag).text_from_db && replace != -1 )
-						field.Text = data_content.row[row,replace];
-					else if( ((FieldExtraData)field.Tag).image_from_db && replace != -1 )
-					{
-						// @TODO obrazek z bazy danych...
-					}
+					if( ((FieldExtraData)field.Tag).TextFromDB && replace != -1 )
+						field.Text = storage.Row[row][replace];
+					else if( ((FieldExtraData)field.Tag).ImageFromDB && replace != -1 )
+					    {}
 				}
 			}
 		}
 
-		// ------------------------------------------------------------- ChangeScale ----------------------------------
-		
-		public static void ChangeScale( PatternData data, Panel panel, double scale )
-		{
-			// oblicz wymiary strony
-			double dpi_pxs = scale * PatternEditor._pixel_per_dpi;
-			Size   pp_size = new Size
-			(
-				Convert.ToInt32((double)data.size.Width * dpi_pxs),
-				Convert.ToInt32((double)data.size.Height * dpi_pxs)
-			);
-
-			AlignedPage page;
-			PageField   field;
-
-			// zmieniaj skale stron i pól
-			for( int x = 0; x < panel.Controls.Count; ++x )
-			{
-				page = (AlignedPage)panel.Controls[x];
-				page.Size = pp_size;
-
-				for( int y = 0; y < page.Controls.Count; ++y )
-				{
-					field = (PageField)page.Controls[y];
-					field.DPIScale = scale;
-				}
-			}
-		}
-
-		// ------------------------------------------------------------- GeneratePreview ------------------------------
-		
+		/// <summary>
+		/// Zapis wzoru w postaci pliku podglądowego o formacie JPG.
+        /// Wzór musi być również zapisywany do pliku obrazkowego, aby umożliwić jego szybki podgląd.
+        /// Funkcja tworzy podgląd każdej strony wzoru do osobnego pliku o formacie JPG.
+        /// Teoretycznie, podgląd powinien przedstawiać to co edytor, jednak może się różnić precyzją rozmieszczenia
+        /// poszczególnych elementów.
+		/// </summary>
+        /// 
+		/// <param name="data">Dane wzoru do wygenerowania.</param>
+		/// <param name="panel">Panel z danymi wzoru.</param>
+		/// <param name="scale">Skala wzoru do wygenerowania.</param>
+		//* ============================================================================================================
 		public static void GeneratePreview( PatternData data, Panel panel, double scale )
 		{
-			double dpi_pxs = PatternEditor._pixel_per_dpi * scale;
-			int    width   = Convert.ToInt32((double)data.size.Width * dpi_pxs);
-			int    height  = Convert.ToInt32((double)data.size.Height * dpi_pxs);
+			var dpi_pxs = PatternEditor._pixelPerDPI * scale;
+			int width   = Convert.ToInt32((double)data.Size.Width * dpi_pxs);
+			int height  = Convert.ToInt32((double)data.Size.Height * dpi_pxs);
 
 			// rysuj strony
-			for( int x = 0; x < data.pages; ++x )
+			for( int x = 0; x < data.Pages; ++x )
 			{
-				Bitmap      bmp  = new Bitmap( width, height );
-				Graphics    gfx  = Graphics.FromImage( bmp );
-				AlignedPage page = (AlignedPage)panel.Controls[x];
+				var bmp  = new Bitmap( width, height );
+				var gfx  = Graphics.FromImage( bmp );
+				var page = (AlignedPage)panel.Controls[x];
 
 				// obraz lub wypełnienie
 				if( page.BackgroundImage != null )
 					gfx.DrawImage( page.BackgroundImage, 0, 0, width, height );
 				else
 				{
-					SolidBrush brush = new SolidBrush( page.BackColor );
+					var brush = new SolidBrush( page.BackColor );
 					gfx.FillRectangle( brush, 0, 0, width, height );
 				}
 
-				// @TODO - TextTransform
 				// rysuj pola
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
-					PageField  field  = (PageField)page.Controls[y];
-					RectangleF bounds = field.DPIBounds;
+					var field  = (PageField)page.Controls[y];
+					var bounds = field.DPIBounds;
 					
 					bounds.X      = (float)((double)bounds.X * dpi_pxs);
 					bounds.Y      = (float)((double)bounds.Y * dpi_pxs);
@@ -728,12 +860,12 @@ namespace CDesigner.Utils
 						gfx.DrawImage( field.BackImage, bounds );
 					else
 					{
-						SolidBrush brush = new SolidBrush( field.BackColor );
+						var brush = new SolidBrush( field.BackColor );
 						gfx.FillRectangle( brush, bounds );
 					}
 
 					// utwórz czcionkę
-					Font font = new Font
+					var font = new Font
 					(
 						field.Font.FontFamily,
 						(float)(field.DPIFontSize * scale),
@@ -743,12 +875,13 @@ namespace CDesigner.Utils
 						field.Font.GdiVerticalFont
 					);
 
-					SolidBrush   lbrush = new SolidBrush( field.ForeColor );
-					StringFormat format = new StringFormat();
+					var lbrush = new SolidBrush( field.ForeColor );
+					var format = new StringFormat();
 
 					// margines wewnętrzny
-					int        pad = Convert.ToInt32((double)field.DPIPadding * dpi_pxs);
-					RectangleF box = new RectangleF( bounds.X + pad, bounds.Y + pad, bounds.Width - pad * 2, bounds.Height - pad * 2 );
+					int pad = Convert.ToInt32((double)field.DPIPadding * dpi_pxs);
+					var box = new RectangleF( bounds.X + pad, bounds.Y + pad, bounds.Width - pad * 2,
+                        bounds.Height - pad * 2 );
 
 					// powięsz prostokąt dla czcionki
 					box.Height++;
@@ -783,36 +916,202 @@ namespace CDesigner.Utils
 					bounds.Height--;
 
 					for( int z = 0; z < border_size; ++z )
-						gfx.DrawRectangle( border_pen, bounds.X + z, bounds.Y + z, bounds.Width - z * 2, bounds.Height - z * 2 );
+						gfx.DrawRectangle( border_pen, bounds.X + z, bounds.Y + z, bounds.Width - z * 2,
+                            bounds.Height - z * 2 );
 				}
 
 				// zapisz do pliku
-				bmp.Save( "patterns/" + data.name + "/preview" + x + ".jpg" );
+				bmp.Save( "patterns/" + data.Name + "/preview" + x + ".jpg" );
 			}
 		}
 
-		// ------------------------------------------------------------- Save -----------------------------------------
-		
+		/// <summary>
+		/// Generowanie dokumentu PDF z podanych danych.
+        /// Funkcja generuje dokument PDF dla wzoru z którego wczytane zostały dane.
+        /// Każda strona wzoru generowana jest osobno i zapisywana jedna pod drugą, co tyczy się również wzorów,
+        /// które zawierają kilka stron (najpierw generowany jest pierwszy rekord z wszystkimi stronami, potem kolejny).
+        /// Dołożono wszelkich starań, aby odwzorowanie milimetrów było jak najbardziej realne, jednak problem, który
+        /// może występować jest problemem czcionek - nie są one dopasowane tak, aby ich szerokość odpowiadała realnej
+        /// szerokości, wzlgędem której są wyświetlane (czcionki mają kilka wysokości).
+		/// </summary>
+        /// 
+		/// <param name="storage">Schowek z wczytanymi danymi do zapisu.</param>
+		/// <param name="pdata">Dane wzoru do wygenerowania.</param>
+		/// <param name="output">Nazwa pliku wyjściowego.</param>
+		//* ============================================================================================================
+		public static void GeneratePDF( DataStorage storage, PatternData pdata, string output )
+		{
+			var scale = 0.0;
+			var pdf   = new PdfDocument();
+
+			for( int x = 0; x < storage.RowsNumber; ++x )
+			{
+				for( int y = 0; y < pdata.Pages; ++y )
+				{
+					var page = pdf.AddPage();
+
+					// rozmiary strony
+					page.Width  = XUnit.FromMillimeter( pdata.Size.Width );
+					page.Height = XUnit.FromMillimeter( pdata.Size.Height );
+
+					// oblicz skale powiększenia
+					scale = page.Width.Presentation / (pdata.Size.Width * PatternEditor._pixelPerDPI);
+
+					var gfx      = XGraphics.FromPdfPage( page );
+					var foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
+					var page_data = pdata.Page[y];
+
+					for( int z = 0; z < page_data.Fields; ++z )
+					{
+						// obszar cięcia
+						var field_data = page_data.Field[z];
+						var bounds     = new XRect
+						(
+							XUnit.FromMillimeter( (double)field_data.Bounds.X ),
+							XUnit.FromMillimeter( (double)field_data.Bounds.Y ),
+							XUnit.FromMillimeter( (double)field_data.Bounds.Width ),
+							XUnit.FromMillimeter( (double)field_data.Bounds.Height )
+						);
+
+						// kolor pola 
+						if( field_data.Extra.PrintColor )
+						{
+							var brush = new XSolidBrush( (XColor)field_data.Color );
+
+							if( field_data.Extra.PrintBorder )
+							{
+								var bfull   = XUnit.FromMillimeter( (double)field_data.BorderSize );
+								var bhalf   = bfull * 0.5;
+								var cbounds = new XRect( bounds.X + bhalf, bounds.Y + bhalf, bounds.Width -
+                                    bfull, bounds.Height - bfull );
+								gfx.DrawRectangle( brush, cbounds );
+							}
+							else
+								gfx.DrawRectangle( brush, bounds );
+						}
+
+						// ramka pola
+						if( field_data.Extra.PrintBorder && field_data.BorderSize > 0.0 )
+						{
+							var pen = new XPen( (XColor)field_data.BorderColor );
+							pen.Width = XUnit.FromMillimeter( (double)field_data.BorderSize );
+							var prx = pen.Width / 2.0 - 0.01;
+
+							gfx.DrawLine( pen, bounds.X, bounds.Y + prx, bounds.X + bounds.Width, bounds.Y + prx );
+							gfx.DrawLine( pen, bounds.X + prx, bounds.Y, bounds.X + prx, bounds.Y + bounds.Height );
+							gfx.DrawLine( pen, bounds.X, bounds.Y + bounds.Height - prx, bounds.X + bounds.Width,
+                                bounds.Y + bounds.Height - prx );
+							gfx.DrawLine( pen, bounds.X + bounds.Width - prx, bounds.Y, bounds.X + bounds.Width - prx,
+                                bounds.Y + bounds.Height );
+						}
+
+						// rysuj tekst
+						if( field_data.Extra.PrintText || (field_data.Extra.TextFromDB && field_data.Extra.Column > -1) )
+						{
+							var fsize  = (float)(field_data.FontSize * scale);
+							var font   = new XFont( field_data.FontName, fsize, (XFontStyle)field_data.FontStyle, foptions );
+							var lbrush = new XSolidBrush( (XColor)field_data.FontColor );
+
+							// pobierz napis
+							var tf = new XTextFormatter( gfx );
+							var text = field_data.Extra.PrintText
+								? field_data.Name
+								: storage.Row[x][field_data.Extra.Column];
+
+							// margines wewnętrzny
+							if( field_data.Padding > 0.0 )
+							{
+								double padding = XUnit.FromMillimeter( (double)field_data.Padding ),
+									   pad2x   = padding * 2.0;
+
+								if( bounds.Width > pad2x && bounds.Height > pad2x )
+								{
+									bounds.X += padding;
+									bounds.Y += padding;
+									bounds.Width -= padding * 2.0;
+									bounds.Height -= padding * 2.0;
+								}
+							}
+
+							bounds.Y      -= scale;
+							bounds.Height += scale * 2.0;
+
+							// sprawdź czy tekst nie jest pusty
+							string test = text.Trim();
+							if( test != "" && test != null )
+							{
+								var txtm = gfx.MeasureString( text, font );
+								
+								// rozmieszczenie tekstu
+								if( ((int)field_data.TextAlign & 0x111) != 0 )
+									tf.Alignment = XParagraphAlignment.Left;
+								else if( ((int)field_data.TextAlign & 0x222) != 0 )
+									tf.Alignment = XParagraphAlignment.Center;
+								else
+									tf.Alignment = XParagraphAlignment.Right;
+
+								// oblicz realną wysokość tekstu
+								int passes = 1;
+								for( double twidth = txtm.Width; twidth > bounds.Width; ++passes )
+									twidth -= bounds.Width;
+
+								// przyleganie tekstu w pionie
+								if( txtm.Height * (double)passes < bounds.Height )
+									// wycentrowanie linii
+									if( ((int)field_data.TextAlign & 0x70) != 0 )
+									{
+										double theight = (bounds.Height - txtm.Height * (double)passes) * 0.5;
+										bounds.Y += theight;
+									}
+									// przyleganie linii do dołu
+									else if( ((int)field_data.TextAlign & 0x700) != 0 )
+									{
+										double theight = (bounds.Height - txtm.Height * (double)passes);
+										bounds.Y += theight;
+									}
+
+								tf.DrawString( text, font, lbrush, bounds );
+							}
+						}
+					}
+				}
+			}
+
+			// zapisz plik pdf
+			pdf.Save( output );
+		}
+        
+		/// <summary>
+		/// Zapis edytowanego wzoru.
+        /// Funkcja zapisuje zmiany w utworzonym wcześniej wzorze.
+        /// Podczas zapisu tworzony jest nowy plik konfiguracyjny zawierający podane dane.
+        /// Wszystkie obrazki wgrywane do wzoru, zapisywane są w podfolderze images głównego folderu wzoru.
+        /// Opis schematu pliku konfiguracyjnego znajduje się w funkcji <see cref="Create"/>.
+		/// </summary>
+        /// 
+		/// <param name="data">Dane wzoru do zapisu.</param>
+		/// <param name="panel">Panel zawierający strony i kontrolki wzoru.</param>
+		//* ============================================================================================================
 		public static void Save( PatternData data, Panel panel )
 		{
-			FileStream   file   = new FileStream( "patterns/" + data.name + "/_config.cfg", FileMode.OpenOrCreate );
-			BinaryWriter writer = new BinaryWriter( file );
+			var file   = new FileStream( "patterns/" + data.Name + "/_config.cfg", FileMode.OpenOrCreate );
+			var writer = new BinaryWriter( file );
 
 			byte[] text = new byte[5] { (byte)'C', (byte)'D', (byte)'C', (byte)'F', (byte)'G' };
 			writer.Write( text, 0, 5 );
 
-			writer.Write( (short)data.size.Width );
-			writer.Write( (short)data.size.Height );
+			writer.Write( (short)data.Size.Width );
+			writer.Write( (short)data.Size.Height );
 			writer.Write( (byte)panel.Controls.Count );
 
 			bool   dynamic = false;
-			string pattern = data.name;
+			string pattern = data.Name;
 			
 			foreach( Panel page in panel.Controls )
 				foreach( PageField field in page.Controls )
 				{
-					FieldExtraData field_extra = (FieldExtraData)field.Tag;
-					if( field_extra.text_from_db || field_extra.image_from_db )
+					var field_extra = (FieldExtraData)field.Tag;
+					if( field_extra.TextFromDB || field_extra.ImageFromDB )
 					{
 						dynamic = true;
 						break;
@@ -823,7 +1122,7 @@ namespace CDesigner.Utils
 			// zapisz konfiguracje stron
 			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				AlignedPage page = (AlignedPage)panel.Controls[x];
+				var page = (AlignedPage)panel.Controls[x];
 
 				// obraz strony
 				writer.Write( (byte)page.Controls.Count );
@@ -840,7 +1139,7 @@ namespace CDesigner.Utils
 				// zapisz konfiguracje pól na stronie
 				for( int y = 0; y < page.Controls.Count; ++y )
 				{
-					PageField field = (PageField)page.Controls[y];
+					var field = (PageField)page.Controls[y];
 
 					writer.Write( field.OriginalText );
 					writer.Write( field.DPIBounds.X );
@@ -874,183 +1173,101 @@ namespace CDesigner.Utils
 					writer.Write( field.TextMargin.Y );
 					writer.Write( field.DPIPadding );
 
-					FieldExtraData field_extra = (FieldExtraData)field.Tag;
+					var field_extra = (FieldExtraData)field.Tag;
 
 					// informacje dodatkowe pola
-					writer.Write( field_extra.image_from_db );
-					writer.Write( field_extra.print_color );
-					writer.Write( field_extra.print_image );
-					writer.Write( field_extra.text_from_db );
-					writer.Write( field_extra.print_text );
-					writer.Write( field_extra.print_border );
-					writer.Write( (int)field_extra.pos_align );
+					writer.Write( field_extra.ImageFromDB );
+					writer.Write( field_extra.PrintColor );
+					writer.Write( field_extra.PrintImage );
+					writer.Write( field_extra.TextFromDB );
+					writer.Write( field_extra.PrintText );
+					writer.Write( field_extra.PrintBorder );
+					writer.Write( (int)field_extra.PosAlign );
 				}
 
-				PageExtraData page_extra = (PageExtraData)page.Tag;
+				var page_extra = (PageExtraData)page.Tag;
 
 				// informacje dodatkowe strony
-				writer.Write( page_extra.print_color );
-				writer.Write( page_extra.print_image );
+				writer.Write( page_extra.PrintColor );
+				writer.Write( page_extra.PrintImage );
 			}
 
 			writer.Close();
 			file.Close();
 
 			// usuń stary plik konfiguracyjny
-			if( File.Exists("patterns/" + data.name + "/config.cfg") )
-				File.Delete( "patterns/" + data.name + "/config.cfg" );
+			if( File.Exists("patterns/" + data.Name + "/config.cfg") )
+				File.Delete( "patterns/" + data.Name + "/config.cfg" );
 
 			// przenieś (zmień nazwę) nowego pliku konfiguracyjnego
-			File.Move( "patterns/" + data.name + "/_config.cfg", "patterns/" + data.name + "/config.cfg" );
+			File.Move( "patterns/" + data.Name + "/_config.cfg", "patterns/" + data.Name + "/config.cfg" );
 		}
 
-		// ------------------------------------------------------------- GeneratePDF ----------------------------------
-		
-		public static void GeneratePDF( DataContent data, PatternData pdata )
+        /// <summary>
+		/// Zmiana skali otwartego wzoru.
+        /// Funkcja zmienia skalę aktualnie otwartego wzoru, podmieniając wartości we wszystkich kontrolkach.
+		/// </summary>
+        /// 
+		/// <param name="data">Dane wzoru do zmiany skali.</param>
+		/// <param name="panel">Panel z danymi wzoru do zmiany skali.</param>
+		/// <param name="scale">Skala do zamianay.</param>
+		//* ============================================================================================================
+		public static void ChangeScale( PatternData data, Panel panel, double scale )
 		{
-			double scale = 0.0;
+			// oblicz wymiary strony
+			var dpi_pxs = scale * PatternEditor._pixelPerDPI;
+			var pp_size = new Size
+			(
+				Convert.ToInt32((double)data.Size.Width * dpi_pxs),
+				Convert.ToInt32((double)data.Size.Height * dpi_pxs)
+			);
 
-			PdfDocument pdf = new PdfDocument();
+			AlignedPage page;
+			PageField   field;
 
-			for( int x = 0; x < data.rows; ++x )
+			// zmieniaj skale stron i pól
+			for( int x = 0; x < panel.Controls.Count; ++x )
 			{
-				for( int y = 0; y < pdata.pages; ++y )
+				page = (AlignedPage)panel.Controls[x];
+				page.Size = pp_size;
+
+				for( int y = 0; y < page.Controls.Count; ++y )
 				{
-					PdfPage page = pdf.AddPage();
-
-					// rozmiary strony
-					page.Width  = XUnit.FromMillimeter( pdata.size.Width );
-					page.Height = XUnit.FromMillimeter( pdata.size.Height );
-
-					// oblicz skale powiększenia
-					scale = page.Width.Presentation / (pdata.size.Width * PatternEditor._pixel_per_dpi);
-
-					XGraphics gfx = XGraphics.FromPdfPage( page );
-					XPdfFontOptions foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
-					PageData page_data = pdata.page[y];
-
-					for( int z = 0; z < page_data.fields; ++z )
-					{
-						// obszar cięcia
-						FieldData field_data = page_data.field[z];
-						XRect bounds = new XRect
-						(
-							XUnit.FromMillimeter( (double)field_data.bounds.X ),
-							XUnit.FromMillimeter( (double)field_data.bounds.Y ),
-							XUnit.FromMillimeter( (double)field_data.bounds.Width ),
-							XUnit.FromMillimeter( (double)field_data.bounds.Height )
-						);
-
-						// kolor pola 
-						if( field_data.extra.print_color )
-						{
-							XBrush brush = new XSolidBrush( (XColor)field_data.color );
-
-							if( field_data.extra.print_border )
-							{
-								double bfull   = XUnit.FromMillimeter( (double)field_data.border_size ),
-									   bhalf   = bfull * 0.5;
-								XRect  cbounds = new XRect( bounds.X + bhalf, bounds.Y + bhalf, bounds.Width - bfull, bounds.Height - bfull );
-								gfx.DrawRectangle( brush, cbounds );
-							}
-							else
-								gfx.DrawRectangle( brush, bounds );
-						}
-
-						// ramka pola
-						if( field_data.extra.print_border && field_data.border_size > 0.0 )
-						{
-							XPen   pen = new XPen( (XColor)field_data.border_color );
-							pen.Width  = XUnit.FromMillimeter( (double)field_data.border_size );
-							double prx = pen.Width / 2.0 - 0.01;
-
-							gfx.DrawLine( pen, bounds.X, bounds.Y + prx, bounds.X + bounds.Width, bounds.Y + prx );
-							gfx.DrawLine( pen, bounds.X + prx, bounds.Y, bounds.X + prx, bounds.Y + bounds.Height );
-							gfx.DrawLine( pen, bounds.X, bounds.Y + bounds.Height - prx, bounds.X + bounds.Width, bounds.Y + bounds.Height - prx );
-							gfx.DrawLine( pen, bounds.X + bounds.Width - prx, bounds.Y, bounds.X + bounds.Width - prx, bounds.Y + bounds.Height );
-						}
-
-						// rysuj tekst
-						if( field_data.extra.print_text || (field_data.extra.text_from_db && field_data.extra.column > -1) )
-						{
-							float  fsize  = (float)(field_data.font_size * scale);
-							XFont  font   = new XFont( field_data.font_name, fsize, (XFontStyle)field_data.font_style, foptions );
-							XBrush lbrush = new XSolidBrush( (XColor)field_data.font_color );
-
-							// pobierz napis
-							XTextFormatter tf = new XTextFormatter( gfx );
-							string text = field_data.extra.print_text
-								? field_data.name
-								: data.row[x,field_data.extra.column];
-
-							// margines wewnętrzny
-							if( field_data.padding > 0.0 )
-							{
-								double padding = XUnit.FromMillimeter( (double)field_data.padding ),
-									   pad2x   = padding * 2.0;
-
-								if( bounds.Width > pad2x && bounds.Height > pad2x )
-								{
-									bounds.X += padding;
-									bounds.Y += padding;
-									bounds.Width -= padding * 2.0;
-									bounds.Height -= padding * 2.0;
-								}
-							}
-
-							bounds.Y      -= scale;
-							bounds.Height += scale * 2.0;
-
-							// sprawdź czy tekst nie jest pusty
-							string test = text.Trim();
-							if( test != "" && test != null )
-							{
-								XSize txtm = gfx.MeasureString( text, font );
-								
-								// rozmieszczenie tekstu
-								if( ((int)field_data.text_align & 0x111) != 0 )
-									tf.Alignment = XParagraphAlignment.Left;
-								else if( ((int)field_data.text_align & 0x222) != 0 )
-									tf.Alignment = XParagraphAlignment.Center;
-								else
-									tf.Alignment = XParagraphAlignment.Right;
-
-								// oblicz realną wysokość tekstu
-								int passes = 1;
-								for( double twidth = txtm.Width; twidth > bounds.Width; ++passes )
-									twidth -= bounds.Width;
-
-								// przyleganie tekstu w pionie
-								if( txtm.Height * (double)passes < bounds.Height )
-									// wycentrowanie linii
-									if( ((int)field_data.text_align & 0x70) != 0 )
-									{
-										double theight = (bounds.Height - txtm.Height * (double)passes) * 0.5;
-										bounds.Y += theight;
-									}
-									// przyleganie linii do dołu
-									else if( ((int)field_data.text_align & 0x700) != 0 )
-									{
-										double theight = (bounds.Height - txtm.Height * (double)passes);
-										bounds.Y += theight;
-									}
-
-								tf.DrawString( text, font, lbrush, bounds );
-							}
-						}
-					}
+					field = (PageField)page.Controls[y];
+					field.DPIScale = scale;
 				}
 			}
-
-			// zapisz plik pdf
-			pdf.Save( "output.pdf" );
 		}
 
-		// ------------------------------------------------------------- GetDimensionScale ----------------------------
-		
+        /// <summary>
+        /// Zwraca podane wymiary wyrażone w pikselach.
+        /// Funkcja pobiera wymiary w milimetrach i zwraca w pikselach, przemnożone przez odpowiednią skalę.
+        /// </summary>
+        /// 
+        /// <param name="size">Wymiary do pomnożenia w milimetrach.</param>
+        /// <param name="scale">Skala dla mnożnika.</param>
+        /// 
+        /// <returns>Pomnożone wymiary w pikselach.</returns>
+		//* ============================================================================================================
+		public static Size GetDPIPageSize( Size size, double scale )
+		{
+			double dpi_pxs = scale * PatternEditor._pixelPerDPI;
+			return new Size( Convert.ToInt32(size.Width * dpi_pxs), Convert.ToInt32(size.Height * dpi_pxs) );
+		}
+
+        /// <summary>
+        /// Zwraca podaną wartość wyrażoną w pikselach.
+        /// Funkcja pobiera milimetry i zwraca piksele, przemnożone przez odpowiednią skalę.
+        /// </summary>
+        /// 
+        /// <param name="width">Wartość do pomnożenia w milimetrach.</param>
+        /// <param name="scale">Skala dla mnożnika.</param>
+        /// 
+        /// <returns>Pomnożona wartość w pikselach.</returns>
+		//* ============================================================================================================
 		public static float GetDimensionScale( float width, double scale )
 		{
-			return (int)((double)width * (PatternEditor._pixel_per_dpi * scale));
+			return (int)((double)width * (PatternEditor._pixelPerDPI * scale));
 		}
 	}
 }

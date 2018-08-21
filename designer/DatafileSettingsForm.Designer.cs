@@ -136,7 +136,7 @@
             this.LV_Columns.TabIndex = 21;
             this.LV_Columns.UseCompatibleStateImageBehavior = false;
             this.LV_Columns.View = System.Windows.Forms.View.Details;
-            this.LV_Columns.SelectedIndexChanged += new System.EventHandler(this.lvColumns_SelectedIndexChanged);
+            this.LV_Columns.SelectedIndexChanged += new System.EventHandler(this.LV_Columns_SelectedIndexChanged);
             // 
             // CH_Columns
             // 
@@ -159,7 +159,7 @@
             this.TLP_StatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_StatusBar.Size = new System.Drawing.Size(625, 61);
             this.TLP_StatusBar.TabIndex = 23;
-            this.TLP_StatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.tlpStatusBar_Paint);
+            this.TLP_StatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_StatusBar_Paint);
             // 
             // TLP_Settings
             // 
@@ -197,7 +197,7 @@
             this.TB_Separator.Size = new System.Drawing.Size(36, 20);
             this.TB_Separator.TabIndex = 19;
             this.TB_Separator.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Separator.TextChanged += new System.EventHandler(this.tbSeparator_TextChanged);
+            this.TB_Separator.TextChanged += new System.EventHandler(this.TB_Separator_TextChanged);
             // 
             // CBX_Encoding
             // 
@@ -218,7 +218,7 @@
             this.CBX_Encoding.Name = "CBX_Encoding";
             this.CBX_Encoding.Size = new System.Drawing.Size(142, 21);
             this.CBX_Encoding.TabIndex = 17;
-            this.CBX_Encoding.SelectedIndexChanged += new System.EventHandler(this.sbEncoding_SelectedIndexChanged);
+            this.CBX_Encoding.SelectedIndexChanged += new System.EventHandler(this.CBX_Encoding_SelectedIndexChanged);
             // 
             // CBX_Separator
             // 
@@ -237,7 +237,7 @@
             this.CBX_Separator.Name = "CBX_Separator";
             this.CBX_Separator.Size = new System.Drawing.Size(102, 21);
             this.CBX_Separator.TabIndex = 21;
-            this.CBX_Separator.SelectedIndexChanged += new System.EventHandler(this.sbSeparator_SelectedIndexChanged);
+            this.CBX_Separator.SelectedIndexChanged += new System.EventHandler(this.CBX_Separator_SelectedIndexChanged);
             // 
             // CB_AutoCheck
             // 
@@ -251,6 +251,7 @@
             this.CB_AutoCheck.TabIndex = 22;
             this.CB_AutoCheck.Text = "Automatycznie wykrywaj typy kolumn";
             this.CB_AutoCheck.UseVisualStyleBackColor = true;
+            this.CB_AutoCheck.Visible = false;
             // 
             // TB_FileName
             // 
@@ -260,7 +261,7 @@
             this.TB_FileName.Name = "TB_FileName";
             this.TB_FileName.Size = new System.Drawing.Size(249, 20);
             this.TB_FileName.TabIndex = 23;
-            this.TB_FileName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbFileName_KeyPress);
+            this.TB_FileName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_FileName_KeyPress);
             // 
             // TLP_Buttons
             // 
@@ -296,7 +297,7 @@
             this.B_Change.TabIndex = 1;
             this.B_Change.Text = "Zmień plik";
             this.B_Change.UseVisualStyleBackColor = true;
-            this.B_Change.Click += new System.EventHandler(this.bChange_Click);
+            this.B_Change.Click += new System.EventHandler(this.B_Change_Click);
             // 
             // B_Cancel
             // 
@@ -309,7 +310,7 @@
             this.B_Cancel.TabIndex = 20;
             this.B_Cancel.Text = "Zaniechaj";
             this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.bCancel_Click);
+            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
             // 
             // B_Save
             // 
@@ -322,7 +323,7 @@
             this.B_Save.TabIndex = 0;
             this.B_Save.Text = "Zatwierdź";
             this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.bSave_Click);
+            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
             // 
             // CB_NoColumns
             // 
@@ -335,7 +336,7 @@
             this.CB_NoColumns.TabIndex = 21;
             this.CB_NoColumns.Text = "Bez nagłówka";
             this.CB_NoColumns.UseVisualStyleBackColor = true;
-            this.CB_NoColumns.CheckedChanged += new System.EventHandler(this.cbNoColumns_CheckedChanged);
+            this.CB_NoColumns.CheckedChanged += new System.EventHandler(this.CB_NoColumns_CheckedChanged);
             // 
             // DatafileSettingsForm
             // 
