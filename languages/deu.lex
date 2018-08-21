@@ -1,14 +1,13 @@
-$pol Polski
-$eng Polish
-$rus Польский
-$deu Polnisch
-$ces Polský
-$def Polski
+$pol Niemiecki
+$eng German
+$rus Немецкий
+$deu Deutsch
+$def Deutsch
 
 % ------------------------------------------------------
-% Język   : Polski
+% Język   : Niemiecki
 % Program : CardDesigner
-% Wersja  : 0.8.x
+% Wersja  : 0.9.x
 % Tłumacz : Kamil Biały
 % ------------------------------------------------------
 	
@@ -208,7 +207,7 @@ $def Polski
 		|01 Wzór o podanej nazwie już istnieje!
 		|02 Musisz podać wymiary papieru dla wzoru.
 		|03 Nie można utworzyć wzoru w folderze głównym programu.\nSprawdź czy posiadasz odpowiednie uprawnienia do zapisywania danych w tym katalogu.
-		|04 Dopuszczalne znaki:\nZnaki alfabetu, cyfry, - + _ ( ) [ ] , # oraz spacja.
+		|04 Dopuszczalne znaki:\nZnaki alfabetu, cyfry, - + _ # oraz spacja.
 
 % okno z informacją o programie
 % ============================================================
@@ -292,39 +291,39 @@ $def Polski
 
 	% menu wzorów
 	@Pattern
-		|00 &Wzór
-		|01 Nowy...
-		|02 Ostatnio otwierane
-		|03 Wyczyść listę wzorów
-		|04 Zakończ program
-		|05 Importuj...
-		|06 Eksportuj wszystkie...
+		|00 &Muster
+		|01 Neue...
+		|02 Kürzlich eröffnet
+		|03 Liste löschen
+		|04 Programm beenden
+		|05 Import...
+		|06 Exportieren Sie alle...
 	
 	% menu dla narzędzi
 	@Tools
-		|00 &Narzędzia
-		|01 Wczytaj plik z danymi...
-		|02 Utwórz bazę w pamięci
-		|03 Edytuj kolumny...
-		|04 Edytuj wiersze...
-		|05 Zapisz bazę do pliku
-		|06 Zamknij źródło danych
+		|00 &Operationen
+		|01 Belastungsdaten...
+		|02 Leere Datenbank erstellen
+		|03 Spalte Bearbeiten...
+		|04 Zeilen bearbeiten...
+		|05 Datenbank speichern
+		|06 Schließen Datenquelle
 		
 	% menu języków
 	@Language
-		|00 &Język
+		|00 &Sprache
 		
 	% menu informacji o programie
 	@Program
-		|00 &Program
-		|01 Informacje
-		|02 Aktualizacje
+		|00 &Programm
+		|01 Informationen
+		|02 Updates
 		
 	% przełącznik pomiędzy formularzami
 	@Switcher
-		|00 Główna
-		|01 Edytor
-		|02 Wydruk
+		|00 Main
+		|01 Editor
+		|02 Ausdrucken
 		
 	@Messages
 		|00 Utworzono pustą bazę danych w pamięci operacyjnej komputera.
@@ -336,24 +335,24 @@ $def Polski
 
 	% przyciski na formularzu
 	@Buttons
-		|00 Nowy wzór
-		|01 Usuń
+		|00 Neues Muster
+		|01 Entfernen
 	
 	% lista kontrolek z napisem na oknie
 	@Labels
-		|00 Pokaż szczegóły zaznaczonego wzoru
-		|01 Strona:
+		|00 Siehe Details des ausgewählten Muster.
+		|01 Seite:
 		
 	% informacje o wzorze
 	@Pattern
-		|00 Nazwa: {0}.
+		|00 Name: {0}.
 		|01 Format: {0}.
-		|02 Rozmiar: {0} x {1} mm.
-		|03 Miejsce na dane: {0}.
-		|04 Ilość stron: {0}.
-		|05 Własny
-		|06 Tak
-		|07 Nie
+		|02 Dimensions: {0} x {1} mm.
+		|03 Platz für Daten: {0}.
+		|04 Seitenanzahl: {0}.
+		|05 Brauch
+		|06 Ja
+		|07 Nein
 		
 	% menu wyświetlane po kliknięciu prawym w listę wzorów
 	@PatternContext

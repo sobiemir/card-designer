@@ -87,10 +87,10 @@
             this.TSMI_RemoveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Separator_B0 = new System.Windows.Forms.ToolStripSeparator();
             this.TSMI_PageColor = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_PageDrawColor = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_PageImage = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_PageClear = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Separator_B1 = new System.Windows.Forms.ToolStripSeparator();
-            this.TSMI_PageDrawColor = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_PageDrawImage = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_Separator_B2 = new System.Windows.Forms.ToolStripSeparator();
             this.TSMI_AddPage = new System.Windows.Forms.ToolStripMenuItem();
@@ -136,6 +136,25 @@
             this.TSMI_DetailSwitch = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMI_PageSwitch = new System.Windows.Forms.ToolStripMenuItem();
             this.P_P2_Editor = new System.Windows.Forms.Panel();
+            this.TLP_P2_LabelDetails = new System.Windows.Forms.TableLayoutPanel();
+            this.CB_P2_AdditionalMargin = new System.Windows.Forms.CheckBox();
+            this.L_P2_AddMargin = new System.Windows.Forms.Label();
+            this.CBX_P2_StickPoint = new System.Windows.Forms.ComboBox();
+            this.L_P2_StickPoint = new System.Windows.Forms.Label();
+            this.CB_P2_UseImageMargin = new System.Windows.Forms.CheckBox();
+            this.CB_P2_DrawFrameOutside = new System.Windows.Forms.CheckBox();
+            this.L_P2_ImageSettings = new System.Windows.Forms.Label();
+            this.CB_P2_StaticImage = new System.Windows.Forms.CheckBox();
+            this.CB_P2_DynamicImage = new System.Windows.Forms.CheckBox();
+            this.CBX_P2_ImageSettings = new System.Windows.Forms.ComboBox();
+            this.N_P2_MarginLR = new System.Windows.Forms.NumericUpDown();
+            this.N_P2_MarginTB = new System.Windows.Forms.NumericUpDown();
+            this.G_P2_Generator = new System.Windows.Forms.GroupBox();
+            this.TLP_P2_Generator = new System.Windows.Forms.TableLayoutPanel();
+            this.CB_P2_DrawBorder = new System.Windows.Forms.CheckBox();
+            this.CB_P2_DrawColor = new System.Windows.Forms.CheckBox();
+            this.CB_P2_DynamicText = new System.Windows.Forms.CheckBox();
+            this.CB_P2_StaticText = new System.Windows.Forms.CheckBox();
             this.TLP_P2_PageDetails = new System.Windows.Forms.TableLayoutPanel();
             this.CB_P2_DrawOutside = new System.Windows.Forms.CheckBox();
             this.CB_P2_ApplyMargin = new System.Windows.Forms.CheckBox();
@@ -145,6 +164,7 @@
             this.TB_P2_PageHeight = new System.Windows.Forms.TextBox();
             this.L_P2_PageWidth = new System.Windows.Forms.Label();
             this.L_P2_PageHeight = new System.Windows.Forms.Label();
+            this.CB_P2_DrawPageImage = new System.Windows.Forms.CheckBox();
             this.G_P2_PageApperance = new System.Windows.Forms.GroupBox();
             this.TLP_P2_PageAppearance = new System.Windows.Forms.TableLayoutPanel();
             this.TB_P2_PageColor = new System.Windows.Forms.TextBox();
@@ -154,26 +174,6 @@
             this.G_P2_GeneratePDF = new System.Windows.Forms.GroupBox();
             this.TLP_P2_GeneratePDF = new System.Windows.Forms.TableLayoutPanel();
             this.CB_P2_DrawPageColor = new System.Windows.Forms.CheckBox();
-            this.CB_P2_DrawPageImage = new System.Windows.Forms.CheckBox();
-            this.TLP_P2_LabelDetails = new System.Windows.Forms.TableLayoutPanel();
-            this.CB_P2_AdditionalMargin = new System.Windows.Forms.CheckBox();
-            this.L_P2_AddMargin = new System.Windows.Forms.Label();
-            this.CBX_P2_StickPoint = new System.Windows.Forms.ComboBox();
-            this.L_P2_StickPoint = new System.Windows.Forms.Label();
-            this.CB_P2_UseImageMargin = new System.Windows.Forms.CheckBox();
-            this.CB_P2_DrawFrameOutside = new System.Windows.Forms.CheckBox();
-            this.L_P2_ImageSettings = new System.Windows.Forms.Label();
-            this.CB_P2_DynamicImage = new System.Windows.Forms.CheckBox();
-            this.CBX_P2_ImageSettings = new System.Windows.Forms.ComboBox();
-            this.N_P2_MarginLR = new System.Windows.Forms.NumericUpDown();
-            this.N_P2_MarginTB = new System.Windows.Forms.NumericUpDown();
-            this.G_P2_Generator = new System.Windows.Forms.GroupBox();
-            this.TLP_P2_Generator = new System.Windows.Forms.TableLayoutPanel();
-            this.CB_P2_DrawBorder = new System.Windows.Forms.CheckBox();
-            this.CB_P2_DrawColor = new System.Windows.Forms.CheckBox();
-            this.CB_P2_StaticImage = new System.Windows.Forms.CheckBox();
-            this.CB_P2_DynamicText = new System.Windows.Forms.CheckBox();
-            this.CB_P2_StaticText = new System.Windows.Forms.CheckBox();
             this.TLP_P2_Field = new System.Windows.Forms.TableLayoutPanel();
             this.CBX_P2_TextTransform = new System.Windows.Forms.ComboBox();
             this.L_P2_TextTransform = new System.Windows.Forms.Label();
@@ -207,6 +207,8 @@
             this.TB_P2_FontColor = new System.Windows.Forms.TextBox();
             this.B_P2_FontColor = new System.Windows.Forms.Button();
             this.SC_P3_Generator = new System.Windows.Forms.SplitContainer();
+            this.TLP_PageList = new System.Windows.Forms.TableLayoutPanel();
+            this.CB_P3_CollatePages = new System.Windows.Forms.CheckBox();
             this.SC_P1_Main = new System.Windows.Forms.SplitContainer();
             this.SC_P1_Details = new System.Windows.Forms.SplitContainer();
             this.RTB_P1_Details = new System.Windows.Forms.RichTextBox();
@@ -216,6 +218,9 @@
             this.TLP_Generator = new System.Windows.Forms.TableLayoutPanel();
             this.TLP_P3_StatusBar = new System.Windows.Forms.TableLayoutPanel();
             this.TLP_P3_InfoControls = new System.Windows.Forms.TableLayoutPanel();
+            this.FLP_P3_Rows = new System.Windows.Forms.FlowLayoutPanel();
+            this.N_P3_Rows = new System.Windows.Forms.NumericUpDown();
+            this.L_P3_Rows = new System.Windows.Forms.Label();
             this.FLP_P3_Page = new System.Windows.Forms.FlowLayoutPanel();
             this.N_P3_Page = new System.Windows.Forms.NumericUpDown();
             this.L_P3_Page = new System.Windows.Forms.Label();
@@ -239,16 +244,16 @@
             this.P_P2_Menu.SuspendLayout();
             this.MS_P2_Menu.SuspendLayout();
             this.P_P2_Editor.SuspendLayout();
-            this.TLP_P2_PageDetails.SuspendLayout();
-            this.G_P2_PageApperance.SuspendLayout();
-            this.TLP_P2_PageAppearance.SuspendLayout();
-            this.G_P2_GeneratePDF.SuspendLayout();
-            this.TLP_P2_GeneratePDF.SuspendLayout();
             this.TLP_P2_LabelDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.N_P2_MarginLR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.N_P2_MarginTB)).BeginInit();
             this.G_P2_Generator.SuspendLayout();
             this.TLP_P2_Generator.SuspendLayout();
+            this.TLP_P2_PageDetails.SuspendLayout();
+            this.G_P2_PageApperance.SuspendLayout();
+            this.TLP_P2_PageAppearance.SuspendLayout();
+            this.G_P2_GeneratePDF.SuspendLayout();
+            this.TLP_P2_GeneratePDF.SuspendLayout();
             this.TLP_P2_Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.N_P2_BorderSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.N_P2_Padding)).BeginInit();
@@ -264,6 +269,7 @@
             this.SC_P3_Generator.Panel1.SuspendLayout();
             this.SC_P3_Generator.Panel2.SuspendLayout();
             this.SC_P3_Generator.SuspendLayout();
+            this.TLP_PageList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SC_P1_Main)).BeginInit();
             this.SC_P1_Main.Panel1.SuspendLayout();
             this.SC_P1_Main.Panel2.SuspendLayout();
@@ -277,6 +283,8 @@
             this.TLP_Generator.SuspendLayout();
             this.TLP_P3_StatusBar.SuspendLayout();
             this.TLP_P3_InfoControls.SuspendLayout();
+            this.FLP_P3_Rows.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.N_P3_Rows)).BeginInit();
             this.FLP_P3_Page.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.N_P3_Page)).BeginInit();
             this.TLP_Pattern.SuspendLayout();
@@ -298,8 +306,8 @@
             this.P_P1_Preview.Margin = new System.Windows.Forms.Padding(0);
             this.P_P1_Preview.Name = "P_P1_Preview";
             this.P_P1_Preview.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.P_P1_Preview.Size = new System.Drawing.Size(447, 438);
-            this.P_P1_Preview.TabIndex = 5;
+            this.P_P1_Preview.Size = new System.Drawing.Size(479, 438);
+            this.P_P1_Preview.TabIndex = 6;
             this.P_P1_Preview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.P_P1_Preview_MouseDown);
             this.P_P1_Preview.Resize += new System.EventHandler(this.P_P1_Preview_Resize);
             // 
@@ -307,7 +315,7 @@
             // 
             this.N_P1_Page.Dock = System.Windows.Forms.DockStyle.Fill;
             this.N_P1_Page.Enabled = false;
-            this.N_P1_Page.Location = new System.Drawing.Point(640, 7);
+            this.N_P1_Page.Location = new System.Drawing.Point(670, 7);
             this.N_P1_Page.Margin = new System.Windows.Forms.Padding(0, 6, 5, 0);
             this.N_P1_Page.Maximum = new decimal(new int[] {
             1,
@@ -320,8 +328,8 @@
             0,
             0});
             this.N_P1_Page.Name = "N_P1_Page";
-            this.N_P1_Page.Size = new System.Drawing.Size(47, 20);
-            this.N_P1_Page.TabIndex = 21;
+            this.N_P1_Page.Size = new System.Drawing.Size(49, 20);
+            this.N_P1_Page.TabIndex = 5;
             this.N_P1_Page.Value = new decimal(new int[] {
             1,
             0,
@@ -333,9 +341,9 @@
             // 
             this.L_P1_Page.AutoSize = true;
             this.L_P1_Page.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.L_P1_Page.Location = new System.Drawing.Point(563, 1);
+            this.L_P1_Page.Location = new System.Drawing.Point(587, 1);
             this.L_P1_Page.Name = "L_P1_Page";
-            this.L_P1_Page.Size = new System.Drawing.Size(74, 31);
+            this.L_P1_Page.Size = new System.Drawing.Size(80, 31);
             this.L_P1_Page.TabIndex = 22;
             this.L_P1_Page.Text = "Strona:";
             this.L_P1_Page.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -349,7 +357,7 @@
             this.B_P1_Delete.Margin = new System.Windows.Forms.Padding(2, 3, 5, 3);
             this.B_P1_Delete.Name = "B_P1_Delete";
             this.B_P1_Delete.Size = new System.Drawing.Size(113, 25);
-            this.B_P1_Delete.TabIndex = 18;
+            this.B_P1_Delete.TabIndex = 3;
             this.B_P1_Delete.Text = "Usuń";
             this.B_P1_Delete.Click += new System.EventHandler(this.B_P1_Delete_Click);
             // 
@@ -361,7 +369,7 @@
             this.B_P1_New.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
             this.B_P1_New.Name = "B_P1_New";
             this.B_P1_New.Size = new System.Drawing.Size(113, 25);
-            this.B_P1_New.TabIndex = 16;
+            this.B_P1_New.TabIndex = 2;
             this.B_P1_New.Text = "Nowy wzór";
             this.B_P1_New.Click += new System.EventHandler(this.TSMI_MenuNewPattern_Click);
             // 
@@ -378,7 +386,7 @@
             this.TV_P1_Patterns.ShowPlusMinus = false;
             this.TV_P1_Patterns.ShowRootLines = false;
             this.TV_P1_Patterns.Size = new System.Drawing.Size(230, 438);
-            this.TV_P1_Patterns.TabIndex = 7;
+            this.TV_P1_Patterns.TabIndex = 1;
             this.TV_P1_Patterns.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TV_P1_Patterns_AfterSelect);
             this.TV_P1_Patterns.DoubleClick += new System.EventHandler(this.TSMI_EditPattern_Click);
             this.TV_P1_Patterns.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TV_P1_Patterns_MouseDown);
@@ -477,7 +485,7 @@
             this.MS_Main.Name = "MS_Main";
             this.MS_Main.Padding = new System.Windows.Forms.Padding(6, 4, 6, 5);
             this.MS_Main.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.MS_Main.Size = new System.Drawing.Size(692, 32);
+            this.MS_Main.Size = new System.Drawing.Size(724, 32);
             this.MS_Main.TabIndex = 1;
             this.MS_Main.Text = "Menu";
             this.MS_Main.Paint += new System.Windows.Forms.PaintEventHandler(this.MS_Main_Paint);
@@ -626,28 +634,29 @@
             // 
             this.TSMI_LoadDataFile.Name = "TSMI_LoadDataFile";
             this.TSMI_LoadDataFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.TSMI_LoadDataFile.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_LoadDataFile.Size = new System.Drawing.Size(240, 22);
             this.TSMI_LoadDataFile.Text = "Wczytaj plik z danymi...";
             this.TSMI_LoadDataFile.Click += new System.EventHandler(this.TSMI_LoadDataFile_Click);
             // 
             // TSMI_CreateEmpty
             // 
             this.TSMI_CreateEmpty.Name = "TSMI_CreateEmpty";
-            this.TSMI_CreateEmpty.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_CreateEmpty.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.TSMI_CreateEmpty.Size = new System.Drawing.Size(240, 22);
             this.TSMI_CreateEmpty.Text = "Utwórz bazę w pamięci";
             this.TSMI_CreateEmpty.Click += new System.EventHandler(this.TSMI_CreateEmpty_Click);
             // 
             // TSS_Separator_T1
             // 
             this.TSS_Separator_T1.Name = "TSS_Separator_T1";
-            this.TSS_Separator_T1.Size = new System.Drawing.Size(236, 6);
+            this.TSS_Separator_T1.Size = new System.Drawing.Size(237, 6);
             // 
             // TSMI_EditColumns
             // 
             this.TSMI_EditColumns.Enabled = false;
             this.TSMI_EditColumns.Name = "TSMI_EditColumns";
-            this.TSMI_EditColumns.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.TSMI_EditColumns.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_EditColumns.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
+            this.TSMI_EditColumns.Size = new System.Drawing.Size(240, 22);
             this.TSMI_EditColumns.Text = "Edytuj kolumny...";
             this.TSMI_EditColumns.Click += new System.EventHandler(this.TSMI_EditColumns_Click);
             // 
@@ -656,41 +665,42 @@
             this.TSMI_EditRows.Enabled = false;
             this.TSMI_EditRows.Name = "TSMI_EditRows";
             this.TSMI_EditRows.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
-            this.TSMI_EditRows.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_EditRows.Size = new System.Drawing.Size(240, 22);
             this.TSMI_EditRows.Text = "Edytuj wiersze...";
             this.TSMI_EditRows.Click += new System.EventHandler(this.TSMI_EditRows_Click);
             // 
             // TSMI_CreateDatabase
             // 
             this.TSMI_CreateDatabase.Name = "TSMI_CreateDatabase";
-            this.TSMI_CreateDatabase.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_CreateDatabase.Size = new System.Drawing.Size(240, 22);
             this.TSMI_CreateDatabase.Text = "Utwórz bazę danych";
             this.TSMI_CreateDatabase.Visible = false;
             // 
             // TSMI_ConnectDatabase
             // 
             this.TSMI_ConnectDatabase.Name = "TSMI_ConnectDatabase";
-            this.TSMI_ConnectDatabase.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_ConnectDatabase.Size = new System.Drawing.Size(240, 22);
             this.TSMI_ConnectDatabase.Text = "Połącz z bazą danych";
             this.TSMI_ConnectDatabase.Visible = false;
             // 
             // TSMI_DataBackup
             // 
             this.TSMI_DataBackup.Name = "TSMI_DataBackup";
-            this.TSMI_DataBackup.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_DataBackup.Size = new System.Drawing.Size(240, 22);
             this.TSMI_DataBackup.Text = "Kopia zapasowa";
             this.TSMI_DataBackup.Visible = false;
             // 
             // TSS_Separator_T2
             // 
             this.TSS_Separator_T2.Name = "TSS_Separator_T2";
-            this.TSS_Separator_T2.Size = new System.Drawing.Size(236, 6);
+            this.TSS_Separator_T2.Size = new System.Drawing.Size(237, 6);
             // 
             // TSMI_CloseData
             // 
             this.TSMI_CloseData.Enabled = false;
             this.TSMI_CloseData.Name = "TSMI_CloseData";
-            this.TSMI_CloseData.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_CloseData.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.X)));
+            this.TSMI_CloseData.Size = new System.Drawing.Size(240, 22);
             this.TSMI_CloseData.Text = "Zamknij źródło danych";
             this.TSMI_CloseData.Click += new System.EventHandler(this.TSMI_CloseData_Click);
             // 
@@ -698,7 +708,8 @@
             // 
             this.TSMI_SaveData.Enabled = false;
             this.TSMI_SaveData.Name = "TSMI_SaveData";
-            this.TSMI_SaveData.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_SaveData.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
+            this.TSMI_SaveData.Size = new System.Drawing.Size(240, 22);
             this.TSMI_SaveData.Text = "Zapisz bazę do pliku...";
             this.TSMI_SaveData.Click += new System.EventHandler(this.TSMI_SaveData_Click);
             // 
@@ -786,10 +797,10 @@
             this.TSMI_RemoveAll,
             this.TSMI_Separator_B0,
             this.TSMI_PageColor,
+            this.TSMI_PageDrawColor,
             this.TSMI_PageImage,
             this.TSMI_PageClear,
             this.TSMI_Separator_B1,
-            this.TSMI_PageDrawColor,
             this.TSMI_PageDrawImage,
             this.TSMI_Separator_B2,
             this.TSMI_AddPage,
@@ -824,6 +835,14 @@
             this.TSMI_PageColor.Text = "Kolor tła strony...";
             this.TSMI_PageColor.Click += new System.EventHandler(this.B_P2_PageColor_Click);
             // 
+            // TSMI_PageDrawColor
+            // 
+            this.TSMI_PageDrawColor.CheckOnClick = true;
+            this.TSMI_PageDrawColor.Name = "TSMI_PageDrawColor";
+            this.TSMI_PageDrawColor.Size = new System.Drawing.Size(179, 22);
+            this.TSMI_PageDrawColor.Text = "Rysuj kolor strony";
+            this.TSMI_PageDrawColor.CheckedChanged += new System.EventHandler(this.CB_P2_DrawPageColor_CheckedChanged);
+            // 
             // TSMI_PageImage
             // 
             this.TSMI_PageImage.Name = "TSMI_PageImage";
@@ -842,14 +861,7 @@
             // 
             this.TSMI_Separator_B1.Name = "TSMI_Separator_B1";
             this.TSMI_Separator_B1.Size = new System.Drawing.Size(176, 6);
-            // 
-            // TSMI_PageDrawColor
-            // 
-            this.TSMI_PageDrawColor.CheckOnClick = true;
-            this.TSMI_PageDrawColor.Name = "TSMI_PageDrawColor";
-            this.TSMI_PageDrawColor.Size = new System.Drawing.Size(179, 22);
-            this.TSMI_PageDrawColor.Text = "Rysuj kolor strony";
-            this.TSMI_PageDrawColor.CheckedChanged += new System.EventHandler(this.CB_P2_DrawPageColor_CheckedChanged);
+            this.TSMI_Separator_B1.Visible = false;
             // 
             // TSMI_PageDrawImage
             // 
@@ -857,6 +869,7 @@
             this.TSMI_PageDrawImage.Name = "TSMI_PageDrawImage";
             this.TSMI_PageDrawImage.Size = new System.Drawing.Size(179, 22);
             this.TSMI_PageDrawImage.Text = "Rysuj obraz strony";
+            this.TSMI_PageDrawImage.Visible = false;
             this.TSMI_PageDrawImage.CheckedChanged += new System.EventHandler(this.CB_P2_DrawPageImage_CheckedChanged);
             // 
             // TSMI_Separator_B2
@@ -1031,8 +1044,8 @@
             this.P_P3_Generator.Location = new System.Drawing.Point(0, 0);
             this.P_P3_Generator.Margin = new System.Windows.Forms.Padding(0);
             this.P_P3_Generator.Name = "P_P3_Generator";
-            this.P_P3_Generator.Size = new System.Drawing.Size(424, 438);
-            this.P_P3_Generator.TabIndex = 1;
+            this.P_P3_Generator.Size = new System.Drawing.Size(453, 438);
+            this.P_P3_Generator.TabIndex = 2;
             this.P_P3_Generator.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dpPreview_MouseDown);
             this.P_P3_Generator.Resize += new System.EventHandler(this.P_P3_Generator_Resize);
             // 
@@ -1045,7 +1058,7 @@
             this.TLP_P3_Buttons.Controls.Add(this.B_P3_GeneratePDF, 1, 0);
             this.TLP_P3_Buttons.Controls.Add(this.B_P3_SearchErrors, 0, 0);
             this.TLP_P3_Buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLP_P3_Buttons.Location = new System.Drawing.Point(436, 1);
+            this.TLP_P3_Buttons.Location = new System.Drawing.Point(468, 1);
             this.TLP_P3_Buttons.Margin = new System.Windows.Forms.Padding(1, 0, 5, 0);
             this.TLP_P3_Buttons.Name = "TLP_P3_Buttons";
             this.TLP_P3_Buttons.RowCount = 1;
@@ -1061,7 +1074,7 @@
             this.B_P3_GeneratePDF.Margin = new System.Windows.Forms.Padding(2, 3, 0, 3);
             this.B_P3_GeneratePDF.Name = "B_P3_GeneratePDF";
             this.B_P3_GeneratePDF.Size = new System.Drawing.Size(124, 25);
-            this.B_P3_GeneratePDF.TabIndex = 0;
+            this.B_P3_GeneratePDF.TabIndex = 9;
             this.B_P3_GeneratePDF.Text = "Generuj PDF";
             this.B_P3_GeneratePDF.UseVisualStyleBackColor = true;
             this.B_P3_GeneratePDF.Click += new System.EventHandler(this.B_P3_GeneratePDF_Click);
@@ -1073,7 +1086,7 @@
             this.B_P3_SearchErrors.Margin = new System.Windows.Forms.Padding(0, 3, 2, 3);
             this.B_P3_SearchErrors.Name = "B_P3_SearchErrors";
             this.B_P3_SearchErrors.Size = new System.Drawing.Size(123, 25);
-            this.B_P3_SearchErrors.TabIndex = 1;
+            this.B_P3_SearchErrors.TabIndex = 8;
             this.B_P3_SearchErrors.Text = "Szukaj błędów";
             this.B_P3_SearchErrors.UseVisualStyleBackColor = true;
             this.B_P3_SearchErrors.Click += new System.EventHandler(this.B_P3_SearchErrors_Click);
@@ -1089,8 +1102,8 @@
             this.TV_P3_PageList.ShowLines = false;
             this.TV_P3_PageList.ShowPlusMinus = false;
             this.TV_P3_PageList.ShowRootLines = false;
-            this.TV_P3_PageList.Size = new System.Drawing.Size(254, 438);
-            this.TV_P3_PageList.TabIndex = 3;
+            this.TV_P3_PageList.Size = new System.Drawing.Size(256, 416);
+            this.TV_P3_PageList.TabIndex = 1;
             this.TV_P3_PageList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TV_P3_PageList_AfterSelect);
             // 
             // B_P2_Save
@@ -1133,7 +1146,7 @@
             this.TLP_P2_InfoControls.Name = "TLP_P2_InfoControls";
             this.TLP_P2_InfoControls.RowCount = 1;
             this.TLP_P2_InfoControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_P2_InfoControls.Size = new System.Drawing.Size(432, 31);
+            this.TLP_P2_InfoControls.Size = new System.Drawing.Size(464, 31);
             this.TLP_P2_InfoControls.TabIndex = 0;
             // 
             // FLP_P2_Page
@@ -1142,7 +1155,7 @@
             this.FLP_P2_Page.Controls.Add(this.L_P2_Page);
             this.FLP_P2_Page.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_P2_Page.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.FLP_P2_Page.Location = new System.Drawing.Point(332, 0);
+            this.FLP_P2_Page.Location = new System.Drawing.Point(364, 0);
             this.FLP_P2_Page.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_P2_Page.Name = "FLP_P2_Page";
             this.FLP_P2_Page.Size = new System.Drawing.Size(100, 31);
@@ -1208,7 +1221,7 @@
             this.CB_P2_AutoSave.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CB_P2_AutoSave.Location = new System.Drawing.Point(83, 3);
             this.CB_P2_AutoSave.Name = "CB_P2_AutoSave";
-            this.CB_P2_AutoSave.Size = new System.Drawing.Size(246, 25);
+            this.CB_P2_AutoSave.Size = new System.Drawing.Size(278, 25);
             this.CB_P2_AutoSave.TabIndex = 13;
             this.CB_P2_AutoSave.Text = "Automatyczny zapis bez tworzenia podglądu";
             this.CB_P2_AutoSave.UseVisualStyleBackColor = true;
@@ -1223,7 +1236,7 @@
             this.P_P2_Pattern.Location = new System.Drawing.Point(0, 0);
             this.P_P2_Pattern.Margin = new System.Windows.Forms.Padding(0);
             this.P_P2_Pattern.Name = "P_P2_Pattern";
-            this.P_P2_Pattern.Size = new System.Drawing.Size(425, 438);
+            this.P_P2_Pattern.Size = new System.Drawing.Size(450, 438);
             this.P_P2_Pattern.TabIndex = 1;
             this.P_P2_Pattern.MouseDown += new System.Windows.Forms.MouseEventHandler(this.P_P2_Pattern_MouseDown);
             this.P_P2_Pattern.Resize += new System.EventHandler(this.P_P2_Pattern_Resize);
@@ -1242,7 +1255,7 @@
             this.TLP_P2_Details.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.TLP_P2_Details.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_P2_Details.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_Details.Size = new System.Drawing.Size(253, 438);
+            this.TLP_P2_Details.Size = new System.Drawing.Size(259, 438);
             this.TLP_P2_Details.TabIndex = 5;
             // 
             // P_P2_Menu
@@ -1252,7 +1265,7 @@
             this.P_P2_Menu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.P_P2_Menu.Location = new System.Drawing.Point(3, 3);
             this.P_P2_Menu.Name = "P_P2_Menu";
-            this.P_P2_Menu.Size = new System.Drawing.Size(247, 29);
+            this.P_P2_Menu.Size = new System.Drawing.Size(253, 29);
             this.P_P2_Menu.TabIndex = 75;
             // 
             // MS_P2_Menu
@@ -1265,7 +1278,7 @@
             this.TSMI_PageSwitch});
             this.MS_P2_Menu.Location = new System.Drawing.Point(0, 0);
             this.MS_P2_Menu.Name = "MS_P2_Menu";
-            this.MS_P2_Menu.Size = new System.Drawing.Size(245, 27);
+            this.MS_P2_Menu.Size = new System.Drawing.Size(251, 27);
             this.MS_P2_Menu.TabIndex = 68;
             this.MS_P2_Menu.Text = "icPatMenu";
             // 
@@ -1273,7 +1286,7 @@
             // 
             this.TSMI_FieldSwitch.Enabled = false;
             this.TSMI_FieldSwitch.Name = "TSMI_FieldSwitch";
-            this.TSMI_FieldSwitch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Q)));
+            this.TSMI_FieldSwitch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
             this.TSMI_FieldSwitch.Size = new System.Drawing.Size(42, 23);
             this.TSMI_FieldSwitch.Text = "Pole";
             this.TSMI_FieldSwitch.Click += new System.EventHandler(this.TSMI_FieldSwitch_Click);
@@ -1281,7 +1294,7 @@
             // TSMI_DetailSwitch
             // 
             this.TSMI_DetailSwitch.Name = "TSMI_DetailSwitch";
-            this.TSMI_DetailSwitch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.W)));
+            this.TSMI_DetailSwitch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
             this.TSMI_DetailSwitch.Size = new System.Drawing.Size(70, 23);
             this.TSMI_DetailSwitch.Text = "Szczegóły";
             this.TSMI_DetailSwitch.Click += new System.EventHandler(this.TSMI_DetailSwitch_Click);
@@ -1290,22 +1303,310 @@
             // 
             this.TSMI_PageSwitch.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.TSMI_PageSwitch.Name = "TSMI_PageSwitch";
-            this.TSMI_PageSwitch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+            this.TSMI_PageSwitch.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
             this.TSMI_PageSwitch.Size = new System.Drawing.Size(53, 23);
             this.TSMI_PageSwitch.Text = "Strona";
             this.TSMI_PageSwitch.Click += new System.EventHandler(this.TSMI_PageSwitch_Click);
             // 
             // P_P2_Editor
             // 
-            this.P_P2_Editor.Controls.Add(this.TLP_P2_PageDetails);
             this.P_P2_Editor.Controls.Add(this.TLP_P2_LabelDetails);
+            this.P_P2_Editor.Controls.Add(this.TLP_P2_PageDetails);
             this.P_P2_Editor.Controls.Add(this.TLP_P2_Field);
             this.P_P2_Editor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.P_P2_Editor.Location = new System.Drawing.Point(0, 35);
             this.P_P2_Editor.Margin = new System.Windows.Forms.Padding(0);
             this.P_P2_Editor.Name = "P_P2_Editor";
-            this.P_P2_Editor.Size = new System.Drawing.Size(253, 403);
+            this.P_P2_Editor.Size = new System.Drawing.Size(259, 403);
             this.P_P2_Editor.TabIndex = 69;
+            // 
+            // TLP_P2_LabelDetails
+            // 
+            this.TLP_P2_LabelDetails.ColumnCount = 2;
+            this.TLP_P2_LabelDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_P2_LabelDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_AdditionalMargin, 0, 11);
+            this.TLP_P2_LabelDetails.Controls.Add(this.L_P2_AddMargin, 0, 10);
+            this.TLP_P2_LabelDetails.Controls.Add(this.CBX_P2_StickPoint, 0, 5);
+            this.TLP_P2_LabelDetails.Controls.Add(this.L_P2_StickPoint, 0, 4);
+            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_UseImageMargin, 0, 7);
+            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_DrawFrameOutside, 0, 6);
+            this.TLP_P2_LabelDetails.Controls.Add(this.L_P2_ImageSettings, 0, 6);
+            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_StaticImage, 0, 14);
+            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_DynamicImage, 1, 10);
+            this.TLP_P2_LabelDetails.Controls.Add(this.CBX_P2_ImageSettings, 0, 7);
+            this.TLP_P2_LabelDetails.Controls.Add(this.N_P2_MarginLR, 0, 12);
+            this.TLP_P2_LabelDetails.Controls.Add(this.N_P2_MarginTB, 1, 12);
+            this.TLP_P2_LabelDetails.Controls.Add(this.G_P2_Generator, 0, 0);
+            this.TLP_P2_LabelDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_P2_LabelDetails.Location = new System.Drawing.Point(0, 0);
+            this.TLP_P2_LabelDetails.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_P2_LabelDetails.Name = "TLP_P2_LabelDetails";
+            this.TLP_P2_LabelDetails.RowCount = 15;
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_LabelDetails.Size = new System.Drawing.Size(259, 403);
+            this.TLP_P2_LabelDetails.TabIndex = 5;
+            this.TLP_P2_LabelDetails.Visible = false;
+            // 
+            // CB_P2_AdditionalMargin
+            // 
+            this.CB_P2_AdditionalMargin.AutoSize = true;
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.CB_P2_AdditionalMargin, 2);
+            this.CB_P2_AdditionalMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_AdditionalMargin.Location = new System.Drawing.Point(3, 307);
+            this.CB_P2_AdditionalMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+            this.CB_P2_AdditionalMargin.Name = "CB_P2_AdditionalMargin";
+            this.CB_P2_AdditionalMargin.Size = new System.Drawing.Size(253, 12);
+            this.CB_P2_AdditionalMargin.TabIndex = 76;
+            this.CB_P2_AdditionalMargin.Text = "Zastosuj dodatkowy margines tekstu";
+            this.CB_P2_AdditionalMargin.UseVisualStyleBackColor = true;
+            this.CB_P2_AdditionalMargin.Visible = false;
+            // 
+            // L_P2_AddMargin
+            // 
+            this.L_P2_AddMargin.AutoSize = true;
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.L_P2_AddMargin, 2);
+            this.L_P2_AddMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.L_P2_AddMargin.Location = new System.Drawing.Point(3, 262);
+            this.L_P2_AddMargin.Name = "L_P2_AddMargin";
+            this.L_P2_AddMargin.Size = new System.Drawing.Size(253, 20);
+            this.L_P2_AddMargin.TabIndex = 71;
+            this.L_P2_AddMargin.Text = "Dodatkowy margines tekstu:";
+            this.L_P2_AddMargin.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.L_P2_AddMargin.Visible = false;
+            // 
+            // CBX_P2_StickPoint
+            // 
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.CBX_P2_StickPoint, 2);
+            this.CBX_P2_StickPoint.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CBX_P2_StickPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CBX_P2_StickPoint.Enabled = false;
+            this.CBX_P2_StickPoint.FormattingEnabled = true;
+            this.CBX_P2_StickPoint.Items.AddRange(new object[] {
+            "Góra-Lewo (lewy górny róg)",
+            "Góra-Prawo (prawy górny róg)",
+            "Dół-Lewo (lewy dolny róg)",
+            "Dół-Prawo (prawy dolny róg)"});
+            this.CBX_P2_StickPoint.Location = new System.Drawing.Point(3, 145);
+            this.CBX_P2_StickPoint.Name = "CBX_P2_StickPoint";
+            this.CBX_P2_StickPoint.Size = new System.Drawing.Size(253, 21);
+            this.CBX_P2_StickPoint.TabIndex = 69;
+            this.CBX_P2_StickPoint.SelectedIndexChanged += new System.EventHandler(this.CBX_P2_StickPoint_SelectedIndexChanged);
+            // 
+            // L_P2_StickPoint
+            // 
+            this.L_P2_StickPoint.AutoSize = true;
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.L_P2_StickPoint, 2);
+            this.L_P2_StickPoint.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.L_P2_StickPoint.Location = new System.Drawing.Point(3, 122);
+            this.L_P2_StickPoint.Name = "L_P2_StickPoint";
+            this.L_P2_StickPoint.Size = new System.Drawing.Size(253, 20);
+            this.L_P2_StickPoint.TabIndex = 70;
+            this.L_P2_StickPoint.Text = "Punkt zaczepienia pola:";
+            this.L_P2_StickPoint.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // CB_P2_UseImageMargin
+            // 
+            this.CB_P2_UseImageMargin.AutoSize = true;
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.CB_P2_UseImageMargin, 2);
+            this.CB_P2_UseImageMargin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_UseImageMargin.Location = new System.Drawing.Point(3, 242);
+            this.CB_P2_UseImageMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+            this.CB_P2_UseImageMargin.Name = "CB_P2_UseImageMargin";
+            this.CB_P2_UseImageMargin.Size = new System.Drawing.Size(253, 17);
+            this.CB_P2_UseImageMargin.TabIndex = 12;
+            this.CB_P2_UseImageMargin.Text = "Zastosuj margines do obrazu";
+            this.CB_P2_UseImageMargin.UseVisualStyleBackColor = true;
+            this.CB_P2_UseImageMargin.Visible = false;
+            // 
+            // CB_P2_DrawFrameOutside
+            // 
+            this.CB_P2_DrawFrameOutside.AutoSize = true;
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.CB_P2_DrawFrameOutside, 2);
+            this.CB_P2_DrawFrameOutside.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_DrawFrameOutside.Location = new System.Drawing.Point(3, 172);
+            this.CB_P2_DrawFrameOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+            this.CB_P2_DrawFrameOutside.Name = "CB_P2_DrawFrameOutside";
+            this.CB_P2_DrawFrameOutside.Size = new System.Drawing.Size(253, 17);
+            this.CB_P2_DrawFrameOutside.TabIndex = 11;
+            this.CB_P2_DrawFrameOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
+            this.CB_P2_DrawFrameOutside.UseVisualStyleBackColor = true;
+            this.CB_P2_DrawFrameOutside.Visible = false;
+            // 
+            // L_P2_ImageSettings
+            // 
+            this.L_P2_ImageSettings.AutoSize = true;
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.L_P2_ImageSettings, 2);
+            this.L_P2_ImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.L_P2_ImageSettings.Location = new System.Drawing.Point(3, 192);
+            this.L_P2_ImageSettings.Name = "L_P2_ImageSettings";
+            this.L_P2_ImageSettings.Size = new System.Drawing.Size(253, 25);
+            this.L_P2_ImageSettings.TabIndex = 9;
+            this.L_P2_ImageSettings.Text = "Ustawienia obrazu:";
+            this.L_P2_ImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.L_P2_ImageSettings.Visible = false;
+            // 
+            // CB_P2_StaticImage
+            // 
+            this.CB_P2_StaticImage.AutoSize = true;
+            this.CB_P2_StaticImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_StaticImage.Location = new System.Drawing.Point(3, 346);
+            this.CB_P2_StaticImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.CB_P2_StaticImage.Name = "CB_P2_StaticImage";
+            this.CB_P2_StaticImage.Size = new System.Drawing.Size(123, 54);
+            this.CB_P2_StaticImage.TabIndex = 4;
+            this.CB_P2_StaticImage.Text = "Obraz statyczny";
+            this.CB_P2_StaticImage.UseVisualStyleBackColor = true;
+            this.CB_P2_StaticImage.Visible = false;
+            this.CB_P2_StaticImage.CheckedChanged += new System.EventHandler(this.CB_P2_StaticImage_CheckedChanged);
+            // 
+            // CB_P2_DynamicImage
+            // 
+            this.CB_P2_DynamicImage.AutoSize = true;
+            this.CB_P2_DynamicImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_DynamicImage.Location = new System.Drawing.Point(3, 287);
+            this.CB_P2_DynamicImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+            this.CB_P2_DynamicImage.Name = "CB_P2_DynamicImage";
+            this.CB_P2_DynamicImage.Size = new System.Drawing.Size(123, 12);
+            this.CB_P2_DynamicImage.TabIndex = 8;
+            this.CB_P2_DynamicImage.Text = "Obraz dynamiczny";
+            this.CB_P2_DynamicImage.UseVisualStyleBackColor = true;
+            this.CB_P2_DynamicImage.Visible = false;
+            // 
+            // CBX_P2_ImageSettings
+            // 
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.CBX_P2_ImageSettings, 2);
+            this.CBX_P2_ImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CBX_P2_ImageSettings.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CBX_P2_ImageSettings.FormattingEnabled = true;
+            this.CBX_P2_ImageSettings.Items.AddRange(new object[] {
+            "Zostaw proporcje takie jakie są"});
+            this.CBX_P2_ImageSettings.Location = new System.Drawing.Point(3, 220);
+            this.CBX_P2_ImageSettings.Name = "CBX_P2_ImageSettings";
+            this.CBX_P2_ImageSettings.Size = new System.Drawing.Size(253, 21);
+            this.CBX_P2_ImageSettings.TabIndex = 10;
+            this.CBX_P2_ImageSettings.Visible = false;
+            // 
+            // N_P2_MarginLR
+            // 
+            this.N_P2_MarginLR.DecimalPlaces = 1;
+            this.N_P2_MarginLR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.N_P2_MarginLR.Location = new System.Drawing.Point(3, 325);
+            this.N_P2_MarginLR.Name = "N_P2_MarginLR";
+            this.N_P2_MarginLR.Size = new System.Drawing.Size(123, 20);
+            this.N_P2_MarginLR.TabIndex = 74;
+            this.N_P2_MarginLR.Visible = false;
+            // 
+            // N_P2_MarginTB
+            // 
+            this.N_P2_MarginTB.DecimalPlaces = 1;
+            this.N_P2_MarginTB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.N_P2_MarginTB.Location = new System.Drawing.Point(132, 325);
+            this.N_P2_MarginTB.Name = "N_P2_MarginTB";
+            this.N_P2_MarginTB.Size = new System.Drawing.Size(124, 20);
+            this.N_P2_MarginTB.TabIndex = 73;
+            this.N_P2_MarginTB.Visible = false;
+            // 
+            // G_P2_Generator
+            // 
+            this.TLP_P2_LabelDetails.SetColumnSpan(this.G_P2_Generator, 2);
+            this.G_P2_Generator.Controls.Add(this.TLP_P2_Generator);
+            this.G_P2_Generator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.G_P2_Generator.Location = new System.Drawing.Point(3, 5);
+            this.G_P2_Generator.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+            this.G_P2_Generator.Name = "G_P2_Generator";
+            this.G_P2_Generator.Padding = new System.Windows.Forms.Padding(6, 2, 6, 3);
+            this.TLP_P2_LabelDetails.SetRowSpan(this.G_P2_Generator, 4);
+            this.G_P2_Generator.Size = new System.Drawing.Size(253, 114);
+            this.G_P2_Generator.TabIndex = 77;
+            this.G_P2_Generator.TabStop = false;
+            this.G_P2_Generator.Text = " Generowanie do pliku PDF ";
+            // 
+            // TLP_P2_Generator
+            // 
+            this.TLP_P2_Generator.ColumnCount = 1;
+            this.TLP_P2_Generator.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_P2_Generator.Controls.Add(this.CB_P2_DrawBorder, 0, 0);
+            this.TLP_P2_Generator.Controls.Add(this.CB_P2_DrawColor, 0, 1);
+            this.TLP_P2_Generator.Controls.Add(this.CB_P2_DynamicText, 0, 3);
+            this.TLP_P2_Generator.Controls.Add(this.CB_P2_StaticText, 0, 2);
+            this.TLP_P2_Generator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_P2_Generator.Location = new System.Drawing.Point(6, 15);
+            this.TLP_P2_Generator.Name = "TLP_P2_Generator";
+            this.TLP_P2_Generator.RowCount = 4;
+            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_Generator.Size = new System.Drawing.Size(241, 96);
+            this.TLP_P2_Generator.TabIndex = 0;
+            // 
+            // CB_P2_DrawBorder
+            // 
+            this.CB_P2_DrawBorder.AutoSize = true;
+            this.CB_P2_DrawBorder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_DrawBorder.Location = new System.Drawing.Point(3, 4);
+            this.CB_P2_DrawBorder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.CB_P2_DrawBorder.Name = "CB_P2_DrawBorder";
+            this.CB_P2_DrawBorder.Size = new System.Drawing.Size(235, 17);
+            this.CB_P2_DrawBorder.TabIndex = 1;
+            this.CB_P2_DrawBorder.Text = "Wyświetlaj ramke";
+            this.CB_P2_DrawBorder.UseVisualStyleBackColor = true;
+            this.CB_P2_DrawBorder.CheckedChanged += new System.EventHandler(this.CB_P2_DrawBorder_CheckedChanged);
+            // 
+            // CB_P2_DrawColor
+            // 
+            this.CB_P2_DrawColor.AutoSize = true;
+            this.CB_P2_DrawColor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_DrawColor.Location = new System.Drawing.Point(3, 28);
+            this.CB_P2_DrawColor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.CB_P2_DrawColor.Name = "CB_P2_DrawColor";
+            this.CB_P2_DrawColor.Size = new System.Drawing.Size(235, 17);
+            this.CB_P2_DrawColor.TabIndex = 6;
+            this.CB_P2_DrawColor.Text = "Rysuj kolor pola";
+            this.CB_P2_DrawColor.UseVisualStyleBackColor = true;
+            this.CB_P2_DrawColor.CheckedChanged += new System.EventHandler(this.CB_P2_DrawColor_CheckedChanged);
+            // 
+            // CB_P2_DynamicText
+            // 
+            this.CB_P2_DynamicText.AutoSize = true;
+            this.CB_P2_DynamicText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_DynamicText.Location = new System.Drawing.Point(3, 76);
+            this.CB_P2_DynamicText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.CB_P2_DynamicText.Name = "CB_P2_DynamicText";
+            this.CB_P2_DynamicText.Size = new System.Drawing.Size(235, 17);
+            this.CB_P2_DynamicText.TabIndex = 3;
+            this.CB_P2_DynamicText.Text = "Tekst dynamiczny";
+            this.CB_P2_DynamicText.UseVisualStyleBackColor = true;
+            this.CB_P2_DynamicText.CheckedChanged += new System.EventHandler(this.CB_P2_DynamicText_CheckedChanged);
+            // 
+            // CB_P2_StaticText
+            // 
+            this.CB_P2_StaticText.AutoSize = true;
+            this.CB_P2_StaticText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_StaticText.Location = new System.Drawing.Point(3, 52);
+            this.CB_P2_StaticText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.CB_P2_StaticText.Name = "CB_P2_StaticText";
+            this.CB_P2_StaticText.Size = new System.Drawing.Size(235, 17);
+            this.CB_P2_StaticText.TabIndex = 7;
+            this.CB_P2_StaticText.Text = "Tekst statyczny";
+            this.CB_P2_StaticText.UseVisualStyleBackColor = true;
+            this.CB_P2_StaticText.CheckedChanged += new System.EventHandler(this.CB_P2_StaticText_CheckedChanged);
             // 
             // TLP_P2_PageDetails
             // 
@@ -1320,6 +1621,7 @@
             this.TLP_P2_PageDetails.Controls.Add(this.TB_P2_PageHeight, 1, 1);
             this.TLP_P2_PageDetails.Controls.Add(this.L_P2_PageWidth, 0, 0);
             this.TLP_P2_PageDetails.Controls.Add(this.L_P2_PageHeight, 1, 0);
+            this.TLP_P2_PageDetails.Controls.Add(this.CB_P2_DrawPageImage, 0, 11);
             this.TLP_P2_PageDetails.Controls.Add(this.G_P2_PageApperance, 0, 2);
             this.TLP_P2_PageDetails.Controls.Add(this.G_P2_GeneratePDF, 0, 5);
             this.TLP_P2_PageDetails.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1331,14 +1633,14 @@
             this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_PageDetails.Size = new System.Drawing.Size(253, 403);
+            this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.TLP_P2_PageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TLP_P2_PageDetails.Size = new System.Drawing.Size(259, 403);
             this.TLP_P2_PageDetails.TabIndex = 4;
             this.TLP_P2_PageDetails.Visible = false;
             // 
@@ -1347,10 +1649,10 @@
             this.CB_P2_DrawOutside.AutoSize = true;
             this.TLP_P2_PageDetails.SetColumnSpan(this.CB_P2_DrawOutside, 2);
             this.CB_P2_DrawOutside.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_DrawOutside.Location = new System.Drawing.Point(3, 274);
+            this.CB_P2_DrawOutside.Location = new System.Drawing.Point(3, 250);
             this.CB_P2_DrawOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.CB_P2_DrawOutside.Name = "CB_P2_DrawOutside";
-            this.CB_P2_DrawOutside.Size = new System.Drawing.Size(247, 17);
+            this.CB_P2_DrawOutside.Size = new System.Drawing.Size(253, 17);
             this.CB_P2_DrawOutside.TabIndex = 14;
             this.CB_P2_DrawOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
             this.CB_P2_DrawOutside.UseVisualStyleBackColor = true;
@@ -1361,10 +1663,10 @@
             this.CB_P2_ApplyMargin.AutoSize = true;
             this.TLP_P2_PageDetails.SetColumnSpan(this.CB_P2_ApplyMargin, 2);
             this.CB_P2_ApplyMargin.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_ApplyMargin.Location = new System.Drawing.Point(3, 249);
+            this.CB_P2_ApplyMargin.Location = new System.Drawing.Point(3, 225);
             this.CB_P2_ApplyMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.CB_P2_ApplyMargin.Name = "CB_P2_ApplyMargin";
-            this.CB_P2_ApplyMargin.Size = new System.Drawing.Size(247, 17);
+            this.CB_P2_ApplyMargin.Size = new System.Drawing.Size(253, 17);
             this.CB_P2_ApplyMargin.TabIndex = 13;
             this.CB_P2_ApplyMargin.Text = "Zastosuj margines do obrazu";
             this.CB_P2_ApplyMargin.UseVisualStyleBackColor = true;
@@ -1378,9 +1680,9 @@
             this.CBX_P2_PageImageSettings.FormattingEnabled = true;
             this.CBX_P2_PageImageSettings.Items.AddRange(new object[] {
             "Zostaw proporcje takie jakie są"});
-            this.CBX_P2_PageImageSettings.Location = new System.Drawing.Point(3, 222);
+            this.CBX_P2_PageImageSettings.Location = new System.Drawing.Point(3, 198);
             this.CBX_P2_PageImageSettings.Name = "CBX_P2_PageImageSettings";
-            this.CBX_P2_PageImageSettings.Size = new System.Drawing.Size(247, 21);
+            this.CBX_P2_PageImageSettings.Size = new System.Drawing.Size(253, 21);
             this.CBX_P2_PageImageSettings.TabIndex = 11;
             this.CBX_P2_PageImageSettings.Visible = false;
             // 
@@ -1389,9 +1691,9 @@
             this.L_P2_PageImageSet.AutoSize = true;
             this.TLP_P2_PageDetails.SetColumnSpan(this.L_P2_PageImageSet, 2);
             this.L_P2_PageImageSet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.L_P2_PageImageSet.Location = new System.Drawing.Point(3, 199);
+            this.L_P2_PageImageSet.Location = new System.Drawing.Point(3, 175);
             this.L_P2_PageImageSet.Name = "L_P2_PageImageSet";
-            this.L_P2_PageImageSet.Size = new System.Drawing.Size(247, 20);
+            this.L_P2_PageImageSet.Size = new System.Drawing.Size(253, 20);
             this.L_P2_PageImageSet.TabIndex = 10;
             this.L_P2_PageImageSet.Text = "Ustawienia obrazu:";
             this.L_P2_PageImageSet.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1403,16 +1705,16 @@
             this.TB_P2_PageWidth.Enabled = false;
             this.TB_P2_PageWidth.Location = new System.Drawing.Point(3, 23);
             this.TB_P2_PageWidth.Name = "TB_P2_PageWidth";
-            this.TB_P2_PageWidth.Size = new System.Drawing.Size(120, 20);
+            this.TB_P2_PageWidth.Size = new System.Drawing.Size(123, 20);
             this.TB_P2_PageWidth.TabIndex = 0;
             // 
             // TB_P2_PageHeight
             // 
             this.TB_P2_PageHeight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TB_P2_PageHeight.Enabled = false;
-            this.TB_P2_PageHeight.Location = new System.Drawing.Point(129, 23);
+            this.TB_P2_PageHeight.Location = new System.Drawing.Point(132, 23);
             this.TB_P2_PageHeight.Name = "TB_P2_PageHeight";
-            this.TB_P2_PageHeight.Size = new System.Drawing.Size(121, 20);
+            this.TB_P2_PageHeight.Size = new System.Drawing.Size(124, 20);
             this.TB_P2_PageHeight.TabIndex = 1;
             // 
             // L_P2_PageWidth
@@ -1421,7 +1723,7 @@
             this.L_P2_PageWidth.Dock = System.Windows.Forms.DockStyle.Fill;
             this.L_P2_PageWidth.Location = new System.Drawing.Point(3, 0);
             this.L_P2_PageWidth.Name = "L_P2_PageWidth";
-            this.L_P2_PageWidth.Size = new System.Drawing.Size(120, 20);
+            this.L_P2_PageWidth.Size = new System.Drawing.Size(123, 20);
             this.L_P2_PageWidth.TabIndex = 2;
             this.L_P2_PageWidth.Text = "Szerokość:";
             this.L_P2_PageWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1430,12 +1732,26 @@
             // 
             this.L_P2_PageHeight.AutoSize = true;
             this.L_P2_PageHeight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.L_P2_PageHeight.Location = new System.Drawing.Point(129, 0);
+            this.L_P2_PageHeight.Location = new System.Drawing.Point(132, 0);
             this.L_P2_PageHeight.Name = "L_P2_PageHeight";
-            this.L_P2_PageHeight.Size = new System.Drawing.Size(121, 20);
+            this.L_P2_PageHeight.Size = new System.Drawing.Size(124, 20);
             this.L_P2_PageHeight.TabIndex = 3;
             this.L_P2_PageHeight.Text = "Wysokość:";
             this.L_P2_PageHeight.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // CB_P2_DrawPageImage
+            // 
+            this.CB_P2_DrawPageImage.AutoSize = true;
+            this.CB_P2_DrawPageImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P2_DrawPageImage.Location = new System.Drawing.Point(3, 274);
+            this.CB_P2_DrawPageImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.CB_P2_DrawPageImage.Name = "CB_P2_DrawPageImage";
+            this.CB_P2_DrawPageImage.Size = new System.Drawing.Size(123, 126);
+            this.CB_P2_DrawPageImage.TabIndex = 7;
+            this.CB_P2_DrawPageImage.Text = "Rysuj obraz strony";
+            this.CB_P2_DrawPageImage.UseVisualStyleBackColor = true;
+            this.CB_P2_DrawPageImage.Visible = false;
+            this.CB_P2_DrawPageImage.CheckedChanged += new System.EventHandler(this.CB_P2_DrawPageImage_CheckedChanged);
             // 
             // G_P2_PageApperance
             // 
@@ -1446,7 +1762,7 @@
             this.G_P2_PageApperance.Name = "G_P2_PageApperance";
             this.G_P2_PageApperance.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.TLP_P2_PageDetails.SetRowSpan(this.G_P2_PageApperance, 3);
-            this.G_P2_PageApperance.Size = new System.Drawing.Size(247, 74);
+            this.G_P2_PageApperance.Size = new System.Drawing.Size(253, 74);
             this.G_P2_PageApperance.TabIndex = 56;
             this.G_P2_PageApperance.TabStop = false;
             this.G_P2_PageApperance.Text = " Wygląd ";
@@ -1467,7 +1783,7 @@
             this.TLP_P2_PageAppearance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_P2_PageAppearance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_P2_PageAppearance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_PageAppearance.Size = new System.Drawing.Size(241, 58);
+            this.TLP_P2_PageAppearance.Size = new System.Drawing.Size(247, 58);
             this.TLP_P2_PageAppearance.TabIndex = 0;
             // 
             // TB_P2_PageColor
@@ -1477,17 +1793,17 @@
             this.TB_P2_PageColor.Location = new System.Drawing.Point(3, 5);
             this.TB_P2_PageColor.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.TB_P2_PageColor.Name = "TB_P2_PageColor";
-            this.TB_P2_PageColor.Size = new System.Drawing.Size(114, 20);
+            this.TB_P2_PageColor.Size = new System.Drawing.Size(117, 20);
             this.TB_P2_PageColor.TabIndex = 51;
             // 
             // B_P2_PageColor
             // 
             this.B_P2_PageColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.B_P2_PageColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.B_P2_PageColor.Location = new System.Drawing.Point(123, 2);
+            this.B_P2_PageColor.Location = new System.Drawing.Point(126, 2);
             this.B_P2_PageColor.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.B_P2_PageColor.Name = "B_P2_PageColor";
-            this.B_P2_PageColor.Size = new System.Drawing.Size(115, 25);
+            this.B_P2_PageColor.Size = new System.Drawing.Size(118, 25);
             this.B_P2_PageColor.TabIndex = 52;
             this.B_P2_PageColor.Text = "Kolor";
             this.B_P2_PageColor.UseVisualStyleBackColor = true;
@@ -1500,17 +1816,17 @@
             this.TB_P2_PageImage.Location = new System.Drawing.Point(3, 34);
             this.TB_P2_PageImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.TB_P2_PageImage.Name = "TB_P2_PageImage";
-            this.TB_P2_PageImage.Size = new System.Drawing.Size(114, 20);
+            this.TB_P2_PageImage.Size = new System.Drawing.Size(117, 20);
             this.TB_P2_PageImage.TabIndex = 54;
             // 
             // B_P2_PageImage
             // 
             this.B_P2_PageImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.B_P2_PageImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.B_P2_PageImage.Location = new System.Drawing.Point(123, 31);
+            this.B_P2_PageImage.Location = new System.Drawing.Point(126, 31);
             this.B_P2_PageImage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.B_P2_PageImage.Name = "B_P2_PageImage";
-            this.B_P2_PageImage.Size = new System.Drawing.Size(115, 25);
+            this.B_P2_PageImage.Size = new System.Drawing.Size(118, 25);
             this.B_P2_PageImage.TabIndex = 53;
             this.B_P2_PageImage.Text = "Obraz";
             this.B_P2_PageImage.UseVisualStyleBackColor = true;
@@ -1525,7 +1841,7 @@
             this.G_P2_GeneratePDF.Name = "G_P2_GeneratePDF";
             this.G_P2_GeneratePDF.Padding = new System.Windows.Forms.Padding(6, 2, 6, 3);
             this.TLP_P2_PageDetails.SetRowSpan(this.G_P2_GeneratePDF, 2);
-            this.G_P2_GeneratePDF.Size = new System.Drawing.Size(247, 68);
+            this.G_P2_GeneratePDF.Size = new System.Drawing.Size(253, 44);
             this.G_P2_GeneratePDF.TabIndex = 57;
             this.G_P2_GeneratePDF.TabStop = false;
             this.G_P2_GeneratePDF.Text = " Generowanie PDF ";
@@ -1533,16 +1849,15 @@
             // TLP_P2_GeneratePDF
             // 
             this.TLP_P2_GeneratePDF.ColumnCount = 1;
-            this.TLP_P2_GeneratePDF.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.TLP_P2_GeneratePDF.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_P2_GeneratePDF.Controls.Add(this.CB_P2_DrawPageColor, 0, 0);
-            this.TLP_P2_GeneratePDF.Controls.Add(this.CB_P2_DrawPageImage, 0, 1);
             this.TLP_P2_GeneratePDF.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_P2_GeneratePDF.Location = new System.Drawing.Point(6, 15);
             this.TLP_P2_GeneratePDF.Name = "TLP_P2_GeneratePDF";
-            this.TLP_P2_GeneratePDF.RowCount = 2;
-            this.TLP_P2_GeneratePDF.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_P2_GeneratePDF.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_P2_GeneratePDF.Size = new System.Drawing.Size(235, 50);
+            this.TLP_P2_GeneratePDF.RowCount = 1;
+            this.TLP_P2_GeneratePDF.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_P2_GeneratePDF.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.TLP_P2_GeneratePDF.Size = new System.Drawing.Size(241, 26);
             this.TLP_P2_GeneratePDF.TabIndex = 0;
             // 
             // CB_P2_DrawPageColor
@@ -1552,312 +1867,11 @@
             this.CB_P2_DrawPageColor.Location = new System.Drawing.Point(3, 4);
             this.CB_P2_DrawPageColor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.CB_P2_DrawPageColor.Name = "CB_P2_DrawPageColor";
-            this.CB_P2_DrawPageColor.Size = new System.Drawing.Size(229, 18);
+            this.CB_P2_DrawPageColor.Size = new System.Drawing.Size(235, 19);
             this.CB_P2_DrawPageColor.TabIndex = 8;
             this.CB_P2_DrawPageColor.Text = "Rysuj kolor strony";
             this.CB_P2_DrawPageColor.UseVisualStyleBackColor = true;
             this.CB_P2_DrawPageColor.CheckedChanged += new System.EventHandler(this.CB_P2_DrawPageColor_CheckedChanged);
-            // 
-            // CB_P2_DrawPageImage
-            // 
-            this.CB_P2_DrawPageImage.AutoSize = true;
-            this.CB_P2_DrawPageImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_DrawPageImage.Location = new System.Drawing.Point(3, 29);
-            this.CB_P2_DrawPageImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.CB_P2_DrawPageImage.Name = "CB_P2_DrawPageImage";
-            this.CB_P2_DrawPageImage.Size = new System.Drawing.Size(229, 18);
-            this.CB_P2_DrawPageImage.TabIndex = 7;
-            this.CB_P2_DrawPageImage.Text = "Rysuj obraz strony";
-            this.CB_P2_DrawPageImage.UseVisualStyleBackColor = true;
-            this.CB_P2_DrawPageImage.CheckedChanged += new System.EventHandler(this.CB_P2_DrawPageImage_CheckedChanged);
-            // 
-            // TLP_P2_LabelDetails
-            // 
-            this.TLP_P2_LabelDetails.ColumnCount = 2;
-            this.TLP_P2_LabelDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_P2_LabelDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_AdditionalMargin, 0, 11);
-            this.TLP_P2_LabelDetails.Controls.Add(this.L_P2_AddMargin, 0, 10);
-            this.TLP_P2_LabelDetails.Controls.Add(this.CBX_P2_StickPoint, 0, 5);
-            this.TLP_P2_LabelDetails.Controls.Add(this.L_P2_StickPoint, 0, 4);
-            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_UseImageMargin, 0, 7);
-            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_DrawFrameOutside, 0, 6);
-            this.TLP_P2_LabelDetails.Controls.Add(this.L_P2_ImageSettings, 0, 6);
-            this.TLP_P2_LabelDetails.Controls.Add(this.CB_P2_DynamicImage, 1, 10);
-            this.TLP_P2_LabelDetails.Controls.Add(this.CBX_P2_ImageSettings, 0, 7);
-            this.TLP_P2_LabelDetails.Controls.Add(this.N_P2_MarginLR, 0, 12);
-            this.TLP_P2_LabelDetails.Controls.Add(this.N_P2_MarginTB, 1, 12);
-            this.TLP_P2_LabelDetails.Controls.Add(this.G_P2_Generator, 0, 0);
-            this.TLP_P2_LabelDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLP_P2_LabelDetails.Location = new System.Drawing.Point(0, 0);
-            this.TLP_P2_LabelDetails.Margin = new System.Windows.Forms.Padding(0);
-            this.TLP_P2_LabelDetails.Name = "TLP_P2_LabelDetails";
-            this.TLP_P2_LabelDetails.RowCount = 14;
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_LabelDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_LabelDetails.Size = new System.Drawing.Size(253, 403);
-            this.TLP_P2_LabelDetails.TabIndex = 5;
-            this.TLP_P2_LabelDetails.Visible = false;
-            // 
-            // CB_P2_AdditionalMargin
-            // 
-            this.CB_P2_AdditionalMargin.AutoSize = true;
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.CB_P2_AdditionalMargin, 2);
-            this.CB_P2_AdditionalMargin.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_AdditionalMargin.Location = new System.Drawing.Point(3, 332);
-            this.CB_P2_AdditionalMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.CB_P2_AdditionalMargin.Name = "CB_P2_AdditionalMargin";
-            this.CB_P2_AdditionalMargin.Size = new System.Drawing.Size(247, 12);
-            this.CB_P2_AdditionalMargin.TabIndex = 76;
-            this.CB_P2_AdditionalMargin.Text = "Zastosuj dodatkowy margines tekstu";
-            this.CB_P2_AdditionalMargin.UseVisualStyleBackColor = true;
-            this.CB_P2_AdditionalMargin.Visible = false;
-            // 
-            // L_P2_AddMargin
-            // 
-            this.L_P2_AddMargin.AutoSize = true;
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.L_P2_AddMargin, 2);
-            this.L_P2_AddMargin.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.L_P2_AddMargin.Location = new System.Drawing.Point(3, 287);
-            this.L_P2_AddMargin.Name = "L_P2_AddMargin";
-            this.L_P2_AddMargin.Size = new System.Drawing.Size(247, 20);
-            this.L_P2_AddMargin.TabIndex = 71;
-            this.L_P2_AddMargin.Text = "Dodatkowy margines tekstu:";
-            this.L_P2_AddMargin.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.L_P2_AddMargin.Visible = false;
-            // 
-            // CBX_P2_StickPoint
-            // 
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.CBX_P2_StickPoint, 2);
-            this.CBX_P2_StickPoint.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CBX_P2_StickPoint.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CBX_P2_StickPoint.Enabled = false;
-            this.CBX_P2_StickPoint.FormattingEnabled = true;
-            this.CBX_P2_StickPoint.Items.AddRange(new object[] {
-            "Góra-Lewo (lewy górny róg)",
-            "Góra-Prawo (prawy górny róg)",
-            "Dół-Lewo (lewy dolny róg)",
-            "Dół-Prawo (prawy dolny róg)"});
-            this.CBX_P2_StickPoint.Location = new System.Drawing.Point(3, 170);
-            this.CBX_P2_StickPoint.Name = "CBX_P2_StickPoint";
-            this.CBX_P2_StickPoint.Size = new System.Drawing.Size(247, 21);
-            this.CBX_P2_StickPoint.TabIndex = 69;
-            this.CBX_P2_StickPoint.SelectedIndexChanged += new System.EventHandler(this.CBX_P2_StickPoint_SelectedIndexChanged);
-            // 
-            // L_P2_StickPoint
-            // 
-            this.L_P2_StickPoint.AutoSize = true;
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.L_P2_StickPoint, 2);
-            this.L_P2_StickPoint.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.L_P2_StickPoint.Location = new System.Drawing.Point(3, 147);
-            this.L_P2_StickPoint.Name = "L_P2_StickPoint";
-            this.L_P2_StickPoint.Size = new System.Drawing.Size(247, 20);
-            this.L_P2_StickPoint.TabIndex = 70;
-            this.L_P2_StickPoint.Text = "Punkt zaczepienia pola:";
-            this.L_P2_StickPoint.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
-            // CB_P2_UseImageMargin
-            // 
-            this.CB_P2_UseImageMargin.AutoSize = true;
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.CB_P2_UseImageMargin, 2);
-            this.CB_P2_UseImageMargin.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_UseImageMargin.Location = new System.Drawing.Point(3, 267);
-            this.CB_P2_UseImageMargin.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.CB_P2_UseImageMargin.Name = "CB_P2_UseImageMargin";
-            this.CB_P2_UseImageMargin.Size = new System.Drawing.Size(247, 17);
-            this.CB_P2_UseImageMargin.TabIndex = 12;
-            this.CB_P2_UseImageMargin.Text = "Zastosuj margines do obrazu";
-            this.CB_P2_UseImageMargin.UseVisualStyleBackColor = true;
-            this.CB_P2_UseImageMargin.Visible = false;
-            // 
-            // CB_P2_DrawFrameOutside
-            // 
-            this.CB_P2_DrawFrameOutside.AutoSize = true;
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.CB_P2_DrawFrameOutside, 2);
-            this.CB_P2_DrawFrameOutside.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_DrawFrameOutside.Location = new System.Drawing.Point(3, 197);
-            this.CB_P2_DrawFrameOutside.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.CB_P2_DrawFrameOutside.Name = "CB_P2_DrawFrameOutside";
-            this.CB_P2_DrawFrameOutside.Size = new System.Drawing.Size(247, 17);
-            this.CB_P2_DrawFrameOutside.TabIndex = 11;
-            this.CB_P2_DrawFrameOutside.Text = "Rysuj ramkę na zewnątrz obrazu";
-            this.CB_P2_DrawFrameOutside.UseVisualStyleBackColor = true;
-            this.CB_P2_DrawFrameOutside.Visible = false;
-            // 
-            // L_P2_ImageSettings
-            // 
-            this.L_P2_ImageSettings.AutoSize = true;
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.L_P2_ImageSettings, 2);
-            this.L_P2_ImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.L_P2_ImageSettings.Location = new System.Drawing.Point(3, 217);
-            this.L_P2_ImageSettings.Name = "L_P2_ImageSettings";
-            this.L_P2_ImageSettings.Size = new System.Drawing.Size(247, 25);
-            this.L_P2_ImageSettings.TabIndex = 9;
-            this.L_P2_ImageSettings.Text = "Ustawienia obrazu:";
-            this.L_P2_ImageSettings.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            this.L_P2_ImageSettings.Visible = false;
-            // 
-            // CB_P2_DynamicImage
-            // 
-            this.CB_P2_DynamicImage.AutoSize = true;
-            this.CB_P2_DynamicImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_DynamicImage.Location = new System.Drawing.Point(3, 312);
-            this.CB_P2_DynamicImage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.CB_P2_DynamicImage.Name = "CB_P2_DynamicImage";
-            this.CB_P2_DynamicImage.Size = new System.Drawing.Size(120, 12);
-            this.CB_P2_DynamicImage.TabIndex = 8;
-            this.CB_P2_DynamicImage.Text = "Obraz dynamiczny";
-            this.CB_P2_DynamicImage.UseVisualStyleBackColor = true;
-            this.CB_P2_DynamicImage.Visible = false;
-            // 
-            // CBX_P2_ImageSettings
-            // 
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.CBX_P2_ImageSettings, 2);
-            this.CBX_P2_ImageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CBX_P2_ImageSettings.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CBX_P2_ImageSettings.FormattingEnabled = true;
-            this.CBX_P2_ImageSettings.Items.AddRange(new object[] {
-            "Zostaw proporcje takie jakie są"});
-            this.CBX_P2_ImageSettings.Location = new System.Drawing.Point(3, 245);
-            this.CBX_P2_ImageSettings.Name = "CBX_P2_ImageSettings";
-            this.CBX_P2_ImageSettings.Size = new System.Drawing.Size(247, 21);
-            this.CBX_P2_ImageSettings.TabIndex = 10;
-            this.CBX_P2_ImageSettings.Visible = false;
-            // 
-            // N_P2_MarginLR
-            // 
-            this.N_P2_MarginLR.DecimalPlaces = 1;
-            this.N_P2_MarginLR.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.N_P2_MarginLR.Location = new System.Drawing.Point(3, 350);
-            this.N_P2_MarginLR.Name = "N_P2_MarginLR";
-            this.N_P2_MarginLR.Size = new System.Drawing.Size(120, 20);
-            this.N_P2_MarginLR.TabIndex = 74;
-            this.N_P2_MarginLR.Visible = false;
-            // 
-            // N_P2_MarginTB
-            // 
-            this.N_P2_MarginTB.DecimalPlaces = 1;
-            this.N_P2_MarginTB.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.N_P2_MarginTB.Location = new System.Drawing.Point(129, 350);
-            this.N_P2_MarginTB.Name = "N_P2_MarginTB";
-            this.N_P2_MarginTB.Size = new System.Drawing.Size(121, 20);
-            this.N_P2_MarginTB.TabIndex = 73;
-            this.N_P2_MarginTB.Visible = false;
-            // 
-            // G_P2_Generator
-            // 
-            this.TLP_P2_LabelDetails.SetColumnSpan(this.G_P2_Generator, 2);
-            this.G_P2_Generator.Controls.Add(this.TLP_P2_Generator);
-            this.G_P2_Generator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.G_P2_Generator.Location = new System.Drawing.Point(3, 5);
-            this.G_P2_Generator.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.G_P2_Generator.Name = "G_P2_Generator";
-            this.G_P2_Generator.Padding = new System.Windows.Forms.Padding(6, 2, 6, 3);
-            this.TLP_P2_LabelDetails.SetRowSpan(this.G_P2_Generator, 4);
-            this.G_P2_Generator.Size = new System.Drawing.Size(247, 139);
-            this.G_P2_Generator.TabIndex = 77;
-            this.G_P2_Generator.TabStop = false;
-            this.G_P2_Generator.Text = " Generowanie do pliku PDF ";
-            // 
-            // TLP_P2_Generator
-            // 
-            this.TLP_P2_Generator.ColumnCount = 1;
-            this.TLP_P2_Generator.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_P2_Generator.Controls.Add(this.CB_P2_DrawBorder, 0, 0);
-            this.TLP_P2_Generator.Controls.Add(this.CB_P2_DrawColor, 0, 1);
-            this.TLP_P2_Generator.Controls.Add(this.CB_P2_StaticImage, 0, 2);
-            this.TLP_P2_Generator.Controls.Add(this.CB_P2_DynamicText, 0, 4);
-            this.TLP_P2_Generator.Controls.Add(this.CB_P2_StaticText, 0, 3);
-            this.TLP_P2_Generator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLP_P2_Generator.Location = new System.Drawing.Point(6, 15);
-            this.TLP_P2_Generator.Name = "TLP_P2_Generator";
-            this.TLP_P2_Generator.RowCount = 5;
-            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLP_P2_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_Generator.Size = new System.Drawing.Size(235, 121);
-            this.TLP_P2_Generator.TabIndex = 0;
-            // 
-            // CB_P2_DrawBorder
-            // 
-            this.CB_P2_DrawBorder.AutoSize = true;
-            this.CB_P2_DrawBorder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_DrawBorder.Location = new System.Drawing.Point(3, 4);
-            this.CB_P2_DrawBorder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.CB_P2_DrawBorder.Name = "CB_P2_DrawBorder";
-            this.CB_P2_DrawBorder.Size = new System.Drawing.Size(229, 17);
-            this.CB_P2_DrawBorder.TabIndex = 1;
-            this.CB_P2_DrawBorder.Text = "Wyświetlaj ramke";
-            this.CB_P2_DrawBorder.UseVisualStyleBackColor = true;
-            this.CB_P2_DrawBorder.CheckedChanged += new System.EventHandler(this.CB_P2_DrawBorder_CheckedChanged);
-            // 
-            // CB_P2_DrawColor
-            // 
-            this.CB_P2_DrawColor.AutoSize = true;
-            this.CB_P2_DrawColor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_DrawColor.Location = new System.Drawing.Point(3, 28);
-            this.CB_P2_DrawColor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.CB_P2_DrawColor.Name = "CB_P2_DrawColor";
-            this.CB_P2_DrawColor.Size = new System.Drawing.Size(229, 17);
-            this.CB_P2_DrawColor.TabIndex = 6;
-            this.CB_P2_DrawColor.Text = "Rysuj kolor pola";
-            this.CB_P2_DrawColor.UseVisualStyleBackColor = true;
-            this.CB_P2_DrawColor.CheckedChanged += new System.EventHandler(this.CB_P2_DrawColor_CheckedChanged);
-            // 
-            // CB_P2_StaticImage
-            // 
-            this.CB_P2_StaticImage.AutoSize = true;
-            this.CB_P2_StaticImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_StaticImage.Location = new System.Drawing.Point(3, 52);
-            this.CB_P2_StaticImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.CB_P2_StaticImage.Name = "CB_P2_StaticImage";
-            this.CB_P2_StaticImage.Size = new System.Drawing.Size(229, 17);
-            this.CB_P2_StaticImage.TabIndex = 4;
-            this.CB_P2_StaticImage.Text = "Obraz statyczny";
-            this.CB_P2_StaticImage.UseVisualStyleBackColor = true;
-            this.CB_P2_StaticImage.CheckedChanged += new System.EventHandler(this.CB_P2_StaticImage_CheckedChanged);
-            // 
-            // CB_P2_DynamicText
-            // 
-            this.CB_P2_DynamicText.AutoSize = true;
-            this.CB_P2_DynamicText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_DynamicText.Location = new System.Drawing.Point(3, 100);
-            this.CB_P2_DynamicText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.CB_P2_DynamicText.Name = "CB_P2_DynamicText";
-            this.CB_P2_DynamicText.Size = new System.Drawing.Size(229, 18);
-            this.CB_P2_DynamicText.TabIndex = 3;
-            this.CB_P2_DynamicText.Text = "Tekst dynamiczny";
-            this.CB_P2_DynamicText.UseVisualStyleBackColor = true;
-            this.CB_P2_DynamicText.CheckedChanged += new System.EventHandler(this.CB_P2_DynamicText_CheckedChanged);
-            // 
-            // CB_P2_StaticText
-            // 
-            this.CB_P2_StaticText.AutoSize = true;
-            this.CB_P2_StaticText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_P2_StaticText.Location = new System.Drawing.Point(3, 76);
-            this.CB_P2_StaticText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.CB_P2_StaticText.Name = "CB_P2_StaticText";
-            this.CB_P2_StaticText.Size = new System.Drawing.Size(229, 17);
-            this.CB_P2_StaticText.TabIndex = 7;
-            this.CB_P2_StaticText.Text = "Tekst statyczny";
-            this.CB_P2_StaticText.UseVisualStyleBackColor = true;
-            this.CB_P2_StaticText.CheckedChanged += new System.EventHandler(this.CB_P2_StaticText_CheckedChanged);
             // 
             // TLP_P2_Field
             // 
@@ -1909,7 +1923,7 @@
             this.TLP_P2_Field.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.TLP_P2_Field.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.TLP_P2_Field.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_Field.Size = new System.Drawing.Size(253, 403);
+            this.TLP_P2_Field.Size = new System.Drawing.Size(259, 403);
             this.TLP_P2_Field.TabIndex = 7;
             // 
             // CBX_P2_TextTransform
@@ -1925,7 +1939,7 @@
             "Kapitaliki"});
             this.CBX_P2_TextTransform.Location = new System.Drawing.Point(3, 375);
             this.CBX_P2_TextTransform.Name = "CBX_P2_TextTransform";
-            this.CBX_P2_TextTransform.Size = new System.Drawing.Size(120, 21);
+            this.CBX_P2_TextTransform.Size = new System.Drawing.Size(123, 21);
             this.CBX_P2_TextTransform.TabIndex = 74;
             this.CBX_P2_TextTransform.SelectedIndexChanged += new System.EventHandler(this.CBX_P2_TextTransform_SelectedIndexChanged);
             // 
@@ -1936,7 +1950,7 @@
             this.L_P2_TextTransform.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.L_P2_TextTransform.Location = new System.Drawing.Point(3, 352);
             this.L_P2_TextTransform.Name = "L_P2_TextTransform";
-            this.L_P2_TextTransform.Size = new System.Drawing.Size(120, 20);
+            this.L_P2_TextTransform.Size = new System.Drawing.Size(123, 20);
             this.L_P2_TextTransform.TabIndex = 73;
             this.L_P2_TextTransform.Text = "Wyświetlanie tekstu:";
             this.L_P2_TextTransform.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1946,9 +1960,9 @@
             this.L_P2_Height.AutoSize = true;
             this.L_P2_Height.Dock = System.Windows.Forms.DockStyle.Fill;
             this.L_P2_Height.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.L_P2_Height.Location = new System.Drawing.Point(129, 70);
+            this.L_P2_Height.Location = new System.Drawing.Point(132, 70);
             this.L_P2_Height.Name = "L_P2_Height";
-            this.L_P2_Height.Size = new System.Drawing.Size(121, 20);
+            this.L_P2_Height.Size = new System.Drawing.Size(124, 20);
             this.L_P2_Height.TabIndex = 72;
             this.L_P2_Height.Text = "Wysokość:";
             this.L_P2_Height.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1963,14 +1977,14 @@
             0,
             0,
             65536});
-            this.N_P2_BorderSize.Location = new System.Drawing.Point(129, 375);
+            this.N_P2_BorderSize.Location = new System.Drawing.Point(132, 375);
             this.N_P2_BorderSize.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
             this.N_P2_BorderSize.Name = "N_P2_BorderSize";
-            this.N_P2_BorderSize.Size = new System.Drawing.Size(121, 20);
+            this.N_P2_BorderSize.Size = new System.Drawing.Size(124, 20);
             this.N_P2_BorderSize.TabIndex = 65;
             this.N_P2_BorderSize.ValueChanged += new System.EventHandler(this.N_P2_BorderSize_ValueChanged);
             // 
@@ -1984,14 +1998,14 @@
             0,
             0,
             65536});
-            this.N_P2_Padding.Location = new System.Drawing.Point(129, 330);
+            this.N_P2_Padding.Location = new System.Drawing.Point(132, 330);
             this.N_P2_Padding.Maximum = new decimal(new int[] {
             20,
             0,
             0,
             0});
             this.N_P2_Padding.Name = "N_P2_Padding";
-            this.N_P2_Padding.Size = new System.Drawing.Size(121, 20);
+            this.N_P2_Padding.Size = new System.Drawing.Size(124, 20);
             this.N_P2_Padding.TabIndex = 63;
             this.N_P2_Padding.ValueChanged += new System.EventHandler(this.N_P2_Padding_ValueChanged);
             // 
@@ -2000,9 +2014,9 @@
             this.L_P2_Padding.AutoSize = true;
             this.L_P2_Padding.Dock = System.Windows.Forms.DockStyle.Fill;
             this.L_P2_Padding.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.L_P2_Padding.Location = new System.Drawing.Point(129, 307);
+            this.L_P2_Padding.Location = new System.Drawing.Point(132, 307);
             this.L_P2_Padding.Name = "L_P2_Padding";
-            this.L_P2_Padding.Size = new System.Drawing.Size(121, 20);
+            this.L_P2_Padding.Size = new System.Drawing.Size(124, 20);
             this.L_P2_Padding.TabIndex = 61;
             this.L_P2_Padding.Text = "Margines:";
             this.L_P2_Padding.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2014,7 +2028,7 @@
             this.L_P2_TextPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.L_P2_TextPosition.Location = new System.Drawing.Point(3, 307);
             this.L_P2_TextPosition.Name = "L_P2_TextPosition";
-            this.L_P2_TextPosition.Size = new System.Drawing.Size(120, 20);
+            this.L_P2_TextPosition.Size = new System.Drawing.Size(123, 20);
             this.L_P2_TextPosition.TabIndex = 60;
             this.L_P2_TextPosition.Text = "Położenie tekstu:";
             this.L_P2_TextPosition.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2027,7 +2041,7 @@
             this.TB_P2_LabelName.Location = new System.Drawing.Point(3, 3);
             this.TB_P2_LabelName.MaxLength = 127;
             this.TB_P2_LabelName.Name = "TB_P2_LabelName";
-            this.TB_P2_LabelName.Size = new System.Drawing.Size(247, 20);
+            this.TB_P2_LabelName.Size = new System.Drawing.Size(253, 20);
             this.TB_P2_LabelName.TabIndex = 0;
             this.TB_P2_LabelName.TextChanged += new System.EventHandler(this.TB_P2_LabelName_TextChanged);
             this.TB_P2_LabelName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_P2_LabelName_KeyPress);
@@ -2038,14 +2052,14 @@
             this.N_P2_PosY.DecimalPlaces = 1;
             this.N_P2_PosY.Dock = System.Windows.Forms.DockStyle.Fill;
             this.N_P2_PosY.Enabled = false;
-            this.N_P2_PosY.Location = new System.Drawing.Point(129, 48);
+            this.N_P2_PosY.Location = new System.Drawing.Point(132, 48);
             this.N_P2_PosY.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
             this.N_P2_PosY.Name = "N_P2_PosY";
-            this.N_P2_PosY.Size = new System.Drawing.Size(121, 20);
+            this.N_P2_PosY.Size = new System.Drawing.Size(124, 20);
             this.N_P2_PosY.TabIndex = 2;
             this.N_P2_PosY.ValueChanged += new System.EventHandler(this.N_P2_PosY_ValueChanged);
             // 
@@ -2061,7 +2075,7 @@
             0,
             0});
             this.N_P2_PosX.Name = "N_P2_PosX";
-            this.N_P2_PosX.Size = new System.Drawing.Size(120, 20);
+            this.N_P2_PosX.Size = new System.Drawing.Size(123, 20);
             this.N_P2_PosX.TabIndex = 1;
             this.N_P2_PosX.ValueChanged += new System.EventHandler(this.N_P2_PosX_ValueChanged);
             // 
@@ -2072,7 +2086,7 @@
             this.L_P2_PosX.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.L_P2_PosX.Location = new System.Drawing.Point(3, 25);
             this.L_P2_PosX.Name = "L_P2_PosX";
-            this.L_P2_PosX.Size = new System.Drawing.Size(120, 20);
+            this.L_P2_PosX.Size = new System.Drawing.Size(123, 20);
             this.L_P2_PosX.TabIndex = 4;
             this.L_P2_PosX.Text = "Pozycja X:";
             this.L_P2_PosX.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2084,7 +2098,7 @@
             this.L_P2_Width.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.L_P2_Width.Location = new System.Drawing.Point(3, 70);
             this.L_P2_Width.Name = "L_P2_Width";
-            this.L_P2_Width.Size = new System.Drawing.Size(120, 20);
+            this.L_P2_Width.Size = new System.Drawing.Size(123, 20);
             this.L_P2_Width.TabIndex = 6;
             this.L_P2_Width.Text = "Szerokość:";
             this.L_P2_Width.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2102,7 +2116,7 @@
             0,
             0});
             this.N_P2_Width.Name = "N_P2_Width";
-            this.N_P2_Width.Size = new System.Drawing.Size(120, 20);
+            this.N_P2_Width.Size = new System.Drawing.Size(123, 20);
             this.N_P2_Width.TabIndex = 3;
             this.N_P2_Width.ValueChanged += new System.EventHandler(this.N_P2_Width_ValueChanged);
             // 
@@ -2111,14 +2125,14 @@
             this.N_P2_Height.DecimalPlaces = 1;
             this.N_P2_Height.Dock = System.Windows.Forms.DockStyle.Fill;
             this.N_P2_Height.Enabled = false;
-            this.N_P2_Height.Location = new System.Drawing.Point(129, 93);
+            this.N_P2_Height.Location = new System.Drawing.Point(132, 93);
             this.N_P2_Height.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
             this.N_P2_Height.Name = "N_P2_Height";
-            this.N_P2_Height.Size = new System.Drawing.Size(121, 20);
+            this.N_P2_Height.Size = new System.Drawing.Size(124, 20);
             this.N_P2_Height.TabIndex = 4;
             this.N_P2_Height.ValueChanged += new System.EventHandler(this.N_P2_Height_ValueChanged);
             // 
@@ -2127,9 +2141,9 @@
             this.L_P2_BorderWidth.AutoSize = true;
             this.L_P2_BorderWidth.Dock = System.Windows.Forms.DockStyle.Fill;
             this.L_P2_BorderWidth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.L_P2_BorderWidth.Location = new System.Drawing.Point(129, 352);
+            this.L_P2_BorderWidth.Location = new System.Drawing.Point(132, 352);
             this.L_P2_BorderWidth.Name = "L_P2_BorderWidth";
-            this.L_P2_BorderWidth.Size = new System.Drawing.Size(121, 20);
+            this.L_P2_BorderWidth.Size = new System.Drawing.Size(124, 20);
             this.L_P2_BorderWidth.TabIndex = 64;
             this.L_P2_BorderWidth.Text = "Grubość ramki:";
             this.L_P2_BorderWidth.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2152,7 +2166,7 @@
             "Dół-Prawo"});
             this.CBX_P2_TextPosition.Location = new System.Drawing.Point(3, 330);
             this.CBX_P2_TextPosition.Name = "CBX_P2_TextPosition";
-            this.CBX_P2_TextPosition.Size = new System.Drawing.Size(120, 21);
+            this.CBX_P2_TextPosition.Size = new System.Drawing.Size(123, 21);
             this.CBX_P2_TextPosition.TabIndex = 68;
             this.CBX_P2_TextPosition.SelectedIndexChanged += new System.EventHandler(this.CBX_P2_TextPosition_SelectedIndexChanged);
             // 
@@ -2160,9 +2174,9 @@
             // 
             this.L_P2_PosY.AutoSize = true;
             this.L_P2_PosY.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.L_P2_PosY.Location = new System.Drawing.Point(129, 25);
+            this.L_P2_PosY.Location = new System.Drawing.Point(132, 25);
             this.L_P2_PosY.Name = "L_P2_PosY";
-            this.L_P2_PosY.Size = new System.Drawing.Size(121, 20);
+            this.L_P2_PosY.Size = new System.Drawing.Size(124, 20);
             this.L_P2_PosY.TabIndex = 71;
             this.L_P2_PosY.Text = "Pozycja Y:";
             this.L_P2_PosY.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -2177,7 +2191,7 @@
             this.G_P2_Appearance.Name = "G_P2_Appearance";
             this.G_P2_Appearance.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.TLP_P2_Field.SetRowSpan(this.G_P2_Appearance, 4);
-            this.G_P2_Appearance.Size = new System.Drawing.Size(247, 106);
+            this.G_P2_Appearance.Size = new System.Drawing.Size(253, 106);
             this.G_P2_Appearance.TabIndex = 75;
             this.G_P2_Appearance.TabStop = false;
             this.G_P2_Appearance.Text = " Wygląd ";
@@ -2203,7 +2217,7 @@
             this.TLP_P2_FieldAppearance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_P2_FieldAppearance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.TLP_P2_FieldAppearance.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_FieldAppearance.Size = new System.Drawing.Size(241, 90);
+            this.TLP_P2_FieldAppearance.Size = new System.Drawing.Size(247, 90);
             this.TLP_P2_FieldAppearance.TabIndex = 0;
             // 
             // B_P2_BackImage
@@ -2211,10 +2225,10 @@
             this.B_P2_BackImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.B_P2_BackImage.Enabled = false;
             this.B_P2_BackImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.B_P2_BackImage.Location = new System.Drawing.Point(123, 63);
+            this.B_P2_BackImage.Location = new System.Drawing.Point(126, 63);
             this.B_P2_BackImage.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
             this.B_P2_BackImage.Name = "B_P2_BackImage";
-            this.B_P2_BackImage.Size = new System.Drawing.Size(115, 25);
+            this.B_P2_BackImage.Size = new System.Drawing.Size(118, 25);
             this.B_P2_BackImage.TabIndex = 52;
             this.B_P2_BackImage.Text = "Obraz";
             this.B_P2_BackImage.UseVisualStyleBackColor = true;
@@ -2227,7 +2241,7 @@
             this.TB_P2_BackImage.Location = new System.Drawing.Point(3, 66);
             this.TB_P2_BackImage.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.TB_P2_BackImage.Name = "TB_P2_BackImage";
-            this.TB_P2_BackImage.Size = new System.Drawing.Size(114, 20);
+            this.TB_P2_BackImage.Size = new System.Drawing.Size(117, 20);
             this.TB_P2_BackImage.TabIndex = 51;
             // 
             // B_P2_BackColor
@@ -2235,10 +2249,10 @@
             this.B_P2_BackColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.B_P2_BackColor.Enabled = false;
             this.B_P2_BackColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.B_P2_BackColor.Location = new System.Drawing.Point(123, 33);
+            this.B_P2_BackColor.Location = new System.Drawing.Point(126, 33);
             this.B_P2_BackColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
             this.B_P2_BackColor.Name = "B_P2_BackColor";
-            this.B_P2_BackColor.Size = new System.Drawing.Size(115, 25);
+            this.B_P2_BackColor.Size = new System.Drawing.Size(118, 25);
             this.B_P2_BackColor.TabIndex = 50;
             this.B_P2_BackColor.Text = "Kolor";
             this.B_P2_BackColor.UseVisualStyleBackColor = true;
@@ -2251,7 +2265,7 @@
             this.TB_P2_BackColor.Location = new System.Drawing.Point(3, 36);
             this.TB_P2_BackColor.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.TB_P2_BackColor.Name = "TB_P2_BackColor";
-            this.TB_P2_BackColor.Size = new System.Drawing.Size(114, 20);
+            this.TB_P2_BackColor.Size = new System.Drawing.Size(117, 20);
             this.TB_P2_BackColor.TabIndex = 49;
             // 
             // TB_P2_BorderColor
@@ -2261,7 +2275,7 @@
             this.TB_P2_BorderColor.Location = new System.Drawing.Point(3, 6);
             this.TB_P2_BorderColor.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.TB_P2_BorderColor.Name = "TB_P2_BorderColor";
-            this.TB_P2_BorderColor.Size = new System.Drawing.Size(114, 20);
+            this.TB_P2_BorderColor.Size = new System.Drawing.Size(117, 20);
             this.TB_P2_BorderColor.TabIndex = 5;
             // 
             // B_P2_BorderColor
@@ -2269,10 +2283,10 @@
             this.B_P2_BorderColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.B_P2_BorderColor.Enabled = false;
             this.B_P2_BorderColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.B_P2_BorderColor.Location = new System.Drawing.Point(123, 3);
+            this.B_P2_BorderColor.Location = new System.Drawing.Point(126, 3);
             this.B_P2_BorderColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
             this.B_P2_BorderColor.Name = "B_P2_BorderColor";
-            this.B_P2_BorderColor.Size = new System.Drawing.Size(115, 25);
+            this.B_P2_BorderColor.Size = new System.Drawing.Size(118, 25);
             this.B_P2_BorderColor.TabIndex = 6;
             this.B_P2_BorderColor.Text = "Ramka";
             this.B_P2_BorderColor.UseVisualStyleBackColor = true;
@@ -2288,7 +2302,7 @@
             this.G_P2_Font.Name = "G_P2_Font";
             this.G_P2_Font.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.TLP_P2_Field.SetRowSpan(this.G_P2_Font, 3);
-            this.G_P2_Font.Size = new System.Drawing.Size(247, 76);
+            this.G_P2_Font.Size = new System.Drawing.Size(253, 76);
             this.G_P2_Font.TabIndex = 76;
             this.G_P2_Font.TabStop = false;
             this.G_P2_Font.Text = " Czcionka ";
@@ -2309,7 +2323,7 @@
             this.TLP_P2_FontSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_P2_FontSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.TLP_P2_FontSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_P2_FontSettings.Size = new System.Drawing.Size(241, 60);
+            this.TLP_P2_FontSettings.Size = new System.Drawing.Size(247, 60);
             this.TLP_P2_FontSettings.TabIndex = 0;
             // 
             // TB_P2_FontName
@@ -2319,7 +2333,7 @@
             this.TB_P2_FontName.Location = new System.Drawing.Point(3, 36);
             this.TB_P2_FontName.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.TB_P2_FontName.Name = "TB_P2_FontName";
-            this.TB_P2_FontName.Size = new System.Drawing.Size(114, 20);
+            this.TB_P2_FontName.Size = new System.Drawing.Size(117, 20);
             this.TB_P2_FontName.TabIndex = 57;
             // 
             // B_P2_FontName
@@ -2327,10 +2341,10 @@
             this.B_P2_FontName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.B_P2_FontName.Enabled = false;
             this.B_P2_FontName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.B_P2_FontName.Location = new System.Drawing.Point(123, 33);
+            this.B_P2_FontName.Location = new System.Drawing.Point(126, 33);
             this.B_P2_FontName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
             this.B_P2_FontName.Name = "B_P2_FontName";
-            this.B_P2_FontName.Size = new System.Drawing.Size(115, 25);
+            this.B_P2_FontName.Size = new System.Drawing.Size(118, 25);
             this.B_P2_FontName.TabIndex = 59;
             this.B_P2_FontName.Text = "Nazwa";
             this.B_P2_FontName.UseVisualStyleBackColor = true;
@@ -2343,7 +2357,7 @@
             this.TB_P2_FontColor.Location = new System.Drawing.Point(3, 6);
             this.TB_P2_FontColor.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.TB_P2_FontColor.Name = "TB_P2_FontColor";
-            this.TB_P2_FontColor.Size = new System.Drawing.Size(114, 20);
+            this.TB_P2_FontColor.Size = new System.Drawing.Size(117, 20);
             this.TB_P2_FontColor.TabIndex = 34;
             // 
             // B_P2_FontColor
@@ -2351,10 +2365,10 @@
             this.B_P2_FontColor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.B_P2_FontColor.Enabled = false;
             this.B_P2_FontColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.B_P2_FontColor.Location = new System.Drawing.Point(123, 3);
+            this.B_P2_FontColor.Location = new System.Drawing.Point(126, 3);
             this.B_P2_FontColor.Margin = new System.Windows.Forms.Padding(3, 3, 3, 2);
             this.B_P2_FontColor.Name = "B_P2_FontColor";
-            this.B_P2_FontColor.Size = new System.Drawing.Size(115, 25);
+            this.B_P2_FontColor.Size = new System.Drawing.Size(118, 25);
             this.B_P2_FontColor.TabIndex = 35;
             this.B_P2_FontColor.Text = "Kolor";
             this.B_P2_FontColor.UseVisualStyleBackColor = true;
@@ -2375,12 +2389,41 @@
             // 
             // SC_P3_Generator.Panel2
             // 
-            this.SC_P3_Generator.Panel2.Controls.Add(this.TV_P3_PageList);
+            this.SC_P3_Generator.Panel2.Controls.Add(this.TLP_PageList);
             this.SC_P3_Generator.Panel2MinSize = 250;
-            this.SC_P3_Generator.Size = new System.Drawing.Size(682, 438);
-            this.SC_P3_Generator.SplitterDistance = 424;
+            this.SC_P3_Generator.Size = new System.Drawing.Size(714, 438);
+            this.SC_P3_Generator.SplitterDistance = 453;
             this.SC_P3_Generator.SplitterWidth = 5;
-            this.SC_P3_Generator.TabIndex = 4;
+            this.SC_P3_Generator.TabIndex = 3;
+            // 
+            // TLP_PageList
+            // 
+            this.TLP_PageList.ColumnCount = 1;
+            this.TLP_PageList.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_PageList.Controls.Add(this.CB_P3_CollatePages, 0, 1);
+            this.TLP_PageList.Controls.Add(this.TV_P3_PageList, 0, 0);
+            this.TLP_PageList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_PageList.Location = new System.Drawing.Point(0, 0);
+            this.TLP_PageList.Name = "TLP_PageList";
+            this.TLP_PageList.RowCount = 2;
+            this.TLP_PageList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_PageList.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            this.TLP_PageList.Size = new System.Drawing.Size(256, 438);
+            this.TLP_PageList.TabIndex = 2;
+            // 
+            // CB_P3_CollatePages
+            // 
+            this.CB_P3_CollatePages.AutoSize = true;
+            this.CB_P3_CollatePages.Checked = true;
+            this.CB_P3_CollatePages.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CB_P3_CollatePages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_P3_CollatePages.Location = new System.Drawing.Point(3, 421);
+            this.CB_P3_CollatePages.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.CB_P3_CollatePages.Name = "CB_P3_CollatePages";
+            this.CB_P3_CollatePages.Size = new System.Drawing.Size(250, 17);
+            this.CB_P3_CollatePages.TabIndex = 7;
+            this.CB_P3_CollatePages.Text = "Połącz strony w pozycjach";
+            this.CB_P3_CollatePages.UseVisualStyleBackColor = true;
             // 
             // SC_P1_Main
             // 
@@ -2399,10 +2442,10 @@
             // 
             this.SC_P1_Main.Panel2.Controls.Add(this.P_P1_Preview);
             this.SC_P1_Main.Panel2MinSize = 416;
-            this.SC_P1_Main.Size = new System.Drawing.Size(682, 438);
+            this.SC_P1_Main.Size = new System.Drawing.Size(714, 438);
             this.SC_P1_Main.SplitterDistance = 230;
             this.SC_P1_Main.SplitterWidth = 5;
-            this.SC_P1_Main.TabIndex = 5;
+            this.SC_P1_Main.TabIndex = 7;
             // 
             // SC_P1_Details
             // 
@@ -2451,7 +2494,7 @@
             this.TLP_Main.RowCount = 2;
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.TLP_Main.Size = new System.Drawing.Size(692, 512);
+            this.TLP_Main.Size = new System.Drawing.Size(724, 512);
             this.TLP_Main.TabIndex = 6;
             // 
             // TLP_P1_StatusBar
@@ -2462,7 +2505,7 @@
             this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
             this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.TLP_P1_StatusBar.Controls.Add(this.B_P1_New, 0, 0);
             this.TLP_P1_StatusBar.Controls.Add(this.B_P1_Delete, 1, 0);
             this.TLP_P1_StatusBar.Controls.Add(this.CB_P1_ShowDetails, 2, 0);
@@ -2475,7 +2518,7 @@
             this.TLP_P1_StatusBar.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.TLP_P1_StatusBar.RowCount = 1;
             this.TLP_P1_StatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_P1_StatusBar.Size = new System.Drawing.Size(692, 32);
+            this.TLP_P1_StatusBar.Size = new System.Drawing.Size(724, 32);
             this.TLP_P1_StatusBar.TabIndex = 6;
             this.TLP_P1_StatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_P1_StatusBar_Paint);
             // 
@@ -2486,7 +2529,7 @@
             this.CB_P1_ShowDetails.Location = new System.Drawing.Point(243, 4);
             this.CB_P1_ShowDetails.Name = "CB_P1_ShowDetails";
             this.CB_P1_ShowDetails.Size = new System.Drawing.Size(213, 25);
-            this.CB_P1_ShowDetails.TabIndex = 24;
+            this.CB_P1_ShowDetails.TabIndex = 4;
             this.CB_P1_ShowDetails.Text = "Pokaż szczegóły zaznaczonego wzoru.";
             this.CB_P1_ShowDetails.UseVisualStyleBackColor = true;
             this.CB_P1_ShowDetails.CheckedChanged += new System.EventHandler(this.CB_P1_ShowDetails_CheckedChanged);
@@ -2506,7 +2549,7 @@
             this.TLP_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.TLP_Generator.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_Generator.Size = new System.Drawing.Size(692, 512);
+            this.TLP_Generator.Size = new System.Drawing.Size(724, 512);
             this.TLP_Generator.TabIndex = 7;
             this.TLP_Generator.Visible = false;
             // 
@@ -2525,17 +2568,19 @@
             this.TLP_P3_StatusBar.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.TLP_P3_StatusBar.RowCount = 1;
             this.TLP_P3_StatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_P3_StatusBar.Size = new System.Drawing.Size(692, 32);
+            this.TLP_P3_StatusBar.Size = new System.Drawing.Size(724, 32);
             this.TLP_P3_StatusBar.TabIndex = 5;
             this.TLP_P3_StatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_P1_StatusBar_Paint);
             // 
             // TLP_P3_InfoControls
             // 
-            this.TLP_P3_InfoControls.ColumnCount = 3;
+            this.TLP_P3_InfoControls.ColumnCount = 4;
             this.TLP_P3_InfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.TLP_P3_InfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_P3_InfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.TLP_P3_InfoControls.Controls.Add(this.FLP_P3_Page, 2, 0);
+            this.TLP_P3_InfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.TLP_P3_InfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
+            this.TLP_P3_InfoControls.Controls.Add(this.FLP_P3_Rows, 2, 0);
+            this.TLP_P3_InfoControls.Controls.Add(this.FLP_P3_Page, 3, 0);
             this.TLP_P3_InfoControls.Controls.Add(this.CBX_P3_Scale, 0, 0);
             this.TLP_P3_InfoControls.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_P3_InfoControls.Location = new System.Drawing.Point(0, 1);
@@ -2543,8 +2588,53 @@
             this.TLP_P3_InfoControls.Name = "TLP_P3_InfoControls";
             this.TLP_P3_InfoControls.RowCount = 1;
             this.TLP_P3_InfoControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_P3_InfoControls.Size = new System.Drawing.Size(432, 31);
+            this.TLP_P3_InfoControls.Size = new System.Drawing.Size(464, 31);
             this.TLP_P3_InfoControls.TabIndex = 3;
+            // 
+            // FLP_P3_Rows
+            // 
+            this.FLP_P3_Rows.Controls.Add(this.N_P3_Rows);
+            this.FLP_P3_Rows.Controls.Add(this.L_P3_Rows);
+            this.FLP_P3_Rows.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FLP_P3_Rows.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.FLP_P3_Rows.Location = new System.Drawing.Point(159, 0);
+            this.FLP_P3_Rows.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_P3_Rows.Name = "FLP_P3_Rows";
+            this.FLP_P3_Rows.Size = new System.Drawing.Size(200, 31);
+            this.FLP_P3_Rows.TabIndex = 13;
+            // 
+            // N_P3_Rows
+            // 
+            this.N_P3_Rows.Location = new System.Drawing.Point(155, 5);
+            this.N_P3_Rows.Margin = new System.Windows.Forms.Padding(3, 5, 0, 3);
+            this.N_P3_Rows.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.N_P3_Rows.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.N_P3_Rows.Name = "N_P3_Rows";
+            this.N_P3_Rows.Size = new System.Drawing.Size(45, 20);
+            this.N_P3_Rows.TabIndex = 5;
+            this.N_P3_Rows.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // L_P3_Rows
+            // 
+            this.L_P3_Rows.AutoSize = true;
+            this.L_P3_Rows.Location = new System.Drawing.Point(109, 8);
+            this.L_P3_Rows.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
+            this.L_P3_Rows.Name = "L_P3_Rows";
+            this.L_P3_Rows.Size = new System.Drawing.Size(43, 13);
+            this.L_P3_Rows.TabIndex = 1;
+            this.L_P3_Rows.Text = "Pozycji:";
             // 
             // FLP_P3_Page
             // 
@@ -2552,15 +2642,15 @@
             this.FLP_P3_Page.Controls.Add(this.L_P3_Page);
             this.FLP_P3_Page.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_P3_Page.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.FLP_P3_Page.Location = new System.Drawing.Point(332, 0);
+            this.FLP_P3_Page.Location = new System.Drawing.Point(359, 0);
             this.FLP_P3_Page.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_P3_Page.Name = "FLP_P3_Page";
-            this.FLP_P3_Page.Size = new System.Drawing.Size(100, 31);
+            this.FLP_P3_Page.Size = new System.Drawing.Size(105, 31);
             this.FLP_P3_Page.TabIndex = 12;
             // 
             // N_P3_Page
             // 
-            this.N_P3_Page.Location = new System.Drawing.Point(62, 5);
+            this.N_P3_Page.Location = new System.Drawing.Point(67, 5);
             this.N_P3_Page.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             this.N_P3_Page.Maximum = new decimal(new int[] {
             1,
@@ -2574,7 +2664,7 @@
             0});
             this.N_P3_Page.Name = "N_P3_Page";
             this.N_P3_Page.Size = new System.Drawing.Size(35, 20);
-            this.N_P3_Page.TabIndex = 0;
+            this.N_P3_Page.TabIndex = 6;
             this.N_P3_Page.Value = new decimal(new int[] {
             1,
             0,
@@ -2585,7 +2675,7 @@
             // L_P3_Page
             // 
             this.L_P3_Page.AutoSize = true;
-            this.L_P3_Page.Location = new System.Drawing.Point(18, 8);
+            this.L_P3_Page.Location = new System.Drawing.Point(23, 8);
             this.L_P3_Page.Margin = new System.Windows.Forms.Padding(3, 8, 0, 0);
             this.L_P3_Page.Name = "L_P3_Page";
             this.L_P3_Page.Size = new System.Drawing.Size(41, 13);
@@ -2607,7 +2697,7 @@
             this.CBX_P3_Scale.Margin = new System.Windows.Forms.Padding(5, 4, 3, 3);
             this.CBX_P3_Scale.Name = "CBX_P3_Scale";
             this.CBX_P3_Scale.Size = new System.Drawing.Size(72, 21);
-            this.CBX_P3_Scale.TabIndex = 10;
+            this.CBX_P3_Scale.TabIndex = 4;
             this.CBX_P3_Scale.SelectedIndexChanged += new System.EventHandler(this.CBX_P3_Scale_SelectedIndexChanged);
             this.CBX_P3_Scale.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CBX_P3_Scale_KeyDown);
             this.CBX_P3_Scale.Leave += new System.EventHandler(this.CBX_P3_Scale_Leave);
@@ -2626,7 +2716,7 @@
             this.TLP_Pattern.RowCount = 2;
             this.TLP_Pattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Pattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.TLP_Pattern.Size = new System.Drawing.Size(692, 512);
+            this.TLP_Pattern.Size = new System.Drawing.Size(724, 512);
             this.TLP_Pattern.TabIndex = 8;
             this.TLP_Pattern.Visible = false;
             // 
@@ -2647,8 +2737,8 @@
             // 
             this.SC_P2_Pattern.Panel2.Controls.Add(this.TLP_P2_Details);
             this.SC_P2_Pattern.Panel2MinSize = 250;
-            this.SC_P2_Pattern.Size = new System.Drawing.Size(682, 438);
-            this.SC_P2_Pattern.SplitterDistance = 425;
+            this.SC_P2_Pattern.Size = new System.Drawing.Size(714, 438);
+            this.SC_P2_Pattern.SplitterDistance = 450;
             this.SC_P2_Pattern.SplitterWidth = 5;
             this.SC_P2_Pattern.TabIndex = 0;
             // 
@@ -2667,7 +2757,7 @@
             this.TLP_P2_StatusBar.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.TLP_P2_StatusBar.RowCount = 1;
             this.TLP_P2_StatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TLP_P2_StatusBar.Size = new System.Drawing.Size(692, 32);
+            this.TLP_P2_StatusBar.Size = new System.Drawing.Size(724, 32);
             this.TLP_P2_StatusBar.TabIndex = 1;
             this.TLP_P2_StatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_P1_StatusBar_Paint);
             // 
@@ -2680,7 +2770,7 @@
             this.TLP_P2_Buttons.Controls.Add(this.B_P2_Save, 0, 0);
             this.TLP_P2_Buttons.Controls.Add(this.B_P2_LoadData, 0, 0);
             this.TLP_P2_Buttons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLP_P2_Buttons.Location = new System.Drawing.Point(436, 1);
+            this.TLP_P2_Buttons.Location = new System.Drawing.Point(468, 1);
             this.TLP_P2_Buttons.Margin = new System.Windows.Forms.Padding(1, 0, 5, 0);
             this.TLP_P2_Buttons.Name = "TLP_P2_Buttons";
             this.TLP_P2_Buttons.RowCount = 1;
@@ -2698,13 +2788,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(692, 512);
+            this.ClientSize = new System.Drawing.Size(724, 512);
             this.Controls.Add(this.MS_Main);
+            this.Controls.Add(this.TLP_Main);
             this.Controls.Add(this.TLP_Generator);
             this.Controls.Add(this.TLP_Pattern);
-            this.Controls.Add(this.TLP_Main);
             this.KeyPreview = true;
-            this.MinimumSize = new System.Drawing.Size(700, 550);
+            this.MinimumSize = new System.Drawing.Size(740, 550);
             this.Name = "MainForm";
             this.Text = "CDesigner - Kreator Dokumentów";
             this.Move += new System.EventHandler(this.Main_Move);
@@ -2728,6 +2818,13 @@
             this.MS_P2_Menu.PerformLayout();
             this.P_P2_Editor.ResumeLayout(false);
             this.P_P2_Editor.PerformLayout();
+            this.TLP_P2_LabelDetails.ResumeLayout(false);
+            this.TLP_P2_LabelDetails.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.N_P2_MarginLR)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.N_P2_MarginTB)).EndInit();
+            this.G_P2_Generator.ResumeLayout(false);
+            this.TLP_P2_Generator.ResumeLayout(false);
+            this.TLP_P2_Generator.PerformLayout();
             this.TLP_P2_PageDetails.ResumeLayout(false);
             this.TLP_P2_PageDetails.PerformLayout();
             this.G_P2_PageApperance.ResumeLayout(false);
@@ -2736,13 +2833,6 @@
             this.G_P2_GeneratePDF.ResumeLayout(false);
             this.TLP_P2_GeneratePDF.ResumeLayout(false);
             this.TLP_P2_GeneratePDF.PerformLayout();
-            this.TLP_P2_LabelDetails.ResumeLayout(false);
-            this.TLP_P2_LabelDetails.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.N_P2_MarginLR)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.N_P2_MarginTB)).EndInit();
-            this.G_P2_Generator.ResumeLayout(false);
-            this.TLP_P2_Generator.ResumeLayout(false);
-            this.TLP_P2_Generator.PerformLayout();
             this.TLP_P2_Field.ResumeLayout(false);
             this.TLP_P2_Field.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.N_P2_BorderSize)).EndInit();
@@ -2761,6 +2851,8 @@
             this.SC_P3_Generator.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SC_P3_Generator)).EndInit();
             this.SC_P3_Generator.ResumeLayout(false);
+            this.TLP_PageList.ResumeLayout(false);
+            this.TLP_PageList.PerformLayout();
             this.SC_P1_Main.Panel1.ResumeLayout(false);
             this.SC_P1_Main.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SC_P1_Main)).EndInit();
@@ -2775,6 +2867,9 @@
             this.TLP_Generator.ResumeLayout(false);
             this.TLP_P3_StatusBar.ResumeLayout(false);
             this.TLP_P3_InfoControls.ResumeLayout(false);
+            this.FLP_P3_Rows.ResumeLayout(false);
+            this.FLP_P3_Rows.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.N_P3_Rows)).EndInit();
             this.FLP_P3_Page.ResumeLayout(false);
             this.FLP_P3_Page.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.N_P3_Page)).EndInit();
@@ -2987,6 +3082,11 @@
         private System.Windows.Forms.TableLayoutPanel TLP_P2_GeneratePDF;
         private System.Windows.Forms.ToolTip TP_Tooltip;
         private System.Windows.Forms.ToolStripMenuItem TSMI_CloseData;
+        private System.Windows.Forms.FlowLayoutPanel FLP_P3_Rows;
+        private System.Windows.Forms.NumericUpDown N_P3_Rows;
+        private System.Windows.Forms.Label L_P3_Rows;
+        private System.Windows.Forms.CheckBox CB_P3_CollatePages;
+        private System.Windows.Forms.TableLayoutPanel TLP_PageList;
 
         /// @endcond
     }

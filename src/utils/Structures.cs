@@ -271,32 +271,30 @@ namespace CDesigner.Utils
     /// 
 	public enum BITMAPCODE
 	{
-		CDesigner16,
-		CDesigner32,
-		CDesigner48,
-		CDesigner64,
-		CDesigner96,
-		CDesigner128,
-		CDesigner256,
-		CDesigner512,
-		CDRestore16,
-		CDRestore32,
-		CDRestore48,
-		CDRestore64,
-		CDRestore96,
-		CDRestore128,
-		CDRestore256,
-		CDRestore512,
-        REGISTER_LOGO,
-		ItemAdd,
-		ItemRemove,
-		Refresh,
-		FirstPage,
-		PrevPage,
-		NextPage,
-		LastPage,
-        IMAGE_FIELD,
-        TEXT_FIELD
+		CDESIGNER16,
+		CDESIGNER32,
+		CDESIGNER48,
+		CDESIGNER64,
+		CDESIGNER96,
+		CDESIGNER128,
+		CDESIGNER256,
+		CDESIGNER512,
+		CDRESTORE16,
+		CDRESTORE32,
+		CDRESTORE48,
+		CDRESTORE64,
+		CDRESTORE96,
+		CDRESTORE128,
+		CDRESTORE256,
+		CDRESTORE512,
+        REGISTERLOGO,
+        NOIMAGE,
+		ITEMADD,
+		ITEMREMOVE,
+		FIRSTPAGE,
+		PREVPAGE,
+		NEXTPAGE,
+		LASTPAGE
 	};
 
     /// 
@@ -419,6 +417,7 @@ namespace CDesigner.Utils
         GMN_IMPORTFILE     = 0x08,
         GMN_DATABASE       = 0x09,
         GMN_PATTERNEDITOR  = 0x0A,
+        GMN_GENERATOR      = 0x0B,
         
 		// /////////////////////////// I01_MEN [MainForm_Menu]
 
@@ -435,6 +434,7 @@ namespace CDesigner.Utils
         I01_MEN_TOL_EDITCOLUMN = 0x03,
         I01_MEN_TOL_EDITROW    = 0x04,
         I01_MEN_TOL_SAVEMEMDB  = 0x05,
+        I01_MEN_TOL_CLOSEDATA  = 0x06,
         I01_MEN_LAN_LANGUAGE   = 0x00,
         I01_MEN_PRO_PROGRAM    = 0x00,
         I01_MEN_PRO_INFO       = 0x01,
@@ -564,6 +564,10 @@ namespace CDesigner.Utils
         I01_PRI_BUT_FINDERRORS = 0x00,
         I01_PRI_BUT_GENERATE   = 0x01,
         I01_PRI_LAB_PAGE       = 0x00,
+        I01_PRI_LAB_ROW        = 0x01,
+        I01_PRI_LAB_POSITIONS  = 0x02,
+        I01_PRI_LAB_COLLATE    = 0x03,
+        I01_PRI_MES_PDFGENERR  = 0x00,
 
 		// /////////////////////////// I02 [DatafileSettingsForm]
 

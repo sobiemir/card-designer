@@ -205,7 +205,7 @@ $def English
 		|01 Pattern with this name already exists!
 		|02 You must pass paper size for pattern.
 		|03 Program can't create pattern in main directory.\n Check if you are allowed to save data here.
-		|04 Allow characters:\nAlphabetic characters, numbers, - + _ # and space.
+		|04 Allow characters:\nAlphabetic characters, numbers, - + _ ( ) [ ] , #  and space.
 
 % okno z informacją o programie
 % ============================================================
@@ -305,6 +305,7 @@ $def English
 		|03 Edit columns...
 		|04 Edit rows...
 		|05 Save database to file
+		|06 Close data source
 		
 	% menu języków
 	@Language
@@ -337,7 +338,7 @@ $def English
 	
 	% lista kontrolek z napisem na oknie
 	@Labels
-		|00 Show details for selected pattern
+		|00 Show details of selected pattern
 		|01 Page:
 		
 	% informacje o wzorze
@@ -389,7 +390,7 @@ $def English
 		|01 Field image...
 		|02 Clear background
 		|03 Dynamic image
-		|04 Draw field fill
+		|04 Draw field color
 		|05 Static image
 		|06 Font color...
 		|07 Change font...
@@ -502,98 +503,6 @@ $def English
 	% napisy na formularzu
 	@Labels
 		|00 Page:
-		
-% formularz ustawień typu kolumny
-% ============================================================
-#TypeSettings
-	
-	% napisy na oknie
-	@Labels
-		|00 {{SzczegolowyTypKolumny}}
-		|01 {{UstawieniaZLokalizacji}}
-		|02 {{FormatDaty}}
-		|03 {{SeparatorCzesci}}
-		|04 {{SeparatorGrup}}
-		|05 {{WzorzecLiczbyUjemnej}}
-		|06 {{WzorzecLiczbyDodatniej}}
-		|07 {{DodatkowySymbolLiczby}}
-		|08 {{SymbolNaN}}
-		|09 {{MinusNieskonczonosc}}
-		|10 {{PlusNieskonczonosc}}
-		|11 {{ZnakLiczbyUjemnej}}
-		|12 {{ZnakLiczbyDodatniej}}
-		|13 {{PodgladFormatuDaty}}
-		
-	% przyciski
-	@Buttons
-		|00 {{Zapisz}}
-		|01 {{Zaniechaj}}
-		|02 {{Wczytaj}}
-	
-	% szczegółowe typy kolumn
-	@ColumnSubTypes
-		|00 {{Calkowity16}}
-		|01 {{Calkowity32}}
-		|02 {{Calkowity64}}
-		|03 {{PojedynczaPrecyzja}}
-		|04 {{PodwojnaPrecyzja}}
-		|05 {{Numeryczny}}
-		|06 {{Procenty}}
-		|07 {{Promile}}
-		|08 {{---}}
-		
-	% wiadomości w wyskakujących okienkach
-	@Messages
-		|00 {{LokalizacjaOKodzie{0}NieIstnieje}}
-		|01 {{PodanyFormatDatyJestNiepoprawny}}
-		
-	
-% formularz filtrowania danych
-#DataFilter
-
-
-	% nagłówki tabeli
-	@Headers
-		|00 Kolumna
-		|01 Typ filtra
-		|02 Modyfikator
-		|03 Wynik
-		|04 W
-		
-	% nazwy kolumn dla listy rozwijanej
-	@GroupComboBox
-		|00 Kolumny
-		|01 Stare kolumny
-		|02 Nowe kolumny
-		
-	% nazwy filtrów
-	@ComboBox
-		|00 Format
-		|01 Duże litery
-		|02 Małe litery
-		|03 Nazwa własna
-		|04 Różny [<>]
-		|05 Równy [==]
-
-	% przyciski na formularzu
-	@Buttons
-		|00 Dodaj
-		|01 Usuń
-		|02 Przywróć
-		|03 Zastosuj
-
-
-
-% edycja danych z bazy
-#EditData
-
-	@Labels
-		|00 z {0}
-		|01 Ilość wierszy na stronę:
-		|02 Typ kolumny
-		
-	@ComboBoxTypes
-		|00 Tekst ({0})
-		|01 Całkowity ({0})
-		|02 Dziesiętny ({0})
-		|03 Znak ({0})
+		|01 Preview row of static pattern
+		|02 Number of copies:
+		|03 Collate pattern pages on printout

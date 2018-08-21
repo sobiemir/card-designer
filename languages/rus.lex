@@ -1,5 +1,5 @@
-$pol Polski
-$eng Polish
+$pol Rosyjski
+$eng Russian
 $rus Польский
 $deu Polnisch
 $ces Polský

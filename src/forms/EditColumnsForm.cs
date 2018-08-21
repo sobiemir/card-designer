@@ -537,7 +537,7 @@ namespace CDesigner.Forms
 					: this._storage.Column[index])
 				+ "]";
         }
-        
+
         /// <summary>
         /// Zamienia podany typ filtra na indeks dla pola wyboru.
         /// Funkcja używana przy konwersji filtra na indeks dla kontrolki zawierającej listę dostępnych filtrów.
@@ -997,7 +997,7 @@ namespace CDesigner.Forms
 				item.SubItems[1].Text = copy.Text;
 			else
 				item.SubItems[1].Text += ", " + copy.Text;
-			
+
             // dodaj kolumnę do filtrów
 			list.Add( copy.Index );
 			this._filter.addSubColumn( item.Index, copy.Index );

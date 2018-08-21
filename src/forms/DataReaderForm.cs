@@ -22,6 +22,7 @@
 ///              Usunięcie niepotrzebnych kontrolek, poprawa wyglądu formularza.
 ///              Tłumaczenia językowe dla formularza.
 /// [24.12.2016] Zmiana koncepcji nazw zmiennych.
+/// [26.12.2016] Naprawa błędu związanego z przenoszeniem kolumny i upuszczaniem jej na puste pole.
 ///
 
 using System;
@@ -169,17 +170,17 @@ namespace CDesigner.Forms
 			for( int x = 0; x < this._storage.ColumnsNumber; ++x )
 				this.LV_DatabaseCols.Items.Add( this._storage.Column[x] );
 
-			var image_list = new ImageList();
-			image_list.ColorDepth = ColorDepth.Depth32Bit;
+            //var image_list = new ImageList();
+            //image_list.ColorDepth = ColorDepth.Depth32Bit;
 
-			// wczytaj ikony
-			var image = Program.GetBitmap( BITMAPCODE.IMAGE_FIELD );
-			image_list.Images.Add( "image-field", image );
-			image = Program.GetBitmap( BITMAPCODE.TEXT_FIELD );
-			image_list.Images.Add( "text-field", image );
+            //// wczytaj ikony
+            //var image = Program.GetBitmap( BITMAPCODE.IMAGEFIELD );
+            //image_list.Images.Add( "image-field", image );
+            //image = Program.GetBitmap( BITMAPCODE.TEXTFIELD );
+            //image_list.Images.Add( "text-field", image );
 
 			// ustaw listę obrazków
-			this.LV_PageFields.SmallImageList = image_list;
+			//this.LV_PageFields.SmallImageList = image_list;
 
 			// uzupełnij tabele
 			for( int x = 0; x < this._data.Page[0].Fields; ++x )
@@ -195,10 +196,10 @@ namespace CDesigner.Forms
 				item.Tag = (object)x;
 
 				// ustaw ikonki
-				if( field_data.Extra.TextFromDB )
-					item.ImageKey = "text-field";
-				else if( field_data.Extra.ImageFromDB )
-					item.ImageKey = "image-field";
+                //if( field_data.Extra.TextFromDB )
+                //    item.ImageKey = "text-field";
+                //else if( field_data.Extra.ImageFromDB )
+                //    item.ImageKey = "image-field";
 
 				item.SubItems.Add("");
 			}
@@ -331,7 +332,7 @@ namespace CDesigner.Forms
 			this.TB_Format.Text = "";
 
             // zmień format
-			foreach( ListViewItem item in LV_DatabaseCols.Items )
+			foreach( ListViewItem item in this.LV_DatabaseCols.Items )
 				if( item.Checked && counter == 0 )
 					this.TB_Format.Text = "#" + (++counter);
 				else if( item.Checked )
@@ -400,6 +401,10 @@ namespace CDesigner.Forms
 			var client_point = this.LV_PageFields.PointToClient( new Point(ev.X, ev.Y) );
 			var item = this.LV_PageFields.GetItemAt( client_point.X, client_point.Y );
 
+            // brak elementu
+            if( item == null )
+                return;
+
 			// przeciągany wiersz
 			var copy = (ListViewItem)ev.Data.GetData( typeof(ListViewItem) );
 			item.SubItems[1].Text = copy.Text;
@@ -431,6 +436,7 @@ namespace CDesigner.Forms
             {
                 var item = this.LV_PageFields.SelectedItems[0];
 				item.SubItems[1].Text = "";
+                this._data.Page[this._currentPage].Field[(int)item.Tag].Extra.Column = -1;
 #		    if DEBUG
 			    Program.LogMessage( "Pole o numerze '" + item.Index + "' zostało wyczyszczone." );
 #		    endif
@@ -496,10 +502,10 @@ namespace CDesigner.Forms
                 int index = this.LV_PageFields.Items.Count - 1;
 
 				// przyporządkuj odpowiedni obrazek
-				if( field_data.Extra.TextFromDB )
-					this.LV_PageFields.Items[index].ImageKey = "text-field";
-				else if( field_data.Extra.ImageFromDB )
-					this.LV_PageFields.Items[index].ImageKey = "image-field";
+                //if( field_data.Extra.TextFromDB )
+                //    this.LV_PageFields.Items[index].ImageKey = "text-field";
+                //else if( field_data.Extra.ImageFromDB )
+                //    this.LV_PageFields.Items[index].ImageKey = "image-field";
 
                 // ustaw kolumnę dla pola
 				if( field_data.Extra.Column == -1 )
@@ -685,12 +691,12 @@ namespace CDesigner.Forms
 			switch( keydata )
 			{
 				// zmień strone wzoru do przodu
-				case Keys.Control | Keys.Tab:
+				case Keys.Control | Keys.Up:
 					if( this.N_Page.Value < this.N_Page.Maximum )
 						this.N_Page.Value += 1;
 				break;
 				// zmień strone wzoru do tyłu
-				case Keys.Shift | Keys.Tab:
+				case Keys.Control | Keys.Down:
 					if( this.N_Page.Value > this.N_Page.Minimum )
 						this.N_Page.Value -= 1;
 				break;

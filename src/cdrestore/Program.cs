@@ -20,7 +20,7 @@ namespace CDRestore
 		private static StreamWriter _writer = null;
 
 		/// Główne okno aplikacji.
-		private static Form _main = null;
+		// private static Form _main = null;
 
 		/// Ikona aplikacji...
 		private static Icon _icon = null;
@@ -103,8 +103,8 @@ _CD_CHECK_ACCESS_TO_SFILE:
                 }
 
                 // otwórz główne okno aplikacji
-                Program._main = new MainForm();
-                Application.Run( Program._main );
+                //Program._main = new MainForm();
+                //Application.Run( Program._main );
             }
             catch( Exception ex )
             {

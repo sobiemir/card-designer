@@ -33,11 +33,11 @@
 ///     PageField               [713 ]
 /// Forms
 ///     DatafileSettingsForm    [661 ]
-///     DataReaderForm          [722 ]
+///     DataReaderForm          [727 ]
 ///     EditColumnsForm         [1547]
 ///     EditRowsForm            [1171]
 ///     InfoForm                [232 ]
-///     MainForm                [4107]
+///     MainForm                [4289]
 ///     NewPatternForm          [549 ]
 ///     UpdateForm              [749 ]
 /// Utils
@@ -47,14 +47,14 @@
 ///     DataStorage             [404 ]
 ///     IOFileData              [840 ]
 ///     Language                [549 ]
-///     PatternEditor           [1277]
-///     Program                 [812 ]
+///     PatternEditor           [1337]
+///     Program                 [857 ]
 ///     ProgressStream          [247 ]
-///     Settings                [464 ]
-///     Structures              [1125]
-///     UpdateApp               [310 ]
+///     Settings                [499 ]
+///     Structures              [1129]
+///     UpdateApp               [353 ]
 /// ----------------------------------------
-/// RAZEM:                      18 663
+/// RAZEM:                      19 037
 ///
 
 #define LOGMESSAGE
@@ -117,10 +117,9 @@ namespace CDesigner.Utils
 			"images/cdesigner-256.png",  "images/cdesigner-512.png", "images/cdrestore-16.png",
 			"images/cdrestore-32.png",   "images/cdrestore-48.png",  "images/cdrestore-64.png",
 			"images/cdrestore-96.png",   "images/cdrestore-128.png", "images/cdrestore-256.png",
-			"images/cdrestore-512.png",  "images/information.jpg",   "icons/item-add.png",
-			"icons/item-delete.png",     "icons/refresh.png",        "icons/first-page.png",
-			"icons/prev-page.png",       "icons/next-page.png",      "icons/last-page.png",
-            "icons/image-field.png",     "icons/text-field.png"
+			"images/cdrestore-512.png",  "images/information.jpg",   "images/noimage.png",
+            "icons/item-add.png",        "icons/item-delete.png",    "icons/first-page.png",
+            "icons/prev-page.png",       "icons/next-page.png",      "icons/last-page.png"
 		};
 
 		/// <summary>Klasy globalne, ogólnodostępne dla całego programu.</summary>
@@ -133,7 +132,7 @@ namespace CDesigner.Utils
 		public static readonly DateTime BUILD_DATE;
 
         /// <summary>Nazwa kodowa aktualnej wersji programu.</summary>
-        public static readonly string CODE_NAME = "Skarbnik";
+        public static readonly string CODE_NAME = "Polewik";
 
 #endregion
 
@@ -143,6 +142,8 @@ namespace CDesigner.Utils
 		/// Konstruktor statyczny klasy.
 		/// Pobiera informacje o dacie kompilacji i wersji aplikacji.
 		/// </summary>
+        /// 
+        /// <seealso cref="Utils.GlobalStruct"/>
 		//* ============================================================================================================
 		static Program()
 		{
@@ -170,6 +171,8 @@ namespace CDesigner.Utils
         /// Uruchamia funkcje zamykania tylko wtedy, gdy zostało to wymuszone.
 		/// </summary>
         /// 
+        /// <seealso cref="Main"/>
+        /// 
 		/// <param name="force">Wymuszone zakończenie aplikacji.</param>
 		//* ============================================================================================================
 		public static void ExitApplication( bool force )
@@ -195,6 +198,8 @@ namespace CDesigner.Utils
 		/// Argument -w czeka na zamknięcie aplikacji CDRestore.exe, gdy program uruchamiany jest po aktualizacji.
 		/// </summary>
         /// 
+        /// <seealso cref="ExitApplication"/>
+        /// 
 		/// <param name="args">Argumenty przekazywane do aplikacji.</param>
 		//* ============================================================================================================
 		[STAThread] public static void Main( string[] args )
@@ -209,6 +214,14 @@ namespace CDesigner.Utils
 
 			try
 			{
+                // twórz foldery gdy nie istnieją
+                if( !Directory.Exists("./update") )
+                    Directory.CreateDirectory( "./update" );
+                if( !Directory.Exists("./backup") )
+                    Directory.CreateDirectory( "./backup" );
+                if( !Directory.Exists("./patterns") )
+                    Directory.CreateDirectory( "./patterns" );
+
 #			if LOGMESSAGE
 				// otwórz plik do zapisu
 				Program._writer = new StreamWriter( File.Open("./cdesigner.log", FileMode.Create, FileAccess.Write) );
@@ -425,6 +438,8 @@ namespace CDesigner.Utils
         /// </summary>
         /// 
         /// <seealso cref="GetSize"/>
+        /// <seealso cref="Utils.UpdateApp"/>
+        /// <seealso cref="Utils.PatternEditor"/>
         /// 
         /// <param name="folder">Nazwa folderu do przeszukania plików.</param>
         /// <param name="recursive">Wyszukiwanie rekursywne.</param>
@@ -464,6 +479,9 @@ namespace CDesigner.Utils
 		/// Funkcja zwiększa wcięcie dla wyswietlanych informacji w konsoli lub zapisywanych w pliku.
         /// Działa tylko na wiadomościach informacyjnych - funkcja <see cref="LogMessage"/>.
 		/// </summary>
+        /// 
+        /// <seealso cref="DecreaseLogIndent"/>
+        /// <seealso cref="LogMessage"/>
 		//* ============================================================================================================
 		public static void IncreaseLogIndent()
 		{
@@ -477,6 +495,9 @@ namespace CDesigner.Utils
 		/// Funkcja zmniejsza wcięcie dla wyswietlanych informacji w konsoli lub zapisywanych w pliku.
         /// Działa tylko na wiadomościach informacyjnych - funkcja <see cref="LogMessage"/>.
 		/// </summary>
+        /// 
+        /// <seealso cref="IncreaseLogIndent"/>
+        /// <seealso cref="LogMessage"/>
 		//* ============================================================================================================
 		public static void DecreaseLogIndent()
 		{
@@ -494,6 +515,13 @@ namespace CDesigner.Utils
         /// Dodatkowo gdy jest taka możliwość, wyświetla ją również w konsoli w trybie debugowania.
         /// W przypadku zapisu do pliku, przed treścią wiadomości wyświetlana jest dokładna data jej zapisania.
 		/// </summary>
+        /// 
+        /// <seealso cref="LogInfo"/>
+        /// <seealso cref="LogWarning"/>
+        /// <seealso cref="LogError"/>
+        /// <seealso cref="LogQuestion"/>
+        /// <seealso cref="IncreaseLogIndent"/>
+        /// <seealso cref="DecreaseLogIndent"/>
         /// 
 		/// <param name="message">Wiadomość do wyświetlenia i/lub zapisania.</param>
 		//* ============================================================================================================
@@ -518,6 +546,11 @@ namespace CDesigner.Utils
         /// W trybie debugowania, treść wiadomości wyświetlana jest w konsoli.
         /// </summary>
         /// 
+        /// <seealso cref="LogMessage"/>
+        /// <seealso cref="LogWarning"/>
+        /// <seealso cref="LogError"/>
+        /// <seealso cref="LogQuestion"/>
+        /// 
         /// <param name="message">Wiadomość do wyświetlenia.</param>
         /// <param name="title">Tytuł okienka z wiadomością.</param>
         /// <param name="parent">Rodzic, względem którego otwierane będzie okno modalne.</param>
@@ -540,6 +573,11 @@ namespace CDesigner.Utils
         /// W trybie debugowania, treść wiadomości wyświetlana jest w konsoli.
         /// </summary>
         /// 
+        /// <seealso cref="LogMessage"/>
+        /// <seealso cref="LogInfo"/>
+        /// <seealso cref="LogError"/>
+        /// <seealso cref="LogQuestion"/>
+        /// 
         /// <param name="message">Wiadomość do wyświetlenia.</param>
         /// <param name="title">Tytuł okienka z wiadomością.</param>
         /// <param name="parent">Rodzic, względem którego otwierane będzie okno modalne.</param>
@@ -561,6 +599,11 @@ namespace CDesigner.Utils
         /// W zależności od ustawień, gdy włączone śledzenie, komunikat z wynikiem zapisywany jest również do pliku.
         /// W trybie debugowania, treść komunikatu razem z wynikiem wyświetlana jest w konsoli.
         /// </summary>
+        /// 
+        /// <seealso cref="LogMessage"/>
+        /// <seealso cref="LogInfo"/>
+        /// <seealso cref="LogWarning"/>
+        /// <seealso cref="LogError"/>
         /// 
         /// <param name="message">Wiadomość do wyświetlenia.</param>
         /// <param name="title">Tytuł okienka z wiadomością.</param>
@@ -595,8 +638,12 @@ namespace CDesigner.Utils
         /// Funkcja umożliwia prześledzenie i wyświetlenie ścieżki, po której błąd wystąpił.
         /// W zależności od ustawień, gdy włączone śledzenie, komunikat zapisywany jest również do pliku.
         /// W trybie debugowania, treść komunikatu wyświetlana jest w konsoli.
-        /// 
         /// </summary>
+        /// 
+        /// <seealso cref="LogMessage"/>
+        /// <seealso cref="LogInfo"/>
+        /// <seealso cref="LogWarning"/>
+        /// <seealso cref="LogQuestion"/>
         /// 
         /// <param name="message">Wiadomość do wyświetlenia.</param>
         /// <param name="title">Tytuł okienka z wiadomością.</param>
@@ -641,6 +688,8 @@ namespace CDesigner.Utils
         /// Zamiana pierwszych liter słów na duże.
         /// Zamienia wszystkie pierwsze litery, nawet pojedynczych znaków oddzielonych spacjami.
         /// </summary>
+        /// 
+        /// <seealso cref="Utils.DataFilter"/>
         /// 
         /// <param name="text">Tekst do transformacji.</param>
         /// 
@@ -778,6 +827,10 @@ namespace CDesigner.Utils
         /// Otwiera podany formularz z odpowiednimi opcjami.
         /// Pozwala na otwarcie zarówno zwykłego okna jak i okna dialogowego z wybranym rodzicem.
         /// </summary>
+        /// 
+        /// <seealso cref="Forms.DataReaderform"/>
+        /// <seealso cref="Forms.InfoForm"/>
+        /// <seealso cref="Forms.UpdateForm"/>
         /// 
         /// <param name="form">Formularz do otwarcia.</param>
         /// <param name="parent">Formularz traktowany jako rodzic.</param>

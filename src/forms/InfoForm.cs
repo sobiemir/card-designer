@@ -59,8 +59,8 @@ namespace CDesigner.Forms
 
             this._bonus = "";
 
-            this.PB_AppLogo.Image      = Program.GetBitmap( BITMAPCODE.CDesigner256 );
-            this.PB_RegisterLogo.Image = Program.GetBitmap( BITMAPCODE.REGISTER_LOGO );
+            this.PB_AppLogo.Image      = Program.GetBitmap( BITMAPCODE.CDESIGNER256 );
+            this.PB_RegisterLogo.Image = Program.GetBitmap( BITMAPCODE.REGISTERLOGO );
 
             this.Icon = Program.GetIcon();
 		}

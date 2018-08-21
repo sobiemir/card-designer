@@ -1,4 +1,4 @@
-[0.8.6182.25111]
+[0.8.6204.18503]
 ./cdesigner.exe
 ./cdrestore.exe
 ./cdset.nfo
@@ -29,9 +29,7 @@
 ./images/cdesigner-512.png
 ./images/cdesigner-64.png
 ./images/cdesigner-96.png
-./images/cdesigner.ico
-./images/cdesigner.icon
-./images/cdesigner2.ico
+./icons/cdesigner.ico
 ./images/cdrestore-128.png
 ./images/cdrestore-16.png
 ./images/cdrestore-256.png
@@ -40,7 +38,7 @@
 ./images/cdrestore-512.png
 ./images/cdrestore-64.png
 ./images/cdrestore-96.png
-./images/cdrestore.ico
+./icons/cdrestore.ico
 ./languages/eng.lex
 ./languages/pol.lex
 ./languages/qps.lex

@@ -269,7 +269,7 @@ namespace CDesigner.Forms
 		{
             var lang_chars   = Language.GetLines( "Locale" );
 			var locale_chars = lang_chars[(int)LANGCODE.GLO_BIGCHARS] + lang_chars[(int)LANGCODE.GLO_SMALLCHARS];
-			var regex        = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_#]+$" );
+			var regex        = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_\(\)#,\[\]]+$" );
 
             // nie sprawdzaj gdy wciśnięto klawisz Backspace lub Ctrl
 			if( ev.KeyChar == 8 || ModifierKeys == Keys.Control )

@@ -46,7 +46,6 @@
             this.TLP_Buttons = new System.Windows.Forms.TableLayoutPanel();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
-            this.CB_SaveWithFilters = new System.Windows.Forms.CheckBox();
             this.LV_DatabaseColumns = new System.Windows.Forms.ListView();
             this.CH_Columns = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LV_NewColumns = new System.Windows.Forms.ListView();
@@ -148,7 +147,6 @@
             this.TLP_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 220F));
             this.TLP_StatusBar.Controls.Add(this.CBX_Step, 0, 0);
             this.TLP_StatusBar.Controls.Add(this.TLP_Buttons, 2, 0);
-            this.TLP_StatusBar.Controls.Add(this.CB_SaveWithFilters, 1, 0);
             this.TLP_StatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_StatusBar.Location = new System.Drawing.Point(0, 430);
             this.TLP_StatusBar.Margin = new System.Windows.Forms.Padding(0);
@@ -217,19 +215,6 @@
             this.B_Save.Text = "Zapisz";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
-            // 
-            // CB_SaveWithFilters
-            // 
-            this.CB_SaveWithFilters.AutoSize = true;
-            this.CB_SaveWithFilters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CB_SaveWithFilters.Location = new System.Drawing.Point(156, 4);
-            this.CB_SaveWithFilters.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.CB_SaveWithFilters.Name = "CB_SaveWithFilters";
-            this.CB_SaveWithFilters.Size = new System.Drawing.Size(325, 25);
-            this.CB_SaveWithFilters.TabIndex = 5;
-            this.CB_SaveWithFilters.Text = "Nadpisz dane z zastosowaniem utworzonych filtrów";
-            this.CB_SaveWithFilters.UseVisualStyleBackColor = true;
-            this.CB_SaveWithFilters.Visible = false;
             // 
             // LV_DatabaseColumns
             // 
@@ -446,7 +431,7 @@
             this.TLP_FilterGroups.Location = new System.Drawing.Point(0, 0);
             this.TLP_FilterGroups.Name = "TLP_FilterGroups";
             this.TLP_FilterGroups.RowCount = 4;
-            this.TLP_FilterGroups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
+            this.TLP_FilterGroups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 0F));
             this.TLP_FilterGroups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 153F));
             this.TLP_FilterGroups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.TLP_FilterGroups.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -457,7 +442,7 @@
             // 
             this.GB_FilterConfig.Controls.Add(this.TLP_FilterConfig);
             this.GB_FilterConfig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GB_FilterConfig.Location = new System.Drawing.Point(0, 78);
+            this.GB_FilterConfig.Location = new System.Drawing.Point(0, 2);
             this.GB_FilterConfig.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.GB_FilterConfig.Name = "GB_FilterConfig";
             this.GB_FilterConfig.Size = new System.Drawing.Size(245, 149);
@@ -596,12 +581,12 @@
             this.LV_FilterList.GridLines = true;
             this.LV_FilterList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.LV_FilterList.HideSelection = false;
-            this.LV_FilterList.Location = new System.Drawing.Point(0, 260);
+            this.LV_FilterList.Location = new System.Drawing.Point(0, 184);
             this.LV_FilterList.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.LV_FilterList.MultiSelect = false;
             this.LV_FilterList.Name = "LV_FilterList";
             this.LV_FilterList.ShowGroups = false;
-            this.LV_FilterList.Size = new System.Drawing.Size(245, 158);
+            this.LV_FilterList.Size = new System.Drawing.Size(245, 234);
             this.LV_FilterList.TabIndex = 9;
             this.LV_FilterList.UseCompatibleStateImageBehavior = false;
             this.LV_FilterList.View = System.Windows.Forms.View.Details;
@@ -615,14 +600,15 @@
             // GB_ColumnType
             // 
             this.GB_ColumnType.Controls.Add(this.TLP_ColumnType);
-            this.GB_ColumnType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GB_ColumnType.Enabled = false;
             this.GB_ColumnType.Location = new System.Drawing.Point(0, 0);
             this.GB_ColumnType.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.GB_ColumnType.Name = "GB_ColumnType";
-            this.GB_ColumnType.Size = new System.Drawing.Size(245, 74);
+            this.GB_ColumnType.Size = new System.Drawing.Size(245, 1);
             this.GB_ColumnType.TabIndex = 10;
             this.GB_ColumnType.TabStop = false;
             this.GB_ColumnType.Text = "Typ kolumny";
+            this.GB_ColumnType.Visible = false;
             // 
             // TLP_ColumnType
             // 
@@ -641,7 +627,7 @@
             this.TLP_ColumnType.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.TLP_ColumnType.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_ColumnType.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.TLP_ColumnType.Size = new System.Drawing.Size(239, 55);
+            this.TLP_ColumnType.Size = new System.Drawing.Size(239, 0);
             this.TLP_ColumnType.TabIndex = 0;
             // 
             // CBX_Saved
@@ -687,7 +673,7 @@
             this.B_ChangeColType.Location = new System.Drawing.Point(3, 27);
             this.B_ChangeColType.Margin = new System.Windows.Forms.Padding(3, 2, 1, 3);
             this.B_ChangeColType.Name = "B_ChangeColType";
-            this.B_ChangeColType.Size = new System.Drawing.Size(115, 25);
+            this.B_ChangeColType.Size = new System.Drawing.Size(115, 1);
             this.B_ChangeColType.TabIndex = 2;
             this.B_ChangeColType.Text = "Zmień typ kolumny";
             this.B_ChangeColType.UseVisualStyleBackColor = true;
@@ -699,7 +685,7 @@
             this.B_AdvancedSets.Location = new System.Drawing.Point(120, 27);
             this.B_AdvancedSets.Margin = new System.Windows.Forms.Padding(1, 2, 3, 3);
             this.B_AdvancedSets.Name = "B_AdvancedSets";
-            this.B_AdvancedSets.Size = new System.Drawing.Size(116, 25);
+            this.B_AdvancedSets.Size = new System.Drawing.Size(116, 1);
             this.B_AdvancedSets.TabIndex = 4;
             this.B_AdvancedSets.Text = "Zaawansowane";
             this.B_AdvancedSets.UseVisualStyleBackColor = true;
@@ -714,7 +700,7 @@
             this.TLP_FilterControls.Controls.Add(this.B_ChangeFilter, 1, 0);
             this.TLP_FilterControls.Controls.Add(this.B_AddFilter, 0, 0);
             this.TLP_FilterControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLP_FilterControls.Location = new System.Drawing.Point(0, 231);
+            this.TLP_FilterControls.Location = new System.Drawing.Point(0, 155);
             this.TLP_FilterControls.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
             this.TLP_FilterControls.Name = "TLP_FilterControls";
             this.TLP_FilterControls.RowCount = 1;
@@ -861,7 +847,6 @@
             this.Deactivate += new System.EventHandler(this.TP_Tooltip_Hide);
             this.Move += new System.EventHandler(this.TP_Tooltip_Hide);
             this.TLP_StatusBar.ResumeLayout(false);
-            this.TLP_StatusBar.PerformLayout();
             this.TLP_Buttons.ResumeLayout(false);
             this.TLP_ColumnManagement.ResumeLayout(false);
             this.TLP_ColumnManagement.PerformLayout();
@@ -916,15 +901,12 @@
 		private System.Windows.Forms.ColumnHeader CB_RecordPreview;
 		private System.Windows.Forms.TableLayoutPanel TLP_FilterGroups;
 		private System.Windows.Forms.ListView LV_FilterList;
-		private System.Windows.Forms.ColumnHeader CH_FilterList;
-		private System.Windows.Forms.GroupBox GB_ColumnType;
+        private System.Windows.Forms.ColumnHeader CH_FilterList;
 		private System.Windows.Forms.GroupBox GB_FilterConfig;
 		private System.Windows.Forms.TableLayoutPanel TLP_FilterControls;
 		private System.Windows.Forms.Button B_DeleteFilter;
 		private System.Windows.Forms.Button B_ChangeFilter;
-		private System.Windows.Forms.Button B_AddFilter;
-		private System.Windows.Forms.TableLayoutPanel TLP_ColumnType;
-		private System.Windows.Forms.ComboBox CBX_ColType;
+        private System.Windows.Forms.Button B_AddFilter;
 		private System.Windows.Forms.TableLayoutPanel TLP_FilterConfig;
 		private System.Windows.Forms.Label L_Modifier;
 		private System.Windows.Forms.Label L_FilterType;
@@ -933,11 +915,13 @@
 		private System.Windows.Forms.TextBox TB_Modifier;
 		private System.Windows.Forms.TextBox TB_Result;
 		private System.Windows.Forms.CheckBox CB_Exclude;
-		private System.Windows.Forms.CheckBox CB_AllCopies;
-		private System.Windows.Forms.Button B_AdvancedSets;
-		private System.Windows.Forms.Button B_ChangeColType;
-		private System.Windows.Forms.ComboBox CBX_Saved;
-        private System.Windows.Forms.CheckBox CB_SaveWithFilters;
+        private System.Windows.Forms.CheckBox CB_AllCopies;
+        private System.Windows.Forms.GroupBox GB_ColumnType;
+        private System.Windows.Forms.TableLayoutPanel TLP_ColumnType;
+        private System.Windows.Forms.ComboBox CBX_Saved;
+        private System.Windows.Forms.ComboBox CBX_ColType;
+        private System.Windows.Forms.Button B_ChangeColType;
+        private System.Windows.Forms.Button B_AdvancedSets;
 
 		/// @endcond
 	}

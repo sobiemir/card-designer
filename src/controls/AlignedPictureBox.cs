@@ -7,11 +7,12 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.4.x.x
-/// Ostatnia zmiana: 2016-12-23
+/// Ostatnia zmiana: 2016-01-07
 /// 
 /// CHANGELOG:
 /// [01.06.2016] Pierwsza wersja pliku.
 /// [23.12.2016] Komentarze, regiony.
+/// [01.07.2017] Poprawki w ustawianiu obrazka na linuksie.
 ///
 
 using System;
@@ -108,7 +109,7 @@ namespace CDesigner.Controls
 			// sprawdź czy należy przestawić panel w poziomie
 			if( width - parent.Width == 0 )
 			{
-				int diff = parent.DisplayRectangle.Width - this.Width;
+				int diff = parent.DisplayRectangle.Width - this.Image.Width;
 				location.X = diff / 2;
 			}
 			else if( parent.HorizontalScroll.Value == 0 )
@@ -117,7 +118,7 @@ namespace CDesigner.Controls
 			// sprawdź czy należy przestawić panel w pionie
 			if( height - parent.Height == 0 )
 			{
-				int diff = parent.DisplayRectangle.Height - this.Height;
+				int diff = parent.DisplayRectangle.Height - this.Image.Height;
 				location.Y = diff / 2;
 			}
 			else if( parent.VerticalScroll.Value == 0 )

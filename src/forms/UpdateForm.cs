@@ -79,7 +79,7 @@ namespace CDesigner.Forms
             this._comprMode = false;
             this._hasError  = false;
 
-            this.PB_AppLogo.Image = Program.GetBitmap( BITMAPCODE.CDesigner128 );
+            this.PB_AppLogo.Image = Program.GetBitmap( BITMAPCODE.CDESIGNER128 );
 
             this.Icon = Program.GetIcon();
 		}
@@ -672,6 +672,10 @@ namespace CDesigner.Forms
 		{
             if( this._locked )
                 return;
+
+            // utwórz folder gdy nie istnieje
+            if( !Directory.Exists("./update") )
+                Directory.CreateDirectory( "./update" );
 
             // ikonka oczekiwania na zakończenie pobierania i rozpakowywania danych
             this.setLock( true );

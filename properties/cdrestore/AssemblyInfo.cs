@@ -7,11 +7,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CDRestore")]
-[assembly: AssemblyDescription("CardDesignerRestore - przywracanie wcześniejszych wersji oprogramowania.")]
+[assembly: AssemblyDescription("Instalacja aktualizacji.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Aculo")]
+[assembly: AssemblyCompany("Kamil Biały")]
 [assembly: AssemblyProduct("CDRecover")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,6 +33,6 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.8.*")]
-[assembly: AssemblyFileVersion("0.8.3")]
+[assembly: AssemblyVersion("0.9.*")]
+[assembly: AssemblyFileVersion("0.9.1")]
 [assembly: NeutralResourcesLanguageAttribute("pl")]

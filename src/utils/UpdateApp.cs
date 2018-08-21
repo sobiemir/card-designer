@@ -12,6 +12,7 @@
 /// CHANGELOG:
 /// [14.11.2016] Wersja początkowa - wszystkie funkcje w tej klasie to funkcje wyodrębnione
 ///              z formularza aktualizacji aplikacji.
+/// [26.12.2016] Poprawki w aktualizacji - gdy nie jest dostępna, zwraca false - działało dalej i wywalało wyjątek.
 ///
 
 using System;

@@ -25,8 +25,11 @@
 ///              usuwanie starych plików konfiguracyjnych.
 /// [11.11.2016] Funkcja pobierania listy wzorów, klonowanie wzoru, tworzenie folderów podczas tworzenia wzoru.
 /// [12.04.2016] Import i eksport wzorów.
-/// [16.12.2015] Zamiana klasy DataContent na DataStorage w funkcji DrawRow.
-/// [25.12.2015] Porządkowanie kodu, komentarze, regiony.
+/// [16.12.2016] Zamiana klasy DataContent na DataStorage w funkcji DrawRow.
+/// [25.12.2016] Porządkowanie kodu, komentarze, regiony.
+/// [26.12.2016] Generowanie koloru strony do PDF.
+/// [27.12.2016] Generowanie statycznych kopii wzoru bez danych - podawana ilość kopii.
+/// [16.01.2017] Poprawa importu danych.
 ///
 
 using System;
@@ -149,7 +152,7 @@ namespace CDesigner.Utils
             if( Directory.Exists("./temp/patterns/") )
             {
                 // jeżeli tak, kopiuj wszystkie wzory do folderu patterns
-                var dirs = Directory.GetDirectories( "./temp" );
+                var dirs = Directory.GetDirectories( "./temp/patterns/" );
                 foreach( var dir in dirs )
                 {
                     var idir = new DirectoryInfo( dir );
@@ -157,6 +160,9 @@ namespace CDesigner.Utils
                         Directory.Delete( "./patterns/" + idir.Name );
 
                     Directory.Move( "./temp/patterns/" + idir.Name, "./patterns/" + idir.Name );
+
+                    if( !Directory.Exists("./patterns/" + idir.Name + "/images") )
+                        Directory.CreateDirectory( "./patterns/" + idir.Name + "/images" );
                 }
             }
             // usuń folder tymczasowy
@@ -772,6 +778,11 @@ namespace CDesigner.Utils
 				// dodatkowe informacje
 				page.Tag = page_data.Extra;
 
+                if( x != 0 )
+                    page.Hide();
+                else
+                    page.Show();
+
 				panel.Controls.Add( page );
 			}
 		}
@@ -925,26 +936,175 @@ namespace CDesigner.Utils
 			}
 		}
 
+        /// <summary>
+        /// Generowanie strony do formatu PDF.
+        /// Funkcja odwzorowuje układ kontrolek na panelu, korzystając z informacji zawartych w zapisanych danych.
+        /// Całość zapisywana jest do utworzonej poprzednio strony w klasie z biblioteki <em>PdfSharp</em>.
+        /// Funkcja została wyodrębniona z innej funkcji na rzecz przejrzystości w kodzie.
+        /// </summary>
+        /// 
+        /// <seealso cref="GeneratePDF"/>
+        /// 
+        /// <param name="page">Strona w klasie biblioteki PdfSharp.</param>
+        /// <param name="page_data">Dane dotyczące aktualnie generowanej strony.</param>
+        /// <param name="scale">Obliczona skala rysunku.</param>
+        /// <param name="cols">Kolumny do podstawiania lub NULL.</param>
+		//* ============================================================================================================
+        private static void GeneratePDFPage( PdfPage page, PageData page_data, double scale, string[] cols )
+        {
+			var gfx      = XGraphics.FromPdfPage( page );
+			var foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
+
+            // rysuj kolor strony
+            if( page_data.Extra.PrintColor )
+                gfx.DrawRectangle( new XSolidBrush((XColor)page_data.Color), 0, 0, page.Width, page.Height );
+
+            // pola na stronie
+			for( int z = 0; z < page_data.Fields; ++z )
+			{
+				// obszar cięcia
+				var field_data = page_data.Field[z];
+				var bounds     = new XRect
+				(
+					XUnit.FromMillimeter( (double)field_data.Bounds.X ),
+					XUnit.FromMillimeter( (double)field_data.Bounds.Y ),
+					XUnit.FromMillimeter( (double)field_data.Bounds.Width ),
+					XUnit.FromMillimeter( (double)field_data.Bounds.Height )
+				);
+
+				// kolor pola 
+				if( field_data.Extra.PrintColor )
+				{
+					var brush = new XSolidBrush( (XColor)field_data.Color );
+
+					if( field_data.Extra.PrintBorder )
+					{
+						var bfull   = XUnit.FromMillimeter( (double)field_data.BorderSize );
+						var bhalf   = bfull * 0.5;
+						var cbounds = new XRect( bounds.X + bhalf, bounds.Y + bhalf, bounds.Width -
+                            bfull, bounds.Height - bfull );
+						gfx.DrawRectangle( brush, cbounds );
+					}
+					else
+						gfx.DrawRectangle( brush, bounds );
+				}
+
+				// ramka pola
+				if( field_data.Extra.PrintBorder && field_data.BorderSize > 0.0 )
+				{
+					var pen = new XPen( (XColor)field_data.BorderColor );
+					pen.Width = XUnit.FromMillimeter( (double)field_data.BorderSize );
+					var prx = pen.Width / 2.0 - 0.01;
+
+					gfx.DrawLine( pen, bounds.X, bounds.Y + prx, bounds.X + bounds.Width, bounds.Y + prx );
+					gfx.DrawLine( pen, bounds.X + prx, bounds.Y, bounds.X + prx, bounds.Y + bounds.Height );
+					gfx.DrawLine( pen, bounds.X, bounds.Y + bounds.Height - prx, bounds.X + bounds.Width,
+                        bounds.Y + bounds.Height - prx );
+					gfx.DrawLine( pen, bounds.X + bounds.Width - prx, bounds.Y, bounds.X + bounds.Width - prx,
+                        bounds.Y + bounds.Height );
+				}
+
+				// rysuj tekst
+				if( field_data.Extra.PrintText || (field_data.Extra.TextFromDB && field_data.Extra.Column > -1) )
+				{
+					var fsize  = (float)(field_data.FontSize * scale);
+					var font   = new XFont( field_data.FontName, fsize, (XFontStyle)field_data.FontStyle, foptions );
+					var lbrush = new XSolidBrush( (XColor)field_data.FontColor );
+
+					// pobierz napis
+					var tf = new XTextFormatter( gfx );
+					var text = field_data.Extra.PrintText || cols == null
+						? field_data.Name
+						: cols[field_data.Extra.Column];
+
+					// margines wewnętrzny
+					if( field_data.Padding > 0.0 )
+					{
+						double padding = XUnit.FromMillimeter( (double)field_data.Padding ),
+								pad2x   = padding * 2.0;
+
+						if( bounds.Width > pad2x && bounds.Height > pad2x )
+						{
+							bounds.X += padding;
+							bounds.Y += padding;
+							bounds.Width -= padding * 2.0;
+							bounds.Height -= padding * 2.0;
+						}
+					}
+
+					bounds.Y      -= scale;
+					bounds.Height += scale * 2.0;
+
+					// sprawdź czy tekst nie jest pusty
+					string test = text.Trim();
+					if( test != "" && test != null )
+					{
+						var txtm = gfx.MeasureString( text, font );
+								
+						// rozmieszczenie tekstu
+						if( ((int)field_data.TextAlign & 0x111) != 0 )
+							tf.Alignment = XParagraphAlignment.Left;
+						else if( ((int)field_data.TextAlign & 0x222) != 0 )
+							tf.Alignment = XParagraphAlignment.Center;
+						else
+							tf.Alignment = XParagraphAlignment.Right;
+
+						// oblicz realną wysokość tekstu
+						int passes = 1;
+						for( double twidth = txtm.Width; twidth > bounds.Width; ++passes )
+							twidth -= bounds.Width;
+
+						// przyleganie tekstu w pionie
+						if( txtm.Height * (double)passes < bounds.Height )
+							// wycentrowanie linii
+							if( ((int)field_data.TextAlign & 0x70) != 0 )
+							{
+								double theight = (bounds.Height - txtm.Height * (double)passes) * 0.5;
+								bounds.Y += theight;
+							}
+							// przyleganie linii do dołu
+							else if( ((int)field_data.TextAlign & 0x700) != 0 )
+							{
+								double theight = (bounds.Height - txtm.Height * (double)passes);
+								bounds.Y += theight;
+							}
+
+						tf.DrawString( text, font, lbrush, bounds );
+					}
+				}
+			}
+        }
+        
 		/// <summary>
 		/// Generowanie dokumentu PDF z podanych danych.
         /// Funkcja generuje dokument PDF dla wzoru z którego wczytane zostały dane.
-        /// Każda strona wzoru generowana jest osobno i zapisywana jedna pod drugą, co tyczy się również wzorów,
-        /// które zawierają kilka stron (najpierw generowany jest pierwszy rekord z wszystkimi stronami, potem kolejny).
         /// Dołożono wszelkich starań, aby odwzorowanie milimetrów było jak najbardziej realne, jednak problem, który
         /// może występować jest problemem czcionek - nie są one dopasowane tak, aby ich szerokość odpowiadała realnej
         /// szerokości, wzlgędem której są wyświetlane (czcionki mają kilka wysokości).
+        /// Możliwe jest wygenerowanie wzoru w dwóch trybach - pierwszy to generowanie stron w taki sposób, w jaki
+        /// są przedstawione (wiersz z wszystkimi stronami, kolejny wiersz z wszystkimi stronami itd), drugi to generowanie
+        /// pojedynczych stron w wierszy (wszystkie wiersze ze stroną, wszystkie wiersze z kolejną stroną, itd).
+        /// Technika ta zwie się łączeniem stron w wierszu.
 		/// </summary>
+        /// 
+        /// <seealso cref="GeneratePDFPage"/>
         /// 
 		/// <param name="storage">Schowek z wczytanymi danymi do zapisu.</param>
 		/// <param name="pdata">Dane wzoru do wygenerowania.</param>
 		/// <param name="output">Nazwa pliku wyjściowego.</param>
+        /// <param name="copies">Ilość kopii w przypadku wzoru statycznego.</param>
+        /// <param name="collate">Łączenie stron w wierszu.</param>
 		//* ============================================================================================================
-		public static void GeneratePDF( DataStorage storage, PatternData pdata, string output )
+		public static void GeneratePDF( DataStorage storage, PatternData pdata, string output, int copies, bool collate )
 		{
 			var scale = 0.0;
 			var pdf   = new PdfDocument();
+            int limit = storage == null
+                ? copies
+                : storage.RowsNumber;
 
-			for( int x = 0; x < storage.RowsNumber; ++x )
+            // łączenie stron w wierszu
+            if( collate ) for( int x = 0; x < limit; ++x )
 			{
 				for( int y = 0; y < pdata.Pages; ++y )
 				{
@@ -955,127 +1115,30 @@ namespace CDesigner.Utils
 					page.Height = XUnit.FromMillimeter( pdata.Size.Height );
 
 					// oblicz skale powiększenia
-					scale = page.Width.Presentation / (pdata.Size.Width * PatternEditor._pixelPerDPI);
+					scale = page.Width.Presentation / ((double)pdata.Size.Width * PatternEditor._pixelPerDPI);
 
-					var gfx      = XGraphics.FromPdfPage( page );
-					var foptions = new XPdfFontOptions( PdfFontEncoding.Unicode, PdfFontEmbedding.Always );
-					var page_data = pdata.Page[y];
-
-					for( int z = 0; z < page_data.Fields; ++z )
-					{
-						// obszar cięcia
-						var field_data = page_data.Field[z];
-						var bounds     = new XRect
-						(
-							XUnit.FromMillimeter( (double)field_data.Bounds.X ),
-							XUnit.FromMillimeter( (double)field_data.Bounds.Y ),
-							XUnit.FromMillimeter( (double)field_data.Bounds.Width ),
-							XUnit.FromMillimeter( (double)field_data.Bounds.Height )
-						);
-
-						// kolor pola 
-						if( field_data.Extra.PrintColor )
-						{
-							var brush = new XSolidBrush( (XColor)field_data.Color );
-
-							if( field_data.Extra.PrintBorder )
-							{
-								var bfull   = XUnit.FromMillimeter( (double)field_data.BorderSize );
-								var bhalf   = bfull * 0.5;
-								var cbounds = new XRect( bounds.X + bhalf, bounds.Y + bhalf, bounds.Width -
-                                    bfull, bounds.Height - bfull );
-								gfx.DrawRectangle( brush, cbounds );
-							}
-							else
-								gfx.DrawRectangle( brush, bounds );
-						}
-
-						// ramka pola
-						if( field_data.Extra.PrintBorder && field_data.BorderSize > 0.0 )
-						{
-							var pen = new XPen( (XColor)field_data.BorderColor );
-							pen.Width = XUnit.FromMillimeter( (double)field_data.BorderSize );
-							var prx = pen.Width / 2.0 - 0.01;
-
-							gfx.DrawLine( pen, bounds.X, bounds.Y + prx, bounds.X + bounds.Width, bounds.Y + prx );
-							gfx.DrawLine( pen, bounds.X + prx, bounds.Y, bounds.X + prx, bounds.Y + bounds.Height );
-							gfx.DrawLine( pen, bounds.X, bounds.Y + bounds.Height - prx, bounds.X + bounds.Width,
-                                bounds.Y + bounds.Height - prx );
-							gfx.DrawLine( pen, bounds.X + bounds.Width - prx, bounds.Y, bounds.X + bounds.Width - prx,
-                                bounds.Y + bounds.Height );
-						}
-
-						// rysuj tekst
-						if( field_data.Extra.PrintText || (field_data.Extra.TextFromDB && field_data.Extra.Column > -1) )
-						{
-							var fsize  = (float)(field_data.FontSize * scale);
-							var font   = new XFont( field_data.FontName, fsize, (XFontStyle)field_data.FontStyle, foptions );
-							var lbrush = new XSolidBrush( (XColor)field_data.FontColor );
-
-							// pobierz napis
-							var tf = new XTextFormatter( gfx );
-							var text = field_data.Extra.PrintText
-								? field_data.Name
-								: storage.Row[x][field_data.Extra.Column];
-
-							// margines wewnętrzny
-							if( field_data.Padding > 0.0 )
-							{
-								double padding = XUnit.FromMillimeter( (double)field_data.Padding ),
-									   pad2x   = padding * 2.0;
-
-								if( bounds.Width > pad2x && bounds.Height > pad2x )
-								{
-									bounds.X += padding;
-									bounds.Y += padding;
-									bounds.Width -= padding * 2.0;
-									bounds.Height -= padding * 2.0;
-								}
-							}
-
-							bounds.Y      -= scale;
-							bounds.Height += scale * 2.0;
-
-							// sprawdź czy tekst nie jest pusty
-							string test = text.Trim();
-							if( test != "" && test != null )
-							{
-								var txtm = gfx.MeasureString( text, font );
-								
-								// rozmieszczenie tekstu
-								if( ((int)field_data.TextAlign & 0x111) != 0 )
-									tf.Alignment = XParagraphAlignment.Left;
-								else if( ((int)field_data.TextAlign & 0x222) != 0 )
-									tf.Alignment = XParagraphAlignment.Center;
-								else
-									tf.Alignment = XParagraphAlignment.Right;
-
-								// oblicz realną wysokość tekstu
-								int passes = 1;
-								for( double twidth = txtm.Width; twidth > bounds.Width; ++passes )
-									twidth -= bounds.Width;
-
-								// przyleganie tekstu w pionie
-								if( txtm.Height * (double)passes < bounds.Height )
-									// wycentrowanie linii
-									if( ((int)field_data.TextAlign & 0x70) != 0 )
-									{
-										double theight = (bounds.Height - txtm.Height * (double)passes) * 0.5;
-										bounds.Y += theight;
-									}
-									// przyleganie linii do dołu
-									else if( ((int)field_data.TextAlign & 0x700) != 0 )
-									{
-										double theight = (bounds.Height - txtm.Height * (double)passes);
-										bounds.Y += theight;
-									}
-
-								tf.DrawString( text, font, lbrush, bounds );
-							}
-						}
-					}
+                    // generuj stronę
+                    PatternEditor.GeneratePDFPage( page, pdata.Page[y], scale, storage == null ? null : storage.Row[x] );
 				}
 			}
+            // strony pojedynczo w wierszach
+            else for( int x = 0; x < pdata.Pages; ++x )
+            {
+                for( int y = 0; y < limit; ++y )
+                {
+					var page = pdf.AddPage();
+
+					// rozmiary strony
+					page.Width  = XUnit.FromMillimeter( pdata.Size.Width );
+					page.Height = XUnit.FromMillimeter( pdata.Size.Height );
+
+					// oblicz skale powiększenia
+					scale = page.Width.Presentation / ((double)pdata.Size.Width * PatternEditor._pixelPerDPI);
+
+                    // generuj stronę
+                    PatternEditor.GeneratePDFPage( page, pdata.Page[x], scale, storage == null ? null : storage.Row[y] );
+                }
+            }
 
 			// zapisz plik pdf
 			pdf.Save( output );

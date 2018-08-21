@@ -12,7 +12,7 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.1.x
-/// Ostatnia zmiana: 2016-12-24
+/// Ostatnia zmiana: 2016-01-07
 /// 
 /// CHANGELOG:
 /// [29.03.2015] Pierwsza wersja formularza.
@@ -47,6 +47,15 @@
 /// [24.12.2016] Reorganizacja kodu, podzielenie na regiony, zakończenie tłumaczenia formularza, komentarze, wczytywanie
 ///              bezpośrednie danych do wzoru, zapis ustawień po zmianie języka, włączenie powiększania wzoru w edytorze
 ///              i generatorze (był wyłączony od pewnego czasu).
+/// [26.12.2016] Domyślny obraz wyświetlany gdy brak podglądu, środkowanie strony edytora po kliknięciu w edycje,
+///              podgląd nie wyświetlał wierszy po kolejnym wczytaniu danych i załadowaniu wzoru.
+/// [27.12.2016] Podgląd wzoru bez danych (wcześniej i tak trzeba było wczytywać dane) i możliwość ustalenia ilości kopii,
+///              drukowanie na dwa sposoby z łączeniem stron w wierszach (jak to było dotąd) i osobno, dynamiczna nazwa
+///              przycisku do wczytywania danych w edytorze po zapisie (gdy wzór posiada dynamiczne dane lub nie),
+///              pobieranie danych z tych wczytanych do aplikacji dla generowania wzoru.
+/// [31.12.2016] Wzór dodawany jest do ostatnio otwieranych zaraz po utworzeniu, usuwanie poprawnej strony w edytorze.
+/// [07.01.2017] Przechwytywanie błędów w przypadku problemów z czcionkami.
+/// [16.01.2017] Odświeżanie listy po imporcie plików, wyłączenie sprawdzania poprawności wpisywanych danych w nazwie pola.
 ///
 
 using System;
@@ -233,7 +242,6 @@ namespace CDesigner.Forms
 			this._patternPreview.Align      = 1;
 			this._patternPreview.SizeMode   = PictureBoxSizeMode.AutoSize;
 			this._patternPreview.MouseDown += new MouseEventHandler( P_P1_Preview_MouseDown );
-			this._patternPreview.Padding    = new Padding( 5 );
 
 			this.P_P1_Preview.Controls.Add( this._patternPreview );
 
@@ -308,6 +316,7 @@ namespace CDesigner.Forms
             this.TSMI_EditColumns.Text    = values[(int)LANGCODE.I01_MEN_TOL_EDITCOLUMN];
             this.TSMI_EditRows.Text       = values[(int)LANGCODE.I01_MEN_TOL_EDITROW];
             this.TSMI_SaveData.Text       = values[(int)LANGCODE.I01_MEN_TOL_SAVEMEMDB];
+            this.TSMI_CloseData.Text      = values[(int)LANGCODE.I01_MEN_TOL_CLOSEDATA];
 
             // menu językowe
             this.TSMI_Language.Text = Language.GetLine( "Menu", "Language", (int)LANGCODE.I01_MEN_LAN_LANGUAGE );
@@ -365,6 +374,9 @@ namespace CDesigner.Forms
             this.TSMI_RemovePattern.Text = values[(int)LANGCODE.I01_PAT_CTX_REMOVEPAT];
 
             this.Text = Language.GetLine( "FormNames", (int)LANGCODE.GFN_CDESIGNER );
+
+            // przetłumacz informacje
+            TV_P1_Patterns_AfterSelect( null, null );
 		}
         
         /// <summary>
@@ -516,7 +528,16 @@ namespace CDesigner.Forms
             this.B_P3_SearchErrors.Text = values[(int)LANGCODE.I01_PRI_BUT_FINDERRORS];
 
             // napisy na formularzu
-            this.L_P3_Page.Text = Language.GetLine( "PrintoutPreview", "Labels", (int)LANGCODE.I01_PRI_LAB_PAGE );
+            values = Language.GetLines( "PrintoutPreview", "Labels" );
+
+            this.L_P3_Page.Text = values[(int)LANGCODE.I01_PRI_LAB_PAGE];
+            this.L_P3_Rows.Text = values[(int)LANGCODE.I01_PRI_LAB_POSITIONS];
+
+            // tłumacz napis w liście elementów dla danych statycznych
+            if( this._generatorData != null && !this._generatorData.Dynamic && this.TV_P3_PageList.Nodes.Count == 1 )
+                this.TV_P3_PageList.Nodes[0].Text = values[(int)LANGCODE.I01_PRI_LAB_ROW];
+            
+            this.CB_P3_CollatePages.Text = values[(int)LANGCODE.I01_PRI_LAB_COLLATE];
         }
 
         /// <summary>
@@ -608,18 +629,6 @@ namespace CDesigner.Forms
 			this.CBX_P2_TextTransform.Enabled = false;
 			this.CB_P2_UseImageMargin.Enabled = false;
 			this.CB_P2_DrawOutside.Enabled    = false;
-
-
-			// nie potrzeba ich blokować
-			//this.CB_P2_DrawFrameOutside.Enabled   = false;
-			//this.CB_P2_ApplyMargin.Enabled        = false;
-			//this.pcbpDrawColor.Enabled            = false;
-			//this.pcbpDrawImage.Enabled            = false;
-			//this.CBX_P2_ImageSettings.Enabled     = false;
-			//this.CBX_P2_PageImageSettings.Enabled = false;
-			//this.N_P2_MarginLR.Enabled            = false;
-			//this.N_P2_MarginTB.Enabled            = false;
-			//this.CB_P2_AdditionalMargin.Enabled   = false;
 		}
 
 		/// <summary>
@@ -651,18 +660,6 @@ namespace CDesigner.Forms
 			this.N_P2_MarginTB.Enabled        = true;
             this.CB_P2_StaticText.Enabled     = true;
 			this.CB_P2_StaticImage.Enabled    = true;
-
-			//this.CB_P2_AdditionalMargin.Enabled = true;
-			//this.CB_P2_DynamicImage.Enabled     = true;
-			//this.pcxImageSet.Enabled            = true;
-			//this.pcbDrawFrameOutside.Enabled    = true;
-			//this.pcbUseImageMargin.Enabled      = true;
-			//this.pcbpDrawColor.Enabled          = true;
-			//this.pcbpDrawImage.Enabled          = true;
-			//this.pcxpImageSet.Enabled           = true;
-			//this.pcbpApplyMargin.Enabled        = true;
-			//this.pcbpDrawOutside.Enabled        = true;
-
 		}
 
         /// <summary>
@@ -758,57 +755,135 @@ namespace CDesigner.Forms
 		}
 
         /// <summary>
+        /// Funkcja pozwalająca przejść do generatora bez danych.
+        /// Na początek generator uzupełniany jest tylko jednym wierszem.
+        /// Możliwe jest jednak zwiększenie tej ilości poprzez modyfikacje kontrolki numerycznej.
+        /// Generator bez danych uruchamiany jest wtedy, gdy wzór nie posiada danych dynamicznych.
+        /// </summary>
+        /// 
+        /// <seealso cref="loadDataForPreview"/>
+        /// 
+        /// <param name="data">Dane wzoru do podglądu.</param>
+		//* ============================================================================================================
+        private void loadStaticPatternForPreview( PatternData data )
+        {
+            if( data.Dynamic )
+                return;
+
+#		if DEBUG
+            Program.LogMessage( "Wczytywanie podglądu wzoru z danymi statycznymi..." );
+#		endif
+            
+            this._generatorData  = data;
+            this._preparedStream = null;
+            
+            this.P_P3_Generator.Controls.Clear();
+            this.TV_P3_PageList.Nodes.Clear();
+
+            // przygotuj jeden wiersz
+            this.TV_P3_PageList.Nodes.Add( Language.GetLine("PrintoutPreview", "Labels", (int)LANGCODE.I01_PRI_LAB_ROW) );
+
+            // ustaw indeks początkowy dla pola
+            this._locked = true;
+            this.N_P3_Rows.Value            = 1;
+            this.CBX_P3_Scale.SelectedIndex = 2;
+            this._locked = false;
+
+            // generator musi ponownie przerysować szkic
+            this._generatorSketch = false;
+
+            // zaznacz pierwszy element
+            if( this.TV_P3_PageList.Nodes.Count > 0 )
+                this.TV_P3_PageList.SelectedNode = this.TV_P3_PageList.Nodes[0];
+            
+            // przejdź na strone z danymi
+            this.TSMI_PrintPreview_Click( null, null );
+
+			GC.Collect();
+
+#		if DEBUG
+            Program.LogMessage( "Podgląd gotowy, można teraz manipulować ilością stron." );
+#		endif
+        }
+
+        /// <summary>
         /// Funkcja wczytywania danych do podlgądu.
         /// Wyodrębniona z racji tego, że zawartość jest dosyć duża, a używana jest w dwóch miejscach.
         /// Otwiera okno wyboru pliku a po jego zamknięciu okno ustawienia przetwarzania wczytywanego pliku.
         /// Po akceptacji otwiera okno przypisywania kolumn do pól dla wybranego wzoru.
         /// </summary>
         /// 
+        /// <seealso cref="loadStaticPatternForPreview"/>
+        /// 
         /// <param name="patname">Nazwa wzoru do wczytania.</param>
 		//* ============================================================================================================
         private void loadDataForPreview( string patname )
         {
-#		if DEBUG
-            Program.LogMessage( "** Okno wczytywania danych potrzebnych do podglądu wydruku." );
-            Program.LogMessage( "** BEGIN ================================================================== **" );
-            Program.IncreaseLogIndent();
-#		endif
-            // wybór pliku
-            var select = Program.GLOBAL.SelectFile;
-            select.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SELECTFILE );
-            select.Filter = IOFileData.getExtensionsList( true );
+            var patdata = PatternEditor.ReadPattern( patname );
+            
+            // jeżeli jest null lub brak stron, nie idź dalej
+            if( patdata == null || patdata.Pages == 0 )
+                return;
 
-            if( select.ShowDialog(this) != DialogResult.OK )
+            // ustaw maksymalną ilość stron
+            this._locked = true;
+            this.N_P3_Page.Value = 1;
+            this.N_P3_Page.Maximum = patdata.Pages;
+            this._locked = false;
+
+            // tylko podgląd
+            if( !patdata.Dynamic )
             {
-#			if DEBUG
-                Program.LogMessage( "Operacja anulowana." );
-                Program.DecreaseLogIndent();
-                Program.LogMessage( "** END ==================================================================== **" );
-#			endif
+                this.loadStaticPatternForPreview( patdata );
                 return;
             }
 
-			// wczytaj plik
-			var storage = new IOFileData( select.FileName, Encoding.Default );
-			if( storage == null || !storage.Ready )
-				return;
+            // otwieraj okno wczytywania tylko gdy nie wczytano danych do programu lub dane zostały zamknięte
+            IOFileData storage = this._stream;
+            if( this._stream == null )
+            {
+#   		if DEBUG
+                Program.LogMessage( "** Okno wczytywania danych potrzebnych do podglądu wydruku." );
+                Program.LogMessage( "** BEGIN ================================================================== **" );
+                Program.IncreaseLogIndent();
+#   		endif
+                // wybór pliku
+                var select = Program.GLOBAL.SelectFile;
+                select.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SELECTFILE );
+                select.Filter = IOFileData.getExtensionsList( true );
 
-			// ustawienia odczytu pliku
-			var settings = Program.GLOBAL.DatafileSettings;
-			settings.Storage = storage;
-            settings.translateForm();
+                if( select.ShowDialog(this) != DialogResult.OK )
+                {
+#   			if DEBUG
+                    Program.LogMessage( "Operacja anulowana." );
+                    Program.DecreaseLogIndent();
+                    Program.LogMessage( "** END ==================================================================== **" );
+#   			endif
+                    return;
+                }
 
-			if( settings.ShowDialog(this) != DialogResult.OK )
-			{
-#			if DEBUG
-				Program.DecreaseLogIndent();
-				Program.LogMessage( "** END ==================================================================== **" );
-#			endif
-				return;
-			}
+			    // wczytaj plik
+			    storage = new IOFileData( select.FileName, Encoding.Default );
+			    if( storage == null || !storage.Ready )
+				    return;
+
+			    // ustawienia odczytu pliku
+			    var settings = Program.GLOBAL.DatafileSettings;
+			    settings.Storage = storage;
+                settings.translateForm();
+
+			    if( settings.ShowDialog(this) != DialogResult.OK )
+			    {
+#   			if DEBUG
+				    Program.DecreaseLogIndent();
+				    Program.LogMessage( "** END ==================================================================== **" );
+#   			endif
+				    return;
+			    }
+            }
 
             // otwórz okno przypisywania kolumn do pól
-            this._generatorData = PatternEditor.ReadPattern( patname );
+            this._generatorData = patdata;
             var reader = new DataReaderForm( this._generatorData, storage );
 
             if( reader.refreshAndOpen(this) != DialogResult.OK )
@@ -854,6 +929,13 @@ namespace CDesigner.Forms
             this.CBX_P3_Scale.SelectedIndex = 2;
             this._locked = false;
 
+            // generator musi ponownie przerysować szkic
+            this._generatorSketch = false;
+
+            // zaznacz pierwszy element
+            if( this.TV_P3_PageList.Nodes.Count > 0 )
+                this.TV_P3_PageList.SelectedNode = this.TV_P3_PageList.Nodes[0];
+            
             // przejdź na strone z danymi
             this.TSMI_PrintPreview_Click( null, null );
 
@@ -1007,6 +1089,9 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
 		private void TSMI_FieldClear_Click( object sender, EventArgs ev )
 		{
+			if( this._activeField.BackImage != null )
+				this._activeField.BackImage.Dispose();
+
 			this._activeField.BackImage = null;
 			this._activeField.BackColor = Color.Transparent;
 
@@ -1090,8 +1175,11 @@ namespace CDesigner.Forms
 
 			// ustaw aktualną stronę
 			if( this._generatorPage == null )
+            {
 				this._generatorPage = (Panel)this.P_P3_Generator.Controls[0];
-
+                if( this._generatorPage != null )
+                    ((AlignedPage)this._generatorPage).checkLocation();
+            }
 			this._locked = false;
 		}
 
@@ -1125,7 +1213,7 @@ namespace CDesigner.Forms
 #endregion
 
 #region PASEK INFORMACYJNY - GENERATOR
-
+        
         /// <summary>
 		/// Akcja wywoływana po zmianie DPI dla generatora.
         /// Funkcja zmienia skalę rysowania wzoru (DPI) w podglądzie generatora.
@@ -1183,7 +1271,8 @@ namespace CDesigner.Forms
             if( this.P_P3_Generator.Controls.Count < (int)this.N_P3_Page.Value )
                 return;
 
-			((Panel)this.P_P3_Generator.Controls[(int)this.N_P3_Page.Value - 1]).Show();
+			((AlignedPage)this.P_P3_Generator.Controls[(int)this.N_P3_Page.Value - 1]).Show();
+            ((AlignedPage)this.P_P3_Generator.Controls[(int)this.N_P3_Page.Value - 1]).checkLocation();
 			this._generatorPage.Hide();
 			this._generatorPage = (Panel)this.P_P3_Generator.Controls[(int)this.N_P3_Page.Value - 1];
 
@@ -1301,11 +1390,33 @@ namespace CDesigner.Forms
                 return;
 
             // generuj PDF
-			PatternEditor.GeneratePDF( this._preparedStream, this._generatorData, save.FileName );
-
-#       if DEBUG
-            Program.LogMessage( "PDF został wygenerowany w: '" + save.FileName + "'." );
-#       endif
+            try
+            {
+                var copies = (int)this.N_P3_Rows.Value;
+			    PatternEditor.GeneratePDF
+                (
+                    this._preparedStream,
+                    this._generatorData,
+                    save.FileName,
+                    copies,
+                    this.CB_P3_CollatePages.Checked
+                );
+#           if DEBUG
+                Program.LogMessage( "PDF został wygenerowany w: '" + save.FileName + "'." );
+#           endif
+            }
+            catch( Exception ex )
+            {
+                // przechwyć błąd generowania
+				Program.LogError
+				(
+                    Language.GetLine( "PrintoutPreview", "Messages", (int)LANGCODE.I01_PRI_MES_PDFGENERR ),
+                    Language.GetLine( "MessageNames", (int)LANGCODE.GMN_GENERATOR ),
+					false,
+					ex,
+					this
+				);
+            }
 		}
 
 #endregion
@@ -1433,7 +1544,8 @@ namespace CDesigner.Forms
 			var align = (ContentAlignment)((FieldExtraData)field.Tag).PosAlign;
 
             // ustaw pozycję
-			field.setPxLocation( field.Location.X + (ev.X - this._movingDiffX), field.Location.Y + (ev.Y - this._movingDiffY), align );
+			field.setPxLocation( field.Location.X + (ev.X - this._movingDiffX),
+                field.Location.Y + (ev.Y - this._movingDiffY), align );
 			var location = field.getPosByAlignPoint( align );
 
 			this._locked = true;
@@ -1712,7 +1824,7 @@ namespace CDesigner.Forms
 
 			// ustaw nowe wartości zmiennych i pokaż stronę
 			this._activePage = (Panel)this.P_P2_Pattern.Controls[this._editingPageID];
-			this._activePage.Visible = true;
+			this._activePage.Show();
 			this.N_P2_Page.Value = this._editingPageID + 1;
 			this.N_P2_Page.Maximum = this._editingPages + 1;
 			
@@ -1776,38 +1888,38 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
         private void TB_P2_LabelName_KeyPress( object sender, KeyPressEventArgs ev )
 		{
-			if( ev.KeyChar == 8 || ModifierKeys == Keys.Control )
-				return;
+			//if( ev.KeyChar == 8 || ModifierKeys == Keys.Control )
+				//return;
             
             // sprawdź poprawność danych
-            var lang_chars   = Language.GetLines( "Locale" );
-			var locale_chars = lang_chars[(int)LANGCODE.GLO_BIGCHARS] + lang_chars[(int)LANGCODE.GLO_SMALLCHARS];
-			var regex        = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_]+$" );
+            //var lang_chars   = Language.GetLines( "Locale" );
+			//var locale_chars = lang_chars[(int)LANGCODE.GLO_BIGCHARS] + lang_chars[(int)LANGCODE.GLO_SMALLCHARS];
+			//var regex        = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_]+$" );
 
-			if( !regex.IsMatch(ev.KeyChar.ToString()) )
-			{
+			//if( !regex.IsMatch(ev.KeyChar.ToString()) )
+			//{
                 // pokaż dymek
-				if( !this._tooltipShow )
-				{
-					this.TP_Tooltip.Show
-					(
-						Language.GetLine( "PatternEditor", "Messages", (int)LANGCODE.I01_EDI_MES_AVAILCHARS ),
-						this.TB_P2_LabelName,
-						new Point( 0, this.TB_P2_LabelName.Height + 2 )
-					);
-					this._tooltipShow = true;
-				}
-				ev.Handled = true;
-				System.Media.SystemSounds.Beep.Play();
-				return;
-			}
+				//if( !this._tooltipShow )
+				//{
+					//this.TP_Tooltip.Show
+					//(
+						//Language.GetLine( "PatternEditor", "Messages", (int)LANGCODE.I01_EDI_MES_AVAILCHARS ),
+						//this.TB_P2_LabelName,
+						//new Point( 0, this.TB_P2_LabelName.Height + 2 )
+					//);
+					//this._tooltipShow = true;
+				//}
+				//ev.Handled = true;
+				//System.Media.SystemSounds.Beep.Play();
+				//return;
+			//}
 
             // ukryj dymek
-			if( this._tooltipShow )
-			{
-				this.TP_Tooltip.Hide( this.TB_P2_LabelName );
-				this._tooltipShow = false;
-			}
+			//if( this._tooltipShow )
+			//{
+				//this.TP_Tooltip.Hide( this.TB_P2_LabelName );
+				//this._tooltipShow = false;
+			//}
 		}
 
         /// <summary>
@@ -2591,6 +2703,9 @@ namespace CDesigner.Forms
 
 			this._editedChanged = false;
 			this._currentPanel = 1;
+
+            // ustaw skupienie na kontrolkę z sekcji
+            this.TV_P1_Patterns.Focus();
 		}
 
         /// <summary>
@@ -2606,6 +2721,12 @@ namespace CDesigner.Forms
 #		if DEBUG
 			Program.LogMessage( "Przełączanie na panel edytora wzorów." );
 #		endif
+
+            // dobierz odpowiedni tekst dla przycisku
+            if( this._editingData != null )
+                this.B_P2_LoadData.Text = this._editingData.Dynamic
+                    ? Language.GetLine( "PatternEditor", "Buttons", (int)LANGCODE.I01_EDI_BUT_LOADDATA )
+                    : Language.GetLine( "PatternEditor", "Buttons", (int)LANGCODE.I01_EDI_BUT_PREVIEW );
 
 			this.TLP_Pattern.Show();
 			this.TSMI_PatternEditor.Enabled = false;
@@ -2623,6 +2744,9 @@ namespace CDesigner.Forms
 			}
 
 			this._currentPanel = 2;
+
+            // ustaw skupienie na kontrolkę z sekcji
+            this.N_P2_Page.Focus();
 		}
 
         /// <summary>
@@ -2655,6 +2779,15 @@ namespace CDesigner.Forms
 			}
 
 			this._currentPanel = 3;
+
+            // pokaż lub ukryj kontrolkę do modyfikacji ilości kopii dla podglądu
+            if( this._generatorData.Dynamic )
+                this.FLP_P3_Rows.Visible = false;
+            else
+                this.FLP_P3_Rows.Visible = true;
+
+            // ustaw skupienie na kontrolkę z sekcji
+            this.TV_P3_PageList.Focus();
 		}
 
         /// <summary>
@@ -2675,6 +2808,9 @@ namespace CDesigner.Forms
 			this.TLP_P2_LabelDetails.Show();
 			this.TLP_P2_Field.Hide();
 			this.TLP_P2_PageDetails.Hide();
+            
+            // przełącz skupienie na kontrolkę z przełączonej sekcji
+            this.CB_P2_DrawBorder.Focus();
 		}
         
         /// <summary>
@@ -2695,6 +2831,9 @@ namespace CDesigner.Forms
 			this.TLP_P2_Field.Show();
 			this.TLP_P2_LabelDetails.Hide();
 			this.TLP_P2_PageDetails.Hide();
+
+            // przełącz skupienie na kontrolkę z przełączonej sekcji
+            this.TB_P2_LabelName.Focus();
 		}
         
         /// <summary>
@@ -2715,6 +2854,9 @@ namespace CDesigner.Forms
 			this.TLP_P2_PageDetails.Show();
 			this.TLP_P2_LabelDetails.Hide();
 			this.TLP_P2_Field.Hide();
+
+            // przełącz skupienie na kontrolkę z przełączonej sekcji
+            this.B_P2_PageColor.Focus();
 		}
 
 #endregion
@@ -2749,8 +2891,11 @@ namespace CDesigner.Forms
 			this.Cursor = Cursors.WaitCursor;
 
 			// usuń wszelkie obrazki
-			Directory.EnumerateFiles( "patterns/" + this._editingName + "/images" ).ToList().ForEach( File.Delete );
-			
+            if( Directory.Exists("patterns/" + this._editingName + "/images") )
+			    Directory.EnumerateFiles( "patterns/" + this._editingName + "/images" ).ToList().ForEach( File.Delete );
+			else
+                Directory.CreateDirectory( "patterns/" + this._editingName + "/images" );
+
 			// usuń podgląd
 			int x = 0;
 			while( true )
@@ -2766,8 +2911,14 @@ namespace CDesigner.Forms
 			PatternEditor.GeneratePreview( this._editingData, this.P_P2_Pattern, 1.0 );
 			PatternEditor.Save( this._editingData, this.P_P2_Pattern );
 
+            // dobierz odpowiedni tekst dla przycisku
+            var patdata = PatternEditor.ReadPattern( this._editingName, true );
+            this.B_P2_LoadData.Text = patdata.Dynamic
+                ? Language.GetLine( "PatternEditor", "Buttons", (int)LANGCODE.I01_EDI_BUT_LOADDATA )
+                : Language.GetLine( "PatternEditor", "Buttons", (int)LANGCODE.I01_EDI_BUT_PREVIEW );
+
 			this._editedChanged = true;
-			this.Cursor       = null;
+			this.Cursor         = null;
 		}
 
         /// <summary>
@@ -2783,13 +2934,14 @@ namespace CDesigner.Forms
             var panel = (Panel)this.P_P2_Pattern;
 
             // no nie da rady...
-            if( panel.Controls.Count < (int)this.N_P2_Page.Value - 1 )
+            if( this._locked || panel.Controls.Count < (int)this.N_P2_Page.Value - 1 )
                 return;
 
             // ustaw aktualną stronę
 			panel.Controls[(int)N_P2_Page.Value - 1].Show();
 			this._activePage.Hide();
-			this._activePage = (Panel)panel.Controls[(int)N_P2_Page.Value - 1];
+			this._activePage    = (Panel)panel.Controls[(int)N_P2_Page.Value - 1];
+            this._editingPageID = (int)N_P2_Page.Value - 1;
 
             // dane dodatkowe
 			var ptag = (PageExtraData)this._activePage.Tag;
@@ -3226,9 +3378,9 @@ namespace CDesigner.Forms
             // przypisz strumień i odśwież dane
             edit.Storage = this._stream;
             edit.refreshDataRange();
-            
+                
+	        // wyświetl okno        
 #       if DEBUG
-            // wyświetl okno
             var result = edit.ShowDialog( this );
 
             if( result != DialogResult.OK )
@@ -3237,7 +3389,6 @@ namespace CDesigner.Forms
 			Program.DecreaseLogIndent();
 			Program.LogMessage( "** END ==================================================================== **" );
 #       else
-            // wyświetl okno
             edit.ShowDialog( this );
 #       endif
         }
@@ -3417,7 +3568,7 @@ namespace CDesigner.Forms
 			}
 
 			// indeks się nie zmienił...
-			if( this._selectedID == this.TV_P1_Patterns.SelectedNode.Index && !this._editedChanged )
+			if( this._selectedID == this.TV_P1_Patterns.SelectedNode.Index && !this._editedChanged && sender != null )
 				return;
 
 			// zmień kursor
@@ -3443,7 +3594,7 @@ namespace CDesigner.Forms
 
 				// obrazy
 				trash  = this._patternPreview.Image;
-				helper = null;
+				helper = Program.GetBitmap( BITMAPCODE.NOIMAGE );
 
 				// informacja
                 Program.LogError
@@ -3510,7 +3661,7 @@ namespace CDesigner.Forms
 			this._selectedDynamic = false;
 
 			// brak obrazka
-			helper = null;
+			helper = Program.GetBitmap( BITMAPCODE.NOIMAGE );
 			trash  = this._patternPreview.Image;
 
 			this.N_P1_Page.Enabled = false;
@@ -3527,7 +3678,7 @@ CD_mtvPatterns_AfterSelect:
 			this._patternPreview.Show();
 			
 			// pozbieraj śmieci po poprzednim obrazku
-			if( trash != null )
+			if( trash != null && trash != Program.GetBitmap(BITMAPCODE.NOIMAGE) )
 				trash.Dispose();
 			GC.Collect();
 
@@ -3613,6 +3764,8 @@ CD_mtvPatterns_AfterSelect:
 					field.MouseUp   += new MouseEventHandler( this.L_P2_EditorField_MouseUp );
 					field.MouseMove += new MouseEventHandler( this.L_P2_EditorField_MouseMove );
 				}
+
+                page.checkLocation();
 			}
 
 			// zablokuj pola
@@ -3623,7 +3776,7 @@ CD_mtvPatterns_AfterSelect:
 			this.TB_P2_PageHeight.Text = this._editingPageSize.Height + " mm";
 
 			// ustaw kontroki
-			PageExtraData ptag = (PageExtraData)this._activePage.Tag;
+			var ptag = (PageExtraData)this._activePage.Tag;
 
 			this.CB_P2_DrawPageColor.Checked = ptag.PrintColor;
 			this.CB_P2_DrawPageImage.Checked = ptag.PrintImage;
@@ -3635,7 +3788,7 @@ CD_mtvPatterns_AfterSelect:
 			color_g = this._activePage.BackColor.G.ToString("X2");
 			color_b = this._activePage.BackColor.B.ToString("X2");
 			this.TB_P2_PageColor.Text = "#" + color_r + color_b + color_g;
-			
+
 			// przełącz na panel wzorów
 			this.TSMI_PatternEditor_Click( null, null );
 			this.Cursor = null;
@@ -3798,6 +3951,9 @@ CD_mtvPatterns_AfterSelect:
 			
 			// przejdź do edycji wzoru
 			this.TSMI_EditPattern_Click( null, null );
+            
+            // dodaj do ostatnio otwieranych
+			Settings.AddToLastPatterns( pattern_name );
 		}
 
         /// <summary>
@@ -3920,6 +4076,7 @@ CD_mtvPatterns_AfterSelect:
                     Language.GetLine( "MessageNames", (int)LANGCODE.GMN_IMPORTFILE ),
                     this
                 );
+			    this.refreshProjectList();
             }
 #       if DEBUG
             else
@@ -3975,42 +4132,90 @@ CD_mtvPatterns_AfterSelect:
 			switch( keydata )
 			{
 			// przełącz stronę z wzorem do przodu
-			case Keys.Control | Keys.Tab:
+			case Keys.Control | Keys.Up:
 				if( this._currentPanel == 1 )
 				{
-					if( this.N_P1_Page.Value < this.N_P1_Page.Maximum )
+                    if( this.N_P1_Page.Value == this.N_P1_Page.Maximum )
+                        this.N_P1_Page.Value = 1;
+					else if( this.N_P1_Page.Value < this.N_P1_Page.Maximum )
 						this.N_P1_Page.Value += 1;
 				}
 				else if( this._currentPanel == 2 )
 				{
-					if( this.N_P2_Page.Value < this.N_P2_Page.Maximum )
+                    if( this.N_P2_Page.Value == this.N_P2_Page.Maximum )
+                        this.N_P2_Page.Value = 1;
+					else if( this.N_P2_Page.Value < this.N_P2_Page.Maximum )
 						this.N_P2_Page.Value += 1;
 				}
 				else if( this._currentPanel == 3 )
 				{
-					if( this.N_P3_Page.Value < this.N_P3_Page.Maximum )
+                    if( this.N_P3_Page.Value == this.N_P3_Page.Maximum )
+                        this.N_P3_Page.Value = 1;
+					else if( this.N_P3_Page.Value < this.N_P3_Page.Maximum )
 						this.N_P3_Page.Value += 1;
 				}
 			break;
 
 			// przełącz stronę z wzorem do tyłu
-			case Keys.Shift | Keys.Tab:
+			case Keys.Control | Keys.Down:
 				if( this._currentPanel == 1 )
 				{
-					if( this.N_P1_Page.Value > this.N_P1_Page.Minimum )
+                    if( this.N_P1_Page.Value == 1 )
+                        this.N_P1_Page.Value = this.N_P1_Page.Maximum;
+					else if( this.N_P1_Page.Value > this.N_P1_Page.Minimum )
 						this.N_P1_Page.Value -= 1;
 				}
 				else if( this._currentPanel == 2 )
 				{
-					if( this.N_P2_Page.Value > this.N_P2_Page.Minimum )
+                    if( this.N_P2_Page.Value == 1 )
+                        this.N_P2_Page.Value = this.N_P2_Page.Maximum;
+					else if( this.N_P2_Page.Value > this.N_P2_Page.Minimum )
 						this.N_P2_Page.Value -= 1;
 				}
 				else if( this._currentPanel == 3 )
 				{
-					if( this.N_P3_Page.Value > this.N_P3_Page.Minimum )
+                    if( this.N_P3_Page.Value == 1 )
+                        this.N_P3_Page.Value = this.N_P3_Page.Maximum;
+					else if( this.N_P3_Page.Value > this.N_P3_Page.Minimum )
 						this.N_P3_Page.Value -= 1;
 				}
 			break;
+
+            // zapis wzoru
+            case Keys.Control | Keys.S:
+                if( this._currentPanel == 2 )
+                    this.B_P2_Save_Click( null, null );
+            break;
+
+            // generowanie z łączeniem stron
+            case Keys.Control | Keys.G:
+                if( this._currentPanel == 3 )
+                {
+                    this.CB_P3_CollatePages.Checked = true;
+                    this.B_P3_GeneratePDF_Click( null, null );
+                }
+            break;
+            // generowanie bez łączenia stron
+            case Keys.Alt | Keys.G:
+                if( this._currentPanel == 3 )
+                {
+                    this.CB_P3_CollatePages.Checked = false;
+                    this.B_P3_GeneratePDF_Click( null, null );
+                }
+            break;
+
+            // wczytywanie danych do wzoru
+            case Keys.Control | Keys.Q:
+                if( this._currentPanel == 2 )
+                    this.B_P2_LoadData_Click( null, null );
+            break;
+
+            // wyszukiwanie błędów w formularzu - generator
+            case Keys.Control | Keys.E:
+                if( this._currentPanel == 3 )
+                    this.B_P3_SearchErrors_Click( null, null );
+            break;
+
             // domyślna akcja
 			default:
 				return base.ProcessCmdKey( ref msg, keydata );

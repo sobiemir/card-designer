@@ -136,12 +136,12 @@ namespace CDesigner.Forms
 			info.SetValue( this.DGV_Data, true, null );
 
 			// ikony przycisków
-			this.B_InsertRow.Image = Program.GetBitmap( BITMAPCODE.ItemAdd );
-			this.B_RemoveRow.Image = Program.GetBitmap( BITMAPCODE.ItemRemove );
-			this.B_FirstPage.Image = Program.GetBitmap( BITMAPCODE.FirstPage );
-			this.P_PrevPage.Image  = Program.GetBitmap( BITMAPCODE.PrevPage );
-			this.B_NextPage.Image  = Program.GetBitmap( BITMAPCODE.NextPage );
-			this.B_LastPage.Image  = Program.GetBitmap( BITMAPCODE.LastPage );
+			this.B_InsertRow.Image = Program.GetBitmap( BITMAPCODE.ITEMADD );
+			this.B_RemoveRow.Image = Program.GetBitmap( BITMAPCODE.ITEMREMOVE );
+			this.B_FirstPage.Image = Program.GetBitmap( BITMAPCODE.FIRSTPAGE );
+			this.P_PrevPage.Image  = Program.GetBitmap( BITMAPCODE.PREVPAGE );
+			this.B_NextPage.Image  = Program.GetBitmap( BITMAPCODE.NEXTPAGE );
+			this.B_LastPage.Image  = Program.GetBitmap( BITMAPCODE.LASTPAGE );
 
             // ilość wierszy na stronę i aktualna strona - z pustego i Salomon nie naleje
             this.TB_RowsPerPage.Text = this._rowPerPage.ToString();
@@ -964,7 +964,7 @@ namespace CDesigner.Forms
 			// odśwież widok
 			this.refreshDataRange();
 		}
-        
+
         /// <summary>
         /// Akcja wywoływana po zmianie zaznaczenia w tabeli.
         /// Aktywuje i deaktywuje przycisk usuwania odpowiednio do zaznaczonych kolumn.

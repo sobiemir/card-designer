@@ -190,7 +190,7 @@ namespace CDesigner.Utils
 				Settings._lastPatterns.Remove( pattern );
 			
 			// maksymalna ilość wyświetlanych plików
-			if( Settings._lastPatterns.Count > max && max > 0 )
+			if( Settings._lastPatterns.Count >= max && max > 0 )
 				Settings._lastPatterns.RemoveAt( max - 1 );
 
 			// dodaj wzór do listy
