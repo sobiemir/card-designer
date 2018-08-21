@@ -3,6 +3,7 @@
 //              Dodano usuwanie wzoru
 //              Przerobione wczytywanie wzoru
 //              Kopiowanie wzoru
+// 04-12-2016   Import i eksport wzorów
 
 using System;
 using System.Collections.Generic;
@@ -19,25 +20,6 @@ using PdfSharp.Drawing.Layout;
 
 namespace CDesigner.Utils
 {
-	public struct PageDetails
-	{
-		public PageDetails( int pc, int pi ) { this.PrintColor = pc; this.PrintImage = pi; }
-
-		public int PrintColor;
-		public int PrintImage;
-	};
-
-	public struct DBPageFields
-	{
-		public bool[] ImageFromDB;
-		public bool[] TextFromDB;
-		public string[] Name;
-		public int[] Column;
-		public bool[] Preview;
-		public int Fields;
-	};
-
-
 	public class PatternEditor
 	{
 		private static string _last_created  = "";
@@ -94,6 +76,48 @@ namespace CDesigner.Utils
             // usuń folder i jego wszystkie pliki jeżeli tylko istnieje
             if( Directory.Exists("patterns/" + pattern) )
                 Directory.Delete( "patterns/" + pattern, true );
+        }
+
+        /// <summary>
+        /// Import wzoru z podanego pliku do programu.
+        /// Potrafi zaimportować więcej niż jeden wzór, gdy są one zapisane w pliku.
+        /// Do operacji tworzony jest tymczasowy folder temp, gdzie zapisywane są wypakowane pliki.
+        /// Po rozpakowaniu plików podmienia lub kopiuje wszystkie foldery do folderu patterns.
+        /// </summary>
+        /// 
+        /// <param name="file">Plik z wzorem / wzorami do importu.</param>
+        /// 
+        /// <seealso cref="Export"/>
+		//* ============================================================================================================
+        public static void Import( string file )
+        {
+            if( Directory.Exists("./temp") )
+                Directory.Delete( "./temp", true );
+            Directory.CreateDirectory( "./temp" );
+            DataBackup.Decompress( file, "./temp" );
+            if( Directory.Exists("./temp/patterns/") ) {
+                var dirs = Directory.GetDirectories( "./temp" );
+                foreach( var dir in dirs ) {
+                    var idir = new DirectoryInfo( dir );
+                    if( Directory.Exists("./patterns/" + idir.Name) )
+                        Directory.Delete( "./patterns/" + idir.Name );
+                    Directory.Move( "./temp/patterns/" + idir.Name,
+                        "./patterns/" + idir.Name );
+                }
+            }
+            Directory.Delete( "./temp", true );
+        }
+
+        public static void Export( string pattern, string outpath )
+        {
+            if( !Directory.Exists("./patterns/" + pattern) )
+                return;
+            var files = Program.GetFilesFromFolder( "./patterns/" +
+                pattern, true );
+            DataBackup.CreateFileList( files, "./patterns/update.lst" );
+            files.Insert( 0, "./patterns/update.lst" );
+            DataBackup.Compress( files, outpath, false );
+            File.Delete( "./patterns/update.lst" );
         }
 
 		// ------------------------------------------------------------- CreatePattern --------------------------------
@@ -173,8 +197,8 @@ namespace CDesigner.Utils
 			writer.Write( false );
 
             // zamknij uchwyty
-            writer.Close( );
-            file.Close( );
+            writer.Close();
+            file.Close();
 		}
 
         public static void ClonePattern( string name, string to_clone )

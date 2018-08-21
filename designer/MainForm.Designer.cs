@@ -29,58 +29,56 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.mpPreview = new System.Windows.Forms.Panel();
-            this.mtlStatusBar = new System.Windows.Forms.TableLayoutPanel();
-            this.mlStatus = new System.Windows.Forms.Label();
-            this.mfPageLayout = new System.Windows.Forms.FlowLayoutPanel();
-            this.mnPage = new System.Windows.Forms.NumericUpDown();
-            this.mlPage = new System.Windows.Forms.Label();
-            this.mbDelete = new System.Windows.Forms.Button();
-            this.mbNew = new System.Windows.Forms.Button();
-            this.mtvPatterns = new System.Windows.Forms.TreeView();
-            this.gcmPattern = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ictNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.ictEdit = new System.Windows.Forms.ToolStripMenuItem();
-            this.ictLoadData = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.ictImport = new System.Windows.Forms.ToolStripMenuItem();
-            this.ictExport = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.ictDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.imMain = new System.Windows.Forms.MenuStrip();
-            this.gmPattern = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmpNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmpRecent = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.gmprClearList = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.gmpImport = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmpExportAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.gmpClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.gsData = new System.Windows.Forms.ToolStripMenuItem();
-            this.gsPattern = new System.Windows.Forms.ToolStripMenuItem();
-            this.gsHome = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmTools = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmtLoadDatabase = new System.Windows.Forms.ToolStripMenuItem();
-            this.createEmpty = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.gmtColumnsEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmtEditData = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmtCreateDB = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmtConnectDB = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmtBackup = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.gmtSaveDataToFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.issGeneratePDF = new System.Windows.Forms.ToolStripMenuItem();
-            this.issEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.issGeneral = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmProgram = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmpInfo = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmpHelp = new System.Windows.Forms.ToolStripMenuItem();
-            this.gmpUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.P_P1_Preview = new System.Windows.Forms.Panel();
+            this.N_P1_Page = new System.Windows.Forms.NumericUpDown();
+            this.L_P1_Page = new System.Windows.Forms.Label();
+            this.B_P1_Delete = new System.Windows.Forms.Button();
+            this.B_P1_New = new System.Windows.Forms.Button();
+            this.TV_P1_Patterns = new System.Windows.Forms.TreeView();
+            this.CMS_Pattern = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.TSMI_NewPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Separator_A1 = new System.Windows.Forms.ToolStripSeparator();
+            this.TSMI_EditPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_LoadData = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Separator_A2 = new System.Windows.Forms.ToolStripSeparator();
+            this.TSMI_ImportPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_ExportPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Separator_A3 = new System.Windows.Forms.ToolStripSeparator();
+            this.TSMI_RemovePattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.MS_Main = new System.Windows.Forms.MenuStrip();
+            this.TSMI_Pattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_MenuNewPattern = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_RecentOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSS_Separator_P1 = new System.Windows.Forms.ToolStripSeparator();
+            this.TSMI_ClearRecent = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSS_Separator_P2 = new System.Windows.Forms.ToolStripSeparator();
+            this.TSMI_Import = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_ExportAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSS_Separator_P3 = new System.Windows.Forms.ToolStripSeparator();
+            this.TSMI_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_PrintPreview = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_PatternEditor = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_HomePage = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Tools = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_LoadDataFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_CreateEmpty = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSS_Separator_T1 = new System.Windows.Forms.ToolStripSeparator();
+            this.TSMI_EditColumns = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_EditRows = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_CreateDatabase = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_ConnectDatabase = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_DataBackup = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSS_Separator_T2 = new System.Windows.Forms.ToolStripSeparator();
+            this.TSMI_SaveData = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Settings = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Generator = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Editor = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_General = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Language = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Program = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Info = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Help = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_Update = new System.Windows.Forms.ToolStripMenuItem();
             this.icPage = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.icpAddField = new System.Windows.Forms.ToolStripMenuItem();
             this.icpDeleteFields = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,6 +129,7 @@
             this.pcbScale = new System.Windows.Forms.ComboBox();
             this.ppPreview = new System.Windows.Forms.Panel();
             this.ptPatternDetails = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.icPatMenu = new System.Windows.Forms.MenuStrip();
             this.icpmFieldDetails = new System.Windows.Forms.ToolStripMenuItem();
             this.icpmDetails = new System.Windows.Forms.ToolStripMenuItem();
@@ -202,10 +201,12 @@
             this.plpHeight = new System.Windows.Forms.Label();
             this.plpGeneratePDF = new System.Windows.Forms.Label();
             this.scData = new System.Windows.Forms.SplitContainer();
-            this.scMain = new System.Windows.Forms.SplitContainer();
-            this.mtlButtons = new System.Windows.Forms.TableLayoutPanel();
-            this.tlMain = new System.Windows.Forms.TableLayoutPanel();
-            this.tlMainStatusBar = new System.Windows.Forms.TableLayoutPanel();
+            this.SC_P1_Main = new System.Windows.Forms.SplitContainer();
+            this.SC_P1_Details = new System.Windows.Forms.SplitContainer();
+            this.RTB_P1_Details = new System.Windows.Forms.RichTextBox();
+            this.TLP_Main = new System.Windows.Forms.TableLayoutPanel();
+            this.TLP_P1_StatusBar = new System.Windows.Forms.TableLayoutPanel();
+            this.CB_P1_ShowDetails = new System.Windows.Forms.CheckBox();
             this.tDataTable = new System.Windows.Forms.TableLayoutPanel();
             this.sbData = new System.Windows.Forms.TableLayoutPanel();
             this.dtInfoControls = new System.Windows.Forms.TableLayoutPanel();
@@ -219,11 +220,9 @@
             this.sbPattern = new System.Windows.Forms.TableLayoutPanel();
             this.ptStatusButtons = new System.Windows.Forms.TableLayoutPanel();
             this.BW_Updates = new System.ComponentModel.BackgroundWorker();
-            this.mtlStatusBar.SuspendLayout();
-            this.mfPageLayout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mnPage)).BeginInit();
-            this.gcmPattern.SuspendLayout();
-            this.imMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.N_P1_Page)).BeginInit();
+            this.CMS_Pattern.SuspendLayout();
+            this.MS_Main.SuspendLayout();
             this.icPage.SuspendLayout();
             this.icLabel.SuspendLayout();
             this.dtButtonTable.SuspendLayout();
@@ -231,6 +230,7 @@
             this.pflPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnPage)).BeginInit();
             this.ptPatternDetails.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.icPatMenu.SuspendLayout();
             this.ppDetailsPanel.SuspendLayout();
             this.ptFieldDetails.SuspendLayout();
@@ -248,13 +248,16 @@
             this.scData.Panel1.SuspendLayout();
             this.scData.Panel2.SuspendLayout();
             this.scData.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.scMain)).BeginInit();
-            this.scMain.Panel1.SuspendLayout();
-            this.scMain.Panel2.SuspendLayout();
-            this.scMain.SuspendLayout();
-            this.mtlButtons.SuspendLayout();
-            this.tlMain.SuspendLayout();
-            this.tlMainStatusBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SC_P1_Main)).BeginInit();
+            this.SC_P1_Main.Panel1.SuspendLayout();
+            this.SC_P1_Main.Panel2.SuspendLayout();
+            this.SC_P1_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SC_P1_Details)).BeginInit();
+            this.SC_P1_Details.Panel1.SuspendLayout();
+            this.SC_P1_Details.Panel2.SuspendLayout();
+            this.SC_P1_Details.SuspendLayout();
+            this.TLP_Main.SuspendLayout();
+            this.TLP_P1_StatusBar.SuspendLayout();
             this.tDataTable.SuspendLayout();
             this.sbData.SuspendLayout();
             this.dtInfoControls.SuspendLayout();
@@ -269,520 +272,496 @@
             this.ptStatusButtons.SuspendLayout();
             this.SuspendLayout();
             // 
-            // mpPreview
+            // P_P1_Preview
             // 
-            this.mpPreview.AutoScroll = true;
-            this.mpPreview.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.mpPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mpPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mpPreview.Location = new System.Drawing.Point(0, 0);
-            this.mpPreview.Margin = new System.Windows.Forms.Padding(1, 0, 0, 0);
-            this.mpPreview.Name = "mpPreview";
-            this.mpPreview.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.mpPreview.Size = new System.Drawing.Size(424, 419);
-            this.mpPreview.TabIndex = 5;
-            this.mpPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mpPreview_MouseDown);
-            this.mpPreview.Resize += new System.EventHandler(this.mpPreview_Resize);
+            this.P_P1_Preview.AutoScroll = true;
+            this.P_P1_Preview.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.P_P1_Preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.P_P1_Preview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.P_P1_Preview.Location = new System.Drawing.Point(0, 0);
+            this.P_P1_Preview.Margin = new System.Windows.Forms.Padding(0);
+            this.P_P1_Preview.Name = "P_P1_Preview";
+            this.P_P1_Preview.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.P_P1_Preview.Size = new System.Drawing.Size(447, 428);
+            this.P_P1_Preview.TabIndex = 5;
+            this.P_P1_Preview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mpPreview_MouseDown);
+            this.P_P1_Preview.Resize += new System.EventHandler(this.mpPreview_Resize);
             // 
-            // mtlStatusBar
+            // N_P1_Page
             // 
-            this.mtlStatusBar.ColumnCount = 2;
-            this.mtlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 78.57143F));
-            this.mtlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.42857F));
-            this.mtlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mtlStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mtlStatusBar.Controls.Add(this.mlStatus, 0, 0);
-            this.mtlStatusBar.Controls.Add(this.mfPageLayout, 1, 0);
-            this.mtlStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtlStatusBar.Location = new System.Drawing.Point(257, 1);
-            this.mtlStatusBar.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
-            this.mtlStatusBar.Name = "mtlStatusBar";
-            this.mtlStatusBar.Padding = new System.Windows.Forms.Padding(3);
-            this.mtlStatusBar.RowCount = 1;
-            this.mtlStatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mtlStatusBar.Size = new System.Drawing.Size(435, 30);
-            this.mtlStatusBar.TabIndex = 6;
-            // 
-            // mlStatus
-            // 
-            this.mlStatus.AutoSize = true;
-            this.mlStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mlStatus.Location = new System.Drawing.Point(5, 3);
-            this.mlStatus.Margin = new System.Windows.Forms.Padding(2, 0, 3, 0);
-            this.mlStatus.Name = "mlStatus";
-            this.mlStatus.Size = new System.Drawing.Size(332, 24);
-            this.mlStatus.TabIndex = 22;
-            this.mlStatus.Text = "Proszę czekać...";
-            this.mlStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // mfPageLayout
-            // 
-            this.mfPageLayout.Controls.Add(this.mnPage);
-            this.mfPageLayout.Controls.Add(this.mlPage);
-            this.mfPageLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mfPageLayout.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.mfPageLayout.Location = new System.Drawing.Point(340, 3);
-            this.mfPageLayout.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
-            this.mfPageLayout.Name = "mfPageLayout";
-            this.mfPageLayout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.mfPageLayout.Size = new System.Drawing.Size(89, 24);
-            this.mfPageLayout.TabIndex = 23;
-            // 
-            // mnPage
-            // 
-            this.mnPage.Enabled = false;
-            this.mnPage.Location = new System.Drawing.Point(54, 2);
-            this.mnPage.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.mnPage.Maximum = new decimal(new int[] {
+            this.N_P1_Page.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.N_P1_Page.Enabled = false;
+            this.N_P1_Page.Location = new System.Drawing.Point(640, 7);
+            this.N_P1_Page.Margin = new System.Windows.Forms.Padding(0, 6, 5, 0);
+            this.N_P1_Page.Maximum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.mnPage.Minimum = new decimal(new int[] {
+            this.N_P1_Page.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.mnPage.Name = "mnPage";
-            this.mnPage.Size = new System.Drawing.Size(35, 20);
-            this.mnPage.TabIndex = 21;
-            this.mnPage.Value = new decimal(new int[] {
+            this.N_P1_Page.Name = "N_P1_Page";
+            this.N_P1_Page.Size = new System.Drawing.Size(47, 20);
+            this.N_P1_Page.TabIndex = 21;
+            this.N_P1_Page.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.mnPage.ValueChanged += new System.EventHandler(this.mnPage_ValueChanged);
-            // 
-            // mlPage
-            // 
-            this.mlPage.AutoSize = true;
-            this.mlPage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.mlPage.Location = new System.Drawing.Point(10, 0);
-            this.mlPage.Name = "mlPage";
-            this.mlPage.Size = new System.Drawing.Size(41, 22);
-            this.mlPage.TabIndex = 22;
-            this.mlPage.Text = "Strona:";
-            this.mlPage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // mbDelete
-            // 
-            this.mbDelete.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mbDelete.Enabled = false;
-            this.mbDelete.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.mbDelete.Location = new System.Drawing.Point(129, 3);
-            this.mbDelete.Margin = new System.Windows.Forms.Padding(3, 3, 1, 3);
-            this.mbDelete.Name = "mbDelete";
-            this.mbDelete.Size = new System.Drawing.Size(122, 24);
-            this.mbDelete.TabIndex = 18;
-            this.mbDelete.Text = "Usuń";
-            this.mbDelete.Click += new System.EventHandler(this.ictDelete_Click);
-            this.mbDelete.MouseEnter += new System.EventHandler(this.mbDelete_MouseEnter);
-            this.mbDelete.MouseLeave += new System.EventHandler(this.mlStatus_ClearText);
-            // 
-            // mbNew
-            // 
-            this.mbNew.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mbNew.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.mbNew.Location = new System.Drawing.Point(1, 3);
-            this.mbNew.Margin = new System.Windows.Forms.Padding(1, 3, 3, 3);
-            this.mbNew.Name = "mbNew";
-            this.mbNew.Size = new System.Drawing.Size(122, 24);
-            this.mbNew.TabIndex = 16;
-            this.mbNew.Text = "Nowy";
-            this.mbNew.Click += new System.EventHandler(this.gmpNew_Click);
-            this.mbNew.MouseEnter += new System.EventHandler(this.mbNew_MouseEnter);
-            this.mbNew.MouseLeave += new System.EventHandler(this.mlStatus_ClearText);
-            // 
-            // mtvPatterns
-            // 
-            this.mtvPatterns.ContextMenuStrip = this.gcmPattern;
-            this.mtvPatterns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtvPatterns.FullRowSelect = true;
-            this.mtvPatterns.HideSelection = false;
-            this.mtvPatterns.Location = new System.Drawing.Point(0, 0);
-            this.mtvPatterns.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
-            this.mtvPatterns.Name = "mtvPatterns";
-            this.mtvPatterns.ShowLines = false;
-            this.mtvPatterns.ShowPlusMinus = false;
-            this.mtvPatterns.ShowRootLines = false;
-            this.mtvPatterns.Size = new System.Drawing.Size(250, 419);
-            this.mtvPatterns.TabIndex = 7;
-            this.mtvPatterns.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.mtvPatterns_AfterSelect);
-            this.mtvPatterns.DoubleClick += new System.EventHandler(this.ictEdit_Click);
-            this.mtvPatterns.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mtvPatterns_MouseDown);
-            // 
-            // gcmPattern
-            // 
-            this.gcmPattern.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ictNew,
-            this.toolStripSeparator10,
-            this.ictEdit,
-            this.ictLoadData,
-            this.toolStripSeparator9,
-            this.ictImport,
-            this.ictExport,
-            this.toolStripSeparator11,
-            this.ictDelete});
-            this.gcmPattern.Name = "icPattern";
-            this.gcmPattern.Size = new System.Drawing.Size(154, 154);
-            this.gcmPattern.Opening += new System.ComponentModel.CancelEventHandler(this.icPattern_Opening);
-            // 
-            // ictNew
-            // 
-            this.ictNew.Name = "ictNew";
-            this.ictNew.ShortcutKeyDisplayString = "Ctrl+N";
-            this.ictNew.Size = new System.Drawing.Size(153, 22);
-            this.ictNew.Text = "Nowy";
-            this.ictNew.Click += new System.EventHandler(this.gmpNew_Click);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(150, 6);
-            // 
-            // ictEdit
-            // 
-            this.ictEdit.Name = "ictEdit";
-            this.ictEdit.Size = new System.Drawing.Size(153, 22);
-            this.ictEdit.Text = "Edytuj";
-            this.ictEdit.Click += new System.EventHandler(this.ictEdit_Click);
-            // 
-            // ictLoadData
-            // 
-            this.ictLoadData.Name = "ictLoadData";
-            this.ictLoadData.ShortcutKeyDisplayString = "";
-            this.ictLoadData.Size = new System.Drawing.Size(153, 22);
-            this.ictLoadData.Text = "Wczytaj dane...";
-            this.ictLoadData.Click += new System.EventHandler(this.ictLoadData_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(150, 6);
-            // 
-            // ictImport
-            // 
-            this.ictImport.Enabled = false;
-            this.ictImport.Name = "ictImport";
-            this.ictImport.Size = new System.Drawing.Size(153, 22);
-            this.ictImport.Text = "Importuj...";
-            // 
-            // ictExport
-            // 
-            this.ictExport.Enabled = false;
-            this.ictExport.Name = "ictExport";
-            this.ictExport.Size = new System.Drawing.Size(153, 22);
-            this.ictExport.Text = "Eksportuj...";
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(150, 6);
-            // 
-            // ictDelete
-            // 
-            this.ictDelete.Name = "ictDelete";
-            this.ictDelete.Size = new System.Drawing.Size(153, 22);
-            this.ictDelete.Text = "Usuń";
-            this.ictDelete.Click += new System.EventHandler(this.ictDelete_Click);
-            // 
-            // imMain
-            // 
-            this.imMain.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.imMain.GripMargin = new System.Windows.Forms.Padding(2);
-            this.imMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gmPattern,
-            this.gsData,
-            this.gsPattern,
-            this.gsHome,
-            this.gmTools,
-            this.gmSettings,
-            this.gmProgram});
-            this.imMain.Location = new System.Drawing.Point(0, 0);
-            this.imMain.Name = "imMain";
-            this.imMain.Padding = new System.Windows.Forms.Padding(6, 3, 6, 5);
-            this.imMain.Size = new System.Drawing.Size(692, 31);
-            this.imMain.TabIndex = 1;
-            this.imMain.Text = "Menu";
-            this.imMain.Paint += new System.Windows.Forms.PaintEventHandler(this.imMain_Paint);
-            // 
-            // gmPattern
-            // 
-            this.gmPattern.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gmpNew,
-            this.gmpRecent,
-            this.gmSeparator1,
-            this.gmpImport,
-            this.gmpExportAll,
-            this.gmSeparator2,
-            this.gmpClose});
-            this.gmPattern.Name = "gmPattern";
-            this.gmPattern.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.gmPattern.Size = new System.Drawing.Size(50, 23);
-            this.gmPattern.Text = "&Wzór";
-            // 
-            // gmpNew
-            // 
-            this.gmpNew.Name = "gmpNew";
-            this.gmpNew.ShortcutKeyDisplayString = "";
-            this.gmpNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.gmpNew.Size = new System.Drawing.Size(209, 22);
-            this.gmpNew.Text = "Nowy...";
-            this.gmpNew.Click += new System.EventHandler(this.gmpNew_Click);
-            // 
-            // gmpRecent
-            // 
-            this.gmpRecent.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripSeparator1,
-            this.gmprClearList});
-            this.gmpRecent.Enabled = false;
-            this.gmpRecent.Name = "gmpRecent";
-            this.gmpRecent.Size = new System.Drawing.Size(209, 22);
-            this.gmpRecent.Text = "Ostatnio otwierane";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
-            // 
-            // gmprClearList
-            // 
-            this.gmprClearList.Name = "gmprClearList";
-            this.gmprClearList.ShortcutKeyDisplayString = "";
-            this.gmprClearList.Size = new System.Drawing.Size(187, 22);
-            this.gmprClearList.Text = "Wyczyść listę wzorów";
-            this.gmprClearList.Click += new System.EventHandler(this.gmprClearList_Click);
-            // 
-            // gmSeparator1
-            // 
-            this.gmSeparator1.Name = "gmSeparator1";
-            this.gmSeparator1.Size = new System.Drawing.Size(206, 6);
-            // 
-            // gmpImport
-            // 
-            this.gmpImport.Enabled = false;
-            this.gmpImport.Name = "gmpImport";
-            this.gmpImport.Size = new System.Drawing.Size(209, 22);
-            this.gmpImport.Text = "Importuj...";
-            this.gmpImport.Visible = false;
-            // 
-            // gmpExportAll
-            // 
-            this.gmpExportAll.Enabled = false;
-            this.gmpExportAll.Name = "gmpExportAll";
-            this.gmpExportAll.Size = new System.Drawing.Size(209, 22);
-            this.gmpExportAll.Text = "Eksportuj wszystkie";
-            this.gmpExportAll.Visible = false;
-            // 
-            // gmSeparator2
-            // 
-            this.gmSeparator2.Name = "gmSeparator2";
-            this.gmSeparator2.Size = new System.Drawing.Size(206, 6);
-            this.gmSeparator2.Visible = false;
-            // 
-            // gmpClose
-            // 
-            this.gmpClose.Name = "gmpClose";
-            this.gmpClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.gmpClose.Size = new System.Drawing.Size(209, 22);
-            this.gmpClose.Text = "Zakończ program";
-            this.gmpClose.Click += new System.EventHandler(this.gmpClose_Click);
-            // 
-            // gsData
-            // 
-            this.gsData.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.gsData.Enabled = false;
-            this.gsData.Name = "gsData";
-            this.gsData.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.gsData.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D3)));
-            this.gsData.Size = new System.Drawing.Size(50, 23);
-            this.gsData.Text = "Dane";
-            this.gsData.Click += new System.EventHandler(this.gsData_Click);
-            // 
-            // gsPattern
-            // 
-            this.gsPattern.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.gsPattern.Enabled = false;
-            this.gsPattern.Name = "gsPattern";
-            this.gsPattern.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.gsPattern.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D2)));
-            this.gsPattern.Size = new System.Drawing.Size(50, 23);
-            this.gsPattern.Text = "Wzór";
-            this.gsPattern.Click += new System.EventHandler(this.gsPattern_Click);
-            // 
-            // gsHome
-            // 
-            this.gsHome.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.gsHome.Enabled = false;
-            this.gsHome.Name = "gsHome";
-            this.gsHome.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.gsHome.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
-            this.gsHome.Size = new System.Drawing.Size(63, 23);
-            this.gsHome.Text = "Główna";
-            this.gsHome.Click += new System.EventHandler(this.gsMain_Click);
-            // 
-            // gmTools
-            // 
-            this.gmTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gmtLoadDatabase,
-            this.createEmpty,
-            this.gmSeparator3,
-            this.gmtColumnsEditor,
-            this.gmtEditData,
-            this.gmtCreateDB,
-            this.gmtConnectDB,
-            this.gmtBackup,
-            this.toolStripSeparator3,
-            this.gmtSaveDataToFile});
-            this.gmTools.Name = "gmTools";
-            this.gmTools.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.gmTools.Size = new System.Drawing.Size(74, 23);
-            this.gmTools.Text = "&Narzędzia";
-            // 
-            // gmtLoadDatabase
-            // 
-            this.gmtLoadDatabase.Name = "gmtLoadDatabase";
-            this.gmtLoadDatabase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.gmtLoadDatabase.Size = new System.Drawing.Size(239, 22);
-            this.gmtLoadDatabase.Text = "Wczytaj plik z danymi...";
-            this.gmtLoadDatabase.Click += new System.EventHandler(this.gmtLoadDatabase_Click);
-            // 
-            // createEmpty
-            // 
-            this.createEmpty.Name = "createEmpty";
-            this.createEmpty.Size = new System.Drawing.Size(239, 22);
-            this.createEmpty.Text = "Utwórz bazę w pamięci";
-            this.createEmpty.Click += new System.EventHandler(this.createEmpty_Click);
-            // 
-            // gmSeparator3
-            // 
-            this.gmSeparator3.Name = "gmSeparator3";
-            this.gmSeparator3.Size = new System.Drawing.Size(236, 6);
-            // 
-            // gmtColumnsEditor
-            // 
-            this.gmtColumnsEditor.Enabled = false;
-            this.gmtColumnsEditor.Name = "gmtColumnsEditor";
-            this.gmtColumnsEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Z)));
-            this.gmtColumnsEditor.Size = new System.Drawing.Size(239, 22);
-            this.gmtColumnsEditor.Text = "Edytuj kolumny...";
-            this.gmtColumnsEditor.Click += new System.EventHandler(this.gmtColumnsEditor_Click);
-            // 
-            // gmtEditData
-            // 
-            this.gmtEditData.Enabled = false;
-            this.gmtEditData.Name = "gmtEditData";
-            this.gmtEditData.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
-            this.gmtEditData.Size = new System.Drawing.Size(239, 22);
-            this.gmtEditData.Text = "Edytuj wiersze...";
-            this.gmtEditData.Click += new System.EventHandler(this.gmtEditData_Click);
-            // 
-            // gmtCreateDB
-            // 
-            this.gmtCreateDB.Name = "gmtCreateDB";
-            this.gmtCreateDB.Size = new System.Drawing.Size(239, 22);
-            this.gmtCreateDB.Text = "Utwórz bazę danych";
-            this.gmtCreateDB.Visible = false;
-            // 
-            // gmtConnectDB
-            // 
-            this.gmtConnectDB.Name = "gmtConnectDB";
-            this.gmtConnectDB.Size = new System.Drawing.Size(239, 22);
-            this.gmtConnectDB.Text = "Połącz z bazą danych";
-            this.gmtConnectDB.Visible = false;
-            this.gmtConnectDB.Click += new System.EventHandler(this.gmtConnectDB_Click);
-            // 
-            // gmtBackup
-            // 
-            this.gmtBackup.Name = "gmtBackup";
-            this.gmtBackup.Size = new System.Drawing.Size(239, 22);
-            this.gmtBackup.Text = "Kopia zapasowa";
-            this.gmtBackup.Visible = false;
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(236, 6);
-            // 
-            // gmtSaveDataToFile
-            // 
-            this.gmtSaveDataToFile.Enabled = false;
-            this.gmtSaveDataToFile.Name = "gmtSaveDataToFile";
-            this.gmtSaveDataToFile.Size = new System.Drawing.Size(239, 22);
-            this.gmtSaveDataToFile.Text = "Zapisz bazę do pliku...";
-            this.gmtSaveDataToFile.Click += new System.EventHandler(this.saveDataToFile_Click);
-            // 
-            // gmSettings
-            // 
-            this.gmSettings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.issGeneratePDF,
-            this.issEditor,
-            this.issGeneral});
-            this.gmSettings.Name = "gmSettings";
-            this.gmSettings.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.gmSettings.Size = new System.Drawing.Size(80, 23);
-            this.gmSettings.Text = "&Ustawienia";
-            this.gmSettings.Visible = false;
-            // 
-            // issGeneratePDF
-            // 
-            this.issGeneratePDF.Enabled = false;
-            this.issGeneratePDF.Name = "issGeneratePDF";
-            this.issGeneratePDF.Size = new System.Drawing.Size(159, 22);
-            this.issGeneratePDF.Text = "Generator PDF...";
-            this.issGeneratePDF.Click += new System.EventHandler(this.issGeneratePDF_Click);
-            // 
-            // issEditor
-            // 
-            this.issEditor.Enabled = false;
-            this.issEditor.Name = "issEditor";
-            this.issEditor.Size = new System.Drawing.Size(159, 22);
-            this.issEditor.Text = "Edytor...";
-            this.issEditor.Click += new System.EventHandler(this.issEditor_Click);
-            // 
-            // issGeneral
-            // 
-            this.issGeneral.Enabled = false;
-            this.issGeneral.Name = "issGeneral";
-            this.issGeneral.Size = new System.Drawing.Size(159, 22);
-            this.issGeneral.Text = "Ogólne...";
-            this.issGeneral.Click += new System.EventHandler(this.issGeneral_Click);
-            // 
-            // gmProgram
-            // 
-            this.gmProgram.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.gmpInfo,
-            this.gmpHelp,
-            this.gmpUpdate});
-            this.gmProgram.Name = "gmProgram";
-            this.gmProgram.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
-            this.gmProgram.Size = new System.Drawing.Size(69, 23);
-            this.gmProgram.Text = "&Program";
-            // 
-            // gmpInfo
-            // 
-            this.gmpInfo.Name = "gmpInfo";
-            this.gmpInfo.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.gmpInfo.Size = new System.Drawing.Size(203, 22);
-            this.gmpInfo.Text = "Informacje";
-            this.gmpInfo.Click += new System.EventHandler(this.impInfo_Click);
-            // 
-            // gmpHelp
-            // 
-            this.gmpHelp.Enabled = false;
-            this.gmpHelp.Name = "gmpHelp";
-            this.gmpHelp.Size = new System.Drawing.Size(203, 22);
-            this.gmpHelp.Text = "Pomoc";
-            this.gmpHelp.Visible = false;
-            this.gmpHelp.Click += new System.EventHandler(this.impHelp_Click);
-            // 
-            // gmpUpdate
-            // 
-            this.gmpUpdate.Name = "gmpUpdate";
-            this.gmpUpdate.ShortcutKeys = System.Windows.Forms.Keys.F9;
-            this.gmpUpdate.Size = new System.Drawing.Size(203, 22);
-            this.gmpUpdate.Text = "Aktualizuj program...";
-            this.gmpUpdate.Click += new System.EventHandler(this.gmpUpdate_Click);
+            this.N_P1_Page.ValueChanged += new System.EventHandler(this.mnPage_ValueChanged);
+            // 
+            // L_P1_Page
+            // 
+            this.L_P1_Page.AutoSize = true;
+            this.L_P1_Page.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.L_P1_Page.Location = new System.Drawing.Point(563, 1);
+            this.L_P1_Page.Name = "L_P1_Page";
+            this.L_P1_Page.Size = new System.Drawing.Size(74, 31);
+            this.L_P1_Page.TabIndex = 22;
+            this.L_P1_Page.Text = "Strona:";
+            this.L_P1_Page.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // B_P1_Delete
+            // 
+            this.B_P1_Delete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_P1_Delete.Enabled = false;
+            this.B_P1_Delete.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.B_P1_Delete.Location = new System.Drawing.Point(122, 4);
+            this.B_P1_Delete.Margin = new System.Windows.Forms.Padding(2, 3, 5, 3);
+            this.B_P1_Delete.Name = "B_P1_Delete";
+            this.B_P1_Delete.Size = new System.Drawing.Size(113, 25);
+            this.B_P1_Delete.TabIndex = 18;
+            this.B_P1_Delete.Text = "Usuń";
+            this.B_P1_Delete.Click += new System.EventHandler(this.ictDelete_Click);
+            this.B_P1_Delete.MouseEnter += new System.EventHandler(this.mbDelete_MouseEnter);
+            this.B_P1_Delete.MouseLeave += new System.EventHandler(this.mlStatus_ClearText);
+            // 
+            // B_P1_New
+            // 
+            this.B_P1_New.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.B_P1_New.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.B_P1_New.Location = new System.Drawing.Point(5, 4);
+            this.B_P1_New.Margin = new System.Windows.Forms.Padding(5, 3, 2, 3);
+            this.B_P1_New.Name = "B_P1_New";
+            this.B_P1_New.Size = new System.Drawing.Size(113, 25);
+            this.B_P1_New.TabIndex = 16;
+            this.B_P1_New.Text = "Nowy wzór";
+            this.B_P1_New.Click += new System.EventHandler(this.gmpNew_Click);
+            this.B_P1_New.MouseEnter += new System.EventHandler(this.mbNew_MouseEnter);
+            this.B_P1_New.MouseLeave += new System.EventHandler(this.mlStatus_ClearText);
+            // 
+            // TV_P1_Patterns
+            // 
+            this.TV_P1_Patterns.ContextMenuStrip = this.CMS_Pattern;
+            this.TV_P1_Patterns.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TV_P1_Patterns.FullRowSelect = true;
+            this.TV_P1_Patterns.HideSelection = false;
+            this.TV_P1_Patterns.Location = new System.Drawing.Point(0, 0);
+            this.TV_P1_Patterns.Margin = new System.Windows.Forms.Padding(0);
+            this.TV_P1_Patterns.Name = "TV_P1_Patterns";
+            this.TV_P1_Patterns.ShowLines = false;
+            this.TV_P1_Patterns.ShowPlusMinus = false;
+            this.TV_P1_Patterns.ShowRootLines = false;
+            this.TV_P1_Patterns.Size = new System.Drawing.Size(230, 428);
+            this.TV_P1_Patterns.TabIndex = 7;
+            this.TV_P1_Patterns.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TV_P1_Patterns_AfterSelect);
+            this.TV_P1_Patterns.DoubleClick += new System.EventHandler(this.TSMI_EditPattern_Click);
+            this.TV_P1_Patterns.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TV_P1_Patterns_MouseDown);
+            // 
+            // CMS_Pattern
+            // 
+            this.CMS_Pattern.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_NewPattern,
+            this.TSMI_Separator_A1,
+            this.TSMI_EditPattern,
+            this.TSMI_LoadData,
+            this.TSMI_Separator_A2,
+            this.TSMI_ImportPattern,
+            this.TSMI_ExportPattern,
+            this.TSMI_Separator_A3,
+            this.TSMI_RemovePattern});
+            this.CMS_Pattern.Name = "icPattern";
+            this.CMS_Pattern.Size = new System.Drawing.Size(186, 154);
+            this.CMS_Pattern.Opening += new System.ComponentModel.CancelEventHandler(this.icPattern_Opening);
+            // 
+            // TSMI_NewPattern
+            // 
+            this.TSMI_NewPattern.Name = "TSMI_NewPattern";
+            this.TSMI_NewPattern.ShortcutKeyDisplayString = "Ctrl+N";
+            this.TSMI_NewPattern.Size = new System.Drawing.Size(185, 22);
+            this.TSMI_NewPattern.Text = "Nowy wzór...";
+            this.TSMI_NewPattern.Click += new System.EventHandler(this.gmpNew_Click);
+            // 
+            // TSMI_Separator_A1
+            // 
+            this.TSMI_Separator_A1.Name = "TSMI_Separator_A1";
+            this.TSMI_Separator_A1.Size = new System.Drawing.Size(182, 6);
+            // 
+            // TSMI_EditPattern
+            // 
+            this.TSMI_EditPattern.Name = "TSMI_EditPattern";
+            this.TSMI_EditPattern.Size = new System.Drawing.Size(185, 22);
+            this.TSMI_EditPattern.Text = "Edytuj zaznaczony";
+            this.TSMI_EditPattern.Click += new System.EventHandler(this.TSMI_EditPattern_Click);
+            // 
+            // TSMI_LoadData
+            // 
+            this.TSMI_LoadData.Name = "TSMI_LoadData";
+            this.TSMI_LoadData.ShortcutKeyDisplayString = "";
+            this.TSMI_LoadData.Size = new System.Drawing.Size(185, 22);
+            this.TSMI_LoadData.Text = "Wczytaj dane...";
+            this.TSMI_LoadData.Click += new System.EventHandler(this.TSMI_LoadData_Click);
+            // 
+            // TSMI_Separator_A2
+            // 
+            this.TSMI_Separator_A2.Name = "TSMI_Separator_A2";
+            this.TSMI_Separator_A2.Size = new System.Drawing.Size(182, 6);
+            // 
+            // TSMI_ImportPattern
+            // 
+            this.TSMI_ImportPattern.Name = "TSMI_ImportPattern";
+            this.TSMI_ImportPattern.ShortcutKeyDisplayString = "Alt+I";
+            this.TSMI_ImportPattern.Size = new System.Drawing.Size(185, 22);
+            this.TSMI_ImportPattern.Text = "Importuj...";
+            this.TSMI_ImportPattern.Click += new System.EventHandler(this.TSMI_Import_Click);
+            // 
+            // TSMI_ExportPattern
+            // 
+            this.TSMI_ExportPattern.Name = "TSMI_ExportPattern";
+            this.TSMI_ExportPattern.Size = new System.Drawing.Size(185, 22);
+            this.TSMI_ExportPattern.Text = "Eksportuj...";
+            this.TSMI_ExportPattern.Click += new System.EventHandler(this.TSMI_ExportPattern_Click);
+            // 
+            // TSMI_Separator_A3
+            // 
+            this.TSMI_Separator_A3.Name = "TSMI_Separator_A3";
+            this.TSMI_Separator_A3.Size = new System.Drawing.Size(182, 6);
+            // 
+            // TSMI_RemovePattern
+            // 
+            this.TSMI_RemovePattern.Name = "TSMI_RemovePattern";
+            this.TSMI_RemovePattern.ShortcutKeyDisplayString = "";
+            this.TSMI_RemovePattern.Size = new System.Drawing.Size(189, 22);
+            this.TSMI_RemovePattern.Text = "Usuń wzór";
+            this.TSMI_RemovePattern.Click += new System.EventHandler(this.ictDelete_Click);
+            // 
+            // MS_Main
+            // 
+            this.MS_Main.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.MS_Main.GripMargin = new System.Windows.Forms.Padding(2);
+            this.MS_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_Pattern,
+            this.TSMI_PrintPreview,
+            this.TSMI_PatternEditor,
+            this.TSMI_HomePage,
+            this.TSMI_Tools,
+            this.TSMI_Settings,
+            this.TSMI_Language,
+            this.TSMI_Program});
+            this.MS_Main.Location = new System.Drawing.Point(0, 0);
+            this.MS_Main.Name = "MS_Main";
+            this.MS_Main.Padding = new System.Windows.Forms.Padding(6, 4, 6, 5);
+            this.MS_Main.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.MS_Main.Size = new System.Drawing.Size(692, 32);
+            this.MS_Main.TabIndex = 1;
+            this.MS_Main.Text = "Menu";
+            this.MS_Main.Paint += new System.Windows.Forms.PaintEventHandler(this.MS_Main_Paint);
+            // 
+            // TSMI_Pattern
+            // 
+            this.TSMI_Pattern.BackColor = System.Drawing.Color.Transparent;
+            this.TSMI_Pattern.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_MenuNewPattern,
+            this.TSMI_RecentOpen,
+            this.TSS_Separator_P2,
+            this.TSMI_Import,
+            this.TSMI_ExportAll,
+            this.TSS_Separator_P3,
+            this.TSMI_Close});
+            this.TSMI_Pattern.Name = "TSMI_Pattern";
+            this.TSMI_Pattern.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+            this.TSMI_Pattern.Size = new System.Drawing.Size(50, 23);
+            this.TSMI_Pattern.Text = "&Wzór";
+            // 
+            // TSMI_MenuNewPattern
+            // 
+            this.TSMI_MenuNewPattern.Name = "TSMI_MenuNewPattern";
+            this.TSMI_MenuNewPattern.ShortcutKeyDisplayString = "";
+            this.TSMI_MenuNewPattern.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.TSMI_MenuNewPattern.Size = new System.Drawing.Size(209, 22);
+            this.TSMI_MenuNewPattern.Text = "Nowy...";
+            this.TSMI_MenuNewPattern.Click += new System.EventHandler(this.gmpNew_Click);
+            // 
+            // TSMI_RecentOpen
+            // 
+            this.TSMI_RecentOpen.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSS_Separator_P1,
+            this.TSMI_ClearRecent});
+            this.TSMI_RecentOpen.Enabled = false;
+            this.TSMI_RecentOpen.Name = "TSMI_RecentOpen";
+            this.TSMI_RecentOpen.Size = new System.Drawing.Size(209, 22);
+            this.TSMI_RecentOpen.Text = "Ostatnio otwierane";
+            // 
+            // TSS_Separator_P1
+            // 
+            this.TSS_Separator_P1.Name = "TSS_Separator_P1";
+            this.TSS_Separator_P1.Size = new System.Drawing.Size(184, 6);
+            // 
+            // TSMI_ClearRecent
+            // 
+            this.TSMI_ClearRecent.Name = "TSMI_ClearRecent";
+            this.TSMI_ClearRecent.ShortcutKeyDisplayString = "";
+            this.TSMI_ClearRecent.Size = new System.Drawing.Size(187, 22);
+            this.TSMI_ClearRecent.Text = "Wyczyść listę wzorów";
+            this.TSMI_ClearRecent.Click += new System.EventHandler(this.TSMI_ClearRecent_Click);
+            // 
+            // TSS_Separator_P2
+            // 
+            this.TSS_Separator_P2.Name = "TSS_Separator_P2";
+            this.TSS_Separator_P2.Size = new System.Drawing.Size(206, 6);
+            // 
+            // TSMI_Import
+            // 
+            this.TSMI_Import.Name = "TSMI_Import";
+            this.TSMI_Import.ShortcutKeyDisplayString = "";
+            this.TSMI_Import.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
+            this.TSMI_Import.Size = new System.Drawing.Size(220, 22);
+            this.TSMI_Import.Text = "Importuj...";
+            this.TSMI_Import.Click += new System.EventHandler(this.TSMI_Import_Click);
+            // 
+            // TSMI_ExportAll
+            // 
+            this.TSMI_ExportAll.Name = "TSMI_ExportAll";
+            this.TSMI_ExportAll.ShortcutKeyDisplayString = "";
+            this.TSMI_ExportAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+            this.TSMI_ExportAll.Size = new System.Drawing.Size(220, 22);
+            this.TSMI_ExportAll.Text = "Eksportuj wszystkie...";
+            this.TSMI_ExportAll.Click += new System.EventHandler(this.TSMI_ExportAll_Click);
+            // 
+            // TSS_Separator_P3
+            // 
+            this.TSS_Separator_P3.Name = "TSS_Separator_P3";
+            this.TSS_Separator_P3.Size = new System.Drawing.Size(206, 6);
+            // 
+            // TSMI_Close
+            // 
+            this.TSMI_Close.Name = "TSMI_Close";
+            this.TSMI_Close.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.TSMI_Close.Size = new System.Drawing.Size(209, 22);
+            this.TSMI_Close.Text = "Zakończ program";
+            this.TSMI_Close.Click += new System.EventHandler(this.gmpClose_Click);
+            // 
+            // TSMI_PrintPreview
+            // 
+            this.TSMI_PrintPreview.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.TSMI_PrintPreview.BackColor = System.Drawing.Color.Transparent;
+            this.TSMI_PrintPreview.Enabled = false;
+            this.TSMI_PrintPreview.Name = "TSMI_PrintPreview";
+            this.TSMI_PrintPreview.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+            this.TSMI_PrintPreview.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D3)));
+            this.TSMI_PrintPreview.Size = new System.Drawing.Size(64, 23);
+            this.TSMI_PrintPreview.Text = "Wydruk";
+            this.TSMI_PrintPreview.Click += new System.EventHandler(this.gsData_Click);
+            // 
+            // TSMI_PatternEditor
+            // 
+            this.TSMI_PatternEditor.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.TSMI_PatternEditor.BackColor = System.Drawing.Color.Transparent;
+            this.TSMI_PatternEditor.Enabled = false;
+            this.TSMI_PatternEditor.Name = "TSMI_PatternEditor";
+            this.TSMI_PatternEditor.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+            this.TSMI_PatternEditor.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D2)));
+            this.TSMI_PatternEditor.Size = new System.Drawing.Size(57, 23);
+            this.TSMI_PatternEditor.Text = "Edytor";
+            this.TSMI_PatternEditor.Click += new System.EventHandler(this.gsPattern_Click);
+            // 
+            // TSMI_HomePage
+            // 
+            this.TSMI_HomePage.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.TSMI_HomePage.BackColor = System.Drawing.Color.Transparent;
+            this.TSMI_HomePage.Enabled = false;
+            this.TSMI_HomePage.Name = "TSMI_HomePage";
+            this.TSMI_HomePage.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+            this.TSMI_HomePage.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
+            this.TSMI_HomePage.Size = new System.Drawing.Size(63, 23);
+            this.TSMI_HomePage.Text = "Główna";
+            this.TSMI_HomePage.Click += new System.EventHandler(this.gsMain_Click);
+            // 
+            // TSMI_Tools
+            // 
+            this.TSMI_Tools.BackColor = System.Drawing.Color.Transparent;
+            this.TSMI_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_LoadDataFile,
+            this.TSMI_CreateEmpty,
+            this.TSS_Separator_T1,
+            this.TSMI_EditColumns,
+            this.TSMI_EditRows,
+            this.TSMI_CreateDatabase,
+            this.TSMI_ConnectDatabase,
+            this.TSMI_DataBackup,
+            this.TSS_Separator_T2,
+            this.TSMI_SaveData});
+            this.TSMI_Tools.Name = "TSMI_Tools";
+            this.TSMI_Tools.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+            this.TSMI_Tools.Size = new System.Drawing.Size(74, 23);
+            this.TSMI_Tools.Text = "&Narzędzia";
+            // 
+            // TSMI_LoadDataFile
+            // 
+            this.TSMI_LoadDataFile.Name = "TSMI_LoadDataFile";
+            this.TSMI_LoadDataFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.TSMI_LoadDataFile.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_LoadDataFile.Text = "Wczytaj plik z danymi...";
+            this.TSMI_LoadDataFile.Click += new System.EventHandler(this.TSMI_LoadDataFile_Click);
+            // 
+            // TSMI_CreateEmpty
+            // 
+            this.TSMI_CreateEmpty.Name = "TSMI_CreateEmpty";
+            this.TSMI_CreateEmpty.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_CreateEmpty.Text = "Utwórz bazę w pamięci";
+            this.TSMI_CreateEmpty.Click += new System.EventHandler(this.createEmpty_Click);
+            // 
+            // TSS_Separator_T1
+            // 
+            this.TSS_Separator_T1.Name = "TSS_Separator_T1";
+            this.TSS_Separator_T1.Size = new System.Drawing.Size(236, 6);
+            // 
+            // TSMI_EditColumns
+            // 
+            this.TSMI_EditColumns.Enabled = false;
+            this.TSMI_EditColumns.Name = "TSMI_EditColumns";
+            this.TSMI_EditColumns.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.TSMI_EditColumns.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_EditColumns.Text = "Edytuj kolumny...";
+            this.TSMI_EditColumns.Click += new System.EventHandler(this.gmtColumnsEditor_Click);
+            // 
+            // TSMI_EditRows
+            // 
+            this.TSMI_EditRows.Enabled = false;
+            this.TSMI_EditRows.Name = "TSMI_EditRows";
+            this.TSMI_EditRows.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
+            this.TSMI_EditRows.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_EditRows.Text = "Edytuj wiersze...";
+            this.TSMI_EditRows.Click += new System.EventHandler(this.gmtEditData_Click);
+            // 
+            // TSMI_CreateDatabase
+            // 
+            this.TSMI_CreateDatabase.Name = "TSMI_CreateDatabase";
+            this.TSMI_CreateDatabase.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_CreateDatabase.Text = "Utwórz bazę danych";
+            this.TSMI_CreateDatabase.Visible = false;
+            // 
+            // TSMI_ConnectDatabase
+            // 
+            this.TSMI_ConnectDatabase.Name = "TSMI_ConnectDatabase";
+            this.TSMI_ConnectDatabase.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_ConnectDatabase.Text = "Połącz z bazą danych";
+            this.TSMI_ConnectDatabase.Visible = false;
+            this.TSMI_ConnectDatabase.Click += new System.EventHandler(this.gmtConnectDB_Click);
+            // 
+            // TSMI_DataBackup
+            // 
+            this.TSMI_DataBackup.Name = "TSMI_DataBackup";
+            this.TSMI_DataBackup.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_DataBackup.Text = "Kopia zapasowa";
+            this.TSMI_DataBackup.Visible = false;
+            // 
+            // TSS_Separator_T2
+            // 
+            this.TSS_Separator_T2.Name = "TSS_Separator_T2";
+            this.TSS_Separator_T2.Size = new System.Drawing.Size(236, 6);
+            // 
+            // TSMI_SaveData
+            // 
+            this.TSMI_SaveData.Enabled = false;
+            this.TSMI_SaveData.Name = "TSMI_SaveData";
+            this.TSMI_SaveData.Size = new System.Drawing.Size(239, 22);
+            this.TSMI_SaveData.Text = "Zapisz bazę do pliku...";
+            this.TSMI_SaveData.Click += new System.EventHandler(this.TSMI_SaveData_Click);
+            // 
+            // TSMI_Settings
+            // 
+            this.TSMI_Settings.BackColor = System.Drawing.Color.Transparent;
+            this.TSMI_Settings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_Generator,
+            this.TSMI_Editor,
+            this.TSMI_General});
+            this.TSMI_Settings.Enabled = false;
+            this.TSMI_Settings.Name = "TSMI_Settings";
+            this.TSMI_Settings.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+            this.TSMI_Settings.Size = new System.Drawing.Size(80, 23);
+            this.TSMI_Settings.Text = "&Ustawienia";
+            this.TSMI_Settings.Visible = false;
+            // 
+            // TSMI_Generator
+            // 
+            this.TSMI_Generator.Enabled = false;
+            this.TSMI_Generator.Name = "TSMI_Generator";
+            this.TSMI_Generator.Size = new System.Drawing.Size(159, 22);
+            this.TSMI_Generator.Text = "Generator PDF...";
+            this.TSMI_Generator.Click += new System.EventHandler(this.issGeneratePDF_Click);
+            // 
+            // TSMI_Editor
+            // 
+            this.TSMI_Editor.Enabled = false;
+            this.TSMI_Editor.Name = "TSMI_Editor";
+            this.TSMI_Editor.Size = new System.Drawing.Size(159, 22);
+            this.TSMI_Editor.Text = "Edytor...";
+            this.TSMI_Editor.Click += new System.EventHandler(this.issEditor_Click);
+            // 
+            // TSMI_General
+            // 
+            this.TSMI_General.Enabled = false;
+            this.TSMI_General.Name = "TSMI_General";
+            this.TSMI_General.Size = new System.Drawing.Size(159, 22);
+            this.TSMI_General.Text = "Ogólne...";
+            this.TSMI_General.Click += new System.EventHandler(this.issGeneral_Click);
+            // 
+            // TSMI_Language
+            // 
+            this.TSMI_Language.Name = "TSMI_Language";
+            this.TSMI_Language.Size = new System.Drawing.Size(46, 23);
+            this.TSMI_Language.Text = "Język";
+            // 
+            // TSMI_Program
+            // 
+            this.TSMI_Program.BackColor = System.Drawing.Color.Transparent;
+            this.TSMI_Program.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TSMI_Info,
+            this.TSMI_Help,
+            this.TSMI_Update});
+            this.TSMI_Program.Name = "TSMI_Program";
+            this.TSMI_Program.Padding = new System.Windows.Forms.Padding(6, 2, 6, 2);
+            this.TSMI_Program.Size = new System.Drawing.Size(69, 23);
+            this.TSMI_Program.Text = "&Program";
+            // 
+            // TSMI_Info
+            // 
+            this.TSMI_Info.Name = "TSMI_Info";
+            this.TSMI_Info.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.TSMI_Info.Size = new System.Drawing.Size(203, 22);
+            this.TSMI_Info.Text = "Informacje";
+            this.TSMI_Info.Click += new System.EventHandler(this.impInfo_Click);
+            // 
+            // TSMI_Help
+            // 
+            this.TSMI_Help.Enabled = false;
+            this.TSMI_Help.Name = "TSMI_Help";
+            this.TSMI_Help.Size = new System.Drawing.Size(203, 22);
+            this.TSMI_Help.Text = "Pomoc";
+            this.TSMI_Help.Visible = false;
+            this.TSMI_Help.Click += new System.EventHandler(this.impHelp_Click);
+            // 
+            // TSMI_Update
+            // 
+            this.TSMI_Update.Name = "TSMI_Update";
+            this.TSMI_Update.ShortcutKeys = System.Windows.Forms.Keys.F9;
+            this.TSMI_Update.Size = new System.Drawing.Size(203, 22);
+            this.TSMI_Update.Text = "Aktualizuj program...";
+            this.TSMI_Update.Click += new System.EventHandler(this.TSMI_Update_Click);
             // 
             // icPage
             // 
@@ -1042,7 +1021,7 @@
             this.dpPreview.Location = new System.Drawing.Point(0, 0);
             this.dpPreview.Margin = new System.Windows.Forms.Padding(0);
             this.dpPreview.Name = "dpPreview";
-            this.dpPreview.Size = new System.Drawing.Size(416, 425);
+            this.dpPreview.Size = new System.Drawing.Size(416, 426);
             this.dpPreview.TabIndex = 1;
             this.dpPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dpPreview_MouseDown);
             this.dpPreview.Resize += new System.EventHandler(this.dpPreview_Resize);
@@ -1056,13 +1035,13 @@
             this.dtButtonTable.Controls.Add(this.dbGeneratePDF, 1, 0);
             this.dtButtonTable.Controls.Add(this.dbScan, 0, 0);
             this.dtButtonTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dtButtonTable.Location = new System.Drawing.Point(436, 0);
+            this.dtButtonTable.Location = new System.Drawing.Point(436, 1);
             this.dtButtonTable.Margin = new System.Windows.Forms.Padding(1, 0, 6, 0);
             this.dtButtonTable.Name = "dtButtonTable";
             this.dtButtonTable.RowCount = 1;
             this.dtButtonTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.dtButtonTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.dtButtonTable.Size = new System.Drawing.Size(250, 28);
+            this.dtButtonTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
+            this.dtButtonTable.Size = new System.Drawing.Size(250, 31);
             this.dtButtonTable.TabIndex = 2;
             // 
             // dbGeneratePDF
@@ -1071,7 +1050,7 @@
             this.dbGeneratePDF.Location = new System.Drawing.Point(128, 3);
             this.dbGeneratePDF.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.dbGeneratePDF.Name = "dbGeneratePDF";
-            this.dbGeneratePDF.Size = new System.Drawing.Size(122, 22);
+            this.dbGeneratePDF.Size = new System.Drawing.Size(122, 25);
             this.dbGeneratePDF.TabIndex = 0;
             this.dbGeneratePDF.Text = "Generuj PDF";
             this.dbGeneratePDF.UseVisualStyleBackColor = true;
@@ -1083,7 +1062,7 @@
             this.dbScan.Location = new System.Drawing.Point(0, 3);
             this.dbScan.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.dbScan.Name = "dbScan";
-            this.dbScan.Size = new System.Drawing.Size(122, 22);
+            this.dbScan.Size = new System.Drawing.Size(122, 25);
             this.dbScan.TabIndex = 1;
             this.dbScan.Text = "Szukaj błędów";
             this.dbScan.UseVisualStyleBackColor = true;
@@ -1100,7 +1079,7 @@
             this.dtvData.ShowLines = false;
             this.dtvData.ShowPlusMinus = false;
             this.dtvData.ShowRootLines = false;
-            this.dtvData.Size = new System.Drawing.Size(260, 425);
+            this.dtvData.Size = new System.Drawing.Size(260, 426);
             this.dtvData.TabIndex = 3;
             this.dtvData.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.dtvData_AfterSelect);
             // 
@@ -1114,7 +1093,7 @@
             this.pbSave.Location = new System.Drawing.Point(128, 3);
             this.pbSave.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.pbSave.Name = "pbSave";
-            this.pbSave.Size = new System.Drawing.Size(122, 22);
+            this.pbSave.Size = new System.Drawing.Size(122, 25);
             this.pbSave.TabIndex = 5;
             this.pbSave.Text = "Zapisz";
             this.pbSave.UseVisualStyleBackColor = true;
@@ -1126,7 +1105,7 @@
             this.pbLoadData.Location = new System.Drawing.Point(0, 3);
             this.pbLoadData.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.pbLoadData.Name = "pbLoadData";
-            this.pbLoadData.Size = new System.Drawing.Size(122, 22);
+            this.pbLoadData.Size = new System.Drawing.Size(122, 25);
             this.pbLoadData.TabIndex = 4;
             this.pbLoadData.Text = "Wczytaj dane";
             this.pbLoadData.UseVisualStyleBackColor = true;
@@ -1134,6 +1113,7 @@
             // 
             // ptInfoControls
             // 
+            this.ptInfoControls.BackColor = System.Drawing.Color.Transparent;
             this.ptInfoControls.ColumnCount = 3;
             this.ptInfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.ptInfoControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -1142,12 +1122,12 @@
             this.ptInfoControls.Controls.Add(this.plStatus, 0, 0);
             this.ptInfoControls.Controls.Add(this.pcbScale, 0, 0);
             this.ptInfoControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ptInfoControls.Location = new System.Drawing.Point(0, 0);
+            this.ptInfoControls.Location = new System.Drawing.Point(0, 1);
             this.ptInfoControls.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.ptInfoControls.Name = "ptInfoControls";
             this.ptInfoControls.RowCount = 1;
             this.ptInfoControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ptInfoControls.Size = new System.Drawing.Size(432, 28);
+            this.ptInfoControls.Size = new System.Drawing.Size(432, 31);
             this.ptInfoControls.TabIndex = 0;
             // 
             // pflPage
@@ -1159,7 +1139,7 @@
             this.pflPage.Location = new System.Drawing.Point(332, 0);
             this.pflPage.Margin = new System.Windows.Forms.Padding(0);
             this.pflPage.Name = "pflPage";
-            this.pflPage.Size = new System.Drawing.Size(100, 28);
+            this.pflPage.Size = new System.Drawing.Size(100, 31);
             this.pflPage.TabIndex = 12;
             // 
             // pnPage
@@ -1203,7 +1183,7 @@
             this.plStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.plStatus.Location = new System.Drawing.Point(83, 0);
             this.plStatus.Name = "plStatus";
-            this.plStatus.Size = new System.Drawing.Size(246, 28);
+            this.plStatus.Size = new System.Drawing.Size(246, 31);
             this.plStatus.TabIndex = 11;
             this.plStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1239,7 +1219,7 @@
             this.ppPreview.Location = new System.Drawing.Point(0, 0);
             this.ppPreview.Margin = new System.Windows.Forms.Padding(0);
             this.ppPreview.Name = "ppPreview";
-            this.ppPreview.Size = new System.Drawing.Size(416, 425);
+            this.ppPreview.Size = new System.Drawing.Size(416, 426);
             this.ppPreview.TabIndex = 1;
             this.ppPreview.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ppPanelContainer_MouseDown);
             this.ppPreview.Resize += new System.EventHandler(this.ppPanelContainer_Resize);
@@ -1248,7 +1228,7 @@
             // 
             this.ptPatternDetails.ColumnCount = 1;
             this.ptPatternDetails.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ptPatternDetails.Controls.Add(this.icPatMenu, 0, 0);
+            this.ptPatternDetails.Controls.Add(this.panel1, 0, 0);
             this.ptPatternDetails.Controls.Add(this.ppDetailsPanel, 0, 1);
             this.ptPatternDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ptPatternDetails.Location = new System.Drawing.Point(0, 0);
@@ -1257,22 +1237,31 @@
             this.ptPatternDetails.RowCount = 2;
             this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ptPatternDetails.Size = new System.Drawing.Size(260, 425);
+            this.ptPatternDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.ptPatternDetails.Size = new System.Drawing.Size(260, 426);
             this.ptPatternDetails.TabIndex = 5;
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.icPatMenu);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(254, 29);
+            this.panel1.TabIndex = 75;
             // 
             // icPatMenu
             // 
             this.icPatMenu.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ptPatternDetails.SetColumnSpan(this.icPatMenu, 2);
             this.icPatMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.icPatMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.icpmFieldDetails,
             this.icpmDetails,
             this.icpmPageDetails});
-            this.icPatMenu.Location = new System.Drawing.Point(3, 3);
-            this.icPatMenu.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.icPatMenu.Location = new System.Drawing.Point(0, 0);
             this.icPatMenu.Name = "icPatMenu";
-            this.icPatMenu.Size = new System.Drawing.Size(254, 26);
+            this.icPatMenu.Size = new System.Drawing.Size(252, 27);
             this.icPatMenu.TabIndex = 68;
             this.icPatMenu.Text = "icPatMenu";
             // 
@@ -1281,7 +1270,7 @@
             this.icpmFieldDetails.Enabled = false;
             this.icpmFieldDetails.Name = "icpmFieldDetails";
             this.icpmFieldDetails.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Q)));
-            this.icpmFieldDetails.Size = new System.Drawing.Size(42, 22);
+            this.icpmFieldDetails.Size = new System.Drawing.Size(42, 23);
             this.icpmFieldDetails.Text = "Pole";
             this.icpmFieldDetails.Click += new System.EventHandler(this.icpmFieldDetails_Click);
             // 
@@ -1289,7 +1278,7 @@
             // 
             this.icpmDetails.Name = "icpmDetails";
             this.icpmDetails.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.W)));
-            this.icpmDetails.Size = new System.Drawing.Size(70, 22);
+            this.icpmDetails.Size = new System.Drawing.Size(70, 23);
             this.icpmDetails.Text = "Szczegóły";
             this.icpmDetails.Click += new System.EventHandler(this.icpmDetails_Click);
             // 
@@ -1298,7 +1287,7 @@
             this.icpmPageDetails.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.icpmPageDetails.Name = "icpmPageDetails";
             this.icpmPageDetails.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.icpmPageDetails.Size = new System.Drawing.Size(53, 22);
+            this.icpmPageDetails.Size = new System.Drawing.Size(53, 23);
             this.icpmPageDetails.Text = "Strona";
             this.icpmPageDetails.Click += new System.EventHandler(this.icpmPageDetails_Click);
             // 
@@ -1311,7 +1300,7 @@
             this.ppDetailsPanel.Location = new System.Drawing.Point(0, 35);
             this.ppDetailsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.ppDetailsPanel.Name = "ppDetailsPanel";
-            this.ppDetailsPanel.Size = new System.Drawing.Size(260, 390);
+            this.ppDetailsPanel.Size = new System.Drawing.Size(260, 391);
             this.ppDetailsPanel.TabIndex = 69;
             // 
             // ptFieldDetails
@@ -1374,7 +1363,7 @@
             this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.ptFieldDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.ptFieldDetails.Size = new System.Drawing.Size(260, 390);
+            this.ptFieldDetails.Size = new System.Drawing.Size(260, 391);
             this.ptFieldDetails.TabIndex = 7;
             // 
             // pcbTextTransform
@@ -1819,7 +1808,7 @@
             this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.ptDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.ptDetails.Size = new System.Drawing.Size(260, 390);
+            this.ptDetails.Size = new System.Drawing.Size(260, 391);
             this.ptDetails.TabIndex = 5;
             this.ptDetails.Visible = false;
             // 
@@ -2081,7 +2070,7 @@
             this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.ptPageDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.ptPageDetails.Size = new System.Drawing.Size(260, 390);
+            this.ptPageDetails.Size = new System.Drawing.Size(260, 391);
             this.ptPageDetails.TabIndex = 4;
             this.ptPageDetails.Visible = false;
             // 
@@ -2276,7 +2265,7 @@
             this.scData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scData.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.scData.Location = new System.Drawing.Point(6, 6);
-            this.scData.Margin = new System.Windows.Forms.Padding(6, 6, 6, 3);
+            this.scData.Margin = new System.Windows.Forms.Padding(6);
             this.scData.Name = "scData";
             // 
             // scData.Panel1
@@ -2288,100 +2277,133 @@
             // 
             this.scData.Panel2.Controls.Add(this.dtvData);
             this.scData.Panel2MinSize = 250;
-            this.scData.Size = new System.Drawing.Size(680, 425);
+            this.scData.Size = new System.Drawing.Size(680, 426);
             this.scData.SplitterDistance = 416;
             this.scData.SplitterWidth = 6;
             this.scData.TabIndex = 4;
             this.scData.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.scData_SplitterMoved);
             // 
-            // scMain
+            // SC_P1_Main
             // 
-            this.scMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.scMain.Location = new System.Drawing.Point(6, 6);
-            this.scMain.Margin = new System.Windows.Forms.Padding(6);
-            this.scMain.Name = "scMain";
+            this.SC_P1_Main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SC_P1_Main.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.SC_P1_Main.Location = new System.Drawing.Point(5, 5);
+            this.SC_P1_Main.Margin = new System.Windows.Forms.Padding(5);
+            this.SC_P1_Main.Name = "SC_P1_Main";
             // 
-            // scMain.Panel1
+            // SC_P1_Main.Panel1
             // 
-            this.scMain.Panel1.Controls.Add(this.mtvPatterns);
-            this.scMain.Panel1MinSize = 250;
+            this.SC_P1_Main.Panel1.Controls.Add(this.SC_P1_Details);
+            this.SC_P1_Main.Panel1MinSize = 230;
             // 
-            // scMain.Panel2
+            // SC_P1_Main.Panel2
             // 
-            this.scMain.Panel2.Controls.Add(this.mpPreview);
-            this.scMain.Panel2MinSize = 416;
-            this.scMain.Size = new System.Drawing.Size(680, 419);
-            this.scMain.SplitterDistance = 250;
-            this.scMain.SplitterWidth = 6;
-            this.scMain.TabIndex = 5;
-            this.scMain.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.scHome_SplitterMoved);
+            this.SC_P1_Main.Panel2.Controls.Add(this.P_P1_Preview);
+            this.SC_P1_Main.Panel2MinSize = 416;
+            this.SC_P1_Main.Size = new System.Drawing.Size(682, 428);
+            this.SC_P1_Main.SplitterDistance = 230;
+            this.SC_P1_Main.SplitterWidth = 5;
+            this.SC_P1_Main.TabIndex = 5;
             // 
-            // mtlButtons
+            // SC_P1_Details
             // 
-            this.mtlButtons.ColumnCount = 2;
-            this.mtlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.mtlButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.mtlButtons.Controls.Add(this.mbDelete, 0, 0);
-            this.mtlButtons.Controls.Add(this.mbNew, 0, 0);
-            this.mtlButtons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mtlButtons.Location = new System.Drawing.Point(5, 1);
-            this.mtlButtons.Margin = new System.Windows.Forms.Padding(5, 1, 0, 0);
-            this.mtlButtons.Name = "mtlButtons";
-            this.mtlButtons.RowCount = 1;
-            this.mtlButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mtlButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.mtlButtons.Size = new System.Drawing.Size(252, 30);
-            this.mtlButtons.TabIndex = 8;
+            this.SC_P1_Details.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SC_P1_Details.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.SC_P1_Details.Location = new System.Drawing.Point(0, 0);
+            this.SC_P1_Details.Name = "SC_P1_Details";
+            this.SC_P1_Details.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // tlMain
+            // SC_P1_Details.Panel1
             // 
-            this.tlMain.ColumnCount = 1;
-            this.tlMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlMain.Controls.Add(this.scMain, 0, 0);
-            this.tlMain.Controls.Add(this.tlMainStatusBar, 0, 1);
-            this.tlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlMain.Location = new System.Drawing.Point(0, 31);
-            this.tlMain.Margin = new System.Windows.Forms.Padding(0);
-            this.tlMain.Name = "tlMain";
-            this.tlMain.RowCount = 2;
-            this.tlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            this.tlMain.Size = new System.Drawing.Size(692, 462);
-            this.tlMain.TabIndex = 6;
+            this.SC_P1_Details.Panel1.Controls.Add(this.TV_P1_Patterns);
+            this.SC_P1_Details.Panel1MinSize = 300;
             // 
-            // tlMainStatusBar
+            // SC_P1_Details.Panel2
             // 
-            this.tlMainStatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.tlMainStatusBar.ColumnCount = 2;
-            this.tlMainStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 257F));
-            this.tlMainStatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlMainStatusBar.Controls.Add(this.mtlStatusBar, 0, 0);
-            this.tlMainStatusBar.Controls.Add(this.mtlButtons, 0, 0);
-            this.tlMainStatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlMainStatusBar.Location = new System.Drawing.Point(0, 431);
-            this.tlMainStatusBar.Margin = new System.Windows.Forms.Padding(0);
-            this.tlMainStatusBar.Name = "tlMainStatusBar";
-            this.tlMainStatusBar.RowCount = 1;
-            this.tlMainStatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlMainStatusBar.Size = new System.Drawing.Size(692, 31);
-            this.tlMainStatusBar.TabIndex = 6;
-            this.tlMainStatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.tlMainStatusBar_Paint);
+            this.SC_P1_Details.Panel2.Controls.Add(this.RTB_P1_Details);
+            this.SC_P1_Details.Panel2Collapsed = true;
+            this.SC_P1_Details.Panel2MinSize = 100;
+            this.SC_P1_Details.Size = new System.Drawing.Size(230, 428);
+            this.SC_P1_Details.SplitterDistance = 300;
+            this.SC_P1_Details.SplitterWidth = 5;
+            this.SC_P1_Details.TabIndex = 8;
+            // 
+            // RTB_P1_Details
+            // 
+            this.RTB_P1_Details.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RTB_P1_Details.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_P1_Details.Location = new System.Drawing.Point(0, 0);
+            this.RTB_P1_Details.Name = "RTB_P1_Details";
+            this.RTB_P1_Details.Size = new System.Drawing.Size(150, 46);
+            this.RTB_P1_Details.TabIndex = 0;
+            this.RTB_P1_Details.Text = "";
+            // 
+            // TLP_Main
+            // 
+            this.TLP_Main.ColumnCount = 1;
+            this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_Main.Controls.Add(this.SC_P1_Main, 0, 0);
+            this.TLP_Main.Controls.Add(this.TLP_P1_StatusBar, 0, 1);
+            this.TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_Main.Location = new System.Drawing.Point(0, 32);
+            this.TLP_Main.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_Main.Name = "TLP_Main";
+            this.TLP_Main.RowCount = 2;
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.TLP_Main.Size = new System.Drawing.Size(692, 470);
+            this.TLP_Main.TabIndex = 6;
+            // 
+            // TLP_P1_StatusBar
+            // 
+            this.TLP_P1_StatusBar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.TLP_P1_StatusBar.ColumnCount = 5;
+            this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.TLP_P1_StatusBar.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            this.TLP_P1_StatusBar.Controls.Add(this.B_P1_New, 0, 0);
+            this.TLP_P1_StatusBar.Controls.Add(this.B_P1_Delete, 1, 0);
+            this.TLP_P1_StatusBar.Controls.Add(this.CB_P1_ShowDetails, 2, 0);
+            this.TLP_P1_StatusBar.Controls.Add(this.L_P1_Page, 3, 0);
+            this.TLP_P1_StatusBar.Controls.Add(this.N_P1_Page, 4, 0);
+            this.TLP_P1_StatusBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TLP_P1_StatusBar.Location = new System.Drawing.Point(0, 438);
+            this.TLP_P1_StatusBar.Margin = new System.Windows.Forms.Padding(0);
+            this.TLP_P1_StatusBar.Name = "TLP_P1_StatusBar";
+            this.TLP_P1_StatusBar.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.TLP_P1_StatusBar.RowCount = 1;
+            this.TLP_P1_StatusBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TLP_P1_StatusBar.Size = new System.Drawing.Size(692, 32);
+            this.TLP_P1_StatusBar.TabIndex = 6;
+            this.TLP_P1_StatusBar.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_P1_StatusBar_Paint);
+            // 
+            // CB_P1_ShowDetails
+            // 
+            this.CB_P1_ShowDetails.AutoSize = true;
+            this.CB_P1_ShowDetails.Dock = System.Windows.Forms.DockStyle.Left;
+            this.CB_P1_ShowDetails.Location = new System.Drawing.Point(243, 4);
+            this.CB_P1_ShowDetails.Name = "CB_P1_ShowDetails";
+            this.CB_P1_ShowDetails.Size = new System.Drawing.Size(213, 25);
+            this.CB_P1_ShowDetails.TabIndex = 24;
+            this.CB_P1_ShowDetails.Text = "Pokaż szczegóły zaznaczonego wzoru.";
+            this.CB_P1_ShowDetails.UseVisualStyleBackColor = true;
+            this.CB_P1_ShowDetails.CheckedChanged += new System.EventHandler(this.CB_P1_ShowDetails_CheckedChanged);
             // 
             // tDataTable
             // 
             this.tDataTable.ColumnCount = 1;
             this.tDataTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tDataTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tDataTable.Controls.Add(this.scData, 0, 0);
             this.tDataTable.Controls.Add(this.sbData, 0, 1);
             this.tDataTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tDataTable.Location = new System.Drawing.Point(0, 31);
+            this.tDataTable.Location = new System.Drawing.Point(0, 32);
             this.tDataTable.Name = "tDataTable";
             this.tDataTable.RowCount = 2;
             this.tDataTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tDataTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tDataTable.Size = new System.Drawing.Size(692, 462);
+            this.tDataTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tDataTable.Size = new System.Drawing.Size(692, 470);
             this.tDataTable.TabIndex = 7;
             this.tDataTable.Visible = false;
             // 
@@ -2394,13 +2416,15 @@
             this.sbData.Controls.Add(this.dtInfoControls, 0, 0);
             this.sbData.Controls.Add(this.dtButtonTable, 1, 0);
             this.sbData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sbData.Location = new System.Drawing.Point(0, 434);
+            this.sbData.Location = new System.Drawing.Point(0, 438);
             this.sbData.Margin = new System.Windows.Forms.Padding(0);
             this.sbData.Name = "sbData";
+            this.sbData.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.sbData.RowCount = 1;
             this.sbData.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.sbData.Size = new System.Drawing.Size(692, 28);
+            this.sbData.Size = new System.Drawing.Size(692, 32);
             this.sbData.TabIndex = 5;
+            this.sbData.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_P1_StatusBar_Paint);
             // 
             // dtInfoControls
             // 
@@ -2412,12 +2436,12 @@
             this.dtInfoControls.Controls.Add(this.dlStatus, 0, 0);
             this.dtInfoControls.Controls.Add(this.dcbZoom, 0, 0);
             this.dtInfoControls.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dtInfoControls.Location = new System.Drawing.Point(0, 0);
+            this.dtInfoControls.Location = new System.Drawing.Point(0, 1);
             this.dtInfoControls.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.dtInfoControls.Name = "dtInfoControls";
             this.dtInfoControls.RowCount = 1;
             this.dtInfoControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.dtInfoControls.Size = new System.Drawing.Size(432, 28);
+            this.dtInfoControls.Size = new System.Drawing.Size(432, 31);
             this.dtInfoControls.TabIndex = 3;
             // 
             // dfPage
@@ -2429,7 +2453,7 @@
             this.dfPage.Location = new System.Drawing.Point(332, 0);
             this.dfPage.Margin = new System.Windows.Forms.Padding(0);
             this.dfPage.Name = "dfPage";
-            this.dfPage.Size = new System.Drawing.Size(100, 28);
+            this.dfPage.Size = new System.Drawing.Size(100, 31);
             this.dfPage.TabIndex = 12;
             // 
             // dnPage
@@ -2473,7 +2497,7 @@
             this.dlStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dlStatus.Location = new System.Drawing.Point(83, 0);
             this.dlStatus.Name = "dlStatus";
-            this.dlStatus.Size = new System.Drawing.Size(246, 28);
+            this.dlStatus.Size = new System.Drawing.Size(246, 31);
             this.dlStatus.TabIndex = 11;
             this.dlStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -2502,16 +2526,15 @@
             // 
             this.tPattern.ColumnCount = 1;
             this.tPattern.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tPattern.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tPattern.Controls.Add(this.scPattern, 0, 0);
             this.tPattern.Controls.Add(this.sbPattern, 0, 1);
             this.tPattern.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tPattern.Location = new System.Drawing.Point(0, 31);
+            this.tPattern.Location = new System.Drawing.Point(0, 32);
             this.tPattern.Name = "tPattern";
             this.tPattern.RowCount = 2;
             this.tPattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tPattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tPattern.Size = new System.Drawing.Size(692, 462);
+            this.tPattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tPattern.Size = new System.Drawing.Size(692, 470);
             this.tPattern.TabIndex = 8;
             this.tPattern.Visible = false;
             // 
@@ -2520,7 +2543,7 @@
             this.scPattern.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scPattern.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.scPattern.Location = new System.Drawing.Point(6, 6);
-            this.scPattern.Margin = new System.Windows.Forms.Padding(6, 6, 6, 3);
+            this.scPattern.Margin = new System.Windows.Forms.Padding(6);
             this.scPattern.Name = "scPattern";
             // 
             // scPattern.Panel1
@@ -2532,7 +2555,7 @@
             // 
             this.scPattern.Panel2.Controls.Add(this.ptPatternDetails);
             this.scPattern.Panel2MinSize = 250;
-            this.scPattern.Size = new System.Drawing.Size(680, 425);
+            this.scPattern.Size = new System.Drawing.Size(680, 426);
             this.scPattern.SplitterDistance = 416;
             this.scPattern.SplitterWidth = 6;
             this.scPattern.TabIndex = 0;
@@ -2547,54 +2570,53 @@
             this.sbPattern.Controls.Add(this.ptInfoControls, 0, 0);
             this.sbPattern.Controls.Add(this.ptStatusButtons, 1, 0);
             this.sbPattern.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sbPattern.Location = new System.Drawing.Point(0, 434);
+            this.sbPattern.Location = new System.Drawing.Point(0, 438);
             this.sbPattern.Margin = new System.Windows.Forms.Padding(0);
             this.sbPattern.Name = "sbPattern";
+            this.sbPattern.Padding = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.sbPattern.RowCount = 1;
             this.sbPattern.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.sbPattern.Size = new System.Drawing.Size(692, 28);
+            this.sbPattern.Size = new System.Drawing.Size(692, 32);
             this.sbPattern.TabIndex = 1;
+            this.sbPattern.Paint += new System.Windows.Forms.PaintEventHandler(this.TLP_P1_StatusBar_Paint);
             // 
             // ptStatusButtons
             // 
+            this.ptStatusButtons.BackColor = System.Drawing.Color.Transparent;
             this.ptStatusButtons.ColumnCount = 2;
             this.ptStatusButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.ptStatusButtons.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.ptStatusButtons.Controls.Add(this.pbSave, 0, 0);
             this.ptStatusButtons.Controls.Add(this.pbLoadData, 0, 0);
             this.ptStatusButtons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ptStatusButtons.Location = new System.Drawing.Point(436, 0);
+            this.ptStatusButtons.Location = new System.Drawing.Point(436, 1);
             this.ptStatusButtons.Margin = new System.Windows.Forms.Padding(1, 0, 6, 0);
             this.ptStatusButtons.Name = "ptStatusButtons";
             this.ptStatusButtons.RowCount = 1;
             this.ptStatusButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.ptStatusButtons.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.ptStatusButtons.Size = new System.Drawing.Size(250, 28);
+            this.ptStatusButtons.Size = new System.Drawing.Size(250, 31);
             this.ptStatusButtons.TabIndex = 1;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(692, 493);
-            this.Controls.Add(this.tlMain);
+            this.ClientSize = new System.Drawing.Size(692, 502);
+            this.Controls.Add(this.TLP_Main);
             this.Controls.Add(this.tPattern);
             this.Controls.Add(this.tDataTable);
-            this.Controls.Add(this.imMain);
+            this.Controls.Add(this.MS_Main);
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(700, 520);
             this.Name = "MainForm";
             this.Text = "CDesigner - Kreator Dokumentów";
             this.Move += new System.EventHandler(this.Main_Move);
             this.Resize += new System.EventHandler(this.Main_Resize);
-            this.mtlStatusBar.ResumeLayout(false);
-            this.mtlStatusBar.PerformLayout();
-            this.mfPageLayout.ResumeLayout(false);
-            this.mfPageLayout.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mnPage)).EndInit();
-            this.gcmPattern.ResumeLayout(false);
-            this.imMain.ResumeLayout(false);
-            this.imMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.N_P1_Page)).EndInit();
+            this.CMS_Pattern.ResumeLayout(false);
+            this.MS_Main.ResumeLayout(false);
+            this.MS_Main.PerformLayout();
             this.icPage.ResumeLayout(false);
             this.icLabel.ResumeLayout(false);
             this.dtButtonTable.ResumeLayout(false);
@@ -2604,7 +2626,8 @@
             this.pflPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnPage)).EndInit();
             this.ptPatternDetails.ResumeLayout(false);
-            this.ptPatternDetails.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.icPatMenu.ResumeLayout(false);
             this.icPatMenu.PerformLayout();
             this.ppDetailsPanel.ResumeLayout(false);
@@ -2627,13 +2650,17 @@
             this.scData.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scData)).EndInit();
             this.scData.ResumeLayout(false);
-            this.scMain.Panel1.ResumeLayout(false);
-            this.scMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.scMain)).EndInit();
-            this.scMain.ResumeLayout(false);
-            this.mtlButtons.ResumeLayout(false);
-            this.tlMain.ResumeLayout(false);
-            this.tlMainStatusBar.ResumeLayout(false);
+            this.SC_P1_Main.Panel1.ResumeLayout(false);
+            this.SC_P1_Main.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SC_P1_Main)).EndInit();
+            this.SC_P1_Main.ResumeLayout(false);
+            this.SC_P1_Details.Panel1.ResumeLayout(false);
+            this.SC_P1_Details.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SC_P1_Details)).EndInit();
+            this.SC_P1_Details.ResumeLayout(false);
+            this.TLP_Main.ResumeLayout(false);
+            this.TLP_P1_StatusBar.ResumeLayout(false);
+            this.TLP_P1_StatusBar.PerformLayout();
             this.tDataTable.ResumeLayout(false);
             this.sbData.ResumeLayout(false);
             this.dtInfoControls.ResumeLayout(false);
@@ -2655,13 +2682,13 @@
 
         #endregion
 
-		private System.Windows.Forms.MenuStrip imMain;
-        private System.Windows.Forms.ToolStripMenuItem gmPattern;
-        private System.Windows.Forms.ToolStripMenuItem gmpNew;
-		private System.Windows.Forms.ToolStripMenuItem gmpImport;
-        private System.Windows.Forms.ToolStripMenuItem gsPattern;
-        private System.Windows.Forms.ToolStripMenuItem gsHome;
-		private System.Windows.Forms.ToolStripMenuItem gsData;
+		private System.Windows.Forms.MenuStrip MS_Main;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_Pattern;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_MenuNewPattern;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Import;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_PatternEditor;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_HomePage;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_PrintPreview;
         private System.Windows.Forms.OpenFileDialog gsImage;
 		private System.Windows.Forms.ColorDialog gsColor;
         private System.Windows.Forms.FontDialog gsFont;
@@ -2696,24 +2723,22 @@
 		private System.Windows.Forms.ToolStripMenuItem iclPrintColor;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
 		private System.Windows.Forms.OpenFileDialog gsOpenFile;
-		private System.Windows.Forms.ContextMenuStrip gcmPattern;
-		private System.Windows.Forms.ToolStripMenuItem ictEdit;
-		private System.Windows.Forms.ToolStripMenuItem ictDelete;
-		private System.Windows.Forms.ToolStripMenuItem ictLoadData;
-		private System.Windows.Forms.ToolStripMenuItem ictNew;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-		private System.Windows.Forms.ToolStripMenuItem ictImport;
-		private System.Windows.Forms.ToolStripMenuItem ictExport;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-		private System.Windows.Forms.TableLayoutPanel mtlStatusBar;
-		private System.Windows.Forms.Button mbDelete;
-		private System.Windows.Forms.Button mbNew;
-		private System.Windows.Forms.FlowLayoutPanel mfPageLayout;
-		private System.Windows.Forms.NumericUpDown mnPage;
-		private System.Windows.Forms.Label mlPage;
+		private System.Windows.Forms.ContextMenuStrip CMS_Pattern;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_EditPattern;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_RemovePattern;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_LoadData;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_NewPattern;
+		private System.Windows.Forms.ToolStripSeparator TSMI_Separator_A1;
+		private System.Windows.Forms.ToolStripSeparator TSMI_Separator_A2;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_ImportPattern;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_ExportPattern;
+        private System.Windows.Forms.ToolStripSeparator TSMI_Separator_A3;
+		private System.Windows.Forms.Button B_P1_Delete;
+        private System.Windows.Forms.Button B_P1_New;
+		private System.Windows.Forms.NumericUpDown N_P1_Page;
+		private System.Windows.Forms.Label L_P1_Page;
 		private System.Windows.Forms.Panel dpPreview;
-		private System.Windows.Forms.TreeView mtvPatterns;
+		private System.Windows.Forms.TreeView TV_P1_Patterns;
 		private System.Windows.Forms.TableLayoutPanel dtButtonTable;
 		private System.Windows.Forms.TreeView dtvData;
 		private System.Windows.Forms.Button pbSave;
@@ -2725,7 +2750,7 @@
 		private System.Windows.Forms.Label plStatus;
 		private System.Windows.Forms.ComboBox pcbScale;
 		private System.Windows.Forms.Panel ppPreview;
-		private System.Windows.Forms.Panel mpPreview;
+		private System.Windows.Forms.Panel P_P1_Preview;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
 		private System.Windows.Forms.Button dbGeneratePDF;
 		private System.Windows.Forms.Button dbScan;
@@ -2788,11 +2813,9 @@
 		private System.Windows.Forms.ComboBox pcxpImageSet;
 		private System.Windows.Forms.Label plpImageSettings;
 		private System.Windows.Forms.SplitContainer scData;
-		private System.Windows.Forms.SplitContainer scMain;
-		private System.Windows.Forms.TableLayoutPanel mtlButtons;
-		private System.Windows.Forms.Label mlStatus;
-		private System.Windows.Forms.TableLayoutPanel tlMain;
-		private System.Windows.Forms.TableLayoutPanel tlMainStatusBar;
+        private System.Windows.Forms.SplitContainer SC_P1_Main;
+		private System.Windows.Forms.TableLayoutPanel TLP_Main;
+		private System.Windows.Forms.TableLayoutPanel TLP_P1_StatusBar;
 		private System.Windows.Forms.TableLayoutPanel tDataTable;
 		private System.Windows.Forms.TableLayoutPanel sbData;
 		private System.Windows.Forms.TableLayoutPanel tPattern;
@@ -2805,18 +2828,18 @@
 		private System.Windows.Forms.Label dlPage;
 		private System.Windows.Forms.ComboBox dcbZoom;
 		private System.Windows.Forms.Label dlStatus;
-		private System.Windows.Forms.ToolStripMenuItem gmpRecent;
-		private System.Windows.Forms.ToolStripSeparator gmSeparator1;
-		private System.Windows.Forms.ToolStripMenuItem gmpExportAll;
-		private System.Windows.Forms.ToolStripSeparator gmSeparator2;
-		private System.Windows.Forms.ToolStripMenuItem gmpClose;
-		private System.Windows.Forms.ToolStripMenuItem gmSettings;
-		private System.Windows.Forms.ToolStripMenuItem issGeneratePDF;
-		private System.Windows.Forms.ToolStripMenuItem issEditor;
-		private System.Windows.Forms.ToolStripMenuItem issGeneral;
-		private System.Windows.Forms.ToolStripMenuItem gmProgram;
-		private System.Windows.Forms.ToolStripMenuItem gmpInfo;
-		private System.Windows.Forms.ToolStripMenuItem gmpHelp;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_RecentOpen;
+		private System.Windows.Forms.ToolStripSeparator TSS_Separator_P2;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_ExportAll;
+		private System.Windows.Forms.ToolStripSeparator TSS_Separator_P3;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Close;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Settings;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Generator;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Editor;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_General;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Program;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Info;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Help;
 		private System.Windows.Forms.Button pbPageColor;
 		private System.Windows.Forms.TextBox ptbPageColor;
 		private System.Windows.Forms.Label pcbPageLook;
@@ -2824,27 +2847,32 @@
 		private System.Windows.Forms.Button pbPageImage;
 		private System.Windows.Forms.ComboBox pcbTextTransform;
 		private System.Windows.Forms.Label plTextTransform;
-		private System.Windows.Forms.ToolStripMenuItem gmTools;
-		private System.Windows.Forms.ToolStripMenuItem gmtColumnsEditor;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Tools;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_EditColumns;
 		private System.Windows.Forms.Label pldAdditionalMargin;
 		private System.Windows.Forms.NumericUpDown pnPadding;
 		private System.Windows.Forms.Label plPadding;
 		private System.Windows.Forms.CheckBox pcbdAddMargin;
 		private System.Windows.Forms.NumericUpDown pcbMarginLR;
 		private System.Windows.Forms.NumericUpDown pcbMarginTB;
-		private System.Windows.Forms.ToolStripMenuItem gmtConnectDB;
-		private System.Windows.Forms.ToolStripMenuItem gmtCreateDB;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripMenuItem gmprClearList;
-		private System.Windows.Forms.ToolStripMenuItem gmtBackup;
-		private System.Windows.Forms.ToolStripMenuItem gmpUpdate;
-		private System.Windows.Forms.ToolStripMenuItem gmtLoadDatabase;
-		private System.Windows.Forms.ToolStripSeparator gmSeparator3;
-		private System.Windows.Forms.ToolStripMenuItem gmtEditData;
-        private System.Windows.Forms.ToolStripMenuItem createEmpty;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem gmtSaveDataToFile;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_ConnectDatabase;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_CreateDatabase;
+		private System.Windows.Forms.ToolStripSeparator TSS_Separator_P1;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_ClearRecent;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_DataBackup;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_Update;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_LoadDataFile;
+		private System.Windows.Forms.ToolStripSeparator TSS_Separator_T1;
+		private System.Windows.Forms.ToolStripMenuItem TSMI_EditRows;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_CreateEmpty;
+        private System.Windows.Forms.ToolStripSeparator TSS_Separator_T2;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_SaveData;
         private System.ComponentModel.BackgroundWorker BW_Updates;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox CB_P1_ShowDetails;
+        private System.Windows.Forms.SplitContainer SC_P1_Details;
+        private System.Windows.Forms.RichTextBox RTB_P1_Details;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_Language;
 
     }
 }

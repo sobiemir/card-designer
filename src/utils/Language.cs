@@ -7,11 +7,12 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.8.x.x
-/// Ostatnia zmiana: 2015-12-06
+/// Ostatnia zmiana: 2016-12-03
 /// 
 /// CHANGELOG:
 /// [01.12.2015] Dodano zamianę znaków \n na nową linię.
 /// [06.12.2015] Dodano zamianę znaków \$ na znak \
+/// [03.12.2016] Dodano parser dla nazw języka w różnych językach, rozpoczynający się od znaku $.
 ///
 
 using System;
@@ -60,6 +61,10 @@ namespace CDesigner.Utils
 		/// <summary>Flaga inicjalizacji klasy.</summary>
 		/// @hideinitializer
 		private static bool _init = false;
+
+        /// <summary>Kod aktualnie załadowanego języka.</summary>
+		/// @hideinitializer
+        private static string _code = "";
 
 #endregion
 
@@ -133,6 +138,20 @@ namespace CDesigner.Utils
 		{
 			return Language._line[section][subsect][index];
 		}
+
+        /// <summary>
+        /// Pobiera kod aktualnie załadowanego języka.
+        /// </summary>
+        /// 
+        /// <returns>Kod załadowanego języka.</returns>
+        /// 
+        /// <seealso cref="Initialize"/>
+        /// <seealso cref="Parse"/>
+		//* ============================================================================================================
+        public static string GetCode()
+        {
+            return Language._code;
+        }
 
 #endregion
 
@@ -321,6 +340,9 @@ namespace CDesigner.Utils
 				break;
 				// informacja o linii
 				case 4:
+                    if( chr >= 'a' && chr <= 'z' )
+                        
+
 					// pomiń znaki
 					if( chr >= '0' && chr <= '9' )
 						continue;
@@ -375,10 +397,112 @@ namespace CDesigner.Utils
 			finally
 				{ file.Close(); }
 
+            // zapisz kod języka
+            Language._code = lang;
+
 #		if DEBUG
 			Program.LogMessage( "Wczytano plik językowy dla języka o kodzie: '" + lang + "'." );
 #		endif
 		}
+
+        /// <summary>
+        /// Pobiera nazwy języka o podanym kodzie.
+        /// Jest to lista klucz => wartość, gdzie klucz jest kodem języka, a wartość to przetłumaczona
+        /// nazwa języka w języku oznaczonym kodem.
+        /// Tłumaczenia języka są oznaczone wstępnie znakiem $, po którym podawany jest skrót języka.
+        /// </summary>
+        /// 
+        /// <param name="lang">Nazwa języka przeznaczonego do parsowania nagłówka.</param>
+        /// 
+        /// <returns>Lista tłumaczeń nazwy języka.</returns>
+        /// 
+        /// <seealso cref="Parse"/>
+        /// <seealso cref="GetLanguageHeader"/>
+		//* ============================================================================================================
+        public static Dictionary<string, string> GetLanguageNames( string lang )
+        {
+			// otwórz plik do odczytu
+			StreamReader file = new StreamReader( "./languages/" + lang + ".lex" );
+
+#       if DEBUG
+            Program.LogMessage( "Przetwarzanie języka o kodzie '" + lang + "'..." );
+#       endif
+
+            var langnames = Language.GetLanguageHeader( file );
+
+            file.Close();
+            file.Dispose();
+
+            return langnames;
+        }
+
+        /// <summary>
+        /// Część parsera pliku tłumaczeń.
+        /// Pobiera dane nagłówkowe, czyli nazwę języka zdefiniowanego w pliku w kilku językach.
+        /// Dane nagłówkowe mogą być, ale nie muszą.
+        /// Gdy ich nie ma, jako nazwę języka przyjmuje się nazwę pliku.
+        /// Język może posiadać wartość DEF, która traktowana jest jako wartość domyślna gdy brakuje
+        /// tłumaczenia dla danego języka.
+        /// </summary>
+        /// 
+        /// <param name="reader">Strumień pliku do zczytywania znaków.</param>
+        /// 
+        /// <returns>Lista nazw języka w różnych językach.</returns>
+        /// 
+        /// <seealso cref="Parse"/>
+        /// <seealso cref="GetLanguageNames"/>
+        /// <seealso cref="IsEOL"/>
+		//* ============================================================================================================
+        private static Dictionary<string, string> GetLanguageHeader( StreamReader reader )
+        {
+            var list = new Dictionary<string, string>();
+            int chr, mode = 0;
+            var lang = "";
+            var str  = "";
+
+            // sprawdzaj dane w pliku nagłówkowym
+            try { while( (chr = reader.Peek()) != -1 )
+            {
+                // szukaj odpowiedniego znaku do zakończenia przetwarzania nagłówka
+                if( mode == 0 && !char.IsWhiteSpace((char)chr) && chr != '$' )
+                    break;
+                
+                // koniec linii - dodaj nazwę języka
+                if( Language.IsEOL(chr, reader) )
+                {
+                    if( lang != "" && str != "" )
+                        list.Add( lang, str );
+
+                    str  = "";
+                    lang = "";
+                    mode = 0;
+                }
+                // tryb nazwy języka
+                else if( mode == 0 && chr == '$' )
+                    mode = 1;
+                // pobieranie kodu języka
+                else if( mode == 1 )
+                {
+                    if( char.IsWhiteSpace((char)chr) )
+                        mode = 2;
+                    else
+                        lang += (char)chr;
+                }
+                // pobieranie nazwy języka
+                else if( mode == 2 )
+                    str += (char)chr;
+
+                reader.Read();
+            } }
+            catch( Exception ex )
+                { throw new Exception( ex.Message, ex ); }
+            
+#       if DEBUG
+            Program.LogMessage( "Znaleziono " + list.Count + " tłumaczeń języka." );
+#       endif
+
+            return list;
+        }
 
         /// <summary>
 		/// Sprawdza czy aktualny znak jest znakiem nowej linii.

@@ -159,7 +159,10 @@ namespace CDesigner.Utils
 
 #           if DEBUG
                 if( version == null )
+                {
                     Program.LogMessage( "Brak dostępnych aktualizacji." );
+                    return true;
+                }
                 else
                     Program.LogMessage( "Dostępna jest aktualizacja programu do wersji: v" + version + "." );
 #           endif
@@ -266,8 +269,8 @@ namespace CDesigner.Utils
         {
             List<string> files = new List<string>();
 
-            files.Add( "./cdesigner.exe" );
-            files.Add( "./cdrestore.exe" );
+            files.Add( "./CDesigner.exe" );
+            files.Add( "./CDRestore.exe" );
             
             // na razie dodaj plik konfiguracyjny - potem dodawaj tylko zmiany
             files.Add( "./cdset.nfo" );
@@ -285,9 +288,7 @@ namespace CDesigner.Utils
             files.AddRange( Program.GetFilesFromFolder(directories[2], true) );
 
             // zapisz do pliku
-            using( var writer = new StreamWriter(File.Open("./update.lst", FileMode.OpenOrCreate, FileAccess.Write)) )
-                foreach( var file in files )
-                    writer.WriteLine( file );
+            DataBackup.CreateFileList( files, "./update.lst" );
 
             // zwróć listę plików
             return files;
@@ -303,6 +304,10 @@ namespace CDesigner.Utils
         public static string DownloadLink()
         {
             return "http://app.aculo.pl/cdesigner/download/" + UpdateApp.KEY;
+        }
+
+        public static void CopyCDRestoreFiles()
+        {
         }
 
 #endregion

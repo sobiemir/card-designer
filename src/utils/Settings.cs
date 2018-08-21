@@ -30,11 +30,70 @@ namespace CDesigner
 	/// </summary>
 	/// 
 	public class Settings
-	{		
+	{
+		// ===== PRIVATE VARIABLES ==============================================================
+		
+        private static List<string> _last_patterns;
+
 		// ===== PUBLIC VARIABLES ===============================================================
 
 		/// <summary>Struktura z danymi ustawień.</summary>
 		public static SettingsInfo Info;
+
+
+		public static List<string> LastPatterns
+		{
+			// pobierz ostatnio otwierane wzory
+			get { return Settings._last_patterns; }
+			// ustaw ostatnio otwierane wzory
+			set
+			{
+				Settings._last_patterns = value;
+				
+				// wyczyść zawartość pliku (po prostu utwórz nowy)
+				File.Delete("last.lst");
+				File.Create("last.lst");
+			}
+		}
+
+		public static void GetLastPatterns()
+		{
+			// utwórz plik gdy nie istnieje
+			if( !File.Exists("last.lst") )
+			{
+				File.Create( "last.lst" );
+				Settings._last_patterns = new List<string>();
+				return;
+			}
+
+			// wczytaj ostatnie projekty
+			Settings._last_patterns = new List<string>( File.ReadLines( "last.lst" ) );
+		}
+
+		public static void AddToLastPatterns( string pattern )
+		{
+            int max = (int)Settings.Info.c02_RecentMax;
+
+			// usuń wzór jeżeli już taki istnieje
+			if( Settings._last_patterns.Contains(pattern) )
+				Settings._last_patterns.Remove( pattern );
+			
+			// maksymalna ilość wyświetlanych plików
+			if( Settings._last_patterns.Count > max && max > 0 )
+				Settings._last_patterns.RemoveAt( max - 1 );
+
+			// dodaj wzór do listy
+			Settings._last_patterns.Insert( 0, pattern );
+
+			// zapisz nowe ustawienie ostatnich wzorów
+			File.WriteAllLines( "last.lst", Settings._last_patterns.AsEnumerable() );
+		}
+
+		public static void RemoveFromLastPatterns( string pattern )
+		{
+			if( Settings._last_patterns.Remove(pattern) )
+				File.WriteAllLines( "last.lst", Settings._last_patterns.AsEnumerable() );
+		}
 
 		// ===== PUBLIC FUNCTIONS ===============================================================
 

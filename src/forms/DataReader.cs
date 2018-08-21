@@ -91,10 +91,10 @@ namespace CDesigner
 			image_list.ColorDepth = ColorDepth.Depth32Bit;
 
 			// wczytaj ikony
-			Image image = Image.FromFile( "icons/image-field.png" );
+			Image image = Image.FromFile( "images/control/image-field.png" );
 			image_list.Images.Add( "image-field", image );
 			
-			image = Image.FromFile( "icons/text-field.png" );
+			image = Image.FromFile( "images/control/text-field.png" );
 			image_list.Images.Add( "text-field", image );
 
 			// ustaw listę obrazków

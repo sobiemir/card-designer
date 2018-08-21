@@ -7,7 +7,7 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.1.x
-/// Ostatnia zmiana: 2016-11-11
+/// Ostatnia zmiana: 2016-12-03
 /// 
 /// CHANGELOG:
 /// [23.03.2015] Wersja początkowa.
@@ -15,6 +15,7 @@
 /// [09.06.2015] Sprawdzanie poprawności znaków wpisanych w polu nazwy wzoru.
 /// [11.11.2016] Odblokowanie pola wyboru kopiowania wzoru i oprogramowanie akcji.
 ///              Opisanie kodu, regiony, uporządkowanie kodu.
+/// [03.12.2016] Tłumaczenia formatów (pole własny).
 ///
 
 using System;
@@ -93,9 +94,8 @@ namespace CDesigner.Forms
             // przetłumacz kontrolki
             this.translateForm();
 
-            // wyświetlanie nazw dostępnych formatów
-            foreach( string format_name in this._format_names )
-                this.CBX_PaperFormat.Items.Add( format_name );
+            // wyświetl nazwy aktualnych formatów
+            this.fillAvailableFormats();
 
             this.TB_PatternName.Text = "";
 
@@ -159,6 +159,25 @@ namespace CDesigner.Forms
                 this.CBX_CopyFrom.Enabled = true;
             else
                 this.CBX_CopyFrom.Enabled = false;
+        }
+
+        /// <summary>
+        /// Funkcja uzupełnia kontrolkę wyboru formatu.
+        /// Dodaje wszystkie możliwe do zastosowania formaty, które na razie ustawione są na sztywno.
+        /// Nazwa "własny" jest tłumaczona.
+        /// </summary>
+        /// 
+        /// <seealso cref="NewPatternForm"/>
+		//* ============================================================================================================
+        protected void fillAvailableFormats()
+        {
+            // wyczyść i dodaj nazwę formatu własnego
+            this.CBX_PaperFormat.Items.Clear();
+            this.CBX_PaperFormat.Items.Add( Language.GetLine("NewPattern", "ComboBox", (int)LANGCODE.I05_CBX_CUSTOMSIZE) );
+
+            // wyświetlanie nazw dostępnych formatów
+            foreach( string format_name in this._format_names )
+                this.CBX_PaperFormat.Items.Add( format_name );
         }
 
         /// <summary>

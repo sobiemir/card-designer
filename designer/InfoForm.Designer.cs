@@ -113,12 +113,12 @@
             this.TLP_Info.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.TLP_Info.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.TLP_Info.Controls.Add(this.PB_AppLogo, 0, 0);
-            this.TLP_Info.Controls.Add(this.L_ReleaseDate, 1, 1);
+            this.TLP_Info.Controls.Add(this.L_ReleaseDate, 1, 2);
             this.TLP_Info.Controls.Add(this.L_AppName, 1, 0);
-            this.TLP_Info.Controls.Add(this.L_Copyright, 1, 4);
+            this.TLP_Info.Controls.Add(this.L_Copyright, 1, 5);
             this.TLP_Info.Controls.Add(this.L_Version, 1, 1);
-            this.TLP_Info.Controls.Add(this.L_AuthorApp, 1, 2);
-            this.TLP_Info.Controls.Add(this.LL_Website, 1, 3);
+            this.TLP_Info.Controls.Add(this.L_AuthorApp, 1, 3);
+            this.TLP_Info.Controls.Add(this.LL_Website, 1, 4);
             this.TLP_Info.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TLP_Info.Location = new System.Drawing.Point(3, 3);
             this.TLP_Info.Name = "TLP_Info";

@@ -40,12 +40,12 @@ namespace CDRestore
 			try
 			{
 				String version = AssemblyName.GetAssemblyName("CDesigner.exe").Version.ToString();
-				this.lVersion.Text = "Zainstalowana wersja: " + version;
+				this.L_Version.Text = "Zainstalowana wersja: " + version;
 			}
 			catch( FileNotFoundException ex )
 			{
 				Program.LogMessage( ex.Message );
-				this.lVersion.Text = "Zainstalowana wersja: brak.";
+				this.L_Version.Text = "Zainstalowana wersja: brak.";
 			}
 		}
 
@@ -66,14 +66,14 @@ namespace CDRestore
 					Program.LogMessage( "Odświeżanie listy kopii zapasowych programu..." );
 
 					files    = new DirectoryInfo("./update/").GetFiles();
-					listview = this.lvProgramBackup;
+					listview = this.LV_Program;
 				}
 				else
 				{
 					Program.LogMessage( "Odświeżanie listy kopii zapasowych wzorów..." );
 
 					files    = new DirectoryInfo("./backup/").GetFiles();
-					listview = this.lvPatternBackup;
+					listview = this.LV_Pattern;
 				}
 
 				// wyczyść tabelę
@@ -118,16 +118,16 @@ namespace CDRestore
 				return;
 
 			// brak zaznaczonych elementów, wyłącz przyciski
-			if( this.lvPatternBackup.SelectedItems.Count == 0 || this.lvPatternBackup.Items.Count == 0 )
+			if( this.LV_Pattern.SelectedItems.Count == 0 || this.LV_Pattern.Items.Count == 0 )
 			{
-				this.bDelete.Enabled  = false;
-				this.bRestore.Enabled = false;
+				this.B_Delete.Enabled  = false;
+				this.B_Restore.Enabled = false;
 
 				return;
 			}
 
-			this.bDelete.Enabled  = true;
-			this.bRestore.Enabled = true;
+			this.B_Delete.Enabled  = true;
+			this.B_Restore.Enabled = true;
 		}
 
 		/// 
@@ -139,16 +139,16 @@ namespace CDRestore
 				return;
 
 			// brak zaznaczonych elementów, wyłącz przyciski
-			if( this.lvProgramBackup.SelectedItems.Count == 0 || this.lvProgramBackup.Items.Count == 0 )
+			if( this.LV_Program.SelectedItems.Count == 0 || this.LV_Program.Items.Count == 0 )
 			{
-				this.bDelete.Enabled  = false;
-				this.bRestore.Enabled = false;
+				this.B_Delete.Enabled  = false;
+				this.B_Restore.Enabled = false;
 
 				return;
 			}
 
-			this.bDelete.Enabled  = true;
-			this.bRestore.Enabled = true;
+			this.B_Delete.Enabled  = true;
+			this.B_Restore.Enabled = true;
 		}
 
 		/// 
@@ -156,7 +156,7 @@ namespace CDRestore
 		/// ------------------------------------------------------------------------------------------------------------
 		private void tcBackup_Click( object sender, EventArgs ev )
 		{
-			if( this.tcBackup.SelectedTab.Name == "tpProgram" )
+			if( this.TC_Backups.SelectedTab.Name == "TP_Program" )
 				this.lvProgramBackup_SelectedIndexChanged( null, null );
 			else
 				this.lvPatternBackup_SelectedIndexChanged( null, null );
@@ -171,15 +171,15 @@ namespace CDRestore
 				   name   = "";
 
 			// wybierz plik i odpowiedni folder
-			if( this.lvProgramBackup.SelectedItems.Count > 0 && this.tcBackup.SelectedTab.Name == "tpProgram" )
+			if( this.LV_Program.SelectedItems.Count > 0 && this.TC_Backups.SelectedTab.Name == "TP_Program" )
 			{
 				folder = "./update/";
-				name = this.lvProgramBackup.SelectedItems[0].Text;
+				name = this.LV_Program.SelectedItems[0].Text;
 			}
-			else if( this.lvPatternBackup.SelectedItems.Count > 0 && this.tcBackup.SelectedTab.Name == "tpPattern" )
+			else if( this.LV_Pattern.SelectedItems.Count > 0 && this.TC_Backups.SelectedTab.Name == "TP_Pattern" )
 			{
 				folder = "./backup/";
-				name = this.lvPatternBackup.SelectedItems[0].Text;
+				name = this.LV_Pattern.SelectedItems[0].Text;
 			}
 
 			// wyświetl potwierdzenie
@@ -208,9 +208,9 @@ namespace CDRestore
 		private void bRestore_Click(object sender, EventArgs ev )
 		{
 			string folder = "./update/",
-				   name = this.lvProgramBackup.SelectedItems[0].Text;
+				   name = this.LV_Program.SelectedItems[0].Text;
 
-			if( this.lvPatternBackup.SelectedItems.Count > 0 && this.tcBackup.SelectedTab.Name == "tpPattern" )
+			if( this.LV_Pattern.SelectedItems.Count > 0 && this.TC_Backups.SelectedTab.Name == "TP_Pattern" )
 			{
 				throw new NotImplementedException();
 			}
@@ -230,21 +230,21 @@ namespace CDRestore
 
 			if( result == DialogResult.Yes )
 			{
-				this.bDelete.Enabled  = false;
-				this.bRestore.Enabled = false;
+				this.B_Delete.Enabled  = false;
+				this.B_Restore.Enabled = false;
 				
 				Cursor.Current = Cursors.WaitCursor;
 				this._close_on = false;
 				Application.UseWaitCursor = true;
 
 				// wypakuj pliki kopii zapasowej
-				this.bwTask.DoWork -= this.DecompressUpdate;
-				this.bwTask.DoWork += this.DecompressUpdate;
+				this.BW_Task.DoWork -= this.DecompressUpdate;
+				this.BW_Task.DoWork += this.DecompressUpdate;
 
-				this.bwTask.ProgressChanged -= this.DecompressUpdateProgress;
-				this.bwTask.ProgressChanged += this.DecompressUpdateProgress;
+				this.BW_Task.ProgressChanged -= this.DecompressUpdateProgress;
+				this.BW_Task.ProgressChanged += this.DecompressUpdateProgress;
 
-				this.bwTask.RunWorkerAsync( folder + name );
+				this.BW_Task.RunWorkerAsync( folder + name );
 			}
 		}
 
@@ -257,14 +257,14 @@ namespace CDRestore
 			try
 			{
 				// wypakuj dane do folderu "./temp/"
-				CBackupData backup = new CBackupData( this.bwTask );
+				CBackupData backup = new CBackupData( this.BW_Task );
 				backup.DecompressUpdate( (string)ev.Argument, "./temp/" );
 			}
 			catch( Exception ex )
 			{
 				// błąd...
 				Program.LogError( ex.Message, "Przywracanie danych", false );
-				this.bwTask.ReportProgress( 100, 2 );
+				this.BW_Task.ReportProgress( 100, 2 );
 			}
 		}
 
@@ -273,7 +273,7 @@ namespace CDRestore
 		/// ------------------------------------------------------------------------------------------------------------
 		private void DecompressUpdateProgress( object sender, ProgressChangedEventArgs ev )
 		{
-			this.pbDecompress.Value = ev.ProgressPercentage;
+			this.PB_Decompress.Value = ev.ProgressPercentage;
 
 			// błąd dekompresji
 			if( (int)ev.UserState == 2 )
@@ -299,12 +299,12 @@ namespace CDRestore
 				try
 				{
 					String version = AssemblyName.GetAssemblyName("CDesigner.exe").Version.ToString();
-					this.lVersion.Text = "Zainstalowana wersja: " + version;
+					this.L_Version.Text = "Zainstalowana wersja: " + version;
 				}
 				catch( FileNotFoundException ex )
 				{
 					Program.LogMessage( ex.Message );
-					this.lVersion.Text = "Zainstalowana wersja: brak.";
+					this.L_Version.Text = "Zainstalowana wersja: brak.";
 
 					return;
 				}
@@ -363,5 +363,17 @@ namespace CDRestore
 				ev.Cancel = true;
 			}
 		}
+
+        private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
+        {
+			ev.Graphics.DrawLine
+			(
+				new Pen( SystemColors.ControlDark ),
+				this.TLP_StatusBar.Bounds.X,
+				0,
+				this.TLP_StatusBar.Bounds.Right,
+				0
+			);
+        }
 	}
 }

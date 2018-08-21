@@ -162,8 +162,8 @@ namespace CDesigner.Utils
 			"images/cdrestore-32.png",   "images/cdrestore-48.png",  "images/cdrestore-64.png",
 			"images/cdrestore-96.png",   "images/cdrestore-128.png", "images/cdrestore-256.png",
 			"images/cdrestore-512.png",  "images/information.jpg",   "icons/item-add.png",
-            "icons/item-delete.png",     "icons/refresh.png",        "icons/first-page.png",
-            "icons/prev-page.png",       "icons/next-page.png",      "icons/last-page.png"
+			"icons/item-delete.png",     "icons/refresh.png",        "icons/first-page.png",
+			"icons/prev-page.png",       "icons/next-page.png",      "icons/last-page.png"
 		};
 
 		/// <summary>Klasy globalne, ogólnodostępne dla całego programu.</summary>
@@ -175,7 +175,7 @@ namespace CDesigner.Utils
 		/// <summary>Data kompilacji.</summary>
 		public static readonly DateTime BUILD_DATE;
 
-        public static readonly string CODE_NAME = "Gumiennik";
+		public static readonly string CODE_NAME = "Bobo";
 
 		/// <summary>
 		/// Konstruktor statyczny klasy.
@@ -196,7 +196,7 @@ namespace CDesigner.Utils
 				)
 			);
 
-            Program._bitmaps = new Bitmap[Program._bitmapList.Count()];
+			Program._bitmaps = new Bitmap[Program._bitmapList.Count()];
 
 			// utwórz instancję do struktury GlobalStruct
 			Program.GLOBAL = new GlobalStruct();
@@ -320,17 +320,17 @@ namespace CDesigner.Utils
 			try
 			{
 				// style wizualne formularza - wyłączyć dla linuksa
-                // wykrywać czy jest możliwość ich włączenia?
-                try
-                {
-				    Application.EnableVisualStyles();
-				    Application.SetCompatibleTextRenderingDefault( false );
+				// wykrywać czy jest możliwość ich włączenia?
+				try
+				{
+					Application.EnableVisualStyles();
+					Application.SetCompatibleTextRenderingDefault( false );
 				}
-                catch( Exception ex )
-                {
-                    Program.LogMessage( "Stylizacja przycisków nie mogła zostać włączona..." );
-                    Program.LogMessage( ex.Message );
-                }
+				catch( Exception ex )
+				{
+					Program.LogMessage( "Stylizacja przycisków nie mogła zostać włączona..." );
+					Program.LogMessage( ex.Message );
+				}
 
 				// rejestruj zdarzenia do rozwiązywania problemów z plikami dll
 				Utils.AssemblyLoader.Register();
@@ -351,25 +351,25 @@ namespace CDesigner.Utils
 				//((DatafileSettingsForm)Program._main).fileSelector();
 
 				// edycja kolumn dla strumienia danych
-                //Program._main = new EditColumnsForm();
-                //IOFileData storage = new IOFileData( "./test/csv/zzz.csv", Encoding.Default );
-                //storage.parse( -1 );
-                //((EditColumnsForm)Program._main).Storage = storage;
+				//Program._main = new EditColumnsForm();
+				//IOFileData storage = new IOFileData( "./test/csv/zzz.csv", Encoding.Default );
+				//storage.parse( -1 );
+				//((EditColumnsForm)Program._main).Storage = storage;
 
-                //Program._main = new EditRowsForm();
-                //IOFileData storage = new IOFileData( "./test/csv/zzz.csv", Encoding.Default );
-                //storage.parse( -1 );
-                //((EditRowsForm)Program._main).Storage = storage;
-                //((EditRowsForm)Program._main).refreshDataRange();
+				//Program._main = new EditRowsForm();
+				//IOFileData storage = new IOFileData( "./test/csv/zzz.csv", Encoding.Default );
+				//storage.parse( -1 );
+				//((EditRowsForm)Program._main).Storage = storage;
+				//((EditRowsForm)Program._main).refreshDataRange();
 
-                //IOFileData filedata = new IOFileData( "./test/csv/zzz-enclosing.csv", System.Text.Encoding.Default );
-                //filedata.parse( 0, true );
+				//IOFileData filedata = new IOFileData( "./test/csv/zzz-enclosing.csv", System.Text.Encoding.Default );
+				//filedata.parse( 0, true );
 
-                //if( filedata.Ready )
-                //{
-                //    foreach( string column in filedata.Column )
-                //        Program.LogMessage( column );
-                //}
+				//if( filedata.Ready )
+				//{
+				//    foreach( string column in filedata.Column )
+				//        Program.LogMessage( column );
+				//}
 
 				Application.Run( Program._main );
 			}
@@ -476,10 +476,10 @@ namespace CDesigner.Utils
 		 * --------------------------------------------------------------------------------------------------------- **/
 		public static void LogInfo( string message, string title, Form parent = null )
 		{
-            Program.LogMessage( "INFO: " + message );
+			Program.LogMessage( "INFO: " + message );
 
-            if( parent == null )
-                parent = Program._main;
+			if( parent == null )
+				parent = Program._main;
 
 			// pokaż treść ostrzeżenia
 			MessageBox.Show( parent, message, title, MessageBoxButtons.OK, MessageBoxIcon.Information );
@@ -495,33 +495,33 @@ namespace CDesigner.Utils
 		 * --------------------------------------------------------------------------------------------------------- **/
 		public static void LogWarning( string message, string title, Form parent = null )
 		{
-            Program.LogMessage( "WARNING: " + message );
+			Program.LogMessage( "WARNING: " + message );
 
-            if( parent == null )
-                parent = Program._main;
+			if( parent == null )
+				parent = Program._main;
 
 			// pokaż treść ostrzeżenia
 			MessageBox.Show( parent, message, title, MessageBoxButtons.OK, MessageBoxIcon.Warning );
 		}
 
-        public static DialogResult LogQuestion( string message, string title, bool defyes = true, Form parent = null )
-        {
-            Program.LogMessage( "QUESTION: " + message );
+		public static DialogResult LogQuestion( string message, string title, bool defyes = true, Form parent = null )
+		{
+			Program.LogMessage( "QUESTION: " + message );
 
-            if( parent == null )
-                parent = Program._main;
+			if( parent == null )
+				parent = Program._main;
 
-            // pokaż treść pytania
-            var result = MessageBox.Show( parent, message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-                defyes ? MessageBoxDefaultButton.Button1 : MessageBoxDefaultButton.Button2 );
+			// pokaż treść pytania
+			var result = MessageBox.Show( parent, message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+				defyes ? MessageBoxDefaultButton.Button1 : MessageBoxDefaultButton.Button2 );
 
-            if( result == DialogResult.Yes )
-                Program.LogMessage( "Wybrano przycisk: TAK." );
-            else
-                Program.LogMessage( "Wybrano przycisk: NIE." );
+			if( result == DialogResult.Yes )
+				Program.LogMessage( "Wybrano przycisk: TAK." );
+			else
+				Program.LogMessage( "Wybrano przycisk: NIE." );
 
-            return result;
-        }
+			return result;
+		}
 		
 		/**
 		 * <summary>
@@ -536,7 +536,7 @@ namespace CDesigner.Utils
 		 * --------------------------------------------------------------------------------------------------------- **/
 		public static void LogError( string message, string title, bool fatal, Exception ex = null, Form parent = null )
 		{
-            Program.LogMessage( "ERROR: " + message );
+			Program.LogMessage( "ERROR: " + message );
 
 #		if LOGMESSAGE
 #			if TRACE
@@ -550,8 +550,8 @@ namespace CDesigner.Utils
 #			endif
 #		endif
 
-            if( parent == null )
-                parent = Program._main;
+			if( parent == null )
+				parent = Program._main;
 
 			// pokaż treść błędu
 			try
@@ -608,7 +608,7 @@ namespace CDesigner.Utils
 		
 		/**
 		 * <summary>
-		 * Funkcja do sprawdzania blokady pliku cdrestore.exe.
+		 * Funkcja do sprawdzania blokady pliku CDRestore.exe.
 		 * Gdy aplikacja CDRestore jest włączona, blokuje plik i program wyświetla błąd.
 		 * </summary>
 		 * 
@@ -619,7 +619,7 @@ namespace CDesigner.Utils
 			bool is_locked = true;
 
 #		if DEBUG
-			Program.LogMessage( "Sprawdzanie czy plik 'cdrestore.exe' nie jest zablokowany." );
+			Program.LogMessage( "Sprawdzanie czy plik 'CDRestore.exe' nie jest zablokowany." );
 #		endif
 
 			// przetwarzaj dopóki plik jest blokowany
@@ -628,16 +628,16 @@ namespace CDesigner.Utils
 				try
 				{
 					// sprawdź czy plik nie jest blokowany
-					using( FileStream stream = File.Open("./cdrestore.exe", FileMode.Open, FileAccess.ReadWrite) )
+					using( FileStream stream = File.Open("./CDRestore.exe", FileMode.Open, FileAccess.ReadWrite) )
 						stream.Close();
 
 					is_locked = false;
 
-					// sprawdź czy plik cdrestore.exe można podmienić
-					if( File.Exists("./cdrestore.res") )
+					// sprawdź czy plik CDRestore.exe można podmienić
+					if( File.Exists("./CDRestore.res") )
 					{
-						File.Delete( "./cdrestore.exe" );
-						File.Move( "./cdrestore.res", "./cdrestore.exe" );
+						File.Delete( "./CDRestore.exe" );
+						File.Move( "./CDRestore.res", "./CDRestore.exe" );
 					}
 				}
 				catch( Exception ex )
@@ -646,7 +646,7 @@ namespace CDesigner.Utils
 					if( Program.IsFileLocked(ex) )
 					{
 #					if DEBUG
-						Program.LogMessage( "Plik 'cdrestore.exe' jest blokowany - prawdopodobnie program jest włączony." );
+						Program.LogMessage( "Plik 'CDRestore.exe' jest blokowany - prawdopodobnie program jest włączony." );
 #					endif
 
 						// czekaj na zakończenie poprzedniej instancji programu
@@ -695,81 +695,81 @@ namespace CDesigner.Utils
 			return bitmap;
 		}
 
-        public static string GetSize( Int64 value )
-        {
-            string[] suffixes =
-            {
-                "B",
-                "kB",
-                "MB",
-                "GB",
-                "TB",
-                "PB"
-            };
+		public static string GetSize( Int64 value )
+		{
+			string[] suffixes =
+			{
+				"B",
+				"kB",
+				"MB",
+				"GB",
+				"TB",
+				"PB"
+			};
 
-            if( value < 0 )
-                return "-" + GetSize( -value );
+			if( value < 0 )
+				return "-" + GetSize( -value );
 
-            decimal dec = (decimal)value;
+			decimal dec = (decimal)value;
 
-            int x;
-            for( x = 0; dec > 1023; ++x )
-                dec /= 1024; 
+			int x;
+			for( x = 0; dec > 1023; ++x )
+				dec /= 1024; 
 
-            return string.Format( "{0:n1} {1}", dec, suffixes[x] );
-        }
+			return string.Format( "{0:n1} {1}", dec, suffixes[x] );
+		}
 
-        public static string GetMemoryUsage()
-        {
-            long memory_used = 0;
+		public static string GetMemoryUsage()
+		{
+			long memory_used = 0;
 
-            using( Process proc = Process.GetCurrentProcess() )
-                memory_used = proc.PrivateMemorySize64;
+			using( Process proc = Process.GetCurrentProcess() )
+				memory_used = proc.PrivateMemorySize64;
 
-            return Program.GetSize( memory_used );
-        }
+			return Program.GetSize( memory_used );
+		}
 
-        public static DialogResult OpenForm( Form form, Form parent, bool dialog )
-        {
-            // ustaw zwracaną wartość - domyślnie nic, oznacza iż formularz nadal działa
-            DialogResult result = DialogResult.None;
+		public static DialogResult OpenForm( Form form, Form parent, bool dialog )
+		{
+			// ustaw zwracaną wartość - domyślnie nic, oznacza iż formularz nadal działa
+			DialogResult result = DialogResult.None;
 
-            // sprawdź czy ma to być okienko modalne czy nie
-            if( dialog )
-                if( parent != null )
-                    result = form.ShowDialog( parent );
-                else
-                    result = form.ShowDialog();
-            else
-                if( parent != null )
-                    form.Show( parent );
-                else
-                    form.Show();
+			// sprawdź czy ma to być okienko modalne czy nie
+			if( dialog )
+				if( parent != null )
+					result = form.ShowDialog( parent );
+				else
+					result = form.ShowDialog();
+			else
+				if( parent != null )
+					form.Show( parent );
+				else
+					form.Show();
 
-            // zwróć wynik
-            return result;
-        }
+			// zwróć wynik
+			return result;
+		}
 
-        public static List<string> GetFilesFromFolder( string folder, bool recursive = false )
-        {
-            List<string> files = new List<string>();
+		public static List<string> GetFilesFromFolder( string folder, bool recursive = false )
+		{
+			List<string> files = new List<string>();
 
-            DirectoryInfo dirinfo = new DirectoryInfo( folder );
+			DirectoryInfo dirinfo = new DirectoryInfo( folder );
 
-            foreach( var file in dirinfo.GetFiles() )
-                if( folder[folder.Length-1] == '\\' || folder[folder.Length-1] == '/' )
-                    files.Add( folder + file.Name );
-                else
-                    files.Add( folder + "/" + file.Name );
-            
-            if( recursive )
-                foreach( var dir in dirinfo.GetDirectories() )
-                    if( folder[folder.Length-1] == '\\' || folder[folder.Length-1] == '/' )
-                        files.AddRange( Program.GetFilesFromFolder(folder + dir.Name) );
-                    else
-                        files.AddRange( Program.GetFilesFromFolder(folder + "/" + dir.Name) );
+			foreach( var file in dirinfo.GetFiles() )
+				if( folder[folder.Length-1] == '\\' || folder[folder.Length-1] == '/' )
+					files.Add( folder + file.Name );
+				else
+					files.Add( folder + "/" + file.Name );
+			
+			if( recursive )
+				foreach( var dir in dirinfo.GetDirectories() )
+					if( folder[folder.Length-1] == '\\' || folder[folder.Length-1] == '/' )
+						files.AddRange( Program.GetFilesFromFolder(folder + dir.Name) );
+					else
+						files.AddRange( Program.GetFilesFromFolder(folder + "/" + dir.Name) );
 
-            return files;
-        }
+			return files;
+		}
 	}
 }

@@ -132,7 +132,7 @@ csc /reference:dll\PdfSharp.dll ^
 	%define% ^
 	/utf8output ^
 		src\utils\AssemblyLoader.cs ^
-		src\utils\CBackupData.cs ^
+		src\utils\DataBackup.cs ^
 		src\utils\DatafileStream.cs ^
 		src\utils\DataFilter.cs ^
 		src\utils\DataStorage.cs ^

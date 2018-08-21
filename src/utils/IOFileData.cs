@@ -307,7 +307,7 @@ namespace CDesigner.Utils
 			// filtrowana lista rozszerzeń (oddzielona |) - dla OpenFileDialog
 			else
 			{
-				List<string> values = Language.GetLines( "DatafileSettings", "Extensions" );
+				List<string> values = Language.GetLines( "Extensions" );
 
 				for( int x = 0, y = IOFileData._parsers.Count(); x < y; ++x )
 					if( x == 0 )

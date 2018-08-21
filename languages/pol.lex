@@ -1,3 +1,10 @@
+% $pol Polski
+% $eng Polish
+% $rus Польский
+% $deu Polnisch
+% $ces Polský
+% $def Polski
+
 % ------------------------------------------------------
 % Język   : Polski
 % Program : CardDesigner
@@ -8,6 +15,11 @@
 % tłumaczenia globalne
 % ============================================================
 
+% nazwy rozszerzeń
+@Extensions
+	|00 Kolumny oddzielone przecinkiem
+	|01 Skompresowana kopia zapasowa
+	
 % znaki specjalne dostępne dla danego języka
 @Locale
 	|00 ĘÓŁŚĄŻŹĆŃ
@@ -27,12 +39,14 @@
 % nazwy wyskakujących okienek
 @MessageNames
 	|00 Nieprawidłowy format pliku
-	|01 Wybór pliku z bazą danych
+	|01 Wybór pliku
 	|02 Dodawanie kolumny
 	|03 Wczytywanie pliku
 	|04 Błąd krytyczny
 	|05 Ustawienia lokalizacji
 	|06 Tworzenie wzoru
+	|07 Zapisz jako
+	|08 Import wzoru
 
 % błędy globalne
 @GlobalErrors
@@ -44,10 +58,6 @@
 % formularz ustawień pliku bazy danych i wczytywania pliku
 % ============================================================
 #DatafileSettings
-
-	% nazwy rozszerzeń
-	@Extensions
-		|00 Kolumny oddzielone przecinkiem
 		
 	% pole wyboru kodowania
 	@Encoding
@@ -244,6 +254,111 @@
 		|07 Kompresja plików zakończona sukcesem.
 		|08 Wystąpił błąd podczas rozpakowywania plików.\nSkontaktuj się z administratorem.
 		|09 Aktualizacja została przygotowana do instalacji.\nCzy chcesz uruchomić ponownie program aby ją zainstalować?
+	
+% Lista pozycji w menu
+% ============================================================	
+#Menu
+
+	% menu wzorów
+	@Pattern
+		|00 &Wzór
+		|01 Nowy...
+		|02 Ostatnio otwierane
+		|03 Wyczyść listę wzorów
+		|04 Zakończ program
+	
+	% menu dla narzędzi
+	@Tools
+		|00 &Narzędzia
+		|01 Wczytaj plik z danymi...
+		|02 Utwórz bazę w pamięci
+		|03 Edytuj kolumny...
+		|04 Edytuj wiersze...
+		|05 Zapisz bazę do pliku
+		
+	% menu języków
+	@Language
+		|00 &Język
+		
+	% menu informacji o programie
+	@Program
+		|00 &Program
+		|01 Informacje
+		|02 Aktualizacje
+		
+	% przełącznik pomiędzy formularzami
+	@Switcher
+		|00 Główna
+		|01 Edytor
+		|02 Wydruk
+
+% okno zawierające listę wzorów
+% ============================================================
+#PatternList
+
+	% przyciski na formularzu
+	@Buttons
+		|00 Nowy wzór
+		|01 Usuń
+	
+	% lista kontrolek z napisem na oknie
+	@Labels
+		|00 Pokaż szczegóły zaznaczonego wzoru
+		|01 Strona
+		
+	% informacje o wzorze
+	@Pattern
+		|00 Nazwa
+		|01 Format
+		|02 Rozmiar
+		|03 Miejsce na dane
+		|04 Ilość stron
+		
+	% menu wyświetlane po kliknięciu prawym w listę wzorów
+	@PatternContext
+		|00 Nowy wzór...
+		|01 Edytuj zaznaczony
+		|02 Podgląd
+		|03 Wczytaj dane...
+		|04 Importuj...
+		|05 Eksportuj
+		|06 Usuń wzór
+		
+	@Messages
+		|00 Zawsze istnieje ryzyko, że importowany plik może zawierać foldery z wzorami, które już istnieją. W takim wypadku wszystkie wzory o tych samych nazwach zostaną zastąpione.\nCzy na pewno chcesz kontynuować import?
+		|01 Dane z pliku zostały zaimportowane
+		
+% formularz edycji wzoru
+% ============================================================
+#PatternEditor
+
+	% menu wyświetlane po kliknięciu prawym w stronę
+	@PageContext
+		|00 Dodaj pole
+		|01 Usuń wszystkie pola
+		|02 Kolor tła strony...
+		|03 Obraz tła strony...
+		|04 Wyczyść tło
+		|05 Rysuj kolor strony
+		|06 Rysuj obraz strony
+		|07 Dodaj stronę
+		|08 Usuń stronę
+	
+	% menu wyświetlane po kliknięciu prawym w pole
+	@LabelContext
+		|00 Kolor tła pola...
+		|01 Obraz tła pola...
+		|02 Wyczyść tło
+		|03 Obraz dynamiczny
+		|04 Rysuj kolor pola
+		|05 Obraz statyczny
+		|06 Kolor czcionki...
+		|07 Zmień czcionkę...
+		|08 Tekst dynamiczny
+		|09 Tekst statyczny
+		|10 Kolor ramki...
+		|11 Wyświetlaj ramkę
+		|12 Usuń
 		
 % formularz ustawień typu kolumny
 % ============================================================

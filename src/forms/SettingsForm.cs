@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 
 // @TODO: położenie lewej kolumny
+// 03.12.2016 - Usunięto dane ostatnich wzorów na rzecz klasy Settings
 
 namespace CDesigner
 {
@@ -19,114 +20,12 @@ namespace CDesigner
 		private Image            _no_image      = null;
 		private SettingsInfo     _settings;
 
-
-
-
-
-
-
-
-
-
-
-		private List<string> _last_patterns;
-
 		// ------------------------------------------------------------- Settings -------------------------------------
 		
 		public SettingsForm()
 		{
 			this.InitializeComponent();
-
-			// załaduj listę ostatnich używanych wzorów...
-			try { this.GetLastPatterns(); }
-			catch
-			{
-				// ta wiadomość nie powinna się pojawić
-				MessageBox.Show( "Błąd tworzenia lub otwierania pliku konfiguracyjnego." );
-				return;
-			}
 		}
-
-		// ------------------------------------------------------------- LastPatterns ---------------------------------
-		
-		public List<string> LastPatterns
-		{
-			// pobierz ostatnio otwierane wzory
-			get { return this._last_patterns; }
-			// ustaw ostatnio otwierane wzory
-			set
-			{
-				this._last_patterns = value;
-				
-				// wyczyść zawartość pliku (po prostu utwórz nowy)
-				File.Delete("last.lst");
-				
-				try { File.Create("last.lst"); }
-				catch
-				{
-					// ta wiadomość nie powinna się pojawić
-					MessageBox.Show( "Błąd tworzenia lub otwierania pliku konfiguracyjnego." );
-					return;
-				}
-			}
-		}
-
-		// ------------------------------------------------------------- GetLastPatterns ------------------------------
-		
-		private void GetLastPatterns()
-		{
-			// utwórz plik gdy nie istnieje
-			if( !File.Exists("last.lst") )
-			{
-				File.Create( "last.lst" );
-				this._last_patterns = new List<string>();
-
-				return;
-			}
-
-			// wczytaj ostatnie projekty
-			this._last_patterns = new List<string>( File.ReadLines( "last.lst" ) );
-		}
-
-		// ------------------------------------------------------------- AddToLastCWEL(:Patterns ----------------------------
-		
-		public void AddToLastPatterns( string pattern )
-		{
-			// usuń wzór jeżeli już taki istnieje
-			if( this._last_patterns.Contains(pattern) )
-				this._last_patterns.Remove( pattern );
-			
-			// maksymalna ilość wyświetlanych plików
-			if( this._last_patterns.Count > 10 )
-				this._last_patterns.RemoveAt( 9 );
-
-			// dodaj wzór do listy
-			this._last_patterns.Insert( 0, pattern );
-
-			// zapisz nowe ustawienie ostatnich wzorów
-			File.WriteAllLines( "last.lst", this._last_patterns.AsEnumerable() );
-		}
-
-		// ------------------------------------------------------------- AddToLastPatterns ----------------------------
-		
-		public void RemoveFromLastPatterns( string pattern )
-		{
-			// usuń i zapisz listę wzorów
-			if( this._last_patterns.Remove(pattern) )
-				File.WriteAllLines( "last.lst", this._last_patterns.AsEnumerable() );
-		}
-
-
-
-
-
-
-
-
-
-
-
-
 
 		// ------------------------------------------------------------- Settings -------------------------------------
 		

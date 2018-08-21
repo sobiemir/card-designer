@@ -113,8 +113,6 @@
             this.CBX_PaperFormat.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CBX_PaperFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CBX_PaperFormat.FormattingEnabled = true;
-            this.CBX_PaperFormat.Items.AddRange(new object[] {
-            "Własny"});
             this.CBX_PaperFormat.Location = new System.Drawing.Point(115, 60);
             this.CBX_PaperFormat.Name = "CBX_PaperFormat";
             this.CBX_PaperFormat.Size = new System.Drawing.Size(214, 21);

@@ -11,6 +11,17 @@ using CDesigner.Forms;
 
 namespace CDesigner
 {
+    public class BackupHeader
+    {
+        public string CreateDate;
+        public string ProgramVersion;
+        public byte[] HashTable;
+        public int    Files;
+        public int[]  FileSizes;
+        public long   Size;
+        public long   TotalSize;
+    };
+
 	public class ColumnTypeInfo
 	{
 		public ColumnTypeInfo()
@@ -165,8 +176,9 @@ namespace CDesigner
 
 	public struct GlobalStruct
 	{
-		public OpenFileDialog       SelectFile;
-		public DatafileSettingsForm DatafileSettings;
+		public OpenFileDialog SelectFile;
+        public SaveFileDialog SaveFile;
+		public DatafileSettingsForm     DatafileSettings;
 		public Forms.EditColumnsForm    EditColumns;
 	};
 
@@ -231,13 +243,48 @@ namespace CDesigner
 
         GLO_BIGCHARS       = 0x00,
         GLO_SMALLCHARS     = 0x01,
+		GEX_CSV            = 0x00,
+        GEX_CBD            = 0x01,
 
-		GMN_SELECTDBASESTREAM   = 0x01,
+		GMN_SELECTFILE     = 0x01,
         GMN_PATTCREATING   = 0x06,
+        GMN_SAVEFILE       = 0x07,
+        GMN_IMPORTFILE     = 0x08,
+        
+		// =========================== I01 [MainForm]
+
+        I01_MEN_PAT_PATTERN    = 0x00,
+        I01_MEN_PAT_NEWPATTERN = 0x01,
+        I01_MEN_PAT_RECENTOPEN = 0x02,
+        I01_MEN_PAT_CLEARLIST  = 0x03,
+        I01_MEN_PAT_CLOSE      = 0x04,
+        I01_MEN_TOL_TOOLS      = 0x00,
+        I01_MEN_TOL_LOADFILE   = 0x01,
+        I01_MEN_TOL_MEMORYDB   = 0x02,
+        I01_MEN_TOL_EDITCOLUMN = 0x03,
+        I01_MEN_TOL_EDITROW    = 0x04,
+        I01_MEN_TOL_SAVEMEMDB  = 0x05,
+        I01_MEN_LAN_LANGUAGE   = 0x00,
+        I01_MEN_PRO_PROGRAM    = 0x00,
+        I01_MEN_PRO_INFO       = 0x01,
+        I01_MEN_PRO_UPDATES    = 0x02,
+        I01_MEN_SWI_MAIN       = 0x00,
+        I01_MEN_SWI_EDITOR     = 0x01,
+        I01_MEN_SWI_GENERATOR  = 0x02,
+        I01_PAT_BUT_NEWPATTERN = 0x00,
+        I01_PAT_BUT_DELETE     = 0x01,
+        I01_PAT_LAB_PATDETAILS = 0x00,
+        I01_PAT_LAB_PAGE       = 0x01,
+        I01_PAT_PAT_NAME       = 0x00,
+        I01_PAT_PAT_FORMAT     = 0x01,
+        I01_PAT_PAT_SIZE       = 0x02,
+        I01_PAT_PAT_DATAPLACE  = 0x03,
+        I01_PAT_PAT_PAGECOUNT  = 0x04,
+        I01_PAT_MES_YESIMPORT  = 0x00,
+        I01_PAT_MES_IMPORTSUCC = 0x01,
 
 		// =========================== I02 [DatafileSettingsForm]
 
-		I02_EXT_CSV        = 0x00,
 		I02_ENC_DEFAULT    = 0x00,
  		I02_ENC_ASCII      = 0x01,
 		I02_ENC_UTF8       = 0x02,
@@ -528,8 +575,13 @@ namespace CDesigner
 
 				this.i03_RowsNumSt1 = (Int32)SettingsInfo.MemberData[(int)SETTINGCODE.I03_ROWSNUMST1].DefaultValue;
 				this.i03_RowsNumSt2 = (Int32)SettingsInfo.MemberData[(int)SETTINGCODE.I03_ROWSNUMST2].DefaultValue;
+
+                this.c02_RecentMax = 10;
 			}
 		}
+
+        /// <summary>Limit dla wyświetlanych ostatnio otwieranych wzorów.</summary>
+        public Byte c02_RecentMax;
 
 		public Int32 i02_RowsNumber;
 		public Byte  i02_Encoding;

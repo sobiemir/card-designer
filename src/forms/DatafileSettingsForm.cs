@@ -167,8 +167,6 @@ namespace CDesigner.Forms
 #		endif
 
 			OpenFileDialog dialog = Program.GLOBAL.SelectFile;
-
-			dialog.Title  = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SELECTDBASESTREAM );
 			dialog.Filter = IOFileData.getExtensionsList( true );
 
 			DialogResult result = dialog.ShowDialog();

@@ -1,3 +1,5 @@
+% $def TESTDEFLANG
+
 % ------------------------------------------------------------
 % Język   : Polski
 % Program : CardDesigner

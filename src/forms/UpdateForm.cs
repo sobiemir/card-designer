@@ -16,6 +16,8 @@
 /// [14.11.2016] Nowa wersja - zmiana koncepcji włączania kompresji, wcześniej trzeba było przytrzymać CTRL+ALT+SHIFT
 ///              klikając na przycisk, teraz trzeba wcześniej wpisać słowo kompresja. Przebudowana struktura formularza
 ///              i wydzielenie funkcji do osobnej klasy. Odświeżenie wyglądu formularza.
+/// [19.11.2016] W przypadku istniejących plików instalacyjnych, wyświetla pytanie czy jes zainstalować.
+///              Kopiowanie pliku cdrestore jeszcze w trakcie działania cdesigner.
 ///
 
 using System;
@@ -365,7 +367,7 @@ namespace CDesigner.Forms
                 files.AddRange( UpdateApp.ListChanges() );
 
 				// stwórz kopie zapasową [cbd - compressed backup data]
-				CBackupData.Compress( files, "./update/v" + Program.VERSION + ".cbd" );
+				DataBackup.Compress( files, "./update/v" + Program.VERSION + ".cbd" );
 
 				this.BW_Update.ReportProgress( 100, (object)2 );
 			}
@@ -442,7 +444,7 @@ namespace CDesigner.Forms
 			try
 			{
 				// wypakuj dane do folderu "./temp/"
-				CBackupData backup = new CBackupData( this.BW_Update );
+				DataBackup backup = new DataBackup( this.BW_Update );
 				backup.DecompressUpdate( "./update.cbd", "./temp/" );
 			}
 			catch( Exception ex )
@@ -491,7 +493,7 @@ namespace CDesigner.Forms
 			{
                 this.setLock( false );
 
-				// wyświetl komunikat o błędach
+                // wyświetl pytanie o aktualizację programu
 				var result = Program.LogQuestion
 				(
                     Language.GetLine( "Update", "Messages", (int)LANGCODE.I07_MSG_INSTALLUP ),
@@ -519,7 +521,7 @@ namespace CDesigner.Forms
 
 					// uruchomienie programu CDRestore
 					Process process = new Process();
-					process.StartInfo.FileName = "cdrestore.exe";
+					process.StartInfo.FileName = "CDRestore.exe";
 					process.StartInfo.Arguments = "-i -w";
 					process.Start();
 

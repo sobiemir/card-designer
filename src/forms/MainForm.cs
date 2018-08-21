@@ -35,89 +35,7 @@ namespace CDesigner
 	{
         private InfoForm _infoForm;
 
-
-
-
-
-
 		private IOFileData _gStream;
-
-
-
-
-
-		//private DatabaseReader _reader;
-
-
-
-
-
-
-
-		// ------------------------------------------------------------- gmpUpdate_Click ------------------------------
-		/// <summary>
-		/// Funkcja wywoływana po naciśnięciu przycisku Aktualizuj program
-		/// </summary>
-		/// <param name="sender">Obiekt wysyłający zdarzenie...</param>
-		/// <param name="ev">Argumenty zdarzenia...</param>
-		private void gmpUpdate_Click( object sender, EventArgs ev )
-		{
-#		if DEBUG
-			Console.WriteLine( "Kliknięto w przycisk Aktualizuj program..." );
-#		endif
-
-			// try...catch
-			try
-			{
-				UpdateForm update = new UpdateForm();
-				
-                //if( !update.UpdateAvaliable() )
-                //{
-                //    MessageBox.Show
-                //    (
-                //        this,
-                //        "Posiadasz już najnowszą wersję aplikacji.\nv" + Program.VERSION + ".",
-                //        "Aktualizacja programu",
-                //        MessageBoxButtons.OK,
-                //        MessageBoxIcon.Information
-                //    );
-                //    return;
-                //}
-		
-                update.refreshAndOpen( this );
-			}
-			catch( WebException ex )
-			{
-				if( ex.Response == null )
-				{
-#				if DEBUG
-					Console.WriteLine( "BŁĄD: Nie można połączyć się z serwerem aktualizacji." );
-#				endif
-					MessageBox.Show
-					(
-						this, "Nie można połączyć się z serwerem aktualizacji.",
-						"Aktualizacja programu", MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
-				else
-				{
-#				if DEBUG
-					Console.WriteLine( "BŁĄD: " + ex.Message );
-#				endif
-					MessageBox.Show
-					(
-						this, ex.Message,
-						"Aktualizacja programu", MessageBoxButtons.OK, MessageBoxIcon.Error
-					);
-				}
-				return;
-			}
-		}
-
-
-
-
-
 
 		private AlignedPictureBox mpbPreview = null;
 		private FormWindowState   gLastState = FormWindowState.Normal;
@@ -125,7 +43,6 @@ namespace CDesigner
 		private int         gThisContainer  = 1;
 		private bool        gEditChanged    = false;
 		private bool		pLocked			= false;
-		private SettingsForm    gSettings       = null;
 		
 		private int         mSelectedID	    = -1;
 		private bool        mSelectedError  = false;
@@ -162,8 +79,100 @@ namespace CDesigner
 
 #region Główne funkcje klasy
 
-		// ------------------------------------------------------------- Main -----------------------------------------
-		
+
+        /// <summary>
+		/// Translator menu.
+        /// Funkcja tłumaczy wszystkie elementy menu głównego.
+		/// Wywoływana jest z konstruktora oraz podczas odświeżania ustawień językowych.
+        /// Jej użycie nie powinno wykraczać poza dwa wyżej wymienione przypadki.
+		/// </summary>
+        /// 
+        /// <seealso cref="MainForm"/>
+        /// <seealso cref="Language"/>
+		//* ============================================================================================================
+        protected void translateMenu()
+        {
+#       if DEBUG
+            Program.LogMessage( "Tłumaczenie treści menu." );
+#       endif
+
+            // menu wzoru
+            var values = Language.GetLines( "Menu", "Pattern" );
+
+            this.TSMI_Pattern.Text        = values[(int)LANGCODE.I01_MEN_PAT_PATTERN];
+            this.TSMI_MenuNewPattern.Text = values[(int)LANGCODE.I01_MEN_PAT_NEWPATTERN];
+            this.TSMI_RecentOpen.Text     = values[(int)LANGCODE.I01_MEN_PAT_RECENTOPEN];
+            this.TSMI_ClearRecent.Text    = values[(int)LANGCODE.I01_MEN_PAT_CLEARLIST];
+            this.TSMI_Close.Text          = values[(int)LANGCODE.I01_MEN_PAT_CLOSE];
+
+            // menu narzędzi
+            values = Language.GetLines( "Menu", "Tools" );
+
+            this.TSMI_Tools.Text          = values[(int)LANGCODE.I01_MEN_TOL_TOOLS];
+            this.TSMI_LoadData.Text       = values[(int)LANGCODE.I01_MEN_TOL_LOADFILE];
+            this.TSMI_CreateDatabase.Text = values[(int)LANGCODE.I01_MEN_TOL_MEMORYDB];
+            this.TSMI_EditColumns.Text    = values[(int)LANGCODE.I01_MEN_TOL_EDITCOLUMN];
+            this.TSMI_EditRows.Text       = values[(int)LANGCODE.I01_MEN_TOL_EDITROW];
+            this.TSMI_SaveData.Text       = values[(int)LANGCODE.I01_MEN_TOL_SAVEMEMDB];
+
+            // menu językowe
+            this.TSMI_Language.Text = Language.GetLine( "Menu", "Language", (int)LANGCODE.I01_MEN_LAN_LANGUAGE );
+
+            // menu programu
+            values = Language.GetLines( "Menu", "Program" );
+
+            this.TSMI_Program.Text = values[(int)LANGCODE.I01_MEN_PRO_PROGRAM];
+            this.TSMI_Info.Text    = values[(int)LANGCODE.I01_MEN_PRO_INFO];
+            this.TSMI_Update.Text  = values[(int)LANGCODE.I01_MEN_PRO_UPDATES];
+
+            // przełącznik
+            values = Language.GetLines( "Menu", "Switcher" );
+
+            this.TSMI_HomePage.Text      = values[(int)LANGCODE.I01_MEN_SWI_MAIN];
+            this.TSMI_PatternEditor.Text = values[(int)LANGCODE.I01_MEN_SWI_EDITOR];
+            this.TSMI_PrintPreview.Text  = values[(int)LANGCODE.I01_MEN_SWI_GENERATOR];
+        }
+
+        /// <summary>
+		/// Translator głównego formularza.
+		/// Funkcja tłumaczy wszystkie jego statyczne elementy.
+		/// Wywoływana jest z konstruktora oraz podczas odświeżania ustawień językowych.
+        /// Jej użycie nie powinno wykraczać poza dwa wyżej wymienione przypadki.
+		/// </summary>
+        /// 
+        /// <seealso cref="MainForm"/>
+        /// <seealso cref="Language"/>
+		//* ============================================================================================================
+		protected void translateHomeForm()
+		{
+#		if DEBUG
+			Program.LogMessage( "Tłumaczenie kontrolek znajdujących się na formularzu." );
+#		endif
+
+            // przyciski na dole
+            var values = Language.GetLines( "PatternList", "Buttons" );
+
+            this.B_P1_New.Text    = values[(int)LANGCODE.I01_PAT_BUT_NEWPATTERN];
+            this.B_P1_Delete.Text = values[(int)LANGCODE.I01_PAT_BUT_DELETE];
+
+            // napisy obok kontrolek
+            values = Language.GetLines( "PatternList", "Labels" );
+
+            this.CB_P1_ShowDetails.Text = values[(int)LANGCODE.I01_PAT_LAB_PATDETAILS];
+            this.L_P1_Page.Text         = values[(int)LANGCODE.I01_PAT_LAB_PAGE];
+		}
+
+
+        /// <summary>
+        /// Sprawdza czy aktualizacja programu jest dostępna.
+        /// Funkcja sprawdza czy aktualizacja programu jest dostępna oraz pobiera informacje
+        /// o zmianach w programie, które nastąpiły od wersji początkowej.
+        /// Funkcja wywoływana jest w osobnym wątku w trakcie działania programu.
+        /// </summary>
+        /// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
 		private void GetProgramUpdates( object sender, DoWorkEventArgs ev )
 		{
             var result = UpdateApp.CheckAvailability();
@@ -171,12 +180,170 @@ namespace CDesigner
                 UpdateApp.GetChangeLog();
         }
 
+        /// <summary>
+        /// Uzupełnia menu dostępnymi do zmiany językami.
+        /// Funkcja sprawdza pliki w folderze languages i wyświetla ich nazwy w menu.
+        /// Dzięki temu można łatwo przełączać się pomiędzy językami.
+        /// </summary>
+        /// 
+        /// <seealso cref="MainForm"/>
+		//* ============================================================================================================
+        protected void FillAvailableLanguages()
+        {
+            // pobierz pliki językowe
+            var files = Directory.GetFiles( "./languages/" );
+            var llist = new Dictionary<string, string>();
+            var code  = Language.GetCode();
+
+            // pobierz nazwy języków
+            foreach( var file in files )
+            {
+                var finfo = new FileInfo( file );
+                var name  = finfo.Name.Replace( finfo.Extension, "" );
+                var lname = Language.GetLanguageNames( name );
+
+                if( lname.ContainsKey(code) )
+                    llist.Add( name, lname[code] );
+                else if( lname.ContainsKey("def") )
+                    llist.Add( name, lname["def"] );
+                else
+                    llist.Add( name, name );
+            }
+
+            // wyczyść języki z menu
+            this.TSMI_Language.DropDownItems.Clear();
+
+            // dodaj nowe języki
+            foreach( var lang in llist )
+            {
+                var item = new ToolStripMenuItem( lang.Value );
+
+                if( lang.Key == code )
+                    item.Checked = true;
+
+                item.Tag = lang.Key;
+                item.Click += new EventHandler( TSMI_Language_Click );
+
+                this.TSMI_Language.DropDownItems.Add( item );
+            }
+        }
+
+        /// <summary>
+        /// Akcja wywoływana podczas zmiany języka.
+        /// Po zmianie języka wszystkie widoczne formularze są ponownie tłumaczone.
+        /// Dzięki temu zmiana języka wywoływana jest dynamicznie.
+        /// </summary>
+        /// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+        void TSMI_Language_Click( object sender, EventArgs ev )
+        {
+            var item = (ToolStripMenuItem)sender;
+            var code = (string)item.Tag;
+
+            // zmień wyświetlany język
+            Language.Initialize();
+            Language.Parse( code );
+
+            // odśwież listę języków
+            this.FillAvailableLanguages();
+
+            // przetłumacz menu
+            this.translateMenu();
+            this.translateHomeForm();
+        }
+
+		/// <summary>
+		/// Akcja wywoływana po zmianie rozmiaru okna.
+        /// Zmiana rozmiaru powoduje odświeżenie wielkości panelu zawierającego podgląd wzoru.
+        /// Gdy się nie odświeżał, wychodziły różne dziwne niespodzianki.
+		/// </summary>
+        /// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void Main_Resize( object sender, EventArgs ev )
+		{
+			if( this.WindowState == this.gLastState )
+				return;
+
+			this.gLastState = this.WindowState;
+
+			// wymuś odświeżenie i zmiane rozmiaru panelu po wróceniu do normalnego stanu
+			// w przeciwnym wypadku rodzic będzie za wielki dla obrazu (dziwne zjawisko...)
+			if( this.WindowState == FormWindowState.Normal )
+			{
+#			if DEBUG
+				Console.WriteLine( "Przejście z trybu maksymalizacji - odświeżanie kontrolek." );
+#			endif
+
+				this.P_P1_Preview.Width = this.P_P1_Preview.Width - 1;
+				this.ppPreview.Width = this.ppPreview.Width - 1;
+				this.dpPreview.Width = this.dpPreview.Width - 1;
+			}
+		}
+        
+		// ------------------------------------------------------------- ProcessCmdKey --------------------------------
+		
+		/// <summary>
+		/// Funkcja wywoływana po naciśnięciu przycisku aktualizacji programu.
+        /// Otwiera okno aktualizacji, a przed otwarciem sprawdza czy dostępne są aktualizacje.
+        /// Teoretycznie aplikacja sama powinna połączyć się z internetem i sprawdzić to jeszcze przed otwarciem okna.
+		/// </summary>
+        /// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void TSMI_Update_Click( object sender, EventArgs ev )
+		{
+#		if DEBUG
+			Console.WriteLine( "Kliknięto w przycisk Aktualizuj program..." );
+#		endif
+			try
+			{
+                // otwiera okno aktualizacji
+				UpdateForm update = new UpdateForm();
+                update.refreshAndOpen( this );
+			}
+			catch( WebException ex )
+			{
+                // błąd połączenia z serwerem
+				if( ex.Response == null )
+				{
+#				if DEBUG
+					Console.WriteLine( "BŁĄD: Nie można połączyć się z serwerem aktualizacji." );
+#				endif
+					MessageBox.Show
+					(
+						this, "Nie można połączyć się z serwerem aktualizacji.",
+						"Aktualizacja programu", MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+				else
+				{
+                    // inny bład...
+#				if DEBUG
+					Console.WriteLine( "BŁĄD: " + ex.Message );
+#				endif
+					MessageBox.Show
+					(
+						this, ex.Message,
+						"Aktualizacja programu", MessageBoxButtons.OK, MessageBoxIcon.Error
+					);
+				}
+				return;
+			}
+		}
+
+
 		public MainForm( )
 		{
+#       if DEBUG
 			Program.LogMessage( "Tworzenie okna głównego." );
-			this.InitializeComponent();
+#       endif
 
-            this.initializeForms();
+			this.InitializeComponent();
 
             // sprawdzanie aktualizacji w tle
             this.BW_Updates.DoWork -= this.GetProgramUpdates;
@@ -195,79 +362,37 @@ namespace CDesigner
 			this.mpbPreview.MouseDown += new MouseEventHandler( mpPreview_MouseDown );
 			this.mpbPreview.Padding    = new Padding( 5 );
 
-			this.mpPreview.Controls.Add( this.mpbPreview );
+			this.P_P1_Preview.Controls.Add( this.mpbPreview );
 
 			// ustawienia
-			this.gSettings = new SettingsForm();
+            this._infoForm = new InfoForm();
+
+            Settings.GetLastPatterns();
 
 #		if DEBUG
 			Program.LogMessage( "Załadowano kontrolki." );
 #		endif
 
 			// ostatnio otwierane wzory
-			this.gmpRecent_RefreshList();
+			this.TSMI_RecentOpen_RefreshList();
 
 			// odświeżenie listy wzorów
 			this.RefreshProjectList();
+            this.FillAvailableLanguages();
 
-			// #START ===================== TEST ..............
-			//DatabaseReader reader = new DatabaseReader(@"C:\Users\Kamil\Desktop\Inne\zzz2.CSV");
-			
-			//reader.Parse();
-			
-			//if( reader.IsReady() )
-			//	this._reader = reader;
-			//if( this._reader != null )
-			//	this.gmtColumnsEditor.Enabled = true;
-
-			//Utils.DatafileStream stream = null;
-
-			// wczytaj plik
-			//stream = new Utils.DatafileStream( @"C:\Users\Kamil\Desktop\Inne\zzz2.CSV" );
-			//if( stream == null || !stream.IsReady() )
-			//    return;
-
-			//stream.Parse( 0, false );
-
-			// zapisz strumień i odblokuj przycisk edytora kolumn
-			//this._gStream = stream;
-			//this.gmtColumnsEditor.Enabled = true;
-
-			GC.Collect();
-
-			// #STOP  ===================== TEST ..............
+            // tłumaczenia
+            this.translateMenu();
+            this.translateHomeForm();
 
 			// utwórz klasy korzystające z wielu formularzy
 			Program.GLOBAL.SelectFile       = new OpenFileDialog();
+            Program.GLOBAL.SaveFile         = new SaveFileDialog();
 			Program.GLOBAL.DatafileSettings = new DatafileSettingsForm();
-		}
+            
+			Program.GLOBAL.SelectFile.Title = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SELECTFILE );
+            Program.GLOBAL.SaveFile.Title   = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SAVEFILE );
 
-        private void initializeForms()
-        {
-            this._infoForm = new InfoForm();
-        }
-
-		// ------------------------------------------------------------- Main_Resize ---------------------------------
-
-		private void Main_Resize( object sender, EventArgs ev )
-		{
-			if( this.WindowState == this.gLastState )
-				return;
-
-			this.gLastState = this.WindowState;
-
-			// wymuś odświeżenie i zmiane rozmiaru panelu po wróceniu do normalnego stanu
-			// w przeciwnym wypadku rodzic będzie za wielki dla obrazu (dziwne zjawisko...)
-			if( this.WindowState == FormWindowState.Normal )
-			{
-#			if DEBUG
-				Console.WriteLine( "Przejście z trybu maksymalizacji - odświeżanie kontrolek." );
-#			endif
-
-				this.mpPreview.Width = this.mpPreview.Width - 1;
-				this.ppPreview.Width = this.ppPreview.Width - 1;
-				this.dpPreview.Width = this.dpPreview.Width - 1;
-			}
+            Program.GLOBAL.SaveFile.AddExtension = true;
 		}
 
 		// ------------------------------------------------------------- ProcessCmdKey --------------------------------
@@ -282,8 +407,8 @@ namespace CDesigner
 			case Keys.Control | Keys.Tab:
 				if( this.gThisContainer == 1 )
 				{
-					if( this.mnPage.Value < this.mnPage.Maximum )
-						this.mnPage.Value += 1;
+					if( this.N_P1_Page.Value < this.N_P1_Page.Maximum )
+						this.N_P1_Page.Value += 1;
 				}
 				else if( this.gThisContainer == 2 )
 				{
@@ -301,8 +426,8 @@ namespace CDesigner
 			case Keys.Shift | Keys.Tab:
 				if( this.gThisContainer == 1 )
 				{
-					if( this.mnPage.Value > this.mnPage.Minimum )
-						this.mnPage.Value -= 1;
+					if( this.N_P1_Page.Value > this.N_P1_Page.Minimum )
+						this.N_P1_Page.Value -= 1;
 				}
 				else if( this.gThisContainer == 2 )
 				{
@@ -329,14 +454,14 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- RefreshProjectList ---------------------------
 		
-		private void RefreshProjectList( )
+		private void RefreshProjectList()
 		{
 #		if DEBUG
 			Console.WriteLine( "Wczytywanie i uzupełnianie listy wzorów." );
 #		endif
 
 			// wyczyść wszystkie dane
-			this.mtvPatterns.Nodes.Clear( );
+			this.TV_P1_Patterns.Nodes.Clear();
 
 			// utwórz folder gdy nie istnieje
 			if( !Directory.Exists("patterns") )
@@ -360,7 +485,7 @@ namespace CDesigner
 
             foreach( var pattern in patterns )
             {
-                TreeNode item = this.mtvPatterns.Nodes.Add( pattern.Name );
+                TreeNode item = this.TV_P1_Patterns.Nodes.Add( pattern.Name );
 
                 if( !pattern.HasConfigFile || pattern.Corrupted )
                 {
@@ -375,12 +500,14 @@ namespace CDesigner
                 }
             }
 			
-			this.mlStatus.Text = "Utworzono listę zapisanych wzorów.";
+            // sprawdź czy można włączyć przycisk eksportu wszystkich wzorów
+            if( this.TV_P1_Patterns.Nodes.Count < 1 )
+                this.TSMI_ExportAll.Enabled = false;
 		}
 
 		// ------------------------------------------------------------- LockFieldLabels ------------------------------
 		
-		private void LockFieldLabels( )
+		private void LockFieldLabels()
 		{
 			this.pbBorderColor.Enabled = false;
 			this.pbFontName.Enabled    = false;
@@ -424,7 +551,7 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- UnlockFieldLabels ----------------------------
 		
-		private void UnlockFieldLabels( )
+		private void UnlockFieldLabels()
 		{
 			this.pbBorderColor.Enabled = true;
 			this.pbFontName.Enabled    = true;
@@ -467,7 +594,7 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- FillFieldLabels ------------------------------
 		
-		private void FillFieldLabels( )
+		private void FillFieldLabels()
 		{
 			this.pLocked = true;
 
@@ -601,15 +728,15 @@ namespace CDesigner
 			string pattern_name = window.PatternName;
 
 			// zaznacz nowy wzór
-			for( int x = 0; x < this.mtvPatterns.Nodes.Count; ++x )
-				if( this.mtvPatterns.Nodes[x].Text == pattern_name )
+			for( int x = 0; x < this.TV_P1_Patterns.Nodes.Count; ++x )
+				if( this.TV_P1_Patterns.Nodes[x].Text == pattern_name )
 				{
-					this.mtvPatterns.SelectedNode = this.mtvPatterns.Nodes[x];
+					this.TV_P1_Patterns.SelectedNode = this.TV_P1_Patterns.Nodes[x];
 					break;
 				}
 			
 			// przejdź do edycji wzoru
-			this.ictEdit_Click( null, null );
+			this.TSMI_EditPattern_Click( null, null );
 		}
 
 		// ------------------------------------------------------------- gmpClose_Click -------------------------------
@@ -630,27 +757,27 @@ namespace CDesigner
 			Console.WriteLine( "Otwieranie strony głównej." );
 #		endif
 
-			this.tlMain.Show();
-			this.gsHome.Enabled = false;
+			this.TLP_Main.Show();
+			this.TSMI_HomePage.Enabled = false;
 
 			// ukryj pozostałe panele
 			if( this.gThisContainer == 2 )
 			{
 				this.tPattern.Hide();
-				this.gsPattern.Enabled = true;
+				this.TSMI_PatternEditor.Enabled = true;
 			}
 			else if( this.gThisContainer == 3 )
 			{
 				this.tDataTable.Hide();
-				this.gsData.Enabled = true;
+				this.TSMI_PrintPreview.Enabled = true;
 			}
 
 			// automatycznie odśwież podgląd, gdy jego zawartość uległa zmianie
 			if( (this.pCurrentName == this.mSelectedName) && this.gEditChanged )
-				if( this.mtvPatterns.SelectedNode != null )
+				if( this.TV_P1_Patterns.SelectedNode != null )
 				{
-					this.mSelectedID = this.mtvPatterns.SelectedNode.Index;
-					this.mtvPatterns_AfterSelect( null, null );
+					this.mSelectedID = this.TV_P1_Patterns.SelectedNode.Index;
+					this.TV_P1_Patterns_AfterSelect( null, null );
 				}
 
 			this.gEditChanged = false;
@@ -666,18 +793,18 @@ namespace CDesigner
 #		endif
 
 			this.tPattern.Show();
-			this.gsPattern.Enabled = false;
+			this.TSMI_PatternEditor.Enabled = false;
 
 			// ukryj pozostałe panele
 			if( this.gThisContainer == 1 )
 			{
-				this.tlMain.Hide();
-				this.gsHome.Enabled = true;
+				this.TLP_Main.Hide();
+				this.TSMI_HomePage.Enabled = true;
 			}
 			else if( this.gThisContainer == 3 )
 			{
 				this.tDataTable.Hide();
-				this.gsData.Enabled = true;
+				this.TSMI_PrintPreview.Enabled = true;
 			}
 
 			this.gThisContainer = 2;
@@ -692,20 +819,20 @@ namespace CDesigner
 #		endif
 
 			this.tDataTable.Show();
-			this.gsData.Enabled = false;
+			this.TSMI_PrintPreview.Enabled = false;
 
 			// @TODO - automatyczne odświeżenie w razie zmiany
 
 			// ukryj pozostałe panele
 			if( this.gThisContainer == 1 )
 			{
-				this.tlMain.Hide();
-				this.gsHome.Enabled = true;
+				this.TLP_Main.Hide();
+				this.TSMI_HomePage.Enabled = true;
 			}
 			else if( this.gThisContainer == 2 )
 			{
 				this.tPattern.Hide();
-				this.gsPattern.Enabled = true;
+				this.TSMI_PatternEditor.Enabled = true;
 			}
 
 			this.gThisContainer = 3;
@@ -727,53 +854,49 @@ namespace CDesigner
 
 		// ------------------------------------------------------------- mlbPatterns_MouseDown ------------------------
 		
-		private void mtvPatterns_MouseDown( object sender, MouseEventArgs ev )
+		private void TV_P1_Patterns_MouseDown( object sender, MouseEventArgs ev )
 		{
 			if( ev.Button == MouseButtons.Middle )
 				return;
 
 			// zaznacz przy wciśnięciu prawego lub lewego przycisku myszy
-			this.mtvPatterns.SelectedNode = this.mtvPatterns.GetNodeAt( ev.X, ev.Y );
+			this.TV_P1_Patterns.SelectedNode = this.TV_P1_Patterns.GetNodeAt( ev.X, ev.Y );
 
 			// resetuj zaznaczony indeks
-			if( this.mtvPatterns.SelectedNode == null )
+			if( this.TV_P1_Patterns.SelectedNode == null )
 				this.mSelectedID = -1;
 		}
 
 		// ------------------------------------------------------------- mlbPatterns_AfterSelect ----------------------
 		
-		private void mtvPatterns_AfterSelect( object sender, TreeViewEventArgs ev )
+		private void TV_P1_Patterns_AfterSelect( object sender, TreeViewEventArgs ev )
 		{
 			// indeks poza zakresem
-			if( this.mtvPatterns.SelectedNode == null )
+			if( this.TV_P1_Patterns.SelectedNode == null )
 			{
-				this.mnPage.Enabled   = false;
-				this.mbDelete.Enabled = false;
+				this.N_P1_Page.Enabled   = false;
+				this.B_P1_Delete.Enabled = false;
 
 				return;
 			}
 
 			// indeks się nie zmienił...
-			if( this.mSelectedID == this.mtvPatterns.SelectedNode.Index && !this.gEditChanged )
+			if( this.mSelectedID == this.TV_P1_Patterns.SelectedNode.Index && !this.gEditChanged )
 				return;
-
-			// odśwież status
-			this.mlStatus.Text = "Proszę czekać... wczytywanie podglądu wzoru...";
-			this.mlStatus.Refresh();
 
 			// zmień kursor
 			this.Cursor  = Cursors.WaitCursor;
 			this.pLocked = true;
 
-			this.mSelectedID    = this.mtvPatterns.SelectedNode.Index;
+			this.mSelectedID    = this.TV_P1_Patterns.SelectedNode.Index;
 			this.mSelectedError = false;
 			this.mSelectedData  = false;
 			
 			// włącz możliwość usuwania
-			this.mbDelete.Enabled = true;
+			this.B_P1_Delete.Enabled = true;
 
 			// nazwa zaznaczonego wzoru
-			string pattern = this.mSelectedName = this.mtvPatterns.SelectedNode.Text;
+			string pattern = this.mSelectedName = this.TV_P1_Patterns.SelectedNode.Text;
 			Image  helper  = null,
 				   trash   = null;
 
@@ -799,8 +922,8 @@ namespace CDesigner
 						MessageBoxButtons.OK,
 						MessageBoxIcon.Error
 					);
-					this.mlStatus.Text  = "Wybrany wzór jest uszkodzony!";
-					this.mnPage.Enabled = false;
+                    //this.mlStatus.Text  = "Wybrany wzór jest uszkodzony!";
+					this.N_P1_Page.Enabled = false;
 
 					// przejdź na koniec
 					goto CD_mtvPatterns_AfterSelect;
@@ -817,8 +940,14 @@ namespace CDesigner
 				format = PatternEditor.DetectFormat( data.size.Width, data.size.Height );
 
 				// ustaw wartości pola numerycznego
-				this.mnPage.Maximum = data.pages;
-				this.mnPage.Value = 1;
+				this.N_P1_Page.Maximum = data.pages;
+				this.N_P1_Page.Value = 1;
+
+                this.RTB_P1_Details.Text = "Nazwa: " + data.name + ".\n" +
+                    "Format: " + (format == -1 ? "Własny" : PatternEditor.FormatNames[format]) + ".\n" +
+                    "Rozmiar: " + data.size.Width + " x " + data.size.Height + " mm.\n" +
+                    "Miejsce na dane: " + (data.dynamic ? "Tak" : "Nie") + ".\n" +
+                    "Ilość stron: " + data.pages + ".\n";
 
 				// podgląd strony
 				if( File.Exists("patterns/" + pattern + "/preview0.jpg") )
@@ -836,37 +965,18 @@ namespace CDesigner
 
 						image.Dispose();
 					}
-					this.mnPage.Enabled = true;
-
-					// aktualizuj status
-					if( format == -1 )
-						this.mlStatus.Text = "Wzór " + pattern + ". Format własny: " + data.size.Width + " x " + data.size.Height + " mm. Ilość stron: " + data.pages + ".";
-					else
-					{
-						string fname = PatternEditor.FormatNames[format];
-						this.mlStatus.Text = "Wzór " + pattern + ". Format " + fname + ": " + data.size.Width + " x " + data.size.Height + " mm. Ilość stron: " + data.pages + ".";
-					}
+					this.N_P1_Page.Enabled = true;
 
 					// przejdź na koniec
 					goto CD_mtvPatterns_AfterSelect;
 				}
-
 				this.mSelectedData = false;
 
 				// brak obrazka
 				helper = File.Exists( "noimage.png" ) ? Image.FromFile( "noimage.png" ) : null;
 				trash  = this.mpbPreview.Image;
 
-				this.mnPage.Enabled = false;
-			
-				// aktualizuj status
-				if( format == -1 )
-					this.mlStatus.Text = "Wzór " + pattern + ". Format własny: " + data.size.Width + " x " + data.size.Height + " mm. Brak podglądu.";
-				else
-				{
-					string fname = PatternEditor.FormatNames[format];
-					this.mlStatus.Text = "Wzór " + pattern + ". Format " + fname + ": " + data.size.Width + " x " + data.size.Height + " mm. Brak podglądu.";
-				}
+				this.N_P1_Page.Enabled = false;
 			}
 			catch( UnauthorizedAccessException )
 			{
@@ -907,38 +1017,38 @@ CD_mtvPatterns_AfterSelect:
 		private void icPattern_Opening( object sender, CancelEventArgs ev )
 		{
 			// odblokuj wszystkie przyciski w menu
-			this.ictNew.Enabled      = true;
-			this.ictEdit.Enabled     = true;
-			this.ictLoadData.Enabled = true;
+			this.TSMI_NewPattern.Enabled    = true;
+			this.TSMI_EditPattern.Enabled   = true;
+			this.TSMI_LoadData.Enabled      = true;
 			//@TODO
 			//this.ictImport.Enabled   = true;
-			//this.ictExport.Enabled   = true;
-			this.ictDelete.Enabled   = true;
+			this.TSMI_ExportPattern.Enabled = true;
+			this.TSMI_RemovePattern.Enabled = true;
 
 			// zablokuj gdy istnieje taka potrzeba
 			if( this.mSelectedID == -1 )
 			{
-				this.ictEdit.Enabled     = false;
-				this.ictLoadData.Enabled = false;
-				this.ictExport.Enabled   = false;
-				this.ictDelete.Enabled   = false;
+				this.TSMI_EditPattern.Enabled   = false;
+				this.TSMI_LoadData.Enabled      = false;
+				this.TSMI_ExportPattern.Enabled = false;
+				this.TSMI_RemovePattern.Enabled = false;
 			}
 			else if( this.mSelectedError )
 			{
-				this.ictEdit.Enabled     = false;
-				this.ictLoadData.Enabled = false;
-				this.ictExport.Enabled   = false;
+				this.TSMI_EditPattern.Enabled   = false;
+				this.TSMI_LoadData.Enabled      = false;
+				this.TSMI_ExportPattern.Enabled = false;
 			}
 			// zmień nazwę przycisku do wczytywania danych
 			else if( this.mSelectedData )
-				this.ictLoadData.Text = "Wczytaj dane...";
+				this.TSMI_LoadData.Text = "Wczytaj dane...";
 			else
-				this.ictLoadData.Text = "Podgląd";
+				this.TSMI_LoadData.Text = "Podgląd";
 		}
 
 		// ------------------------------------------------------------- ictEdit_Click --------------------------------
 		
-		private void ictEdit_Click( object sender, EventArgs ev )
+		private void TSMI_EditPattern_Click( object sender, EventArgs ev )
 		{
 			// indeks poza zakresem
 			if( this.mSelectedID == -1 )
@@ -947,7 +1057,7 @@ CD_mtvPatterns_AfterSelect:
 			// nie można edytować projektu...
 			if( this.mSelectedError )
 			{
-				this.mlStatus.Text = "Nie można edytować uszkodzonego wzoru!";
+                //this.mlStatus.Text = "Nie można edytować uszkodzonego wzoru!";
 				return;
 			}
 
@@ -961,14 +1071,14 @@ CD_mtvPatterns_AfterSelect:
 
 			this.pLocked = true;
 			this.Cursor  = Cursors.WaitCursor;
-			this.mlStatus.Text = "Trwa przygotowywanie wzoru do edycji...";
+            //this.mlStatus.Text = "Trwa przygotowywanie wzoru do edycji...";
 
 			// przejście do edycji wzoru
 			string pattern = this.mSelectedName;
 
 			// dodaj do listy ostatnio otwieranych
-			this.gSettings.AddToLastPatterns( pattern );
-			this.gmpRecent_RefreshList();
+			Settings.AddToLastPatterns( pattern );
+			this.TSMI_RecentOpen_RefreshList();
 
 			// zapisz indeks i nazwę aktualnego wzoru
 			this.pCurrentName = pattern;
@@ -1064,7 +1174,7 @@ CD_mtvPatterns_AfterSelect:
 				return;
 
 			this.Cursor = Cursors.WaitCursor;
-			this.mlStatus.Text = "Trwa usuwanie wybranego wzoru z dysku...";
+            //this.mlStatus.Text = "Trwa usuwanie wybranego wzoru z dysku...";
 
 			// sprawdź czy usuwany jest edytowany wzór
 			if( this.pCurrentName == this.mSelectedName )
@@ -1072,7 +1182,7 @@ CD_mtvPatterns_AfterSelect:
 				this.pCurrentName = null;
 
 				// wyłącz możliwość edycji nieistniejącego już wzoru
-				this.gsPattern.Enabled = false;
+				this.TSMI_PatternEditor.Enabled = false;
 			}
 			// brak wzoru, brak obrazka...
 			this.mpbPreview.Image = null;
@@ -1096,78 +1206,81 @@ CD_mtvPatterns_AfterSelect:
 			}
 
 			// usuń z listy ostatnio otwieranych (jeżeli się tam znajduje)
-			this.gSettings.RemoveFromLastPatterns( pattern );
-			this.gmpRecent_RefreshList();
+			Settings.RemoveFromLastPatterns( pattern );
+			this.TSMI_RecentOpen_RefreshList();
 
 			// odśwież listę wzorów
 			this.RefreshProjectList();
 
-			this.mlStatus.Text = "Wybrany wzór został usunięty.";
+            //this.mlStatus.Text = "Wybrany wzór został usunięty.";
 			this.Cursor = null;
 		}
 
 		// ------------------------------------------------------------- ictLoadData_Click ----------------------------
 		
-		private void ictLoadData_Click( object sender, EventArgs ev )
+		private void TSMI_LoadData_Click( object sender, EventArgs ev )
 		{
-			// wybór pliku
-			if( this.gsOpenFile.ShowDialog(this) != DialogResult.OK )
-				return;
+            // sfinguj wciśnięcie przycisku wczytywania danych z menu
+            //this.gmtLoadDatabase_Click( null, null );
 
-			// odczytaj dane
-			this.dPatternData = PatternEditor.ReadPattern( this.mSelectedName );
-			DataReader reader = new DataReader( this.dPatternData, this.gsOpenFile.FileName );
+            // wybór pliku
+            if( this.gsOpenFile.ShowDialog(this) != DialogResult.OK )
+                return;
 
-			if( reader.ShowDialog(this) != DialogResult.OK )
-				return;
+            // odczytaj dane
+            this.dPatternData = PatternEditor.ReadPattern( this.mSelectedName );
+            DataReader reader = new DataReader( this.dPatternData, this.gsOpenFile.FileName );
+
+            if( reader.ShowDialog(this) != DialogResult.OK )
+                return;
 			 
-			// załaduj cały plik
-			reader.ReloadData();
+            // załaduj cały plik
+            reader.ReloadData();
 
-			this.dSketchDrawed = false;
-			this.dpPreview.Controls.Clear();
+            this.dSketchDrawed = false;
+            this.dpPreview.Controls.Clear();
 
-			this.dtvData.Nodes.Clear();
-			this.dDataContent = reader.DataContent;
+            this.dtvData.Nodes.Clear();
+            this.dDataContent = reader.DataContent;
 
-			List<int> checked_cols = reader.CheckedCols;
-			string    checked_fmt  = reader.CheckedFormat;
-			string    checked_help = "";
+            List<int> checked_cols = reader.CheckedCols;
+            string    checked_fmt  = reader.CheckedFormat;
+            string    checked_help = "";
 
-			// wybierz pierwszą kolumnę w przypadku braku zaznaczenia
-			if( checked_cols.Count == 0 )
-			{
-				checked_cols.Add(0);
-				checked_fmt = "#1";
-			}
+            // wybierz pierwszą kolumnę w przypadku braku zaznaczenia
+            if( checked_cols.Count == 0 )
+            {
+                checked_cols.Add(0);
+                checked_fmt = "#1";
+            }
 
-			// uzupełnij wiersze
-			for( int x = 0; x < this.dDataContent.rows; ++x )
-			{
-				checked_help = checked_fmt;
+            // uzupełnij wiersze
+            for( int x = 0; x < this.dDataContent.rows; ++x )
+            {
+                checked_help = checked_fmt;
 
-				// wyświetl wybrane kolumny
-				for( int y = 0; y < checked_cols.Count; ++y )
-				{
-					string row = this.dDataContent.row[x,checked_cols[y]];
+                // wyświetl wybrane kolumny
+                for( int y = 0; y < checked_cols.Count; ++y )
+                {
+                    string row = this.dDataContent.row[x,checked_cols[y]];
 
-					if( row == " " || row == "" || row == null )
-						checked_help = checked_help.Replace( "#" + (y+1), "" );
-					else
-						checked_help = checked_help.Replace( "#" + (y+1), this.dDataContent.row[x,checked_cols[y]] );
-				}
+                    if( row == " " || row == "" || row == null )
+                        checked_help = checked_help.Replace( "#" + (y+1), "" );
+                    else
+                        checked_help = checked_help.Replace( "#" + (y+1), this.dDataContent.row[x,checked_cols[y]] );
+                }
 
-				this.dtvData.Nodes.Add( checked_help );
-			}
+                this.dtvData.Nodes.Add( checked_help );
+            }
 			
-			// ustaw indeks początkowy dla pola
-			this.pLocked = true;
-			this.dcbZoom.SelectedIndex = 2;
-			this.dnPage.Maximum = this.dPatternData.pages;
-			this.pLocked = false;
+            // ustaw indeks początkowy dla pola
+            this.pLocked = true;
+            this.dcbZoom.SelectedIndex = 2;
+            this.dnPage.Maximum = this.dPatternData.pages;
+            this.pLocked = false;
 
-			// przejdź na strone z danymi
-			this.gsData_Click( null, null );
+            // przejdź na strone z danymi
+            this.gsData_Click( null, null );
 		}
 
 #endregion
@@ -1191,17 +1304,17 @@ CD_mtvPatterns_AfterSelect:
 #		endif
 
 			// zmień status
-			this.mlStatus.Text = "Wczytywanie podglądu strony wzoru...";
-			this.mlStatus.Refresh();
+            //this.mlStatus.Text = "Wczytywanie podglądu strony wzoru...";
+            //this.mlStatus.Refresh();
 			this.Cursor = Cursors.WaitCursor;
 
 			// przechwyć wyjątek - brak uprawnień do otwierania folderu?
 			try
 			{
 				// otwórz podgląd wybranej strony wzoru
-				if( File.Exists("patterns/" + this.mSelectedName + "/preview" + (this.mnPage.Value - 1) + ".jpg") )
+				if( File.Exists("patterns/" + this.mSelectedName + "/preview" + (this.N_P1_Page.Value - 1) + ".jpg") )
 				{
-					using( Image image = Image.FromFile("patterns/" + this.mSelectedName + "/preview" + (this.mnPage.Value - 1) + ".jpg") )
+					using( Image image = Image.FromFile("patterns/" + this.mSelectedName + "/preview" + (this.N_P1_Page.Value - 1) + ".jpg") )
 					{
 						if( this.mpbPreview.Image != null )
 							this.mpbPreview.Image.Dispose();
@@ -1215,13 +1328,13 @@ CD_mtvPatterns_AfterSelect:
 						image.Dispose();
 					}
 					// aktualizuj status
-					this.mlStatus.Text = "Wczytano podgląd strony nr " + this.mnPage.Value + ".";
+                    //this.mlStatus.Text = "Wczytano podgląd strony nr " + this.N_PageMain.Value + ".";
 				}
 				else
 				{
 					// @TODO - dodać jakiś inny obrazek :D
 					this.mpbPreview.Image = null;
-					this.mlStatus.Text = "Podgląd tej strony nie istnieje.";
+                    //this.mlStatus.Text = "Podgląd tej strony nie istnieje.";
 				}
 			}
 			catch( FileNotFoundException ex )
@@ -1272,16 +1385,7 @@ CD_mtvPatterns_AfterSelect:
 
 		private void mpPreview_MouseDown( object sender, MouseEventArgs ev )
 		{
-			this.mpPreview.Focus();
-		}
-
-		// ------------------------------------------------------------- scHome_SplitterMoved ------------------------
-
-		private void scHome_SplitterMoved( object sender, SplitterEventArgs ev )
-		{
-			ColumnStyle col = this.tlMainStatusBar.ColumnStyles[0];
-			col.SizeType = SizeType.Absolute;
-			col.Width = this.scMain.Panel1.Width + 7;
+			this.P_P1_Preview.Focus();
 		}
 
 #endregion
@@ -2737,17 +2841,17 @@ CD_mtvPatterns_AfterSelect:
 
 		private void mbDelete_MouseEnter( object sender, EventArgs ev )
 		{
-			this.mlStatus.Text = "Usuwa wybrany z listy wzór.";
+            //this.mlStatus.Text = "Usuwa wybrany z listy wzór.";
 		}
 
 		private void mbNew_MouseEnter( object sender, EventArgs ev )
 		{
-			this.mlStatus.Text = "Otwiera okno kreatora nowego wzoru.";
+            //this.mlStatus.Text = "Otwiera okno kreatora nowego wzoru.";
 		}
 
 		private void mlStatus_ClearText( object sender, EventArgs ev )
 		{
-			this.mlStatus.Text = "";
+            //this.mlStatus.Text = "";
 		}
 
 		private void pcbScale_MouseEnter( object sender, EventArgs ev )
@@ -2806,47 +2910,47 @@ CD_mtvPatterns_AfterSelect:
 
 		// ------------------------------------------------------------- gmprClearList_Click --------------------------
 		
-		private void gmprClearList_Click( object sender, EventArgs ev )
+		private void TSMI_ClearRecent_Click( object sender, EventArgs ev )
 		{
 			// wyczyść ostatnio otwierane projekty
-			this.gSettings.LastPatterns = new List<string>();
+			Settings.LastPatterns = new List<string>();
 
 			// usuń pozycje w menu
-			while( this.gmpRecent.DropDownItems.Count > 2 )
-				this.gmpRecent.DropDownItems.RemoveAt( 0 );
+			while( this.TSMI_RecentOpen.DropDownItems.Count > 2 )
+				this.TSMI_RecentOpen.DropDownItems.RemoveAt( 0 );
 
 			// wyłącz pozycje w menu
-			this.gmpRecent.Enabled = false;
+			this.TSMI_RecentOpen.Enabled = false;
 			GC.Collect();
 		}
 
 		// ------------------------------------------------------------- gmpRecent_RefreshList ------------------------
 		
-		private void gmpRecent_RefreshList( )
+		private void TSMI_RecentOpen_RefreshList()
 		{
 #		if DEBUG
 			Console.WriteLine( "Uzupełnianie listy ostatnio otwieranych wzorów." );
 #		endif
 
 			// usuń pozycje w menu
-			while( this.gmpRecent.DropDownItems.Count > 2 )
-				this.gmpRecent.DropDownItems.RemoveAt( 0 );
+			while( this.TSMI_RecentOpen.DropDownItems.Count > 2 )
+				this.TSMI_RecentOpen.DropDownItems.RemoveAt( 0 );
 
-			List<string> lpatterns = this.gSettings.LastPatterns;
+			List<string> lpatterns = Settings.LastPatterns;
 
 			// dodaj ostatnio używane wzory
 			if( lpatterns.Count > 0 )
 			{
-				this.gmpRecent.Enabled = true;
+				this.TSMI_RecentOpen.Enabled = true;
 				for( int x = 0; x < lpatterns.Count; ++x )
 				{
-					this.gmpRecent.DropDownItems.Insert( x, new ToolStripMenuItem((x+1) + ": " + lpatterns[x]) );
-					this.gmpRecent.DropDownItems[x].Click += new EventHandler( this.gmprItem_Click );
+					this.TSMI_RecentOpen.DropDownItems.Insert( x, new ToolStripMenuItem((x+1) + ": " + lpatterns[x]) );
+					this.TSMI_RecentOpen.DropDownItems[x].Click += new EventHandler( this.gmprItem_Click );
 				}
 			}
 			// jeżeli brak, wyłącz pole
 			else
-				this.gmpRecent.Enabled = false;
+				this.TSMI_RecentOpen.Enabled = false;
 
 			GC.Collect();
 		}
@@ -2861,12 +2965,12 @@ CD_mtvPatterns_AfterSelect:
 
 			// wyszukaj wzór na liście
 			int index = 0;
-			for( ; index < this.mtvPatterns.Nodes.Count; ++index )
-				if( this.mtvPatterns.Nodes[index].Text == pattern )
+			for( ; index < this.TV_P1_Patterns.Nodes.Count; ++index )
+				if( this.TV_P1_Patterns.Nodes[index].Text == pattern )
 					break;
 
 			// brak wzoru na liście
-			if( index == this.mtvPatterns.Nodes.Count )
+			if( index == this.TV_P1_Patterns.Nodes.Count )
 			{
 				MessageBox.Show
 				(
@@ -2878,15 +2982,15 @@ CD_mtvPatterns_AfterSelect:
 				);
 
 				// usuń wzór i odśwież elementy
-				this.gSettings.RemoveFromLastPatterns( pattern );
-				this.gmpRecent_RefreshList();
+				Settings.RemoveFromLastPatterns( pattern );
+				this.TSMI_RecentOpen_RefreshList();
 
 				return;
 			}
 
 			// zaznacz i edytuj wzór
-			this.mtvPatterns.SelectedNode = this.mtvPatterns.Nodes[index];
-			this.ictEdit_Click( null, null );
+			this.TV_P1_Patterns.SelectedNode = this.TV_P1_Patterns.Nodes[index];
+			this.TSMI_EditPattern_Click( null, null );
 		}
 
 
@@ -2979,9 +3083,7 @@ CD_mtvPatterns_AfterSelect:
 			window.ShowDialog( this );
 		}
 
-
-		// ::DONE
-		private void gmtLoadDatabase_Click( object sender, EventArgs ev )
+		private void TSMI_LoadDataFile_Click( object sender, EventArgs ev )
 		{
 #		if DEBUG
 			Program.LogMessage( "** Okno wczytywania i ustawień pliku z danymi." );
@@ -3023,9 +3125,9 @@ CD_mtvPatterns_AfterSelect:
 
 			// zapisz strumień i odblokuj przycisk edytora kolumn
 			this._gStream = storage;
-			this.gmtColumnsEditor.Enabled = true;
-            this.gmtEditData.Enabled = true;
-            this.gmtSaveDataToFile.Enabled = true;
+			this.TSMI_EditColumns.Enabled = true;
+            this.TSMI_EditRows.Enabled = true;
+            this.TSMI_SaveData.Enabled = true;
 
 			GC.Collect();
 
@@ -3049,32 +3151,6 @@ CD_mtvPatterns_AfterSelect:
 			// łączenie kolumn
 			//EditColumnsForm joiner = new EditColumnsForm( this._reader );
 			//joiner.ShowDialog();
-		}
-
-		// ::DONE
-		private void imMain_Paint( object sender, PaintEventArgs ev )
-		{
-			ev.Graphics.DrawLine
-			(
-				new Pen( SystemColors.ControlDark ),
-				this.imMain.Bounds.X,
-				this.imMain.Bounds.Bottom - 1,
-				this.imMain.Bounds.Right,
-				this.imMain.Bounds.Bottom - 1
-			);
-		}
-		
-		// ::DONE
-		private void tlMainStatusBar_Paint( object sender, PaintEventArgs ev )
-		{
-			ev.Graphics.DrawLine
-			(
-				new Pen( SystemColors.ControlDark ),
-				this.tlMainStatusBar.Bounds.X,
-				0,
-				this.tlMainStatusBar.Bounds.Right,
-				0
-			);
 		}
 
         private void gmtEditData_Click( object sender, EventArgs ev )
@@ -3103,30 +3179,194 @@ CD_mtvPatterns_AfterSelect:
 
 			// zapisz strumień i odblokuj przycisk edytora kolumn
 			this._gStream = storage;
-			this.gmtColumnsEditor.Enabled = true;
-            this.gmtEditData.Enabled = true;
-            this.gmtSaveDataToFile.Enabled = true;
+			this.TSMI_EditColumns.Enabled = true;
+            this.TSMI_EditRows.Enabled = true;
+            this.TSMI_SaveData.Enabled = true;
 
 			GC.Collect();
         }
 
-        private void saveDataToFile_Click(object sender, EventArgs e)
+
+
+
+
+        /// <summary>
+        /// Akcja wywoływana po kliknięciu w pozycję "Zapisz dane do pliku".
+        /// Wyświetla okno do wyboru miejsca, gdzie plik ma być zapisany.
+        /// Zapisuje na razie tylko do formatu CSV.
+        /// Jako domyślną nazwę pliku przyjmuje aktualną datę.
+        /// </summary>
+        /// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+        private void TSMI_SaveData_Click( object sender, EventArgs ev )
         {
-            var dialog = new SaveFileDialog();
+            var dialog = Program.GLOBAL.SaveFile;
+
+            // jako domyślną nazwę przyjmij rozszerzenie pierwsze na liście
+            dialog.DefaultExt = "." + IOFileData.Extensions[0];
+            dialog.FileName   = DateTime.Now.ToString("yyyyMMddHHmm");
+            dialog.Filter     = IOFileData.getExtensionsList( true );
 
             if( dialog.ShowDialog(this) == DialogResult.OK )
                 this._gStream.save( dialog.FileName );
+        }
 
-            /*
-			MessageBox.Show
+        /// <summary>
+        /// Przełączanie okna ze szczegółami dotyczącymi zaznaczonego wzoru.
+        /// </summary>
+        /// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+        private void CB_P1_ShowDetails_CheckedChanged( object sender, EventArgs ev )
+        {
+            this.SC_P1_Details.Panel2Collapsed = !this.CB_P1_ShowDetails.Checked;
+        }
+
+        /// <summary>
+        /// Kompresuje wzór i zapisuje do wybranej lokalizacji.
+        /// Wyświetla okno zapisu pliku po czym uruchamia proces kompresji danych dla pojedynczego wzoru.
+        /// </summary>
+        /// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+        private void TSMI_ExportPattern_Click( object sender, EventArgs ev )
+        {
+            var dialog = Program.GLOBAL.SaveFile;
+            var values = Language.GetLines( "Extensions" );
+
+            // jako domyślną nazwę pliku przyjmij nazwę eksportowanego wzoru
+            dialog.DefaultExt = ".cbd";
+            dialog.FileName   = this.TV_P1_Patterns.SelectedNode.Text;
+            dialog.Filter     = values[(int)LANGCODE.GEX_CBD] + "|*.cbd";
+
+            // eksportuj wzór
+            if( dialog.ShowDialog(this) == DialogResult.OK )
+                PatternEditor.Export( this.TV_P1_Patterns.SelectedNode.Text, dialog.FileName );
+        }
+
+        /// <summary>
+        /// Kompresuje wszystkie wzory i zapisuje do wybranej lokalizacji.
+        /// Wyświetla okno zapisu pliku po czym uruchamia proces kompresji danych dla wszystkich wzorów.
+        /// Wszystkie wzory kompresowane są do jednego pliku.
+        /// </summary>
+        /// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+        private void TSMI_ExportAll_Click( object sender, EventArgs ev )
+        {
+            var dialog = Program.GLOBAL.SaveFile;
+            var values = Language.GetLines( "Extensions" );
+
+            // jako domyślną nazwę pliku przyjmij aktualną datę
+            dialog.DefaultExt = ".cbd";
+            dialog.FileName   = DateTime.Now.ToString("yyyyMMddHHmm");
+            dialog.Filter     = values[(int)LANGCODE.GEX_CBD] + "|*.cbd";
+
+            // eksportuj wszystkie wzory
+            if( dialog.ShowDialog(this) == DialogResult.OK )
+                PatternEditor.Export( "", dialog.FileName );
+        }
+
+        /// <summary>
+		/// Akcja wywoływana przy rysowaniu paska informacji.
+		/// Rysuje linię na samej górze paska oddzielającą treść od paska w oknie.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void TLP_P1_StatusBar_Paint( object sender, PaintEventArgs ev )
+		{
+			ev.Graphics.DrawLine
 			(
-				this,
-				"Funkcjonalność jeszcze nie działa.",
-				"Baza danych",
-				MessageBoxButtons.OK,
-				MessageBoxIcon.Warning
+				new Pen( SystemColors.ControlDark ),
+				this.TLP_P1_StatusBar.Bounds.X,
+				0,
+				this.TLP_P1_StatusBar.Bounds.Right,
+				0
 			);
-             */
+		}
+
+        /// <summary>
+		/// Akcja wywoływana przy rysowaniu paska menu.
+		/// Rysuje linię na samym dole menu górze oddzielającą treść od menu w oknie.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		//* ============================================================================================================
+		private void MS_Main_Paint( object sender, PaintEventArgs ev )
+		{
+			ev.Graphics.DrawLine
+			(
+				new Pen( SystemColors.ControlDark ),
+				this.MS_Main.Bounds.X,
+				this.MS_Main.Bounds.Bottom - 1,
+				this.MS_Main.Bounds.Right,
+				this.MS_Main.Bounds.Bottom - 1
+			);
+		}
+
+        private void TSMI_Import_Click( object sender, EventArgs ev )
+        {
+#		if DEBUG
+			Program.LogMessage( "** Okno wczytywania pliku importu." );
+			Program.LogMessage( "** BEGIN ================================================================== **" );
+			Program.IncreaseLogIndent();
+#		endif
+			// wybór pliku
+			var select = Program.GLOBAL.SelectFile;
+            var values = Language.GetLines( "Extensions" );
+
+            select.DefaultExt = ".cbd";
+			select.Title      = Language.GetLine( "MessageNames", (int)LANGCODE.GMN_SELECTFILE );
+            select.Filter     = values[(int)LANGCODE.GEX_CBD] + "|*.cbd";
+
+            // wybór zaniechany
+			if( select.ShowDialog(this) != DialogResult.OK )
+			{
+#			if DEBUG
+				Program.LogMessage( "Operacja anulowana." );
+				Program.DecreaseLogIndent();
+				Program.LogMessage( "** END ==================================================================== **" );
+#			endif
+				return;
+			}
+
+#		if DEBUG
+            Program.LogMessage( "Plik wybrany do importu: " + select.FileName + "." );
+            Program.LogMessage( "Uruchamianie importu pliku..." );
+#       endif
+            var result = Program.LogQuestion
+            (
+                Language.GetLine( "PatternList", "Messages", (int)LANGCODE.I01_PAT_MES_YESIMPORT ),
+                Language.GetLine( "MessageNames", (int)LANGCODE.GMN_IMPORTFILE ),
+                false,
+                this
+            );
+
+            if( result == DialogResult.Yes )
+            {
+                PatternEditor.Import( select.FileName );
+                Program.LogInfo
+                (
+                    Language.GetLine( "PatternList", "Messages", (int)LANGCODE.I01_PAT_MES_IMPORTSUCC ),
+                    Language.GetLine( "MessageNames", (int)LANGCODE.GMN_IMPORTFILE ),
+                    this
+                );
+            }
+            else
+                Program.LogMessage( "Operacja importu została anulowana." );
+
+#       if DEBUG
+			Program.DecreaseLogIndent();
+			Program.LogMessage( "** END ==================================================================== **" );
+#		endif
         }
 	}
 }
