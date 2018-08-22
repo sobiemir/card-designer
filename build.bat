@@ -13,47 +13,12 @@
 
 @echo off
 
-:: check if resgen and csc commands exist in system
-where resgen
-if %ERRORLEVEL% neq 0 (
-	echo ### Command resgen not exist
-	exit /B 1
-)
+:: check csc command exist in system
 where csc
 if %ERRORLEVEL% neq 0 (
 	echo ### Command csc not exist
 	exit /B 1
 )
-
-:: create obj directory for CDesigner resources
-if not exist obj (
-	echo ### Creating "obj" directory...
-	mkdir obj
-)
-
-:: generate resources using resgen
-echo ### Generating resources for CDesigner...
-
-resgen /useSourcePath ^
-	/compile ^
-		resx\DatafileSettingsForm.resx,obj\CDesigner.DatafileSettingsForm.resources ^
-		resx\DataReaderForm.resx,obj\CDesigner.DataReaderForm.resources ^
-		resx\EditColumnsForm.resx,obj\CDesigner.EditColumnsForm.resources ^
-		resx\EditRowsForm.resx,obj\CDesigner.EditRowsForm.resources ^
-		resx\InfoForm.resx,obj\CDesigner.InfoForm.resources ^
-		resx\MainForm.resx,obj\CDesigner.MainForm.resources ^
-		resx\NewPatternForm.resx,obj\CDesigner.NewPatternForm.resources ^
-		resx\UpdateForm.resx,obj\CDesigner.UpdateForm.resources ^
-		properties\Resources.resx,obj\CDesigner.Properties.Resources.resources
-
-
-:: generate resources using resgen
-echo ### Generating resources for CDRestore...
-
-resgen /useSourcePath ^
-	/compile ^
-		resx\cdrestore\MainForm.resx,obj\CDRestore.MainForm.resources ^
-		properties\cdrestore\Resources.resx,obj\CDRestore.Properties.Resources.resources
 
 :: create dll and build directory
 if not exist dll (
@@ -108,15 +73,6 @@ echo ### Compiling CDesigner application...
 
 csc /reference:dll\PdfSharp.dll ^
 	/out:build\cdesigner.exe ^
-	/resource:obj\CDesigner.DatafileSettingsForm.resources ^
-	/resource:obj\CDesigner.DataReaderForm.resources ^
-	/resource:obj\CDesigner.EditColumnsForm.resources ^
-	/resource:obj\CDesigner.EditRowsForm.resources ^
-	/resource:obj\CDesigner.InfoForm.resources ^
-	/resource:obj\CDesigner.MainForm.resources ^
-	/resource:obj\CDesigner.NewPatternForm.resources ^
-	/resource:obj\CDesigner.UpdateForm.resources ^
-	/resource:obj\CDesigner.Properties.Resources.resources ^
 	/appconfig:properties\app.config ^
 	/win32manifest:properties\app.manifest ^
 	/win32icon:resources\cdesigner.ico ^
@@ -154,15 +110,12 @@ csc /reference:dll\PdfSharp.dll ^
 		designer\MainForm.Designer.cs ^
 		designer\NewPatternForm.Designer.cs ^
 		designer\UpdateForm.Designer.cs ^
-		properties\AssemblyInfo.cs ^
-		properties\Resources.Designer.cs
+		properties\AssemblyInfo.cs
 
 :: compile CDRestore application using csc
 echo ### Compiling CDRestore application...
 
 csc /out:build\cdrestore.exe ^
-	/resource:obj\CDRestore.MainForm.resources ^
-	/resource:obj\CDRestore.Properties.Resources.resources ^
 	/win32manifest:properties\cdrestore\app.manifest ^
 	/win32icon:resources\cdrestore.ico ^
 	%target% ^
@@ -173,8 +126,7 @@ csc /out:build\cdrestore.exe ^
 		src\cdrestore\Program.cs ^
 		src\cdrestore\ProgressStream.cs ^
 		designer\cdrestore\MainForm.Designer.cs ^
-		properties\cdrestore\AssemblyInfo.cs ^
-		properties\cdrestore\Resources.Designer.cs
+		properties\cdrestore\AssemblyInfo.cs
 
 :: create icons folder
 if not exist build\icons (
