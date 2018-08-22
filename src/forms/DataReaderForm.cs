@@ -42,30 +42,30 @@ namespace CDesigner.Forms
 	/// 
 	/// <summary>
 	/// Formularz przypisywania kolumn do pól wzoru.
-    /// Pozwala na przypisanie kolumny do dostępnego dla wzoru pola na wybranej stronie.
-    /// Dane tutaj utworzone wykorzystywane są potem do generowania dokumentu w formacie PDF.
-    /// Możliwe jest ustawienie formatu w którym wyświetlane są poszczególne wiersze z bazy danch.
-    /// Format można wpisać samemu po uprzednim zaznaczeniu kolumn, które mają się wyświetlać.
+	/// Pozwala na przypisanie kolumny do dostępnego dla wzoru pola na wybranej stronie.
+	/// Dane tutaj utworzone wykorzystywane są potem do generowania dokumentu w formacie PDF.
+	/// Możliwe jest ustawienie formatu w którym wyświetlane są poszczególne wiersze z bazy danch.
+	/// Format można wpisać samemu po uprzednim zaznaczeniu kolumn, które mają się wyświetlać.
 	/// </summary>
-    ///
+	///
 	public partial class DataReaderForm : Form
-    {
+	{
 #region ZMIENNE
 
-        /// <summary>Informacje o wczytanym wzorze.</summary>
-        private PatternData _data;
+		/// <summary>Informacje o wczytanym wzorze.</summary>
+		private PatternData _data;
 
-        /// <summary>Aktualnie zaznaczona kolumna.</summary>
+		/// <summary>Aktualnie zaznaczona kolumna.</summary>
 		private ListViewItem _selectedCol;
 
-        /// <summary>Lista zaznaczonych kolumn.</summary>
+		/// <summary>Lista zaznaczonych kolumn.</summary>
 		private List<int> _checkedCols;
 
-        /// <summary>Aktualnie wyświetlana strona.</summary>
+		/// <summary>Aktualnie wyświetlana strona.</summary>
 		private int _currentPage;
 
-        /// <summary>Przypisany schowek z danymi do wyświetlenia.</summary>
-        private DataStorage  _storage;
+		/// <summary>Przypisany schowek z danymi do wyświetlenia.</summary>
+		private DataStorage  _storage;
 
 		/// <summary>Informacja o tym czy wyświetlany jest dymek z wiadomością.</summary>
 		bool _tooltipShow;
@@ -74,66 +74,66 @@ namespace CDesigner.Forms
 
 #region KONSTRUKTOR / WŁAŚCIWOŚCI
 
-        /// <summary>
+		/// <summary>
 		/// Konstruktor formularza.
 		/// Tworzy okno, ustawia ikonkę programu i tłumaczy wszystkie napisy.
 		/// </summary>
-        /// 
-        /// <seealso cref="translateForm"/>
-        /// <seealso cref="fillAvailablePatterns"/>
+		/// 
+		/// <seealso cref="translateForm"/>
+		/// <seealso cref="fillAvailablePatterns"/>
 		//* ============================================================================================================
-        public DataReaderForm( PatternData data, DataStorage storage )
-        {
+		public DataReaderForm( PatternData data, DataStorage storage )
+		{
 			this.InitializeComponent();
 
-            this._data    = data;
-            this._storage = storage;
+			this._data    = data;
+			this._storage = storage;
 
-            this._tooltipShow = false;
-            this._selectedCol = null;
-            this._checkedCols = new List<int>();
-            this._currentPage = 0;
+			this._tooltipShow = false;
+			this._selectedCol = null;
+			this._checkedCols = new List<int>();
+			this._currentPage = 0;
 
-            // pobranie ikony
-            this.Icon = Program.GetIcon();
-            this.translateForm();
-        }
+			// pobranie ikony
+			this.Icon = Program.GetIcon();
+			this.translateForm();
+		}
 
-        /// <summary>
-        /// Pobiera przypisane dane wzoru.
-        /// Zawiera wszystkie informacje o wczytanym wzorze.
-        /// </summary>
+		/// <summary>
+		/// Pobiera przypisane dane wzoru.
+		/// Zawiera wszystkie informacje o wczytanym wzorze.
+		/// </summary>
 		//* ============================================================================================================
 		public PatternData PatternData
 		{
 			get { return this._data; }
 		}
-        
-        /// <summary>
-        /// Pobiera przypisane dane z bazy.
-        /// Zawiera dane podzielone na kolumny i rekordy.
-        /// </summary>
+		
+		/// <summary>
+		/// Pobiera przypisane dane z bazy.
+		/// Zawiera dane podzielone na kolumny i rekordy.
+		/// </summary>
 		//* ============================================================================================================
-        public DataStorage DataStorage
-        {
-            get { return this._storage; }
-        }
+		public DataStorage DataStorage
+		{
+			get { return this._storage; }
+		}
 
 		/// <summary>
 		/// Pobiera listę zaznaczonych kolumn.
-        /// Kolumny zaznacza się w kolumnie z listą kolumn zczytywanych z bazy danych.
-        /// Właściwość zwraca identyfikatorych zaznaczonych kolumn.
+		/// Kolumny zaznacza się w kolumnie z listą kolumn zczytywanych z bazy danych.
+		/// Właściwość zwraca identyfikatorych zaznaczonych kolumn.
 		/// </summary>
 		//* ============================================================================================================
 		public List<int> CheckedCols
 		{
 			get { return this._checkedCols; }
 		}
-        
+		
 		/// <summary>
-        /// Pobiera ustawiony format wyświetlania danych.
-        /// Format opiera się na poszczególnych kolumnach jako numerach.
-        /// Przykładowa wartość zwrócona przez właściwość: <value>#1 - #2 :: #3</value>.
+		/// Pobiera ustawiony format wyświetlania danych.
+		/// Format opiera się na poszczególnych kolumnach jako numerach.
+		/// Przykładowa wartość zwrócona przez właściwość: <value>#1 - #2 :: #3</value>.
 		/// </summary>
 		//* ============================================================================================================
 		public string CheckedFormat
@@ -145,39 +145,39 @@ namespace CDesigner.Forms
 
 #region FUNKCJE PODSTAWOWE
 
-        /// <summary>
+		/// <summary>
 		/// Odświeżanie danych w oknie.
-        /// Okno tworzone wcześniej wymaga odświeżenia.
-        /// Aby go nie zwalniać z pamięci, po zamknięciu podczas otwierania warto wywołać tą funkcję.
-        /// Odświeża wszystkie dynamiczne dane wyświetlane na formularzu wraz z tłumaczeniami fraz.
+		/// Okno tworzone wcześniej wymaga odświeżenia.
+		/// Aby go nie zwalniać z pamięci, po zamknięciu podczas otwierania warto wywołać tą funkcję.
+		/// Odświeża wszystkie dynamiczne dane wyświetlane na formularzu wraz z tłumaczeniami fraz.
 		/// </summary>
-        /// 
-        /// <seealso cref="refreshAndOpen"/>
-        /// <seealso cref="Language"/>
-        /// 
-        /// <returns>Czy odświeżanie kontrolki przebiegło pomyślnie?</returns>
+		/// 
+		/// <seealso cref="refreshAndOpen"/>
+		/// <seealso cref="Language"/>
+		/// 
+		/// <returns>Czy odświeżanie kontrolki przebiegło pomyślnie?</returns>
 		//* ============================================================================================================
-        public bool refreshForm()
-        {
+		public bool refreshForm()
+		{
 #       if DEBUG
 			Program.LogMessage( "Odświeżanie wszystkich potrzebnych danych." );
 #       endif
 
-            if( this._data.Pages < 1 || this._storage.ColumnsNumber == 0 || this._storage.RowsNumber == 0 )
-                return false;
+			if( this._data.Pages < 1 || this._storage.ColumnsNumber == 0 || this._storage.RowsNumber == 0 )
+				return false;
 
 			// uzupełnij tabele
 			for( int x = 0; x < this._storage.ColumnsNumber; ++x )
 				this.LV_DatabaseCols.Items.Add( this._storage.Column[x] );
 
-            //var image_list = new ImageList();
-            //image_list.ColorDepth = ColorDepth.Depth32Bit;
+			//var image_list = new ImageList();
+			//image_list.ColorDepth = ColorDepth.Depth32Bit;
 
-            //// wczytaj ikony
-            //var image = Program.GetBitmap( BITMAPCODE.IMAGEFIELD );
-            //image_list.Images.Add( "image-field", image );
-            //image = Program.GetBitmap( BITMAPCODE.TEXTFIELD );
-            //image_list.Images.Add( "text-field", image );
+			//// wczytaj ikony
+			//var image = Program.GetBitmap( BITMAPCODE.IMAGEFIELD );
+			//image_list.Images.Add( "image-field", image );
+			//image = Program.GetBitmap( BITMAPCODE.TEXTFIELD );
+			//image_list.Images.Add( "text-field", image );
 
 			// ustaw listę obrazków
 			//this.LV_PageFields.SmallImageList = image_list;
@@ -196,10 +196,10 @@ namespace CDesigner.Forms
 				item.Tag = (object)x;
 
 				// ustaw ikonki
-                //if( field_data.Extra.TextFromDB )
-                //    item.ImageKey = "text-field";
-                //else if( field_data.Extra.ImageFromDB )
-                //    item.ImageKey = "image-field";
+				//if( field_data.Extra.TextFromDB )
+				//    item.ImageKey = "text-field";
+				//else if( field_data.Extra.ImageFromDB )
+				//    item.ImageKey = "image-field";
 
 				item.SubItems.Add("");
 			}
@@ -207,42 +207,42 @@ namespace CDesigner.Forms
 			// ustaw maksymalną wartość dla pola numerycznego
 			this.N_Page.Maximum = this._data.Pages;
 
-            this.translateForm();
-            return true;
-        }
+			this.translateForm();
+			return true;
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Odświeżanie danych w oknie.
-        /// Okno tworzone wcześniej wymaga odświeżenia.
-        /// Aby go nie zwalniać z pamięci, po zamknięciu podczas otwierania warto wywołać tą funkcję.
-        /// Odświeża wszystkie dynamiczne dane wyświetlane na formularzu wraz z tłumaczeniami fraz.
-        /// Funkcja w odróżnieniu od funkcji refreshForm po wywołaniu otwiera okno.
+		/// Okno tworzone wcześniej wymaga odświeżenia.
+		/// Aby go nie zwalniać z pamięci, po zamknięciu podczas otwierania warto wywołać tą funkcję.
+		/// Odświeża wszystkie dynamiczne dane wyświetlane na formularzu wraz z tłumaczeniami fraz.
+		/// Funkcja w odróżnieniu od funkcji refreshForm po wywołaniu otwiera okno.
 		/// </summary>
-        /// 
-        /// <param name="parent">Rodzic do którego przypisany będzie komunikat.</param>
-        /// <param name="modal">Czy wyświetlić jako okno modalne?</param>
-        /// 
-        /// <returns>Wartość zwracana przez okno modalne lub DialogResult.None.</returns>
-        /// 
-        /// <seealso cref="refreshForm"/>
-        /// <seealso cref="Language"/>
+		/// 
+		/// <param name="parent">Rodzic do którego przypisany będzie komunikat.</param>
+		/// <param name="modal">Czy wyświetlić jako okno modalne?</param>
+		/// 
+		/// <returns>Wartość zwracana przez okno modalne lub DialogResult.None.</returns>
+		/// 
+		/// <seealso cref="refreshForm"/>
+		/// <seealso cref="Language"/>
 		//* ============================================================================================================
-        public DialogResult refreshAndOpen( Form parent = null, bool modal = true )
-        {
-            if( this.refreshForm() )
-                return Program.OpenForm( this, parent, modal );
-            return DialogResult.None;
-        }
+		public DialogResult refreshAndOpen( Form parent = null, bool modal = true )
+		{
+			if( this.refreshForm() )
+				return Program.OpenForm( this, parent, modal );
+			return DialogResult.None;
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Translator formularza.
 		/// Funkcja tłumaczy wszystkie statyczne elementy programu.
 		/// Wywoływana jest z konstruktora oraz podczas odświeżania ustawień językowych.
-        /// Jej użycie nie powinno wykraczać poza dwa wyżej wymienione przypadki.
+		/// Jej użycie nie powinno wykraczać poza dwa wyżej wymienione przypadki.
 		/// </summary>
-        /// 
-        /// <seealso cref="DataReaderForm"/>
-        /// <seealso cref="Language"/>
+		/// 
+		/// <seealso cref="DataReaderForm"/>
+		/// <seealso cref="Language"/>
 		//* ============================================================================================================
 		protected void translateForm()
 		{
@@ -250,40 +250,40 @@ namespace CDesigner.Forms
 			Program.LogMessage( "Tłumaczenie kontrolek znajdujących się na formularzu." );
 #		endif
 
-            // kolumny
-            var values = Language.GetLines( "DataReader", "Headers" );
-            
-            this.CH_DatabaseCols.Text = values[(int)LANGCODE.I08_HEA_DBASECOLS];
-            this.CH_PageCols.Text     = values[(int)LANGCODE.I08_HEA_PAGECOLS];
-            this.CH_PageFields.Text   = values[(int)LANGCODE.I08_HEA_PAGEFIELDS];
+			// kolumny
+			var values = Language.GetLines( "DataReader", "Headers" );
+			
+			this.CH_DatabaseCols.Text = values[(int)LANGCODE.I08_HEA_DBASECOLS];
+			this.CH_PageCols.Text     = values[(int)LANGCODE.I08_HEA_PAGECOLS];
+			this.CH_PageFields.Text   = values[(int)LANGCODE.I08_HEA_PAGEFIELDS];
 
-            // strona
-            this.L_Page.Text = Language.GetLine( "DataReader", "Labels", (int)LANGCODE.I08_LAB_PAGE );
+			// strona
+			this.L_Page.Text = Language.GetLine( "DataReader", "Labels", (int)LANGCODE.I08_LAB_PAGE );
 
-            // przyciski
-            values = Language.GetLines( "DataReader", "Buttons" );
+			// przyciski
+			values = Language.GetLines( "DataReader", "Buttons" );
 
-            this.B_Save.Text   = values[(int)LANGCODE.I08_BUT_SAVE];
-            this.B_Cancel.Text = values[(int)LANGCODE.I08_BUT_CANCEL];
+			this.B_Save.Text   = values[(int)LANGCODE.I08_BUT_SAVE];
+			this.B_Cancel.Text = values[(int)LANGCODE.I08_BUT_CANCEL];
 
-            // tytuł formularza
-            this.Text = Language.GetLine( "FormNames", (int)LANGCODE.GFN_DATAREADER );
-        }
+			// tytuł formularza
+			this.Text = Language.GetLine( "FormNames", (int)LANGCODE.GFN_DATAREADER );
+		}
 
 #endregion
 
 #region OBSŁUGA KOLUMN
 		/// @cond EVENTS
 
-        /// <summary>
-        /// Akcja wywoływana po naciśnięciu przycisku na elemencie w liście kolumn.
-        /// Po kliknięciu w nazwę kolumny ze schowka możliwe jest dzięki temu jej przeniesienie do nowych kolumn.
-        /// Ułatwia to w znacznym stopniu możliwość łączenia kolumn.
-        /// Drag & Drop.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana po naciśnięciu przycisku na elemencie w liście kolumn.
+		/// Po kliknięciu w nazwę kolumny ze schowka możliwe jest dzięki temu jej przeniesienie do nowych kolumn.
+		/// Ułatwia to w znacznym stopniu możliwość łączenia kolumn.
+		/// Drag & Drop.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void LV_DatabaseCols_MouseDown( object sender, MouseEventArgs ev )
 		{
@@ -301,26 +301,26 @@ namespace CDesigner.Forms
 				this.LV_DatabaseCols.DoDragDrop( row, DragDropEffects.Move );
 		}
 		
-        /// <summary>
-        /// Akcja wywoływana podczas najechania na element podczas przeciągania.
-        /// Drag & Drop.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana podczas najechania na element podczas przeciągania.
+		/// Drag & Drop.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void LV_DatabaseCols_DragOver( object sender, DragEventArgs ev )
 		{
 			ev.Effect = DragDropEffects.Move;
 		}
 
-        /// <summary>
-        /// Akcja wywoływana po zmianie zaznaczenia kolumny dla bazy danych.
-        /// Funkcja odświeża wartość kontrolki zawierającej format wyświetlanych danych.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana po zmianie zaznaczenia kolumny dla bazy danych.
+		/// Funkcja odświeża wartość kontrolki zawierającej format wyświetlanych danych.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void LV_DatabaseCols_ItemChecked( object sender, ItemCheckedEventArgs ev )
 		{
@@ -331,7 +331,7 @@ namespace CDesigner.Forms
 			int counter = 0;
 			this.TB_Format.Text = "";
 
-            // zmień format
+			// zmień format
 			foreach( ListViewItem item in this.LV_DatabaseCols.Items )
 				if( item.Checked && counter == 0 )
 					this.TB_Format.Text = "#" + (++counter);
@@ -341,25 +341,25 @@ namespace CDesigner.Forms
 
 		/// <summary>
 		/// Akcja wywoływana po wejściu w tryb przeciągania elementów.
-        /// Drag & Drop.
+		/// Drag & Drop.
 		/// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void LV_PageFields_DragEnter( object sender, DragEventArgs ev )
 		{
 			ev.Effect = DragDropEffects.Move;
 		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas najechania na element podczas przeciągania.
-        /// Dzięki tej funkcji po najechaniu podświetla się kolumna na którą wskazuje kursor myszy.
-        /// Drag & Drop.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana podczas najechania na element podczas przeciągania.
+		/// Dzięki tej funkcji po najechaniu podświetla się kolumna na którą wskazuje kursor myszy.
+		/// Drag & Drop.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void LV_PageFields_DragOver( object sender, DragEventArgs ev )
 		{
@@ -376,24 +376,24 @@ namespace CDesigner.Forms
 
 			this._selectedCol = item;
 
-            if( this._selectedCol != null )
-            {
-			    this._selectedCol.Selected = true;
+			if( this._selectedCol != null )
+			{
+				this._selectedCol.Selected = true;
 #   		if DEBUG
-		    	Program.LogMessage( "Zaznaczone pole: '" + this._selectedCol.Index + "'." );
+				Program.LogMessage( "Zaznaczone pole: '" + this._selectedCol.Index + "'." );
 #	    	endif
-            }
+			}
 		}
 
-        /// <summary>
-        /// Akcja wywoływana po puszczeniu klawisza myszy podczas przeciągania.
-        /// Po przeciągnięciu przypisuje przeciąganą kolumnę z zaznaczonym polem wzoru.
-        /// Funkcja nadpisuje zapisane już pola nowymi, które zostaną upuszczone.
-        /// Drag & Drop.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana po puszczeniu klawisza myszy podczas przeciągania.
+		/// Po przeciągnięciu przypisuje przeciąganą kolumnę z zaznaczonym polem wzoru.
+		/// Funkcja nadpisuje zapisane już pola nowymi, które zostaną upuszczone.
+		/// Drag & Drop.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void LV_PageFields_DragDrop( object sender, DragEventArgs ev )
 		{
@@ -401,9 +401,9 @@ namespace CDesigner.Forms
 			var client_point = this.LV_PageFields.PointToClient( new Point(ev.X, ev.Y) );
 			var item = this.LV_PageFields.GetItemAt( client_point.X, client_point.Y );
 
-            // brak elementu
-            if( item == null )
-                return;
+			// brak elementu
+			if( item == null )
+				return;
 
 			// przeciągany wiersz
 			var copy = (ListViewItem)ev.Data.GetData( typeof(ListViewItem) );
@@ -415,39 +415,39 @@ namespace CDesigner.Forms
 
 			// zapisz indeks przeciąganej kolumny
 			this._data.Page[this._currentPage].Field[(int)item.Tag].Extra.Column = copy.Index;
-            
+			
 #		if DEBUG
 			Program.LogMessage( "Zapisano kolumnę '" + copy.Index + "' dla pola '" + ((int)item.Tag) + "'." );
 #		endif
 		}
 
-        /// <summary>
-        /// Akcja wywoływana po wciśnięciu przycisku przy skupieniu na kontrolce z listą pól.
-        /// Funkcja powoduje usunięcie przypisanej kolumny do wybranego pola.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana po wciśnięciu przycisku przy skupieniu na kontrolce z listą pól.
+		/// Funkcja powoduje usunięcie przypisanej kolumny do wybranego pola.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void LV_PageFields_KeyDown( object sender, KeyEventArgs ev )
 		{
 			// usuń przypisaną kolumnę
 			if( ev.KeyCode == Keys.Delete && this.LV_PageFields.SelectedItems.Count > 0 )
-            {
-                var item = this.LV_PageFields.SelectedItems[0];
+			{
+				var item = this.LV_PageFields.SelectedItems[0];
 				item.SubItems[1].Text = "";
-                this._data.Page[this._currentPage].Field[(int)item.Tag].Extra.Column = -1;
+				this._data.Page[this._currentPage].Field[(int)item.Tag].Extra.Column = -1;
 #		    if DEBUG
-			    Program.LogMessage( "Pole o numerze '" + item.Index + "' zostało wyczyszczone." );
+				Program.LogMessage( "Pole o numerze '" + item.Index + "' zostało wyczyszczone." );
 #		    endif
-            }
+			}
 		}
 
 #endregion
 
 #region PASEK DOLNY
 
-        /// <summary>
+		/// <summary>
 		/// Akcja wywoływana przy rysowaniu tabeli.
 		/// Rysuje linię na samej górze oddzielającą treść od "paska informacji" w oknie.
 		/// </summary>
@@ -455,9 +455,9 @@ namespace CDesigner.Forms
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-        private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
-        {
-            var panel = (TableLayoutPanel)sender;
+		private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
+		{
+			var panel = (TableLayoutPanel)sender;
 			ev.Graphics.DrawLine
 			(
 				new Pen( SystemColors.ControlDark ),
@@ -466,14 +466,14 @@ namespace CDesigner.Forms
 				panel.Bounds.Right,
 				0
 			);
-        }
+		}
 
-        /// <summary>
-        /// Akcja wywoływana po zmianie strony wzoru.
-        /// Funkcja pozwala na zmianę aktualnej strony wczytanego wzoru.
-        /// Odświeża listę pól dostępnych na stronie i przypisanych do nich kolumn.
-        /// </summary>
-        /// 
+		/// <summary>
+		/// Akcja wywoływana po zmianie strony wzoru.
+		/// Funkcja pozwala na zmianę aktualnej strony wczytanego wzoru.
+		/// Odświeża listę pól dostępnych na stronie i przypisanych do nich kolumn.
+		/// </summary>
+		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
@@ -481,10 +481,10 @@ namespace CDesigner.Forms
 		{
 			int page = (int)this.N_Page.Value - 1;
 
-            // nie pozwalaj na wpisanie liczby z innego zakresu
-            if( this._data.Page.Length <= page || page < 0 )
-                return;
-            this.LV_PageFields.Items.Clear();
+			// nie pozwalaj na wpisanie liczby z innego zakresu
+			if( this._data.Page.Length <= page || page < 0 )
+				return;
+			this.LV_PageFields.Items.Clear();
 
 			var page_data = this._data.Page[page];
 
@@ -499,57 +499,57 @@ namespace CDesigner.Forms
 
 				// dodaj element
 				this.LV_PageFields.Items.Add( field_data.Name );
-                int index = this.LV_PageFields.Items.Count - 1;
+				int index = this.LV_PageFields.Items.Count - 1;
 
 				// przyporządkuj odpowiedni obrazek
-                //if( field_data.Extra.TextFromDB )
-                //    this.LV_PageFields.Items[index].ImageKey = "text-field";
-                //else if( field_data.Extra.ImageFromDB )
-                //    this.LV_PageFields.Items[index].ImageKey = "image-field";
+				//if( field_data.Extra.TextFromDB )
+				//    this.LV_PageFields.Items[index].ImageKey = "text-field";
+				//else if( field_data.Extra.ImageFromDB )
+				//    this.LV_PageFields.Items[index].ImageKey = "image-field";
 
-                // ustaw kolumnę dla pola
+				// ustaw kolumnę dla pola
 				if( field_data.Extra.Column == -1 )
 					this.LV_PageFields.Items[index].SubItems.Add("");
 				else
 					try { this.LV_PageFields.Items[index].SubItems.Add( this._storage.Column[field_data.Extra.Column] ); }
 					catch
-                    {
-                        this.LV_PageFields.Items[index].SubItems.Add(
-                            Language.GetLine( "DataReader", "Labels", (int)LANGCODE.I08_LAB_NOCOLUMN )
-                        );
-                    }
+					{
+						this.LV_PageFields.Items[index].SubItems.Add(
+							Language.GetLine( "DataReader", "Labels", (int)LANGCODE.I08_LAB_NOCOLUMN )
+						);
+					}
 				this.LV_PageFields.Items[index].Tag = (object)x;
 			}
 
 			// przypisz aktualną stronę
 			this._currentPage = page;
-            
+			
 #		    if DEBUG
-			    Program.LogMessage( "Zmiana wyświetlanej strony na '" + page + "'." );
+				Program.LogMessage( "Zmiana wyświetlanej strony na '" + page + "'." );
 #		    endif
 		}
 
-        /// <summary>
-        /// Akcja wywoływana po naciśnięciu klawisza w kontrolce z formatem.
-        /// W przypadku gdy podany zostanie błędny znak, wyświetony zostanie dymek informacyjny.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana po naciśnięciu klawisza w kontrolce z formatem.
+		/// W przypadku gdy podany zostanie błędny znak, wyświetony zostanie dymek informacyjny.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void TB_Format_KeyPress( object sender, KeyPressEventArgs ev )
 		{
 			if( ev.KeyChar == 8 || ModifierKeys == Keys.Control )
 				return;
-            
-            // sprawdź poprawność danych
-            var lang_chars   = Language.GetLines( "Locale" );
+			
+			// sprawdź poprawność danych
+			var lang_chars   = Language.GetLines( "Locale" );
 			var locale_chars = lang_chars[(int)LANGCODE.GLO_BIGCHARS] + lang_chars[(int)LANGCODE.GLO_SMALLCHARS];
 			var regex        = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_#\:\[\]\<\>]+$" );
 
 			if( !regex.IsMatch(ev.KeyChar.ToString()) )
 			{
-                // pokaż dymek
+				// pokaż dymek
 				if( !this._tooltipShow )
 				{
 					this.TP_Tooltip.Show
@@ -565,58 +565,58 @@ namespace CDesigner.Forms
 				return;
 			}
 
-            // ukryj dymek
-            this.DataReader_Move( null, null );
+			// ukryj dymek
+			this.DataReader_Move( null, null );
 		}
-        
-        /// <summary>
-        /// Akcja wywoływana po zmianie kontrolki z formatem na inną kontrolkę.
-        /// Pozwala na schowanie wyświetlanego dymku z podpowiedzią.
-        /// </summary>
-        /// 
+		
+		/// <summary>
+		/// Akcja wywoływana po zmianie kontrolki z formatem na inną kontrolkę.
+		/// Pozwala na schowanie wyświetlanego dymku z podpowiedzią.
+		/// </summary>
+		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void TB_Format_Leave( object sender, EventArgs ev )
 		{
-            this.DataReader_Move( null, null );
+			this.DataReader_Move( null, null );
 		}
 
-        /// <summary>
-        /// Akcja wywoływana po kliknięciu w przycisk zapisu.
-        /// Poowoduje przeskanowanie formatu i zamknięcie okna dialogowego.
-        /// W przypadku błędnych znaków wyświetlona zostanie wiadomość.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana po kliknięciu w przycisk zapisu.
+		/// Poowoduje przeskanowanie formatu i zamknięcie okna dialogowego.
+		/// W przypadku błędnych znaków wyświetlona zostanie wiadomość.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void B_Save_Click( object sender, EventArgs ev )
 		{
 #		    if DEBUG
-			    Program.LogMessage( "Próba zapisu danych w formularzu." );
+				Program.LogMessage( "Próba zapisu danych w formularzu." );
 #		    endif
 
 			bool empty = this.TB_Format.Text.Trim() == "";
 
-            // sprawdź poprawność danych
-            var lang_chars   = Language.GetLines( "Locale" );
+			// sprawdź poprawność danych
+			var lang_chars   = Language.GetLines( "Locale" );
 			var locale_chars = lang_chars[(int)LANGCODE.GLO_BIGCHARS] + lang_chars[(int)LANGCODE.GLO_SMALLCHARS];
 			var regex        = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" \-+_#\:\[\]\<\>]+$" );
 
 			this._checkedCols.Clear();
-            
-            // sprawdź czy format jest pusty
-            if( empty )
-            {
-                Program.LogWarning
-                (
-                    Language.GetLine( "DataReader", "Messages", (int)LANGCODE.I08_MES_ISEMPTY ),
-                    Language.GetLine( "FormNames", (int)LANGCODE.GFN_DATAREADER ),
-                    this
-                );
-                return;
-            }
+			
+			// sprawdź czy format jest pusty
+			if( empty )
+			{
+				Program.LogWarning
+				(
+					Language.GetLine( "DataReader", "Messages", (int)LANGCODE.I08_MES_ISEMPTY ),
+					Language.GetLine( "FormNames", (int)LANGCODE.GFN_DATAREADER ),
+					this
+				);
+				return;
+			}
 
 			// pobierz zaznaczone
 			for( int x = 0; x < this.LV_DatabaseCols.Items.Count; ++x )
@@ -627,13 +627,13 @@ namespace CDesigner.Forms
 					if( this.TB_Format.Text.IndexOf("#" + this._checkedCols.Count) < 0 || empty )
 					{
 						DialogResult result = Program.LogQuestion
-                        (
-                            String.Format( Language.GetLine("DataReader", "Messages", (int)LANGCODE.I08_MES_WOUTCOLUMN),
-                                this.LV_DatabaseCols.Items[x].Text, this._checkedCols.Count ),
-                            Language.GetLine( "FormNames", (int)LANGCODE.GFN_DATAREADER ),
-                            false,
-                            this
-                        );
+						(
+							String.Format( Language.GetLine("DataReader", "Messages", (int)LANGCODE.I08_MES_WOUTCOLUMN),
+								this.LV_DatabaseCols.Items[x].Text, this._checkedCols.Count ),
+							Language.GetLine( "FormNames", (int)LANGCODE.GFN_DATAREADER ),
+							false,
+							this
+						);
 						if( result == DialogResult.No )
 							return;
 					}
@@ -641,28 +641,28 @@ namespace CDesigner.Forms
 
 			// przeskanuj pod kątem poprawności
 			if( !regex.IsMatch(this.TB_Format.Text) )
-            {
-                Program.LogWarning
-                (
-                    Language.GetLine( "DataReader", "Messages", (int)LANGCODE.I08_MES_AVAILCHMSG ),
-                    Language.GetLine( "MessageNames", (int)LANGCODE.GFN_DATAREADER ),
-                    this
-                );
-                return;
-            }
+			{
+				Program.LogWarning
+				(
+					Language.GetLine( "DataReader", "Messages", (int)LANGCODE.I08_MES_AVAILCHMSG ),
+					Language.GetLine( "MessageNames", (int)LANGCODE.GFN_DATAREADER ),
+					this
+				);
+				return;
+			}
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+			this.DialogResult = DialogResult.OK;
+			this.Close();
 		}
 
 #endregion
 
 #region FORMULARZ
 
-        /// <summary>
-        /// Akcja wywoływana po przesunięciu okna.
-        /// Przesunięcie okna powoduje ukrycie okna z podpowiedzią (jeżeli jest pokazane).
-        /// </summary>
+		/// <summary>
+		/// Akcja wywoływana po przesunięciu okna.
+		/// Przesunięcie okna powoduje ukrycie okna z podpowiedzią (jeżeli jest pokazane).
+		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
@@ -676,15 +676,15 @@ namespace CDesigner.Forms
 			}
 		}
 
-        /// <summary>
-        /// Analiza wciśniętych klawiszy w obrębie formularza.
-        /// Funkcja tworzy skróty do szybkiego przełączania pomiędzy kolejnymi stronami wzoru.
-        /// </summary>
-        /// 
-        /// <param name="msg">Przechwycone zdarzenie wciśnięcia klawisza.</param>
-        /// <param name="keys">Informacje o wciśniętych klawiszach.</param>
-        /// 
-        /// <returns>Informacja o tym czy klawisz został przechwycony.</returns>
+		/// <summary>
+		/// Analiza wciśniętych klawiszy w obrębie formularza.
+		/// Funkcja tworzy skróty do szybkiego przełączania pomiędzy kolejnymi stronami wzoru.
+		/// </summary>
+		/// 
+		/// <param name="msg">Przechwycone zdarzenie wciśnięcia klawisza.</param>
+		/// <param name="keys">Informacje o wciśniętych klawiszach.</param>
+		/// 
+		/// <returns>Informacja o tym czy klawisz został przechwycony.</returns>
 		//* ============================================================================================================
 		protected override bool ProcessCmdKey( ref Message msg, Keys keydata )
 		{
@@ -704,24 +704,24 @@ namespace CDesigner.Forms
 					return base.ProcessCmdKey( ref msg, keydata );
 			}
 			return true;
-        }
+		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas rysowania okna z podpowiedzią lub błędem.
-        /// Umożliwia własne rysowanie okna.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana podczas rysowania okna z podpowiedzią lub błędem.
+		/// Umożliwia własne rysowanie okna.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-        private void TP_Tooltip_Draw( object sender, DrawToolTipEventArgs ev )
-        {
+		private void TP_Tooltip_Draw( object sender, DrawToolTipEventArgs ev )
+		{
 			ev.DrawBackground();
 			ev.DrawBorder();
 			ev.DrawText( TextFormatFlags.VerticalCenter );
-        }
+		}
 
-        /// @endcond
+		/// @endcond
 #endregion
-    }
+	}
 }

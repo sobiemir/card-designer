@@ -32,91 +32,91 @@ namespace CDRestore
 		/// ------------------------------------------------------------------------------------------------------------
 		[STAThread] static void Main( string[] args )
 		{
-            bool quick_install  = false,
-                 wait_for_close = false;
+			bool quick_install  = false,
+				 wait_for_close = false;
 
-            try // blok try/catch
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault( false );
+			try // blok try/catch
+			{
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault( false );
 
-                // szukaj parametru -w oraz -i
-                foreach( string arg in args )
-                    if( arg == "-w" )
-                        wait_for_close = true;
-                    else if( arg == "-i" )
-                        quick_install = true;
+				// szukaj parametru -w oraz -i
+				foreach( string arg in args )
+					if( arg == "-w" )
+						wait_for_close = true;
+					else if( arg == "-i" )
+						quick_install = true;
 
 _CD_CHECK_ACCESS_TO_SFILE:
-                try
-                {
-                    // sprawdź czy plik nie jest blokowany
-                    using( FileStream stream = File.Open("./cdesigner.exe", FileMode.Open, FileAccess.ReadWrite) )
-                        stream.Close();
+				try
+				{
+					// sprawdź czy plik nie jest blokowany
+					using( FileStream stream = File.Open("./cdesigner.exe", FileMode.Open, FileAccess.ReadWrite) )
+						stream.Close();
 
 #				if TRACE
-                    // otwórz strumień
-                    Program._writer = new StreamWriter( File.Open("./debug.log", FileMode.Create, FileAccess.Write) );
+					// otwórz strumień
+					Program._writer = new StreamWriter( File.Open("./debug.log", FileMode.Create, FileAccess.Write) );
 #				endif
-                    Program.LogMessage( "Uruchamianie programu CDRestore." );
-                }
-                catch( IOException ex )
-                {
-                    if( Program.IsFileLocked(ex) )
-                    {
-                        // czekaj na zakończenie poprzedniej instancji programu
-                        if( wait_for_close )
-                        {
-                            Thread.Sleep( 500 );
-                            goto _CD_CHECK_ACCESS_TO_SFILE;
-                        }
-                        throw new Exception( "Aplikacja jest już uruchomiona!\nKomunikat dotyczy aplikacji " +
-                            "CDesigner oraz CDRestore - można uruchomić tylko jedną z nich w tym samym czasie!" );
-                    }
-                    Program.LogError( ex.Message, "Błąd aplikacji", true );
-                    return;
-                }
+					Program.LogMessage( "Uruchamianie programu CDRestore." );
+				}
+				catch( IOException ex )
+				{
+					if( Program.IsFileLocked(ex) )
+					{
+						// czekaj na zakończenie poprzedniej instancji programu
+						if( wait_for_close )
+						{
+							Thread.Sleep( 500 );
+							goto _CD_CHECK_ACCESS_TO_SFILE;
+						}
+						throw new Exception( "Aplikacja jest już uruchomiona!\nKomunikat dotyczy aplikacji " +
+							"CDesigner oraz CDRestore - można uruchomić tylko jedną z nich w tym samym czasie!" );
+					}
+					Program.LogError( ex.Message, "Błąd aplikacji", true );
+					return;
+				}
 
-                try
-                    { Program._icon = new Icon( "./icons/cdrestore.ico" ); }
-                catch( IOException ex )
-                    { Program.LogMessage( ex.Message ); }
+				try
+					{ Program._icon = new Icon( "./icons/cdrestore.ico" ); }
+				catch( IOException ex )
+					{ Program.LogMessage( ex.Message ); }
 
-                // instalacja aktualizacji
-                if( quick_install )
-                {
-                    Program.InstallUpdate( "./temp/" );
-                    Program.LogMessage( "Uruchamianie nowego procesu dla programu CDesigner." );
+				// instalacja aktualizacji
+				if( quick_install )
+				{
+					Program.InstallUpdate( "./temp/" );
+					Program.LogMessage( "Uruchamianie nowego procesu dla programu CDesigner." );
 
-                    // uruchomienie programu CDesigner
-                    Process process = new Process();
-                    process.StartInfo.FileName = "cdesigner.exe";
-                    process.StartInfo.Arguments = "-w";
-                    process.Start();
+					// uruchomienie programu CDesigner
+					Process process = new Process();
+					process.StartInfo.FileName = "cdesigner.exe";
+					process.StartInfo.Arguments = "-w";
+					process.Start();
 
-                    if( Program._writer != null )
-                    {
-                        Program._writer.Flush();
-                        Program._writer.Close();
-                    }
-                    return;
-                }
+					if( Program._writer != null )
+					{
+						Program._writer.Flush();
+						Program._writer.Close();
+					}
+					return;
+				}
 
-                // otwórz główne okno aplikacji
-                //Program._main = new MainForm();
-                //Application.Run( Program._main );
-            }
-            catch( Exception ex )
-            {
-                Program.LogError( ex.Message, "Błąd aplikacji", true );
-                return;
-            }
+				// otwórz główne okno aplikacji
+				//Program._main = new MainForm();
+				//Application.Run( Program._main );
+			}
+			catch( Exception ex )
+			{
+				Program.LogError( ex.Message, "Błąd aplikacji", true );
+				return;
+			}
 
-            if( Program._writer != null )
-            {
-                Program._writer.Flush();
-                Program._writer.Close();
-            }
+			if( Program._writer != null )
+			{
+				Program._writer.Flush();
+				Program._writer.Close();
+			}
 		}
 
 		/// 

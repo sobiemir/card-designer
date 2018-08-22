@@ -46,55 +46,55 @@ namespace CDesigner.Forms
 	/// Pozwala na łączenie kolumn i włączenie filtrowania danych w poszczególnych kolumnach.
 	/// Składa się z dwóch stron, pierwsza pozwala na tworzenie pustych (dopóki pusty będzie format) lub łączonych kolumn.
 	/// Druga strona pozwala na wybór odpowiednich filtrów i formatów dla każdej z kolumn, zarówno starych jak i nowych.
-    /// Nowe kolumny pozwalają tylko i wyłącznie na ustawienie formatu wyświetlanych danych.
-    /// Filtrowanie dla nich jest dostępne po kliknięciu na kolumnę podrzędną wybranego elementu.
-    /// Możliwe jest dziedziczenie filtrów pod zaznaczeniu odpowiedniego pola.
+	/// Nowe kolumny pozwalają tylko i wyłącznie na ustawienie formatu wyświetlanych danych.
+	/// Filtrowanie dla nich jest dostępne po kliknięciu na kolumnę podrzędną wybranego elementu.
+	/// Możliwe jest dziedziczenie filtrów pod zaznaczeniu odpowiedniego pola.
 	/// </summary>
 	/// 
-    /// @todo <dfn><small>[0.8.x.x]</small></dfn> Zastępowanie kolumn w przypadku takiej samej nazwy.
-    /// @todo <dfn><small>[0.8.x.x]</small></dfn> Odświeżanie danych po przejściu na inny krok.
-    /// @todo <dfn><small>[0.8.x.x]</small></dfn> Po przeciągnięciu kolumny do nowej, wyświetlana jest zawartość nowej a nie starej.
-    /// @todo <dfn><small>[0.8.x.x]</small></dfn> Po skupieniu na polu edycji ENTER działa jako dodawanie nowego pola.
-    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Możliwość zmiany ilości wyświetlanych wierszy.
+	/// @todo <dfn><small>[0.8.x.x]</small></dfn> Zastępowanie kolumn w przypadku takiej samej nazwy.
+	/// @todo <dfn><small>[0.8.x.x]</small></dfn> Odświeżanie danych po przejściu na inny krok.
+	/// @todo <dfn><small>[0.8.x.x]</small></dfn> Po przeciągnięciu kolumny do nowej, wyświetlana jest zawartość nowej a nie starej.
+	/// @todo <dfn><small>[0.8.x.x]</small></dfn> Po skupieniu na polu edycji ENTER działa jako dodawanie nowego pola.
+	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Możliwość zmiany ilości wyświetlanych wierszy.
 	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana typu filtra dla kolumn.
-    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana szerokości kolumn wraz ze zmianą rozmiarów okna.
-    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Wyświetlanie zapytania przy kopiowaniu kolumny która już została skopiowana do
-    ///                                           tej samej kolumny (czy na pewno chcesz ją skopiować drugi raz?).
-    /// @todo <dfn><small>[1.0.x.x]</small></dfn> Ustawienia...
-    /// @todo <dfn><small>[1.0.x.x]</small></dfn> Wyrażenia regularne dla tekstowych typów danych.
-    /// @todo <dfn><small>[?.?.x.x]</small></dfn> Po kliknięciu myszą, zmianie klawiaturą elementu w liście i ruszeniu myszą
-    ///                                           zaznacza się wcześniej zaznaczony po kliknięciu element.
-    /// @todo <dfn><small>[?.?.x.x]</small></dfn> Przy bezpośrednim przejściu z ListView do ComboBox elementy w ListView migają.
-    /// @todo <dfn><small>[?.?.x.x]</small></dfn> Skróty klawiaturowe nie działają przy focusie na liście z kolumnami.
-    /// @todo <dfn><small>[?.?.x.x]</small></dfn> Możliwość zapisania tylko filtrów a nie danych (ukryty checkbox).
-    ///                                           W tym przypadku zapisywane są tylko filtry, a przycisk anuluj powraca do
-    ///                                           wcześniejszych ustawień filtrów. Pomysł jest taki żeby dane zapisywało do pamięci
-    ///                                           a w czasie edycji wczytywało stare i wyświetlało stare filtry.
-    ///                                           Tylko w jaki sposób będą zachowywać się zmienione lub dodane dane?
-    ///                                           Może zapisywać je dodatkowo w osobnej tabeli?
-    ///                                           Będzie można je potem dodać lub odrzucić w zależności od filtrów.
-    ///                                           W każdym razie filtry muszą zostawać żeby odrzucać nowe kolumny przy edycji.
-    ///                                           Złączeń można nie traktować poważnie przy edycji, bo są one i tak złączeniami
-    ///                                           z aktualnie istniejących w bazie danych kolumn.
+	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana szerokości kolumn wraz ze zmianą rozmiarów okna.
+	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Wyświetlanie zapytania przy kopiowaniu kolumny która już została skopiowana do
+	///                                           tej samej kolumny (czy na pewno chcesz ją skopiować drugi raz?).
+	/// @todo <dfn><small>[1.0.x.x]</small></dfn> Ustawienia...
+	/// @todo <dfn><small>[1.0.x.x]</small></dfn> Wyrażenia regularne dla tekstowych typów danych.
+	/// @todo <dfn><small>[?.?.x.x]</small></dfn> Po kliknięciu myszą, zmianie klawiaturą elementu w liście i ruszeniu myszą
+	///                                           zaznacza się wcześniej zaznaczony po kliknięciu element.
+	/// @todo <dfn><small>[?.?.x.x]</small></dfn> Przy bezpośrednim przejściu z ListView do ComboBox elementy w ListView migają.
+	/// @todo <dfn><small>[?.?.x.x]</small></dfn> Skróty klawiaturowe nie działają przy focusie na liście z kolumnami.
+	/// @todo <dfn><small>[?.?.x.x]</small></dfn> Możliwość zapisania tylko filtrów a nie danych (ukryty checkbox).
+	///                                           W tym przypadku zapisywane są tylko filtry, a przycisk anuluj powraca do
+	///                                           wcześniejszych ustawień filtrów. Pomysł jest taki żeby dane zapisywało do pamięci
+	///                                           a w czasie edycji wczytywało stare i wyświetlało stare filtry.
+	///                                           Tylko w jaki sposób będą zachowywać się zmienione lub dodane dane?
+	///                                           Może zapisywać je dodatkowo w osobnej tabeli?
+	///                                           Będzie można je potem dodać lub odrzucić w zależności od filtrów.
+	///                                           W każdym razie filtry muszą zostawać żeby odrzucać nowe kolumny przy edycji.
+	///                                           Złączeń można nie traktować poważnie przy edycji, bo są one i tak złączeniami
+	///                                           z aktualnie istniejących w bazie danych kolumn.
 	/// 
-    /// <example>
-    /// Szybki przykład użycia klasy:
-    /// <code>
-    /// // utwórz nową klasę i przypisz do niej dane na których ma operować
-    /// var form = new EditColumnsForm();
-    /// form.Storage = new IOFileData( "test.csv" );
-    /// 
-    /// // pokaż formularz edycji kolumn
-    /// if( form.ShowDialog() == DialogResult.OK )
-    ///     Console.WriteLine( "Wszelkie zmiany zostały zapisane." );
-    /// else
-    ///     Console.WriteLine( "Zmiany nie zostały zapisane." );
-    /// 
-    /// // rób teraz z tym co chcesz
-    /// var storage = form.Storage;
-    /// </code>
-    /// </example>
-    ///
+	/// <example>
+	/// Szybki przykład użycia klasy:
+	/// <code>
+	/// // utwórz nową klasę i przypisz do niej dane na których ma operować
+	/// var form = new EditColumnsForm();
+	/// form.Storage = new IOFileData( "test.csv" );
+	/// 
+	/// // pokaż formularz edycji kolumn
+	/// if( form.ShowDialog() == DialogResult.OK )
+	///     Console.WriteLine( "Wszelkie zmiany zostały zapisane." );
+	/// else
+	///     Console.WriteLine( "Zmiany nie zostały zapisane." );
+	/// 
+	/// // rób teraz z tym co chcesz
+	/// var storage = form.Storage;
+	/// </code>
+	/// </example>
+	///
 	public partial class EditColumnsForm : Form
 	{
 #region ZMIENNE
@@ -116,7 +116,7 @@ namespace CDesigner.Forms
 
 		/// <summary>Indeks nowo utworzonej kolumny, liczony od 0.</summary>
 		private int _realNewIndex;
-		
+
 		/// <summary>Indeks kolumny podrzędnej liczony od 0.</summary>
 		private int _realSubIndex;
 
@@ -127,8 +127,8 @@ namespace CDesigner.Forms
 		/// <summary>
 		/// Konstruktor klasy.
 		/// Tworzy instancje klasy i tłumaczy cały formularz na aktualny język.
-        /// Przed wyświetleniem formularza edycji warto ustawić dla klasy dane na których ma operować.
-        /// Przykład użycia konstruktora podany został w opisie klasy.
+		/// Przed wyświetleniem formularza edycji warto ustawić dla klasy dane na których ma operować.
+		/// Przykład użycia konstruktora podany został w opisie klasy.
 		/// </summary>
 		/// 
 		/// <seealso cref="DataFilter"/>
@@ -140,14 +140,14 @@ namespace CDesigner.Forms
 			// ikona programu
 			this.Icon = Program.GetIcon();
 
-            this._storage      = null;
+			this._storage      = null;
 			this._filter       = new DataFilter();
-            this._showTooltip = false;
-            this._locked       = false;
+			this._showTooltip = false;
+			this._locked       = false;
 
-            this._currentColumn = -1;
-            this._realNewIndex  = -1;
-            this._realSubIndex  = -1;
+			this._currentColumn = -1;
+			this._realNewIndex  = -1;
+			this._realSubIndex  = -1;
 
 			// zaznacz pierwszy krok
 			this.CBX_Step.SelectedIndex = 0;
@@ -160,7 +160,7 @@ namespace CDesigner.Forms
 		/// Pobiera lub ustawia nowy schowek danych.
 		/// Po ustawieniu pobiera z pliku potrzebne dane.
 		/// </summary>
-        /// 
+		/// 
 		/// <seealso cref="DataStorage"/>
 		//* ============================================================================================================
 		public DataStorage Storage
@@ -168,8 +168,8 @@ namespace CDesigner.Forms
 			get { return this._storage; }
 			set
 			{
-                if( this._locked )
-                    return;
+				if( this._locked )
+					return;
 
 				if( value == null )
 				{
@@ -190,18 +190,18 @@ namespace CDesigner.Forms
 				this.getPreview();
 			}
 		}
-        
+		
 		/// <summary>
 		/// Pobiera przypisaną klasę filtra danych.
-        /// Właściwosć tylko do odczytu.
+		/// Właściwosć tylko do odczytu.
 		/// </summary>
-        /// 
+		/// 
 		/// <seealso cref="DataFilter"/>
 		//* ============================================================================================================
-        public DataFilter Filter
-        {
-            get { return this._filter; }
-        }
+		public DataFilter Filter
+		{
+			get { return this._filter; }
+		}
 
 #endregion
 
@@ -211,7 +211,7 @@ namespace CDesigner.Forms
 		/// Translator formularza.
 		/// Funkcja tłumaczy wszystkie statyczne elementy programu.
 		/// Wywoływana jest z konstruktora oraz podczas odświeżania ustawień językowych.
-        /// Jej użycie nie powinno wykraczać poza dwa wyżej wymienione przypadki.
+		/// Jej użycie nie powinno wykraczać poza dwa wyżej wymienione przypadki.
 		/// </summary>
 		//* ============================================================================================================
 		protected void translateForm()
@@ -275,13 +275,13 @@ namespace CDesigner.Forms
 
 		/// <summary>
 		/// Uzupełnia listę danymi ze schowka.
-        /// Wyświetla wszystkie kolumny ze schowka oraz wiersze dla pierwszej dostępnej kolumny.
-        /// Domyślna ilość wyświetlanych wierszy pobierana jest z ustawień programu.
-        /// Wywoływana jest praktycznie tylko podczas zmiany schowka, lecz nic nie przeszkadza jej użyć w innym miejscu.
+		/// Wyświetla wszystkie kolumny ze schowka oraz wiersze dla pierwszej dostępnej kolumny.
+		/// Domyślna ilość wyświetlanych wierszy pobierana jest z ustawień programu.
+		/// Wywoływana jest praktycznie tylko podczas zmiany schowka, lecz nic nie przeszkadza jej użyć w innym miejscu.
 		/// </summary>
-        /// 
-        /// <seealso cref="Storage" />
-        /// <seealso cref="refreshColumnRowsIFS" />
+		/// 
+		/// <seealso cref="Storage" />
+		/// <seealso cref="refreshColumnRowsIFS" />
 		//* ============================================================================================================
 		public void getPreview()
 		{
@@ -306,23 +306,23 @@ namespace CDesigner.Forms
 			if( this.LV_DatabaseColumns.Items.Count > 0 )
 			{
 				this.LV_DatabaseColumns.Items[0].Selected = true;
-                this.refreshColumnRowsIFS( 0 );
+				this.refreshColumnRowsIFS( 0 );
 			}
 
 			this._locked = false;
 		}
 
-        /// <summary>
-        /// Zamienia indeks pobierany z pola wyboru filtra na typ filtra.
-        /// Funkcja używana głównie przy dodawaniu i zmienie filtra w drugim kroku na formularzu.
-        /// </summary>
-        /// 
-        /// <returns>Typ filtra.</returns>
-        /// 
-        /// <seealso cref="FILTERTYPE" />
-        /// <seealso cref="refreshFilters" />
-        /// <seealso cref="displayColumnFilters" />
-        /// <seealso cref="_filterTypeToCBIndex" />
+		/// <summary>
+		/// Zamienia indeks pobierany z pola wyboru filtra na typ filtra.
+		/// Funkcja używana głównie przy dodawaniu i zmienie filtra w drugim kroku na formularzu.
+		/// </summary>
+		/// 
+		/// <returns>Typ filtra.</returns>
+		/// 
+		/// <seealso cref="FILTERTYPE" />
+		/// <seealso cref="refreshFilters" />
+		/// <seealso cref="displayColumnFilters" />
+		/// <seealso cref="_filterTypeToCBIndex" />
 		//* ============================================================================================================
 		public FILTERTYPE getSelectedFilterType()
 		{
@@ -340,18 +340,18 @@ namespace CDesigner.Forms
 
 			return FILTERTYPE.Format;
 		}
-        
-        /// <summary>
-        /// Odświeża listę dostępnych filtrów dla danej kolumny.
-        /// Lista dostępnych filtrów wyświetlana jest w drugim kroku nad polami tekstowymi.
-        /// Na razie dostępne są tylko filtry dla typów tekstowych.
-        /// Kolumny o różnych typach mogą posiadać różne dostępne filtry.
-        /// </summary>
-        /// 
-        /// <param name="selected">Aktualnie zaznaczona kolumna.</param>
-        /// 
-        /// <seealso cref="displayColumnFilters"/>
-        /// <seealso cref="getSelectedFilterType"/>
+		
+		/// <summary>
+		/// Odświeża listę dostępnych filtrów dla danej kolumny.
+		/// Lista dostępnych filtrów wyświetlana jest w drugim kroku nad polami tekstowymi.
+		/// Na razie dostępne są tylko filtry dla typów tekstowych.
+		/// Kolumny o różnych typach mogą posiadać różne dostępne filtry.
+		/// </summary>
+		/// 
+		/// <param name="selected">Aktualnie zaznaczona kolumna.</param>
+		/// 
+		/// <seealso cref="displayColumnFilters"/>
+		/// <seealso cref="getSelectedFilterType"/>
 		//* ============================================================================================================
 		protected void refreshFilters( int selected )
 		{
@@ -393,12 +393,12 @@ namespace CDesigner.Forms
 
 		/// <summary>
 		/// Wyświetla filtry utworzone dla wybranej kolumny.
-        /// Filtry wyświetlane są w drugim kroku pod ustawieniami filtra w środkowej kolumnie.
-        /// Każda kolumna może posiadać inne filtry, nawet te kopiowane - w tym przypadku mogą być nawet dziedziczone.
+		/// Filtry wyświetlane są w drugim kroku pod ustawieniami filtra w środkowej kolumnie.
+		/// Każda kolumna może posiadać inne filtry, nawet te kopiowane - w tym przypadku mogą być nawet dziedziczone.
 		/// </summary>
-        /// 
-        /// <seealso cref="refreshFilters"/>
-        /// <seealso cref="getSelectedFilterType"/>
+		/// 
+		/// <seealso cref="refreshFilters"/>
+		/// <seealso cref="getSelectedFilterType"/>
 		//* ============================================================================================================
 		protected void displayColumnFilters()
 		{
@@ -409,16 +409,16 @@ namespace CDesigner.Forms
 			if( this._realNewIndex != -1 )
 			{
 				// filtry dziedziczone (nie można ich usunąć)
-                if( this._realSubIndex != -1 )
-                {
-                    int inhcol = this._filter.SubColumns[this._realNewIndex][this._realSubIndex];
+				if( this._realSubIndex != -1 )
+				{
+					int inhcol = this._filter.SubColumns[this._realNewIndex][this._realSubIndex];
 
-                    for( int x = 0, y = this._filter.Filter[inhcol].Count; x < y; ++x )
-                    {
-                        if( this._filter.Filter[inhcol][x].FilterCopy )
-                            this.LV_FilterList.Items.Add( "# " + values[(int)this._filter.Filter[inhcol][x].Filter] );
-                    }
-                }
+					for( int x = 0, y = this._filter.Filter[inhcol].Count; x < y; ++x )
+					{
+						if( this._filter.Filter[inhcol][x].FilterCopy )
+							this.LV_FilterList.Items.Add( "# " + values[(int)this._filter.Filter[inhcol][x].Filter] );
+					}
+				}
 
 				// filtry przypisane tylko do wybranej kolumny
 				for( int x = 0, y = this._filter.Filter[this._currentColumn].Count; x < y; ++x )
@@ -443,14 +443,14 @@ namespace CDesigner.Forms
 					this.LV_FilterList.SelectedIndices.Clear();
 					this.LV_FilterList.SelectedIndices.Add( 0 );
 				}
-                else
-                {
-                    this.CB_FilterType.SelectedIndex = 0;
-                    this.TB_Modifier.Text            = "";
-                    this.TB_Result.Text              = "";
-                    this.CB_AllCopies.Checked        = false;
-                    this.CB_Exclude.Checked          = false;
-                }
+				else
+				{
+					this.CB_FilterType.SelectedIndex = 0;
+					this.TB_Modifier.Text            = "";
+					this.TB_Result.Text              = "";
+					this.CB_AllCopies.Checked        = false;
+					this.CB_Exclude.Checked          = false;
+				}
 				return;
 			}
 
@@ -468,26 +468,26 @@ namespace CDesigner.Forms
 				this.LV_FilterList.SelectedIndices.Clear();
 				this.LV_FilterList.SelectedIndices.Add( 0 );
 			}
-            else
-            {
-                this.CB_FilterType.SelectedIndex = 0;
-                this.TB_Modifier.Text            = "";
-                this.TB_Result.Text              = "";
-                this.CB_AllCopies.Checked        = false;
-                this.CB_Exclude.Checked          = false;
-            }
+			else
+			{
+				this.CB_FilterType.SelectedIndex = 0;
+				this.TB_Modifier.Text            = "";
+				this.TB_Result.Text              = "";
+				this.CB_AllCopies.Checked        = false;
+				this.CB_Exclude.Checked          = false;
+			}
 		}
-        
-        /// <summary>
-        /// Odświeża listę wierszy w kontrolce z podanej kolumny w drugim kroku.
-        /// ISS - skrót od In Second Step.
-        /// Funkcja używana głównie podczas zmiany danych w liście z filtrami.
-        /// </summary>
-        /// 
-        /// <param name="index">Indeks kolumny z której będą wyświetlane wiersze.</param>
+		
+		/// <summary>
+		/// Odświeża listę wierszy w kontrolce z podanej kolumny w drugim kroku.
+		/// ISS - skrót od In Second Step.
+		/// Funkcja używana głównie podczas zmiany danych w liście z filtrami.
+		/// </summary>
+		/// 
+		/// <param name="index">Indeks kolumny z której będą wyświetlane wiersze.</param>
 		//* ============================================================================================================
-        public void refreshColumnRowsISS( int index )
-        {
+		public void refreshColumnRowsISS( int index )
+		{
 			// zaznaczony element
 			var item  = this.LV_AllColumns.SelectedItems[0];
 			int s2rnl = Settings.Info.ECF_RowsNumberS2;
@@ -507,28 +507,28 @@ namespace CDesigner.Forms
 					? this._filter.NewColumns[index - this._filter.Storage.ColumnsNumber]
 					: item.Text)
 				+ "]";
-        }
-        
-        /// <summary>
-        /// Odświeża listę wierszy w kontrolce z podanej kolumny w pierwszym kroku.
-        /// IFS - skrót od In First Step.
-        /// Funkcja używana głównie podczas przełączania z jednego kroku na drugi.
-        /// </summary>
-        /// 
-        /// <param name="index">Indeks kolumny z której będą wyświetlane wiersze.</param>
+		}
+		
+		/// <summary>
+		/// Odświeża listę wierszy w kontrolce z podanej kolumny w pierwszym kroku.
+		/// IFS - skrót od In First Step.
+		/// Funkcja używana głównie podczas przełączania z jednego kroku na drugi.
+		/// </summary>
+		/// 
+		/// <param name="index">Indeks kolumny z której będą wyświetlane wiersze.</param>
 		//* ============================================================================================================
-        public void refreshColumnRowsIFS( int index )
-        {
-            int s1rnl = Settings.Info.ECF_RowsNumberS1;
-            int limit = this._storage.RowsNumber > s1rnl ? s1rnl : this._storage.RowsNumber;
+		public void refreshColumnRowsIFS( int index )
+		{
+			int s1rnl = Settings.Info.ECF_RowsNumberS1;
+			int limit = this._storage.RowsNumber > s1rnl ? s1rnl : this._storage.RowsNumber;
 
-            // pobierz przefiltrowane dane
-            var rows = this._filter.getRows( index, limit );
+			// pobierz przefiltrowane dane
+			var rows = this._filter.getRows( index, limit );
 
-            // wyświetl wiersze
-            this.LV_PreviewRows.Items.Clear();
-            for( int x = 0; x < rows.Count; ++x )
-                this.LV_PreviewRows.Items.Add( rows[x] );
+			// wyświetl wiersze
+			this.LV_PreviewRows.Items.Clear();
+			for( int x = 0; x < rows.Count; ++x )
+				this.LV_PreviewRows.Items.Add( rows[x] );
 
 			// zmień nagłowek tabeli
 			this.CH_DataPreview.Text = Language.GetLine( "EditColumns", "Headers", 2 ) +
@@ -536,54 +536,54 @@ namespace CDesigner.Forms
 					? this._filter.NewColumns[index - this._filter.Storage.ColumnsNumber]
 					: this._storage.Column[index])
 				+ "]";
-        }
+		}
 
-        /// <summary>
-        /// Zamienia podany typ filtra na indeks dla pola wyboru.
-        /// Funkcja używana przy konwersji filtra na indeks dla kontrolki zawierającej listę dostępnych filtrów.
-        /// </summary>
+		/// <summary>
+		/// Zamienia podany typ filtra na indeks dla pola wyboru.
+		/// Funkcja używana przy konwersji filtra na indeks dla kontrolki zawierającej listę dostępnych filtrów.
+		/// </summary>
 		/// 
 		/// <param name="filter">Typ filtra do zamiany na indeks.</param>
-        /// 
-        /// <returns>Indeks dla pola wyboru.</returns>
-        /// 
-        /// <seealso cref="getSelectedFilterType" />
+		/// 
+		/// <returns>Indeks dla pola wyboru.</returns>
+		/// 
+		/// <seealso cref="getSelectedFilterType" />
 		//* ============================================================================================================
-        private int _filterTypeToCBIndex( FILTERTYPE filter )
-        {
-            switch( filter )
-            {
-                case FILTERTYPE.Format:
-                case FILTERTYPE.LowerCase:
-                    return 0;
-                case FILTERTYPE.UpperCase:
-                    return 1;
-                case FILTERTYPE.TitleCase:
-                    return 2;
-                case FILTERTYPE.Equal:
-                    return 3;
-                case FILTERTYPE.NotEqual:
-                    return 4;
-            }
-            return 0;
-        }
-        
+		private int _filterTypeToCBIndex( FILTERTYPE filter )
+		{
+			switch( filter )
+			{
+				case FILTERTYPE.Format:
+				case FILTERTYPE.LowerCase:
+					return 0;
+				case FILTERTYPE.UpperCase:
+					return 1;
+				case FILTERTYPE.TitleCase:
+					return 2;
+				case FILTERTYPE.Equal:
+					return 3;
+				case FILTERTYPE.NotEqual:
+					return 4;
+			}
+			return 0;
+		}
+		
 #endregion
 
 #region PRZYCISKI - KREATOR KOLUMN
-        /// @cond EVENTS
+		/// @cond EVENTS
 
-        /// <summary>
-        /// Akcja wywoływana po kliknięciu w przycisk dodawania kolumny.
-        /// Przycisk znajduje się w pierwszym kroku w kreatorze kolumn.
-        /// Sprawdza czy kolumna o podanej nazwie już istnieje.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="B_DeleteColumn_Click" />
-        /// <seealso cref="B_ClearColumn_Click" />
+		/// <summary>
+		/// Akcja wywoływana po kliknięciu w przycisk dodawania kolumny.
+		/// Przycisk znajduje się w pierwszym kroku w kreatorze kolumn.
+		/// Sprawdza czy kolumna o podanej nazwie już istnieje.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="B_DeleteColumn_Click" />
+		/// <seealso cref="B_ClearColumn_Click" />
 		//* ============================================================================================================
 		private void B_AddColumn_Click( object sender, EventArgs ev )
 		{
@@ -665,19 +665,19 @@ namespace CDesigner.Forms
 			Program.LogMessage( "Dodano nową kolumnę: " + text + "." );
 #		endif
 		}
-        
-        /// <summary>
-        /// Akcja wywoływana po kliknięciu w przycisk usuwania kolumny.
-        /// Przycisk znajduje się w pierwszym kroku w kreatorze kolumn.
-        /// Funkcja usuwa zaznaczoną na liście kolumnę.
-        /// Możliwe jest usuwanie tylko i wyłącznie nowo utworzonych kolumn.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="B_AddColumn_Click" />
-        /// <seealso cref="B_ClearColumn_Click" />
+		
+		/// <summary>
+		/// Akcja wywoływana po kliknięciu w przycisk usuwania kolumny.
+		/// Przycisk znajduje się w pierwszym kroku w kreatorze kolumn.
+		/// Funkcja usuwa zaznaczoną na liście kolumnę.
+		/// Możliwe jest usuwanie tylko i wyłącznie nowo utworzonych kolumn.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="B_AddColumn_Click" />
+		/// <seealso cref="B_ClearColumn_Click" />
 		//* ============================================================================================================
 		private void B_DeleteColumn_Click( object sender, EventArgs ev )
 		{
@@ -698,15 +698,15 @@ namespace CDesigner.Forms
 					this.LV_AllColumns.Items.RemoveAt( x );
 			}
 
-            // zaznacz pierwszą kolumnę ze schowka po usunięciu nowej jeżeli była ona zaznaczona któraś z nowych kolumn
-            // gdy sprawdzimy tylko czy była zaznaczona aktualna, może się wysypać przez indeksy
-            if( this._realNewIndex != -1 || this._realSubIndex != -1 )
-            {
-                this.LV_AllColumns.SelectedIndices.Clear();
-                this.LV_AllColumns.SelectedIndices.Add( 0 );
-            }
+			// zaznacz pierwszą kolumnę ze schowka po usunięciu nowej jeżeli była ona zaznaczona któraś z nowych kolumn
+			// gdy sprawdzimy tylko czy była zaznaczona aktualna, może się wysypać przez indeksy
+			if( this._realNewIndex != -1 || this._realSubIndex != -1 )
+			{
+				this.LV_AllColumns.SelectedIndices.Clear();
+				this.LV_AllColumns.SelectedIndices.Add( 0 );
+			}
 
-            // usuń kolumnę z filtrów
+			// usuń kolumnę z filtrów
 			this._filter.removeColumn( item.Index );
 			this.LV_NewColumns.Items.Remove( item );
 
@@ -718,17 +718,17 @@ namespace CDesigner.Forms
 			GC.Collect();
 		}
 
-        /// <summary>
-        /// Akcja wywoływana po kliknięciu w przycisk czyszczenia kolumny.
-        /// Przycisk znajduje się w pierwszym kroku w kreatorze kolumn.
-        /// Przy kliknięciu czyszczone są podkolumny z których składa się kolumna wraz z wszystkimi filtrami.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="B_AddColumn_Click" />
-        /// <seealso cref="B_DeleteColumn_Click" />
+		/// <summary>
+		/// Akcja wywoływana po kliknięciu w przycisk czyszczenia kolumny.
+		/// Przycisk znajduje się w pierwszym kroku w kreatorze kolumn.
+		/// Przy kliknięciu czyszczone są podkolumny z których składa się kolumna wraz z wszystkimi filtrami.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="B_AddColumn_Click" />
+		/// <seealso cref="B_DeleteColumn_Click" />
 		//* ============================================================================================================
 		private void B_ClearColumn_Click( object sender, EventArgs ev )
 		{
@@ -768,16 +768,16 @@ namespace CDesigner.Forms
 
 #region OBSŁUGA LIST - KREATOR KOLUMN
 
-        /// <summary>
-        /// Akcja wywoływana podczas wpisywania nazwy kolumny w pole tekstowe.
-        /// Podczas wpisywania przechwytywane są znaki, dzięki czemu funkcja sprawdza poprawność nowych danych.
-        /// W przypadku wpisania niedozwolonego znaku wyświetla popup i informuje sygnałem o błędzie.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="TP_Tooltip_Draw" />
+		/// <summary>
+		/// Akcja wywoływana podczas wpisywania nazwy kolumny w pole tekstowe.
+		/// Podczas wpisywania przechwytywane są znaki, dzięki czemu funkcja sprawdza poprawność nowych danych.
+		/// W przypadku wpisania niedozwolonego znaku wyświetla popup i informuje sygnałem o błędzie.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="TP_Tooltip_Draw" />
 		//* ============================================================================================================
 		private void TB_ColumnName_KeyPress( object sender, KeyPressEventArgs ev )
 		{
@@ -786,7 +786,7 @@ namespace CDesigner.Forms
 				return;
 
 			// sprawdź czy nazwa zawiera niedozwolone znaki
-            var lang_chars   = Language.GetLines( "Locale" );
+			var lang_chars   = Language.GetLines( "Locale" );
 			var locale_chars = lang_chars[(int)LANGCODE.GLO_BIGCHARS] + lang_chars[(int)LANGCODE.GLO_SMALLCHARS];
 			var regex        = new Regex( @"^[0-9a-zA-Z" + locale_chars + @" .\-+_]+$" );
 			if( !regex.IsMatch(ev.KeyChar.ToString()) )
@@ -818,16 +818,16 @@ namespace CDesigner.Forms
 			}
 		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas zmiany zaznaczonej pozycji na liście kolumn.
-        /// Lista znajduje się w pierwszym kroku z prawej strony, zawiera kolumny znajdujące się w schowku.
-        /// Podczas wyświetlania uwzględnia utworzone wczesniej filtry.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="LV_NewColumns_SelectedIndexChanged" />
+		/// <summary>
+		/// Akcja wywoływana podczas zmiany zaznaczonej pozycji na liście kolumn.
+		/// Lista znajduje się w pierwszym kroku z prawej strony, zawiera kolumny znajdujące się w schowku.
+		/// Podczas wyświetlania uwzględnia utworzone wczesniej filtry.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="LV_NewColumns_SelectedIndexChanged" />
 		//* ============================================================================================================
 		private void LV_DatabaseColumns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
@@ -839,24 +839,24 @@ namespace CDesigner.Forms
 			// zaznaczony element
 			var item = this.LV_DatabaseColumns.SelectedItems[0];
 
-            // odśwież rekordy z wybranej kolumny
-            this.refreshColumnRowsIFS( item.Index );
+			// odśwież rekordy z wybranej kolumny
+			this.refreshColumnRowsIFS( item.Index );
 
 #		if DEBUG
 			Program.LogMessage( "Wczytano wiersze z kolumny: '" + item.Text + "'." );
 #		endif
 		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas zmiany zaznaczonej pozycji na liście nowych kolumn.
-        /// Lista znajduje się w pierwszym kroku z lewej strony nad przyciskami służącymi do dodawania kolumn.
-        /// Podczas wyświetlania uwzględniane są utworzone wcześniej w drugim kroku filtry.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="LV_DatabaseColumns_SelectedIndexChanged" />
+		/// <summary>
+		/// Akcja wywoływana podczas zmiany zaznaczonej pozycji na liście nowych kolumn.
+		/// Lista znajduje się w pierwszym kroku z lewej strony nad przyciskami służącymi do dodawania kolumn.
+		/// Podczas wyświetlania uwzględniane są utworzone wcześniej w drugim kroku filtry.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="LV_DatabaseColumns_SelectedIndexChanged" />
 		//* ============================================================================================================
 		private void LV_NewColumns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
@@ -874,27 +874,27 @@ namespace CDesigner.Forms
 
 			// zaznaczony element
 			var item = this.LV_NewColumns.SelectedItems[0];
-    
-            // wyświetl wiersze
-            this.refreshColumnRowsIFS( item.Index + this._storage.ColumnsNumber );
+	
+			// wyświetl wiersze
+			this.refreshColumnRowsIFS( item.Index + this._storage.ColumnsNumber );
 
 			this.B_ClearColumn.Enabled  = true;
 			this.B_DeleteColumn.Enabled = true;
 		}
 
-        /// <summary>
-        /// Akcja wywoływana po naciśnięciu przycisku na elemencie w liście kolumn.
-        /// Po kliknięciu w nazwę kolumny ze schowka możliwe jest dzięki temu jej przeniesienie do nowych kolumn.
-        /// Ułatwia to w znacznym stopniu możliwość łączenia kolumn.
-        /// Drag & Drop.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="dragDropEffects_Move" />
-        /// <seealso cref="lvNewColumns_DragOver" />
-        /// <seealso cref="lvNewColumns_DragDrop" />
+		/// <summary>
+		/// Akcja wywoływana po naciśnięciu przycisku na elemencie w liście kolumn.
+		/// Po kliknięciu w nazwę kolumny ze schowka możliwe jest dzięki temu jej przeniesienie do nowych kolumn.
+		/// Ułatwia to w znacznym stopniu możliwość łączenia kolumn.
+		/// Drag & Drop.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="dragDropEffects_Move" />
+		/// <seealso cref="lvNewColumns_DragOver" />
+		/// <seealso cref="lvNewColumns_DragDrop" />
 		//* ============================================================================================================
 		private void LV_DatabaseColumns_MouseDown( object sender, MouseEventArgs ev )
 		{
@@ -913,36 +913,36 @@ namespace CDesigner.Forms
 			this.LV_DatabaseColumns.DoDragDrop( item, DragDropEffects.Move );
 		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas przemieszczania elementu.
-        /// Wyświetlany jest efekt przemieszczania - przeważnie obok wskaźnika myszy rysowana jest dodatkowa ikona.
-        /// Drag & Drop.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="lvDatabaseColumns_MouseDown" />
-        /// <seealso cref="lvNewColumns_DragOver" />
-        /// <seealso cref="lvNewColumns_DragDrop" />
+		/// <summary>
+		/// Akcja wywoływana podczas przemieszczania elementu.
+		/// Wyświetlany jest efekt przemieszczania - przeważnie obok wskaźnika myszy rysowana jest dodatkowa ikona.
+		/// Drag & Drop.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="lvDatabaseColumns_MouseDown" />
+		/// <seealso cref="lvNewColumns_DragOver" />
+		/// <seealso cref="lvNewColumns_DragDrop" />
 		//* ============================================================================================================
 		private void LV_DragDropEffects_Move( object sender, DragEventArgs ev )
 		{
 			ev.Effect = DragDropEffects.Move;
 		}
-		
-        /// <summary>
-        /// Akcja wywoływana podczas najechania na element podczas przeciągania.
-        /// Dzięki tej funkcji po najechaniu podświetla się kolumna na którą wskazuje kursor myszy.
-        /// Drag & Drop.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="lvDatabaseColumns_MouseDown" />
-        /// <seealso cref="dragDropEffects_Move" />
-        /// <seealso cref="lvNewColumns_DragDrop" />
+
+		/// <summary>
+		/// Akcja wywoływana podczas najechania na element podczas przeciągania.
+		/// Dzięki tej funkcji po najechaniu podświetla się kolumna na którą wskazuje kursor myszy.
+		/// Drag & Drop.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="lvDatabaseColumns_MouseDown" />
+		/// <seealso cref="dragDropEffects_Move" />
+		/// <seealso cref="lvNewColumns_DragDrop" />
 		//* ============================================================================================================
 		private void LV_NewColumns_DragOver( object sender, DragEventArgs ev )
 		{
@@ -963,19 +963,19 @@ namespace CDesigner.Forms
 			this._locked = false;
 		}
 		
-        /// <summary>
-        /// Akcja wywoływana po puszczeniu klawisza myszy podczas przeciągania.
-        /// Po przeciągnięciu starej kolumny na nową funkcja łączy przeciąganą z nową, dodając ją do formatu.
-        /// Wyświetla informacje gdy kolumna kopiowana jest drugi raz do tej samej nowej kolumny.
-        /// Drag & Drop.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="lvDatabaseColumns_MouseDown" />
-        /// <seealso cref="dragDropEffects_Move" />
-        /// <seealso cref="lvNewColumns_DragOver" />
+		/// <summary>
+		/// Akcja wywoływana po puszczeniu klawisza myszy podczas przeciągania.
+		/// Po przeciągnięciu starej kolumny na nową funkcja łączy przeciąganą z nową, dodając ją do formatu.
+		/// Wyświetla informacje gdy kolumna kopiowana jest drugi raz do tej samej nowej kolumny.
+		/// Drag & Drop.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="lvDatabaseColumns_MouseDown" />
+		/// <seealso cref="dragDropEffects_Move" />
+		/// <seealso cref="lvNewColumns_DragOver" />
 		//* ============================================================================================================
 		private void LV_NewColumns_DragDrop( object sender, DragEventArgs ev )
 		{
@@ -989,7 +989,7 @@ namespace CDesigner.Forms
 			// kopiowana kolumna
 			var copy = (ListViewItem)ev.Data.GetData( typeof(ListViewItem) );
 			var list = (List<int>)item.SubItems[1].Tag;
-            
+			
 			// Kolumna już została skopiowana - wyświetl informacje (TUTAJ!)
 
 			// dodaj kolumnę do łączenia
@@ -998,11 +998,11 @@ namespace CDesigner.Forms
 			else
 				item.SubItems[1].Text += ", " + copy.Text;
 
-            // dodaj kolumnę do filtrów
+			// dodaj kolumnę do filtrów
 			list.Add( copy.Index );
 			this._filter.addSubColumn( item.Index, copy.Index );
 
-            // odświeżanie listy w drugim kroku
+			// odświeżanie listy w drugim kroku
 			for( int x = this.LV_AllColumns.Items.Count - 1; x >= 0; --x )
 			{
 				if( this.LV_AllColumns.Items[x].Tag == null )
@@ -1014,10 +1014,10 @@ namespace CDesigner.Forms
 				{
 					int[] newinfo  = { copy.Index, item.Index };
 					var   inserted = this.LV_AllColumns.Items.Insert( x+1, "      " + copy.Text );
-					
+
 					inserted.Tag   = newinfo;
 					inserted.Group = this.LV_AllColumns.Groups[1];
-					
+
 					// odświeżenie listy (jakoś to mnie nie przekonuje), ale cóż...
 					string head = this.LV_AllColumns.Groups[1].Header;
 					this.LV_AllColumns.Groups[1].Header = "";
@@ -1038,7 +1038,7 @@ namespace CDesigner.Forms
 		/// <summary>
 		/// Akcja wywoływana po zmianie wyświetlanej kolumny w filtrach.
 		/// Funkcja ładuje wiersze z bazy danych przefiltrowane w sposób określony w filtrach.
-        /// Po załadowaniu wierszy ładowane są wszystkie przypisane do kolumny filtry.
+		/// Po załadowaniu wierszy ładowane są wszystkie przypisane do kolumny filtry.
 		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
@@ -1076,44 +1076,44 @@ namespace CDesigner.Forms
 				this.refreshFilters( item.Index );
 
 				if( this._realNewIndex != -1 && this._realSubIndex != -1 )
-                {
+				{
 					this.B_AddFilter.Enabled    = true;
-                    this.B_ChangeFilter.Enabled = false;
-                    this.B_DeleteFilter.Enabled = false;
-                }
-                else if( this._realNewIndex != -1 && this._realSubIndex == -1 )
-                {
-                    this.B_AddFilter.Enabled    = false;
-                    this.B_ChangeFilter.Enabled = true;
-                    this.B_DeleteFilter.Enabled = false;
-                }
+					this.B_ChangeFilter.Enabled = false;
+					this.B_DeleteFilter.Enabled = false;
+				}
+				else if( this._realNewIndex != -1 && this._realSubIndex == -1 )
+				{
+					this.B_AddFilter.Enabled    = false;
+					this.B_ChangeFilter.Enabled = true;
+					this.B_DeleteFilter.Enabled = false;
+				}
 
-                this.displayColumnFilters();
+				this.displayColumnFilters();
 				return;
 			}
 
-            // odświeżanie listy filtrów
+			// odświeżanie listy filtrów
 			this._currentColumn = index;
 			this.refreshFilters( item.Index );
 
 			if( !(this._realNewIndex != -1 && this._realSubIndex == -1) )
-            {
+			{
 				this.B_AddFilter.Enabled    = true;
-                this.B_ChangeFilter.Enabled = false;
-                this.B_DeleteFilter.Enabled = false;
-            }
-            else if( this._realNewIndex != -1 && this._realSubIndex == -1 )
-            {
-                this.B_AddFilter.Enabled    = false;
-                this.B_ChangeFilter.Enabled = true;
-                this.B_DeleteFilter.Enabled = false;
-            }
-            // odśwież listę
-            this.refreshColumnRowsISS( index );
+				this.B_ChangeFilter.Enabled = false;
+				this.B_DeleteFilter.Enabled = false;
+			}
+			else if( this._realNewIndex != -1 && this._realSubIndex == -1 )
+			{
+				this.B_AddFilter.Enabled    = false;
+				this.B_ChangeFilter.Enabled = true;
+				this.B_DeleteFilter.Enabled = false;
+			}
+			// odśwież listę
+			this.refreshColumnRowsISS( index );
 
 			// typ kolumny
 			this.CBX_ColType.SelectedIndex = (int)this._filter.ColumnType[index].SelectedType;
-            
+			
 #		if DEBUG
 			// informacja o danych z kolumny
 			Program.LogMessage( "Wczytano wiersze z kolumny: '" +
@@ -1123,65 +1123,65 @@ namespace CDesigner.Forms
 				+ "'." );
 #		endif
 
-            this.displayColumnFilters();
+			this.displayColumnFilters();
 		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas zmiany filtra w liście z filtrami dla danej kolumny.
-        /// Po zmienie filtra uzupełniane są kontrolki odpowiedzialne za edycję i dodawanie filtrów.
-        /// </summary>
+		/// <summary>
+		/// Akcja wywoływana podczas zmiany filtra w liście z filtrami dla danej kolumny.
+		/// Po zmienie filtra uzupełniane są kontrolki odpowiedzialne za edycję i dodawanie filtrów.
+		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
 		private void LV_FilterList_SelectedIndexChanged( object sender, EventArgs ev )
-        {
-            // blokuj przyciski gdy nic nie zostało zaznaczone
-            if( this.LV_FilterList.SelectedIndices.Count == 0 )
-            {
-                this.B_ChangeFilter.Enabled = false;
-                this.B_DeleteFilter.Enabled = false;
+		{
+			// blokuj przyciski gdy nic nie zostało zaznaczone
+			if( this.LV_FilterList.SelectedIndices.Count == 0 )
+			{
+				this.B_ChangeFilter.Enabled = false;
+				this.B_DeleteFilter.Enabled = false;
 
-                return;
-            }
+				return;
+			}
 
-            // pobierz indeks filtrowanej kolumny
-            int selected  = this.LV_FilterList.SelectedIndices[0];
-            int filteridx = selected;
-            int inherited = this._realNewIndex != -1 && this._realSubIndex != -1
-                ? this._filter.isInherited( this._realNewIndex, this._realSubIndex, selected, out filteridx )
-                : -1;
+			// pobierz indeks filtrowanej kolumny
+			int selected  = this.LV_FilterList.SelectedIndices[0];
+			int filteridx = selected;
+			int inherited = this._realNewIndex != -1 && this._realSubIndex != -1
+				? this._filter.isInherited( this._realNewIndex, this._realSubIndex, selected, out filteridx )
+				: -1;
 
-            FilterInfo info;
+			FilterInfo info;
 
-            // pobierz filtr dla kolumny podrzędnej lub filtr dziedziczony
-            if( inherited == -1 )
-                info = this._filter.getFilter( this._currentColumn, this._realSubIndex, filteridx );
-            else
-                info = this._filter.getFilter( inherited, -1, filteridx );
+			// pobierz filtr dla kolumny podrzędnej lub filtr dziedziczony
+			if( inherited == -1 )
+				info = this._filter.getFilter( this._currentColumn, this._realSubIndex, filteridx );
+			else
+				info = this._filter.getFilter( inherited, -1, filteridx );
 
-            // typ filtra
-            this.CB_FilterType.SelectedIndex = this._filterTypeToCBIndex( info.Filter );
+			// typ filtra
+			this.CB_FilterType.SelectedIndex = this._filterTypeToCBIndex( info.Filter );
 
-            // opcje
-            this.TB_Modifier.Text     = info.Modifier;
-            this.TB_Result.Text       = info.Result;
-            this.CB_Exclude.Checked   = info.Exclude;
-            this.CB_AllCopies.Checked = info.FilterCopy;
+			// opcje
+			this.TB_Modifier.Text     = info.Modifier;
+			this.TB_Result.Text       = info.Result;
+			this.CB_Exclude.Checked   = info.Exclude;
+			this.CB_AllCopies.Checked = info.FilterCopy;
 
-            // przyciski
-            this.B_ChangeFilter.Enabled = inherited != -1
-                ? false
-                : true;
-            this.B_DeleteFilter.Enabled = (this._realNewIndex != -1 && this._realSubIndex == -1) || inherited != -1
-                ? false
-                : true;
+			// przyciski
+			this.B_ChangeFilter.Enabled = inherited != -1
+				? false
+				: true;
+			this.B_DeleteFilter.Enabled = (this._realNewIndex != -1 && this._realSubIndex == -1) || inherited != -1
+				? false
+				: true;
 		}
-        
-        /// <summary>
-        /// Akcja wywoływana podczas zmiany typu filtra.
-        /// Po zmianie typu czyszczone są kontrolki dotyczące filtrów i wyłączane gdy filtr z nich nie korzysta.
-        /// </summary>
+		
+		/// <summary>
+		/// Akcja wywoływana podczas zmiany typu filtra.
+		/// Po zmianie typu czyszczone są kontrolki dotyczące filtrów i wyłączane gdy filtr z nich nie korzysta.
+		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
@@ -1192,34 +1192,34 @@ namespace CDesigner.Forms
 			{
 				// duże litery / format
 				case 0:
-                    this.TB_Result.Enabled  = false;
-                    this.CB_Exclude.Enabled = false;
+					this.TB_Result.Enabled  = false;
+					this.CB_Exclude.Enabled = false;
 
 					// to tylko format
 					if( this.CB_FilterType.Items.Count == 1 )
-                    {
+					{
 						this.TB_Modifier.Enabled  = true;
-                        this.CB_AllCopies.Enabled = false;
+						this.CB_AllCopies.Enabled = false;
 					}
-                    // a tu duże litery, tylko dla starych kolumn
-                    else if( this._realNewIndex == -1 )
-                    {
-                        this.TB_Modifier.Enabled  = false;
+					// a tu duże litery, tylko dla starych kolumn
+					else if( this._realNewIndex == -1 )
+					{
+						this.TB_Modifier.Enabled  = false;
 						this.CB_AllCopies.Enabled = true;
-                    }
-                    // i duże litery dla kolumn podrzędnych nowych kolumn
-                    else
-                    {
-                        this.TB_Modifier.Enabled  = false;
-                        this.CB_AllCopies.Enabled = false;
-                    }
+					}
+					// i duże litery dla kolumn podrzędnych nowych kolumn
+					else
+					{
+						this.TB_Modifier.Enabled  = false;
+						this.CB_AllCopies.Enabled = false;
+					}
 				break;
 				// małe litery / nazwa własna
 				case 1:
 				case 2:
-                    this.TB_Modifier.Enabled = false;
-                    this.TB_Result.Enabled   = false;
-                    this.CB_Exclude.Enabled  = false;
+					this.TB_Modifier.Enabled = false;
+					this.TB_Result.Enabled   = false;
+					this.CB_Exclude.Enabled  = false;
 
 					if( this._realNewIndex == -1 )
 						this.CB_AllCopies.Enabled = true;
@@ -1236,35 +1236,35 @@ namespace CDesigner.Forms
 				break;
 			}
 		}
-        
-        /// <summary>
-        /// Akcja wywoływana podczas zaznaczenia wykluczenia.
-        /// Wykluczenie polega na usunięciu wszystkich rekordów spełniających podane wyżej kryteria.
-        /// W tym przypadku czyszczone i wyłączane jest pole wyniku, nie jest ono potrzebne.
-        /// </summary>
+		
+		/// <summary>
+		/// Akcja wywoływana podczas zaznaczenia wykluczenia.
+		/// Wykluczenie polega na usunięciu wszystkich rekordów spełniających podane wyżej kryteria.
+		/// W tym przypadku czyszczone i wyłączane jest pole wyniku, nie jest ono potrzebne.
+		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
 		//* ============================================================================================================
-        private void CB_Exclude_CheckedChanged( object sender, EventArgs ev )
-        {
-            if( this.CB_Exclude.Checked )
-            {
-                this.TB_Result.Text    = "";
-                this.TB_Result.Enabled = false;
-            }
-            else
-                this.TB_Result.Enabled = true;
-        }
+		private void CB_Exclude_CheckedChanged( object sender, EventArgs ev )
+		{
+			if( this.CB_Exclude.Checked )
+			{
+				this.TB_Result.Text    = "";
+				this.TB_Result.Enabled = false;
+			}
+			else
+				this.TB_Result.Enabled = true;
+		}
 
 #endregion
 
 #region PRZYCISKI - FILTROWANIE
 
-        /// <summary>
-        /// Akcja wywoływana podczas dodawania nowego filtru.
-        /// Dodaje filtr do listy dla wybranej kolumny i odświeża wyświetlane wiersze uwzględniając dodany filtr.
-        /// </summary>
+		/// <summary>
+		/// Akcja wywoływana podczas dodawania nowego filtru.
+		/// Dodaje filtr do listy dla wybranej kolumny i odświeża wyświetlane wiersze uwzględniając dodany filtr.
+		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia</param>
@@ -1283,60 +1283,60 @@ namespace CDesigner.Forms
 
 #		if DEBUG
 			Program.LogMessage( "Dodano nowy filtr: Kolumna(#" + this._currentColumn + ")" +
-                (this._realSubIndex != -1 ? (", Rząd(#" + this._realSubIndex + "), ") : "") );
+				(this._realSubIndex != -1 ? (", Rząd(#" + this._realSubIndex + "), ") : "") );
 #		endif
-            // odśwież listę wierszy
-            this.refreshColumnRowsISS( this._currentColumn );
-            
-            // wyświetl listę filtrów
-            this.displayColumnFilters();
+			// odśwież listę wierszy
+			this.refreshColumnRowsISS( this._currentColumn );
+			
+			// wyświetl listę filtrów
+			this.displayColumnFilters();
 		}
-        
-        /// <summary>
-        /// Akcja wywoływana po kliknięciu w przycisk usuwania filtra.
-        /// Usuwa filtr z listy w tabeli i klasie z filtrami i odświeża listę wyświetlanych wierszy z wybranej kolumny.
-        /// </summary>
+		
+		/// <summary>
+		/// Akcja wywoływana po kliknięciu w przycisk usuwania filtra.
+		/// Usuwa filtr z listy w tabeli i klasie z filtrami i odświeża listę wyświetlanych wierszy z wybranej kolumny.
+		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Parametry zdarzenia</param>
 		//* ============================================================================================================
-        private void B_DeleteFilter_Click( object sender, EventArgs ev )
-        {
-            if( this.LV_FilterList.SelectedIndices.Count == 0 )
-                return;
+		private void B_DeleteFilter_Click( object sender, EventArgs ev )
+		{
+			if( this.LV_FilterList.SelectedIndices.Count == 0 )
+				return;
 
-            int selected = this.LV_FilterList.SelectedIndices[0];
+			int selected = this.LV_FilterList.SelectedIndices[0];
 
-            // usuń filtr
-            this._filter.removeFilter( this._currentColumn, this._realSubIndex, selected );
+			// usuń filtr
+			this._filter.removeFilter( this._currentColumn, this._realSubIndex, selected );
 
 #		if DEBUG
 			Program.LogMessage( "Usunięto filtr: Kolumna(#" + this._currentColumn + "), " +
-                (this._realSubIndex != -1 ? ("Rząd(#" + this._realSubIndex + "), ") : "") +
-                "Filtr(#" + this.LV_FilterList.SelectedIndices[0] + ")" );
+				(this._realSubIndex != -1 ? ("Rząd(#" + this._realSubIndex + "), ") : "") +
+				"Filtr(#" + this.LV_FilterList.SelectedIndices[0] + ")" );
 #		endif
-            // odśwież listę wierszy
-            this.refreshColumnRowsISS( this._currentColumn );
+			// odśwież listę wierszy
+			this.refreshColumnRowsISS( this._currentColumn );
 
-            // odśwież listę filtrów
-            this.displayColumnFilters();
-        }
+			// odśwież listę filtrów
+			this.displayColumnFilters();
+		}
 
-        /// <summary>
-        /// Akcja wywoływana po kliknięciu w przycisk zmiany filtra.
-        /// Zamienia zaznaczony filtr z listy w tabeli na nowy, zdefiniowany nad przyciskami i odświeża listę
-        /// wyświetlanych wierszy z wybranej kolumny.
-        /// </summary>
+		/// <summary>
+		/// Akcja wywoływana po kliknięciu w przycisk zmiany filtra.
+		/// Zamienia zaznaczony filtr z listy w tabeli na nowy, zdefiniowany nad przyciskami i odświeża listę
+		/// wyświetlanych wierszy z wybranej kolumny.
+		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Parametry zdarzenia</param>
 		//* ============================================================================================================
-        private void B_ChangeFilter_Click( object sender, EventArgs ev )
-        {
-            if( this.LV_FilterList.SelectedIndices.Count == 0 )
-                return;
+		private void B_ChangeFilter_Click( object sender, EventArgs ev )
+		{
+			if( this.LV_FilterList.SelectedIndices.Count == 0 )
+				return;
 
-            // utwórz nowy filtr i podmień stary
+			// utwórz nowy filtr i podmień stary
 			FilterInfo filter = this._filter.createFilter
 			(
 				this.getSelectedFilterType(),
@@ -1346,37 +1346,37 @@ namespace CDesigner.Forms
 				this.CB_AllCopies.Checked
 			);
 
-            int selected = this.LV_FilterList.SelectedIndices[0];
+			int selected = this.LV_FilterList.SelectedIndices[0];
 
 			this._filter.replaceFilter( this._currentColumn, this._realSubIndex, selected, filter );
 
 #		if DEBUG
 			Program.LogMessage( "Zmieniono filtr: Kolumna(#" + this._currentColumn + "), " +
-                (this._realSubIndex != -1 ? ("Rząd(#" + this._realSubIndex + "), ") : "") +
-                "Filtr(#" + this.LV_FilterList.SelectedIndices[0] + ")" );
+				(this._realSubIndex != -1 ? ("Rząd(#" + this._realSubIndex + "), ") : "") +
+				"Filtr(#" + this.LV_FilterList.SelectedIndices[0] + ")" );
 #		endif
-            // odśwież listę wierszy
-            this.refreshColumnRowsISS( this._currentColumn );
+			// odśwież listę wierszy
+			this.refreshColumnRowsISS( this._currentColumn );
 
-            // odśwież listę filtrów
-            this.displayColumnFilters();
+			// odśwież listę filtrów
+			this.displayColumnFilters();
 
-            // zaznacz aktualnie edytowany filtr
-            this.LV_FilterList.Items[selected].Selected = true;
-        }
+			// zaznacz aktualnie edytowany filtr
+			this.LV_FilterList.Items[selected].Selected = true;
+		}
 
 #endregion
 
 #region PASEK AKCJI
 
-        /// <summary>
-        /// Akcja wywoływana po zmiane elementu w polu wyboru.
-        /// Znajduje się ono w pasku akcji, służy do wyboru kroku do wyświetlania.
-        /// Możliwe jest wybranie dwóch kroków - kreatora kolumn i filtrowania danych.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana po zmiane elementu w polu wyboru.
+		/// Znajduje się ono w pasku akcji, służy do wyboru kroku do wyświetlania.
+		/// Możliwe jest wybranie dwóch kroków - kreatora kolumn i filtrowania danych.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void CBX_Step_SelectedIndexChanged( object sender, EventArgs ev )
 		{
@@ -1399,15 +1399,15 @@ namespace CDesigner.Forms
 			}
 		}
 
-        /// <summary>
-        /// Analiza wciśniętych klawiszy w obrębie formularza.
-        /// Funkcja tworzy skróty szybkiego dostępu do poszczególnych kroków formularza.
-        /// </summary>
-        /// 
-        /// <param name="msg">Przechwycone zdarzenie wciśnięcia klawisza.</param>
-        /// <param name="keys">Informacje o wciśniętych klawiszach.</param>
-        /// 
-        /// <returns>Informacja o tym czy klawisz został przechwycony.</returns>
+		/// <summary>
+		/// Analiza wciśniętych klawiszy w obrębie formularza.
+		/// Funkcja tworzy skróty szybkiego dostępu do poszczególnych kroków formularza.
+		/// </summary>
+		/// 
+		/// <param name="msg">Przechwycone zdarzenie wciśnięcia klawisza.</param>
+		/// <param name="keys">Informacje o wciśniętych klawiszach.</param>
+		/// 
+		/// <returns>Informacja o tym czy klawisz został przechwycony.</returns>
 		//* ============================================================================================================
 		protected override bool ProcessCmdKey( ref Message msg, Keys keydata )
 		{
@@ -1428,13 +1428,13 @@ namespace CDesigner.Forms
 			return true;
 		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas rysowania okna z podpowiedzią lub błędem.
-        /// Umożliwia własne rysowanie okna.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana podczas rysowania okna z podpowiedzią lub błędem.
+		/// Umożliwia własne rysowanie okna.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void TP_Tooltip_Draw( object sender, DrawToolTipEventArgs ev )
 		{
@@ -1443,13 +1443,13 @@ namespace CDesigner.Forms
 			ev.DrawText( TextFormatFlags.VerticalCenter );
 		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas ukrywania okna podpowiedzi.
-        /// Zapobiega wyświetlaniu błędów występujących podczas ukrywania okna.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana podczas ukrywania okna podpowiedzi.
+		/// Zapobiega wyświetlaniu błędów występujących podczas ukrywania okna.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void TP_Tooltip_Hide( object sender, EventArgs ev )
 		{
@@ -1460,13 +1460,13 @@ namespace CDesigner.Forms
 			}
 		}
 
-        /// <summary>
-        /// Akcja wywoływana podczas rysowania panelu akcji.
-        /// Rysuje kreskę oddzielającą panel akcji od kontenera z treścią.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
+		/// <summary>
+		/// Akcja wywoływana podczas rysowania panelu akcji.
+		/// Rysuje kreskę oddzielającą panel akcji od kontenera z treścią.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
 		{
@@ -1479,59 +1479,59 @@ namespace CDesigner.Forms
 				0
 			);
 		}
-        
-        /// <summary>
-        /// Akcja wywoływana podczas kliknięcia w przycisk zapisania zmian.
-        /// Funkcja pozwala na zapisanie wszystkich filtrów do schowka - na razie zmiany zapisane są nieodwracalne.
-        /// Usuwa kolumny które zostały odznaczone w liście kolumn istniejących w schowku.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="B_Cancel_Click" />
+		
+		/// <summary>
+		/// Akcja wywoływana podczas kliknięcia w przycisk zapisania zmian.
+		/// Funkcja pozwala na zapisanie wszystkich filtrów do schowka - na razie zmiany zapisane są nieodwracalne.
+		/// Usuwa kolumny które zostały odznaczone w liście kolumn istniejących w schowku.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="B_Cancel_Click" />
 		//* ============================================================================================================
-        private void B_Save_Click( object sender, EventArgs ev )
-        {
-            this._locked = true;
+		private void B_Save_Click( object sender, EventArgs ev )
+		{
+			this._locked = true;
 
-            // aktywne kolumny
-            var columns = new List<bool>();
+			// aktywne kolumny
+			var columns = new List<bool>();
 
-            foreach( ListViewItem item in this.LV_DatabaseColumns.Items )
-                columns.Add( item.Checked );
+			foreach( ListViewItem item in this.LV_DatabaseColumns.Items )
+				columns.Add( item.Checked );
 
-            // zastosuj filtry i zapisz
-            this._filter.setActiveColumns( columns );
-            this._filter.applyFilters();
+			// zastosuj filtry i zapisz
+			this._filter.setActiveColumns( columns );
+			this._filter.applyFilters();
 
-            this._locked = false;
-            
-            if( !this._storage.Ready )
-                this.DialogResult = DialogResult.Abort;
-            else
-                this.DialogResult = DialogResult.OK;
+			this._locked = false;
+			
+			if( !this._storage.Ready )
+				this.DialogResult = DialogResult.Abort;
+			else
+				this.DialogResult = DialogResult.OK;
 
-            this.Close();
-        }
-        
-        /// <summary>
-        /// Akcja wywoływana podczas kliknięcia w przycisk anulowania zmian.
-        /// Funkcja jedyne co na razie robi to zamyka formularz.
-        /// </summary>
-        /// 
-        /// <param name="sender">Obiekt wywołujący zdarzenie.</param>
-        /// <param name="ev">Argumenty zdarzenia.</param>
-        /// 
-        /// <seealso cref="B_Save_Click" />
+			this.Close();
+		}
+		
+		/// <summary>
+		/// Akcja wywoływana podczas kliknięcia w przycisk anulowania zmian.
+		/// Funkcja jedyne co na razie robi to zamyka formularz.
+		/// </summary>
+		/// 
+		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
+		/// <param name="ev">Argumenty zdarzenia.</param>
+		/// 
+		/// <seealso cref="B_Save_Click" />
 		//* ============================================================================================================
-        private void B_Cancel_Click( object sender, EventArgs ev )
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
+		private void B_Cancel_Click( object sender, EventArgs ev )
+		{
+			this.DialogResult = DialogResult.Cancel;
+			this.Close();
+		}
 
-        /// @endcond
+		/// @endcond
 #endregion
-    }
+	}
 }

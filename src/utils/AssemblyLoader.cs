@@ -69,8 +69,8 @@ namespace CDesigner.Utils
 		/// Rejestracja zdarzenia do rozwiązywania problemów z plikami DLL.
 		/// Może zostać wywołana kilkukrotnie, ustawienia zostaną nadpisane.
 		/// </summary>
-        /// 
-        /// <seealso cref="ResolveAssembly"/>
+		/// 
+		/// <seealso cref="ResolveAssembly"/>
 		//* ============================================================================================================
 		public static void Register()
 		{
@@ -88,8 +88,8 @@ namespace CDesigner.Utils
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		/// 
 		/// <returns>Klasa z załadowaną biblioteką.</returns>
-        /// 
-        /// <seealso cref="Register"/>
+		/// 
+		/// <seealso cref="Register"/>
 		//* ============================================================================================================
 		private static Assembly ResolveAssembly( object sender, ResolveEventArgs ev )
 		{

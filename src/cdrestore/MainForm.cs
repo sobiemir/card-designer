@@ -364,8 +364,8 @@ namespace CDRestore
 			}
 		}
 
-        private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
-        {
+		private void TLP_StatusBar_Paint( object sender, PaintEventArgs ev )
+		{
 			ev.Graphics.DrawLine
 			(
 				new Pen( SystemColors.ControlDark ),
@@ -374,6 +374,6 @@ namespace CDRestore
 				this.TLP_StatusBar.Bounds.Right,
 				0
 			);
-        }
+		}
 	}
 }

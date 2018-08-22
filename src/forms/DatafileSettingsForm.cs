@@ -40,23 +40,23 @@ namespace CDesigner.Forms
 	/// 
 	/// <summary>
 	/// Klasa formularza podglądu danych z pliku o obsługiwanym przez parser rozszerzeniu.
-    /// Lista rozszerzeń możliwych do wczytania plików dostępna jest w klasie <see cref="IOFileData"/>.
+	/// Lista rozszerzeń możliwych do wczytania plików dostępna jest w klasie <see cref="IOFileData"/>.
 	/// Klasa pozwala na ustawienie szczegółów odczytu wybranego pliku, takich jak:
 	/// <list type="bullet">
-	///		<item>Kodowanie pliku</item>
-	///		<item>Separator kolumn</item>
-    ///		<item>Nagłówek dla każdej kolumny</item>
+	///     <item>Kodowanie pliku</item>
+	///     <item>Separator kolumn</item>
+	///     <item>Nagłówek dla każdej kolumny</item>
 	/// </list>
 	/// </summary>
 	/// 
-    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana szerokości kolumn wraz ze zmianą szerokości okna.
-    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Możliwość zmiany ilości wyświetlanych rekordów.
-    /// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana znaku dla ograniczników pola (enclosing tags).
-    /// @todo <dfn><small>[1.0.x.x]</small></dfn> Ustawienia...
+	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana szerokości kolumn wraz ze zmianą szerokości okna.
+	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Możliwość zmiany ilości wyświetlanych rekordów.
+	/// @todo <dfn><small>[0.9.x.x]</small></dfn> Zmiana znaku dla ograniczników pola (enclosing tags).
+	/// @todo <dfn><small>[1.0.x.x]</small></dfn> Ustawienia...
 	/// @todo <dfn><small>[1.0.x.x]</small></dfn> Automatyczne wykrywanie typów danych.
-    /// @todo <dfn><small>[1.0.x.x]</small></dfn> Dopiero zapis (kliknięcie na przycisk wczytaj) zmienia strumień (_storage).
-    /// @todo <dfn><small>[?.?.x.x]</small></dfn> Po wciśnięciu WIN na linuksie okno się zamyka (przechwytuje sygnał zamknięcia).
-    /// @todo <dfn><small>[?.?.x.x]</small></dfn> Informacja o tym że dane są wczytywane, jakiś pasek postępu czy coś...
+	/// @todo <dfn><small>[1.0.x.x]</small></dfn> Dopiero zapis (kliknięcie na przycisk wczytaj) zmienia strumień (_storage).
+	/// @todo <dfn><small>[?.?.x.x]</small></dfn> Po wciśnięciu WIN na linuksie okno się zamyka (przechwytuje sygnał zamknięcia).
+	/// @todo <dfn><small>[?.?.x.x]</small></dfn> Informacja o tym że dane są wczytywane, jakiś pasek postępu czy coś...
 	/// 
 	public partial class DatafileSettingsForm : Form
 	{
@@ -71,8 +71,8 @@ namespace CDesigner.Forms
 		/// <summary>Aktualnie wyświetlana kolumna.</summary>
 		private int _column;
 
-        /// <summary>Informacja o tym, czy plik posiada definicje kolumn.</summary>
-        private bool _hasColumns;
+		/// <summary>Informacja o tym, czy plik posiada definicje kolumn.</summary>
+		private bool _hasColumns;
 
 #endregion
 
@@ -85,10 +85,10 @@ namespace CDesigner.Forms
 		//* ============================================================================================================
 		public DatafileSettingsForm()
 		{
-            this._column     = -1;
-            this._hasColumns = true;
-            this._locked     = false;
-            this._storage    = null;
+			this._column     = -1;
+			this._hasColumns = true;
+			this._locked     = false;
+			this._storage    = null;
 
 			this.InitializeComponent();
 
@@ -135,18 +135,18 @@ namespace CDesigner.Forms
 				this.getPreview();
 			}
 		}
-        
+		
 		/// <summary>
 		/// Czy plik posiada definicje kolumn?
-        /// Jest to tylko informacja, przed zmianą wartości należy zapoznać się ze strukturą wczytywanego pliku.
-        /// W przypadku braku kolumn, uzupełniane są one domyślnymi wartościami pobieranymi z ustawień językowych.
+		/// Jest to tylko informacja, przed zmianą wartości należy zapoznać się ze strukturą wczytywanego pliku.
+		/// W przypadku braku kolumn, uzupełniane są one domyślnymi wartościami pobieranymi z ustawień językowych.
 		/// </summary>
 		//* ============================================================================================================
-        public bool HasColumns
-        {
-            get { return this._hasColumns; }
-            set { this._hasColumns = value; }
-        }
+		public bool HasColumns
+		{
+			get { return this._hasColumns; }
+			set { this._hasColumns = value; }
+		}
 
 #endregion
 
@@ -155,9 +155,9 @@ namespace CDesigner.Forms
 		/// <summary>
 		/// Ustawia strumień do przetwarzania danych z wybranego pliku.
 		/// Funkcja różni się od właściwości Stream tym, że dla wczytywanego strumienia zmienia właściwości na te,
-        /// ustawione wcześniej w konfiguracji przez użytkownika - resetuje je do wartości początkowych.
+		/// ustawione wcześniej w konfiguracji przez użytkownika - resetuje je do wartości początkowych.
 		/// </summary>
-        /// 
+		/// 
 		/// <returns>Wartość zwracana przez OpenFileDialog lub DialogResult.Abort w przypadku błędu.</returns>
 		//* ============================================================================================================
 		public DialogResult fileSelector()
@@ -371,8 +371,8 @@ namespace CDesigner.Forms
 			this.TB_Separator.Text = ((char)this._storage.Separator).ToString();
 			this.TB_FileName.Text  = this._storage.FileName;
 
-            // wczytywanie danych bez kolumn
-            this.CB_NoColumns.Checked = !this._hasColumns;
+			// wczytywanie danych bez kolumn
+			this.CB_NoColumns.Checked = !this._hasColumns;
 
 			this._locked = false;
 		}
@@ -385,7 +385,7 @@ namespace CDesigner.Forms
 		/// <summary>
 		/// Zmiana wyświetlanej kolumny.
 		/// Po kliknięciu w element z listy kolumn odświeża elementy w liście wierszy.
-        /// Zmienia nazwę w nagłówku listy na nazwę aktualnie zaznaczonej kolumny.
+		/// Zmienia nazwę w nagłówku listy na nazwę aktualnie zaznaczonej kolumny.
 		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
@@ -394,7 +394,7 @@ namespace CDesigner.Forms
 		private void LV_Columns_SelectedIndexChanged( object sender, EventArgs ev )
 		{
 			if( this._locked || this.LV_Columns.SelectedItems.Count == 0 ||
-                this._column == this.LV_Columns.SelectedItems[0].Index )
+				this._column == this.LV_Columns.SelectedItems[0].Index )
 				return;
 
 			// wyświetlenie nazwy kolumny w nagłówku
@@ -510,7 +510,7 @@ namespace CDesigner.Forms
 		/// Przepuszcza tylko pojedyncze znaki. Wyjątkiem są ciągi znaków (SPA) i (TAB).
 		/// Po zmianie separatora odświeża podgląd pliku.
 		/// Może się zdażyć tak, że po zmianie separatora dostępna jest tylko jedna kolumna.
-        /// Przed zmianą należy zapoznać się ze strukturą pliku. Separatora własnego używać tylko w ostateczności.
+		/// Przed zmianą należy zapoznać się ze strukturą pliku. Separatora własnego używać tylko w ostateczności.
 		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
@@ -535,26 +535,26 @@ namespace CDesigner.Forms
 			Program.LogMessage( "Zdefiniowano własny separator dzielący kolumny w strumieniu." );
 #		endif
 		}
-        
+		
 		/// <summary>
 		/// Przełączanie pomiędzy wczytywaniem nagłówków dla kolumn z pliku.
-        /// Po każdej zmianie plik jest ponownie parsowany i odświeżany w liście z kolumnami i wierszami.
+		/// Po każdej zmianie plik jest ponownie parsowany i odświeżany w liście z kolumnami i wierszami.
 		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
-        private void CB_NoColumns_CheckedChanged( object sender, EventArgs ev )
-        {
-            this._hasColumns = !this.CB_NoColumns.Checked;
-            this.getPreview();
-        }
+		private void CB_NoColumns_CheckedChanged( object sender, EventArgs ev )
+		{
+			this._hasColumns = !this.CB_NoColumns.Checked;
+			this.getPreview();
+		}
 
 		/// <summary>
 		/// Zdarzenie odpowiedzialne za zapis danych.
 		/// Robi praktycznie to samo co zdarzenie zamknięcia kontrolki.
 		/// Jedyna różnica to wartość zwracana w DialogResult.
-        /// Dane na razie nie są zapisane, więc z tego powodu nie ma między nimi różnic.
+		/// Dane na razie nie są zapisane, więc z tego powodu nie ma między nimi różnic.
 		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>
@@ -565,7 +565,7 @@ namespace CDesigner.Forms
 #		if DEBUG
 			Program.LogMessage( "Nowy strumień danych został zapisany." );
 #		endif
-            this._storage.parse( -1 );
+			this._storage.parse( -1 );
 
 			this.DialogResult = DialogResult.OK;
 			this.Close();
@@ -593,7 +593,7 @@ namespace CDesigner.Forms
 		/// Zmiana strumienia bazy danych.
 		/// Po kliknięciu wyświetla okno z wyborem nowego pliku.
 		/// Po wybraniu pliku automatycznie odświeża podgląd i kontrolki oraz zmienia właściwości strumienia na te,
-        /// podane w konfiguracji przez użytkownika.
+		/// podane w konfiguracji przez użytkownika.
 		/// </summary>
 		/// 
 		/// <param name="sender">Obiekt wywołujący zdarzenie.</param>

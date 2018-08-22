@@ -28,56 +28,56 @@ namespace CDesigner.Utils
 {
 	/// 
 	/// <summary>
-    /// Zarządzanie ustawieniami aplikacji.
-    /// Klasa pozwala na wczytanie i zapis ustawień do pliku konfiguracyjnego.
-    /// Nazwa pliku konfiguracyjnego to <em>cdset.nfo</em>.
-    /// W przypadku zapisu, automatycznie przechodzi po całej strukturze <see cref="SettingsInfo"/>
-    /// i zapisuje każdy element z osobna do pliku konfiguracyjnego.
-    /// W przypadku odczytu sprawa ma się podobnie, z tą różnicą że do każdego elementu dane są wczytywane.
-    /// Klasa posiada również funkcje do zarządzania ostatnio otwieranymi wzorami.
+	/// Zarządzanie ustawieniami aplikacji.
+	/// Klasa pozwala na wczytanie i zapis ustawień do pliku konfiguracyjnego.
+	/// Nazwa pliku konfiguracyjnego to <em>cdset.nfo</em>.
+	/// W przypadku zapisu, automatycznie przechodzi po całej strukturze <see cref="SettingsInfo"/>
+	/// i zapisuje każdy element z osobna do pliku konfiguracyjnego.
+	/// W przypadku odczytu sprawa ma się podobnie, z tą różnicą że do każdego elementu dane są wczytywane.
+	/// Klasa posiada również funkcje do zarządzania ostatnio otwieranymi wzorami.
 	/// </summary>
-    /// 
+	/// 
 	/// <example>
 	/// Przykład użycia klasy:
 	/// <code>
-    /// // inicjalizacja ustawień
-    /// Settings.Initialize();
-    /// Console.WriteLine( "Język programu: " + Settings.Info.Language );
-    /// 
-    /// // pobierz ustawienia
-    /// Settings.Parse();
-    /// Console.WriteLine( "Język programu: " + Settings.Info.Language );
-    /// 
-    /// // pobierz ostatnio otwierane wzory
-    /// Console.WriteLine( "\nLista ostatnio otwieranych wzorów:" );
-    /// Settings.GetLastPatterns();
-    /// foreach( var pattern in Settings.LastPatterns )
-    ///     Console.WriteLine( pattern );
-    /// 
-    /// // dodawanie wzoru
-    /// Console.WriteLine( "\nLista ostatnio otwieranych wzorów:" );
-    /// Settings.AddToLastPatterns( "Testowy wzór" );
-    /// foreach( var pattern in Settings.LastPatterns )
-    ///     Console.WriteLine( pattern );
-    ///     
-    /// // usuwanie wzoru
-    /// Console.WriteLine( "\nLista ostatnio otwieranych wzorów:" );
-    /// Settings.RemoveFromLastPatterns( "Testowy wzór" );
-    /// foreach( var pattern in Settings.LastPatterns )
-    ///     Console.WriteLine( pattern );
-    ///     
-    /// // zapis ustawień
-    /// Settings.Info.Language = "rus";
-    /// Settings.SaveSettings();
+	/// // inicjalizacja ustawień
+	/// Settings.Initialize();
+	/// Console.WriteLine( "Język programu: " + Settings.Info.Language );
+	/// 
+	/// // pobierz ustawienia
+	/// Settings.Parse();
+	/// Console.WriteLine( "Język programu: " + Settings.Info.Language );
+	/// 
+	/// // pobierz ostatnio otwierane wzory
+	/// Console.WriteLine( "\nLista ostatnio otwieranych wzorów:" );
+	/// Settings.GetLastPatterns();
+	/// foreach( var pattern in Settings.LastPatterns )
+	///     Console.WriteLine( pattern );
+	/// 
+	/// // dodawanie wzoru
+	/// Console.WriteLine( "\nLista ostatnio otwieranych wzorów:" );
+	/// Settings.AddToLastPatterns( "Testowy wzór" );
+	/// foreach( var pattern in Settings.LastPatterns )
+	///     Console.WriteLine( pattern );
+	///     
+	/// // usuwanie wzoru
+	/// Console.WriteLine( "\nLista ostatnio otwieranych wzorów:" );
+	/// Settings.RemoveFromLastPatterns( "Testowy wzór" );
+	/// foreach( var pattern in Settings.LastPatterns )
+	///     Console.WriteLine( pattern );
+	///     
+	/// // zapis ustawień
+	/// Settings.Info.Language = "rus";
+	/// Settings.SaveSettings();
 	/// </code>
 	/// </example>
 	/// 
 	public class Settings
-    {
+	{
 #region ZMIENNE
 		
-        /// <summary>Lista ostatnio otwieranych wzorów.</summary>
-        private static List<string> _lastPatterns;
+		/// <summary>Lista ostatnio otwieranych wzorów.</summary>
+		private static List<string> _lastPatterns;
 
 		/// <summary>Struktura z danymi ustawień.</summary>
 		public static SettingsInfo Info;
@@ -85,15 +85,15 @@ namespace CDesigner.Utils
 #endregion
 
 #region INICJALIZACJA / WŁAŚCIWOŚCI
-        
-        /// <summary>
-        /// Inicjalizacja klasy do odczytu i zapisu ustawień.
-        /// Tworzy strukturę zawierającą domyślne ustawienia i sprawdza czy plik z ustawieniami istnieje.
-        /// W przypadku gdy plik konfiguracyjny aplikacji nie istnieje, tworzy go.
-        /// </summary>
-        /// 
-        /// <seealso cref="SettingsInfo"/>
-        /// <seealso cref="SaveSettings"/>
+		
+		/// <summary>
+		/// Inicjalizacja klasy do odczytu i zapisu ustawień.
+		/// Tworzy strukturę zawierającą domyślne ustawienia i sprawdza czy plik z ustawieniami istnieje.
+		/// W przypadku gdy plik konfiguracyjny aplikacji nie istnieje, tworzy go.
+		/// </summary>
+		/// 
+		/// <seealso cref="SettingsInfo"/>
+		/// <seealso cref="SaveSettings"/>
 		//* ============================================================================================================
 		public static void Initialize()
 		{
@@ -115,17 +115,17 @@ namespace CDesigner.Utils
 			}
 		}
 
-        /// <summary>
-        /// Lista ostatio otwieranych wzorów.
-        /// Właściwość pozwala na pobranie i ustawienie listy ostatnio otwieranych wzorów.
-        /// W przypadku ustawiania kasowana jest lista ostatnio otwieranych wzorów.
-        /// </summary>
-        /// 
-        /// <seealso cref="GetLastPatterns"/>
-        /// <seealso cref="AddToLastPatterns"/>
-        /// <seealso cref="RemoveFromLastPatterns"/>
+		/// <summary>
+		/// Lista ostatio otwieranych wzorów.
+		/// Właściwość pozwala na pobranie i ustawienie listy ostatnio otwieranych wzorów.
+		/// W przypadku ustawiania kasowana jest lista ostatnio otwieranych wzorów.
+		/// </summary>
+		/// 
+		/// <seealso cref="GetLastPatterns"/>
+		/// <seealso cref="AddToLastPatterns"/>
+		/// <seealso cref="RemoveFromLastPatterns"/>
 		//* ============================================================================================================
-        public static List<string> LastPatterns
+		public static List<string> LastPatterns
 		{
 			// pobierz ostatnio otwierane wzory
 			get { return Settings._lastPatterns; }
@@ -144,17 +144,17 @@ namespace CDesigner.Utils
 
 #region OSTATNIO OTWIERANE WZORY
 
-        /// <summary>
-        /// Wczytywanie ostatnio otwieranych wzorów.
-        /// Funkcja pobiera z pliku ostatnio otwierane wzory i zapisuje je do zmiennej.
-        /// Pobranie możliwe jest dzięki właściwości <see cref="LastPatterns"/>.
-        /// </summary>
-        /// 
-        /// <seealso cref="LastPatterns"/>
-        /// <seealso cref="AddToLastPatterns"/>
-        /// <seealso cref="RemoveFromLastPatterns"/>
+		/// <summary>
+		/// Wczytywanie ostatnio otwieranych wzorów.
+		/// Funkcja pobiera z pliku ostatnio otwierane wzory i zapisuje je do zmiennej.
+		/// Pobranie możliwe jest dzięki właściwości <see cref="LastPatterns"/>.
+		/// </summary>
+		/// 
+		/// <seealso cref="LastPatterns"/>
+		/// <seealso cref="AddToLastPatterns"/>
+		/// <seealso cref="RemoveFromLastPatterns"/>
 		//* ============================================================================================================
-        public static void GetLastPatterns()
+		public static void GetLastPatterns()
 		{
 			// utwórz plik gdy nie istnieje
 			if( !File.Exists("last.lst") )
@@ -168,22 +168,22 @@ namespace CDesigner.Utils
 			Settings._lastPatterns = new List<string>( File.ReadLines( "last.lst" ) );
 		}
 
-        /// <summary>
-        /// Dodanie wzoru do listy ostatnio otwieranych.
-        /// Funkcja sprawdza czy wzór istnieje już na liście, jeżeli tak, przesuwa go na sam początek.
-        /// W przypadku gdy nie istnieje, a lista jest zapełniona, usuwa ostatni element i dodaje wzór na sam początek.
-        /// Po wszystkim zapisuje całość do pliku.
-        /// </summary>
-        /// 
-        /// <seealso cref="LastPatterns"/>
-        /// <seealso cref="GetLastPatterns"/>
-        /// <seealso cref="RemoveFromLastPatterns"/>
-        /// 
-        /// <param name="pattern">Nazwa wzoru do dodania.</param>
+		/// <summary>
+		/// Dodanie wzoru do listy ostatnio otwieranych.
+		/// Funkcja sprawdza czy wzór istnieje już na liście, jeżeli tak, przesuwa go na sam początek.
+		/// W przypadku gdy nie istnieje, a lista jest zapełniona, usuwa ostatni element i dodaje wzór na sam początek.
+		/// Po wszystkim zapisuje całość do pliku.
+		/// </summary>
+		/// 
+		/// <seealso cref="LastPatterns"/>
+		/// <seealso cref="GetLastPatterns"/>
+		/// <seealso cref="RemoveFromLastPatterns"/>
+		/// 
+		/// <param name="pattern">Nazwa wzoru do dodania.</param>
 		//* ============================================================================================================
 		public static void AddToLastPatterns( string pattern )
 		{
-            int max = (int)Settings.Info.c02_RecentMax;
+			int max = (int)Settings.Info.c02_RecentMax;
 
 			// usuń wzór jeżeli już taki istnieje
 			if( Settings._lastPatterns.Contains(pattern) )
@@ -200,16 +200,16 @@ namespace CDesigner.Utils
 			File.WriteAllLines( "last.lst", Settings._lastPatterns.AsEnumerable() );
 		}
 
-        /// <summary>
-        /// Usuwa wzór z listy ostatnio otwieranych wzorów.
-        /// Funkcja usuwa wzór o podanej nazwie z listy, po czym zapisuje całość do pliku.
-        /// </summary>
-        /// 
-        /// <seealso cref="LastPatterns"/>
-        /// <seealso cref="GetLastPatterns"/>
-        /// <seealso cref="AddToLastPatterns"/>
-        /// 
-        /// <param name="pattern">Wzór do usunięcia z listy.</param>
+		/// <summary>
+		/// Usuwa wzór z listy ostatnio otwieranych wzorów.
+		/// Funkcja usuwa wzór o podanej nazwie z listy, po czym zapisuje całość do pliku.
+		/// </summary>
+		/// 
+		/// <seealso cref="LastPatterns"/>
+		/// <seealso cref="GetLastPatterns"/>
+		/// <seealso cref="AddToLastPatterns"/>
+		/// 
+		/// <param name="pattern">Wzór do usunięcia z listy.</param>
 		//* ============================================================================================================
 		public static void RemoveFromLastPatterns( string pattern )
 		{
@@ -220,17 +220,17 @@ namespace CDesigner.Utils
 #endregion
 
 #region ZARZĄDZANIE USTAWIENIAMI
-        
-        /// <summary>
-        /// Wczytywanie ustawień z pliku.
-        /// Funkcja parsuje plik konfiguracyjny aplikacji i wczytuje ustawienia do zmiennej <see cref="Info"/>.
-        /// Parsowanie ustawień powinno odbywać się przed użyciem zmiennej wymienionej powyżej.
-        /// Schemat zapisywanych danych do pliku opisany jest w funkcji zapisującej konfigurację.
-        /// W przypadku gdy plik zawiera błędne dane nagłówkowe, rzucany jest wyjątek.
-        /// </summary>
-        /// 
-        /// <seealso cref="SaveSettings"/>
-        /// <seealso cref="SettingsInfo"/>
+		
+		/// <summary>
+		/// Wczytywanie ustawień z pliku.
+		/// Funkcja parsuje plik konfiguracyjny aplikacji i wczytuje ustawienia do zmiennej <see cref="Info"/>.
+		/// Parsowanie ustawień powinno odbywać się przed użyciem zmiennej wymienionej powyżej.
+		/// Schemat zapisywanych danych do pliku opisany jest w funkcji zapisującej konfigurację.
+		/// W przypadku gdy plik zawiera błędne dane nagłówkowe, rzucany jest wyjątek.
+		/// </summary>
+		/// 
+		/// <seealso cref="SaveSettings"/>
+		/// <seealso cref="SettingsInfo"/>
 		//* ============================================================================================================
 		public static void Parse()
 		{
@@ -264,7 +264,7 @@ namespace CDesigner.Utils
 				var type = reader.ReadByte();
 
 				if( type == 5 )
-				    {}
+					{}
 
 				// nazwa pola
 				var name = reader.ReadString();
@@ -274,28 +274,28 @@ namespace CDesigner.Utils
 
 				// zmień jego wartość jeżeli pole istnieje
 				if( info != null )
-                    switch( type )
-				    {
-				    case 1: info.SetValue( setnfo, reader.ReadString() ); break;
-				    case 2: info.SetValue( setnfo, reader.ReadChar() );   break;
-				    case 3: info.SetValue( setnfo, reader.ReadByte() );   break;
-				    case 4: info.SetValue( setnfo, reader.ReadInt32() );  break;
-				    case 5: info.SetValue( setnfo, reader.ReadDouble() ); break;
-				    case 6: break;
-				    }
-                else
-                {
-                    // odczytaj dane bez zapisywania gdy pole nie istnieje
-                    switch( type )
-				    {
-				    case 1: reader.ReadString(); break;
-				    case 2: reader.ReadChar();   break;
-				    case 3: reader.ReadByte();   break;
-				    case 4: reader.ReadInt32();  break;
-				    case 5: reader.ReadDouble(); break;
-				    case 6: break;
-				    }
-                }
+					switch( type )
+					{
+					case 1: info.SetValue( setnfo, reader.ReadString() ); break;
+					case 2: info.SetValue( setnfo, reader.ReadChar() );   break;
+					case 3: info.SetValue( setnfo, reader.ReadByte() );   break;
+					case 4: info.SetValue( setnfo, reader.ReadInt32() );  break;
+					case 5: info.SetValue( setnfo, reader.ReadDouble() ); break;
+					case 6: break;
+					}
+				else
+				{
+					// odczytaj dane bez zapisywania gdy pole nie istnieje
+					switch( type )
+					{
+					case 1: reader.ReadString(); break;
+					case 2: reader.ReadChar();   break;
+					case 3: reader.ReadByte();   break;
+					case 4: reader.ReadInt32();  break;
+					case 5: reader.ReadDouble(); break;
+					case 6: break;
+					}
+				}
 			}
 
 			// zmień ustawienia w strukturze
@@ -310,26 +310,26 @@ namespace CDesigner.Utils
 #		endif
 		}
 
-        /// <summary>
-        /// Zapis ustawień do pliku.
-        /// Aby funkcja mogła zapisać dane do pliku, należy wcześniej wywołać funkcję <see cref="Initialize"/> lub
-        /// <see cref="Parse"/>, aby przynajmniej przykładowe dane mogły być załadowane.
-        /// Funkcja zapisuje wszystkie dane ze zmiennej <see cref="Info"/> do pliku konfiguracyjnego, używając schematu
-        /// podanego poniżej w tabeli:
-        /// <table>
-        ///     <tr><th>Bajty</th><th>Nazwa</th><th>Opis</th></tr>
-        ///     <tr><td>5</td><td>IDENTITY</td><td>Identyfikator pliku, zawsze CDSET.</td></tr>
-        ///     <tr><td>?</td><td>VERSION</td><td>Wersja programu, który zapisał ustawienia.</td></tr>
-        ///     <tr><td>2</td><td>COUNT</td><td>Ilość zapisanych ustawień.</td></tr>
-        ///     <tr><td>4</td><td>LENGTH</td><td>Rozmiar zapisanych ustawień po tym bloku.</td></tr>
-        ///     <tr><th colspan="3">Pętla ustawień</th></tr>
-        ///     <tr><td>1</td><td>STYPE</td><td>Typ zapisanego ustawienia.</td></tr>
-        ///     <tr><td>2</td><td>SACOUNT</td><td>Ilość elementów w tablicy (tylko dla ARRAY).</td></tr>
-        ///     <tr><td>1</td><td>SATYPE</td><td>Typy elementów w tablicy (tylko dla ARRAY).</td></tr>
-        ///     <tr><td>?</td><td>SNAME</td><td>Nazwa ustawienia, taka jak w strukturze.</td></tr>
-        ///     <tr><td>?</td><td>SVALUE</td><td>Wartość ustawienia, wielkość zależna od typu.</td></tr>
-        /// </table>
-        /// Jak widać powyżej, niektóre wielkości zależne są od typu. Lista dostępnych typów:
+		/// <summary>
+		/// Zapis ustawień do pliku.
+		/// Aby funkcja mogła zapisać dane do pliku, należy wcześniej wywołać funkcję <see cref="Initialize"/> lub
+		/// <see cref="Parse"/>, aby przynajmniej przykładowe dane mogły być załadowane.
+		/// Funkcja zapisuje wszystkie dane ze zmiennej <see cref="Info"/> do pliku konfiguracyjnego, używając schematu
+		/// podanego poniżej w tabeli:
+		/// <table>
+		///     <tr><th>Bajty</th><th>Nazwa</th><th>Opis</th></tr>
+		///     <tr><td>5</td><td>IDENTITY</td><td>Identyfikator pliku, zawsze CDSET.</td></tr>
+		///     <tr><td>?</td><td>VERSION</td><td>Wersja programu, który zapisał ustawienia.</td></tr>
+		///     <tr><td>2</td><td>COUNT</td><td>Ilość zapisanych ustawień.</td></tr>
+		///     <tr><td>4</td><td>LENGTH</td><td>Rozmiar zapisanych ustawień po tym bloku.</td></tr>
+		///     <tr><th colspan="3">Pętla ustawień</th></tr>
+		///     <tr><td>1</td><td>STYPE</td><td>Typ zapisanego ustawienia.</td></tr>
+		///     <tr><td>2</td><td>SACOUNT</td><td>Ilość elementów w tablicy (tylko dla ARRAY).</td></tr>
+		///     <tr><td>1</td><td>SATYPE</td><td>Typy elementów w tablicy (tylko dla ARRAY).</td></tr>
+		///     <tr><td>?</td><td>SNAME</td><td>Nazwa ustawienia, taka jak w strukturze.</td></tr>
+		///     <tr><td>?</td><td>SVALUE</td><td>Wartość ustawienia, wielkość zależna od typu.</td></tr>
+		/// </table>
+		/// Jak widać powyżej, niektóre wielkości zależne są od typu. Lista dostępnych typów:
 		/// <list type="bullet">
 		///		<item><description>String (typ tekstowy - ciąg znaków)</description></item>
 		///		<item><description>Char (typ znakowy - tylko jeden znak)</description></item>
@@ -338,14 +338,14 @@ namespace CDesigner.Utils
 		///		<item><description>Double (typ zmiennoprzecinkowy)</description></item>
 		///		<item><description>Array (tablica - nie jest zaimplementowana)</description></item>
 		/// </list>
-        /// Przed zapisem usuwany jest stary plik konfiguracyjny, w razie błędu w trakcie zapisu, program pozostaje
-        /// bez konfiguracji.
-        /// </summary>
-        /// 
-        /// <seealso cref="Parse"/>
-        /// <seealso cref="Initialize"/>
-        /// <seealso cref="GetDataSize"/>
-        /// <seealso cref="SettingsInfo"/>
+		/// Przed zapisem usuwany jest stary plik konfiguracyjny, w razie błędu w trakcie zapisu, program pozostaje
+		/// bez konfiguracji.
+		/// </summary>
+		/// 
+		/// <seealso cref="Parse"/>
+		/// <seealso cref="Initialize"/>
+		/// <seealso cref="GetDataSize"/>
+		/// <seealso cref="SettingsInfo"/>
 		//* ============================================================================================================
 		public static void SaveSettings()
 		{
@@ -399,7 +399,7 @@ namespace CDesigner.Utils
 
 				// tablica
 				if( member.Type == 5 )
-				    {}
+					{}
 
 				// nazwa
 				writer.Write( member.Name );
@@ -423,18 +423,18 @@ namespace CDesigner.Utils
 			writer.Close();
 			file.Close();
 		}
-        
-        /// <summary>
-        /// Oblicza rozmiar ustawień konfiguracyjnych.
-        /// Funkcja oblicza rozmiar całej struktury zmiennej <see cref="Info"/>.
-        /// Sprawdza każdy element i w zależności od typu odpowiednio zwiększa licznik rozmiaru.
-        /// Funkcja używana przy zapisie ustawień.
-        /// </summary>
-        /// 
-        /// <seealso cref="SaveSettings"/>
-        /// <seealso cref="SettingsInfo"/>
-        /// 
-        /// <returns>Rozmiar ustawień konfiguracyjnych.</returns>
+		
+		/// <summary>
+		/// Oblicza rozmiar ustawień konfiguracyjnych.
+		/// Funkcja oblicza rozmiar całej struktury zmiennej <see cref="Info"/>.
+		/// Sprawdza każdy element i w zależności od typu odpowiednio zwiększa licznik rozmiaru.
+		/// Funkcja używana przy zapisie ustawień.
+		/// </summary>
+		/// 
+		/// <seealso cref="SaveSettings"/>
+		/// <seealso cref="SettingsInfo"/>
+		/// 
+		/// <returns>Rozmiar ustawień konfiguracyjnych.</returns>
 		//* ============================================================================================================
 		public static Int32 GetDataSize()
 		{
@@ -485,8 +485,8 @@ namespace CDesigner.Utils
 				}
 			}
 			return length;
-        }
+		}
 
 #endregion
-    }
+	}
 }

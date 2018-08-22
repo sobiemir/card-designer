@@ -34,107 +34,107 @@ using System.Drawing;
 
 namespace CDesigner.Controls
 {
-    /// 
-    /// <summary>
-    /// Klasa rozszerzająca klasę Label o dodatkowe funkcje skalowania.
-    /// Kontrolka dzięki temu może spełniać wymogi pola, rysowanego w edytorze.
-    /// Posiada funkcje zmieniające wartości w pikselach względem milimetrów podawanych w edytorze.
-    /// Pozwala na zmianę wyświetlanego tekstu oraz jego transformację z zachowaniem oryginału.
-    /// </summary>
-    ///
+	/// 
+	/// <summary>
+	/// Klasa rozszerzająca klasę Label o dodatkowe funkcje skalowania.
+	/// Kontrolka dzięki temu może spełniać wymogi pola, rysowanego w edytorze.
+	/// Posiada funkcje zmieniające wartości w pikselach względem milimetrów podawanych w edytorze.
+	/// Pozwala na zmianę wyświetlanego tekstu oraz jego transformację z zachowaniem oryginału.
+	/// </summary>
+	///
 	class PageField : Label
-    {
+	{
 #region ZMIENNE
 
-        /// <summary>Kolor ramki wokół pola.</summary>
+		/// <summary>Kolor ramki wokół pola.</summary>
 		private Color _borderColor;
 
-        /// <summary>Rozmiar ramki wokół pola.</summary>
+		/// <summary>Rozmiar ramki wokół pola.</summary>
 		private int _borderSize;
 
-        /// <summary>Ścieżka do obrazka wyświetlanego w polu.</summary>
+		/// <summary>Ścieżka do obrazka wyświetlanego w polu.</summary>
 		private string _imagePath;
 
-        /// <summary>Wymiary pola w milimetrach.</summary>
+		/// <summary>Wymiary pola w milimetrach.</summary>
 		private RectangleF _dpiBounds;
 
-        /// <summary>Wymiary ramki pola w milimetrach.</summary>
+		/// <summary>Wymiary ramki pola w milimetrach.</summary>
 		private float _dpiBorderSize;
 
-        /// <summary>Skala powiększenia (DPI), domyślnie 100.</summary>
+		/// <summary>Skala powiększenia (DPI), domyślnie 100.</summary>
 		private double _dpiScale;
 
-        /// <summary>Obliczona skala przez którą mnożone są wartości.</summary>
+		/// <summary>Obliczona skala przez którą mnożone są wartości.</summary>
 		private double _dpiConvScale;
 
-        /// <summary>Rozmiar czcionki w milimetrach.</summary>
+		/// <summary>Rozmiar czcionki w milimetrach.</summary>
 		private double _dpiFontSize;
 
-        /// <summary>Margines wokół tekstu w milimetrach.</summary>
+		/// <summary>Margines wokół tekstu w milimetrach.</summary>
 		private PointF _dpiTextMargin;
 
-        /// <summary>Margines wewnętrzny tekstu w milimetrach.</summary>
+		/// <summary>Margines wewnętrzny tekstu w milimetrach.</summary>
 		private float _dpiPadding;
 
-        /// <summary>Rozmiar rodzica na którym znajduje się pole, podawany w milimetrach.</summary>
+		/// <summary>Rozmiar rodzica na którym znajduje się pole, podawany w milimetrach.</summary>
 		private Point _dpiParentSize;
-        
-        /// <summary>Obraz wyświetlany w polu.</summary>
+
+		/// <summary>Obraz wyświetlany w polu.</summary>
 		private Image _backImage;
 
-        /// <summary>Ilość pikseli na DPI, używana przy przeliczaniu.</summary>
+		/// <summary>Ilość pikseli na DPI, używana przy przeliczaniu.</summary>
 		private double _pixelsPerDPI;
 
-        /// <summary>Wymiary rodzica na którym znajduje się pole.</summary>
+		/// <summary>Wymiary rodzica na którym znajduje się pole.</summary>
 		private Size _parentBounds;
 
-        /// <summary>Rodzaj transformacji tekstu.</summary>
+		/// <summary>Rodzaj transformacji tekstu.</summary>
 		private int _textTransform;
 
-        /// <summary>Tekst oryginalny bez transformacji.</summary>
+		/// <summary>Tekst oryginalny bez transformacji.</summary>
 		private string _originalText;
 
-        /// <summary>Aktualny tekst wyświetlany w polu.</summary>
+		/// <summary>Aktualny tekst wyświetlany w polu.</summary>
 		private string _currentText;
 
-        /// <summary>Czy dodatkowy margines został zastosowany?</summary>
+		/// <summary>Czy dodatkowy margines został zastosowany?</summary>
 		private bool _extraMargin;
 
 #endregion
 
 #region KONSTRUKTOR / WŁAŚCIWOŚCI
 
-        /// <summary>
-        /// Konstruktor klasy.
-        /// Uzupełnia zmienne domyślnymi wartościami i wywołuje konstruktor z klasy bazowej.
-        /// </summary>
+		/// <summary>
+		/// Konstruktor klasy.
+		/// Uzupełnia zmienne domyślnymi wartościami i wywołuje konstruktor z klasy bazowej.
+		/// </summary>
 		//* ============================================================================================================
-        public PageField()
-            : base()
-        {
-            this._borderColor   = Color.Black;
-            this._borderSize    = 0;
-            this._imagePath     = null;
-            this._dpiBounds     = new RectangleF( 0.0f, 0.0f, 1.0f, 1.0f );
-            this._dpiBorderSize = 0.0f;
-            this._dpiScale      = 1.0;
-            this._dpiConvScale  = 3.93714927048264;
-            this._dpiTextMargin = new PointF( 2.0f, 2.0f );
-            this._dpiPadding    = 0.0f;
-            this._dpiParentSize = new Point( -1, -1 );
-            this._backImage     = null;
-            this._pixelsPerDPI  = 3.93714927048264;
-            this._parentBounds  = new Size(800, 600);
-            this._textTransform = 0;
-            this._originalText  = null;
-            this._currentText   = "";
-            this._extraMargin   = false;
-        }
+		public PageField()
+			: base()
+		{
+			this._borderColor   = Color.Black;
+			this._borderSize    = 0;
+			this._imagePath     = null;
+			this._dpiBounds     = new RectangleF( 0.0f, 0.0f, 1.0f, 1.0f );
+			this._dpiBorderSize = 0.0f;
+			this._dpiScale      = 1.0;
+			this._dpiConvScale  = 3.93714927048264;
+			this._dpiTextMargin = new PointF( 2.0f, 2.0f );
+			this._dpiPadding    = 0.0f;
+			this._dpiParentSize = new Point( -1, -1 );
+			this._backImage     = null;
+			this._pixelsPerDPI  = 3.93714927048264;
+			this._parentBounds  = new Size(800, 600);
+			this._textTransform = 0;
+			this._originalText  = null;
+			this._currentText   = "";
+			this._extraMargin   = false;
+		}
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę rozmiaru ramki.
-        /// W odróżnieniu od oryginalnej właściwości, ta pozwala na narysowanie ramki o dowolnej grubości.
-        /// Grubość przeliczana jest z milimetrów na piksele, pobierana jest w milimetrach.
+		/// W odróżnieniu od oryginalnej właściwości, ta pozwala na narysowanie ramki o dowolnej grubości.
+		/// Grubość przeliczana jest z milimetrów na piksele, pobierana jest w milimetrach.
 		/// </summary>
 		//* ============================================================================================================
 		public float DPIBorderSize
@@ -151,10 +151,10 @@ namespace CDesigner.Controls
 			}
 		}
 
-        /// <summary>
-        /// Właściwość pozwalająca na zmianę koloru ramki.
-        /// Oryginalnie kontrolka nie posiada prostego sposobu, którym można zmienić kolor wyświetlanej ramki.
-        /// </summary>
+		/// <summary>
+		/// Właściwość pozwalająca na zmianę koloru ramki.
+		/// Oryginalnie kontrolka nie posiada prostego sposobu, którym można zmienić kolor wyświetlanej ramki.
+		/// </summary>
 		//* ============================================================================================================
 		public Color BorderColor
 		{
@@ -164,8 +164,8 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę marginesu dla tekstu w kontrolce.
-        /// Wo odróżnieniu od oryginalnej właściwości, ta pozwala na ustawienie marginesu w milimetrach.
-        /// Margines przeliczany jest przy ustawianiu z milimetrów na piksele, a pobierany jest w milimetrach.
+		/// Wo odróżnieniu od oryginalnej właściwości, ta pozwala na ustawienie marginesu w milimetrach.
+		/// Margines przeliczany jest przy ustawianiu z milimetrów na piksele, a pobierany jest w milimetrach.
 		/// </summary>
 		//* ============================================================================================================
 		public float DPIPadding
@@ -184,8 +184,8 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę punktów granicznych kontrolki.
-        /// Pozwala na ustawienie punktów w milimetrach, które są przeliczane na piksele.
-        /// Pobierana wartość zwracana jest w milimetrach.
+		/// Pozwala na ustawienie punktów w milimetrach, które są przeliczane na piksele.
+		/// Pobierana wartość zwracana jest w milimetrach.
 		/// </summary>
 		//* ============================================================================================================
 		public RectangleF DPIBounds
@@ -247,11 +247,11 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę rozmiaru czcionki.
-        /// Czcionka wyświetlana jest w różnym rozmiarze w zależności od powiększenia.
-        /// Czcionka pobierana jest w takiej wartości, w jakiej została ustawiona.
+		/// Czcionka wyświetlana jest w różnym rozmiarze w zależności od powiększenia.
+		/// Czcionka pobierana jest w takiej wartości, w jakiej została ustawiona.
 		/// </summary>
 		//* ============================================================================================================
-        public double DPIFontSize
+		public double DPIFontSize
 		{
 			// pobierz rozmiar czcionki (rozmiar * skala)
 			get { return this._dpiFontSize; }
@@ -280,7 +280,7 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę tła pola.
-        /// Tło rysowane jest przy akcji odświeżającej kontrolkę.
+		/// Tło rysowane jest przy akcji odświeżającej kontrolkę.
 		/// </summary>
 		//* ============================================================================================================
 		public Image BackImage
@@ -291,7 +291,7 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę marginesu tekstu.
-        /// Aktualnie wartość ta nie jest używana, jako margines używany jest <see cref="DPIPadding"/>.
+		/// Aktualnie wartość ta nie jest używana, jako margines używany jest <see cref="DPIPadding"/>.
 		/// </summary>
 		//* ============================================================================================================
 		public PointF TextMargin
@@ -302,7 +302,7 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwala na aktywacje dodatkowego marginesu tekstu.
-        /// Dodatkowy margines nie jest aktualnie używany, jako margines traktowany jest <see cref="DPIPadding"/>.
+		/// Dodatkowy margines nie jest aktualnie używany, jako margines traktowany jest <see cref="DPIPadding"/>.
 		/// </summary>
 		//* ============================================================================================================
 		public bool ApplyTextMargin
@@ -313,8 +313,8 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwala na zmianę ścieżki tła kontrolki.
-        /// Ścieżka wyświetlana jest w edytorze wzorów, domyślnie pobierana jest z katalogu wzoru po zapisie.
-        /// W przypadku zmiany obrazka, ustawiana jest na ścieżkę w której obraz się znajduje.
+		/// Ścieżka wyświetlana jest w edytorze wzorów, domyślnie pobierana jest z katalogu wzoru po zapisie.
+		/// W przypadku zmiany obrazka, ustawiana jest na ścieżkę w której obraz się znajduje.
 		/// </summary>
 		//* ============================================================================================================
 		public string BackImagePath
@@ -327,10 +327,10 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca zmienić skalę wyświetlania pola.
-        /// Skala podawana jest z przedziału od 50 do 300, traktowana jest jako DPI.
-        /// Wartość podawana przeliczana przez ilość pikseli na DPI, zapewnia potem poprawne wyświetlanie elementów
-        /// znajdujących się w kontrolce.
-        /// Każde pole na stronie powinno mieć taką samą skalę i przelicznik.
+		/// Skala podawana jest z przedziału od 50 do 300, traktowana jest jako DPI.
+		/// Wartość podawana przeliczana przez ilość pikseli na DPI, zapewnia potem poprawne wyświetlanie elementów
+		/// znajdujących się w kontrolce.
+		/// Każde pole na stronie powinno mieć taką samą skalę i przelicznik.
 		/// </summary>
 		//* ============================================================================================================
 		public double DPIScale
@@ -357,14 +357,14 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę transformacji tekstu.
-        /// Właściwość posiada 4 wartości do ustawienia w typie INT:
-        /// 
-	    /// <list type="bullet">
-	    ///		<item><description>0 <i>(tekst wyświetlany bez zmian)</i></description></item>
-	    ///		<item><description>1 <i>(zamiana tekstu na duże litery)</i></description></item>
-	    ///		<item><description>2 <i>(zamiana tekstu na małe litery)</i></description></item>
-	    ///		<item><description>3 <i>(pierwsza litera w słowie duża, pozostałe małe)</i></description></item>
-	    /// </list>
+		/// Właściwość posiada 4 wartości do ustawienia w typie INT:
+		/// 
+		/// <list type="bullet">
+		///		<item><description>0 <i>(tekst wyświetlany bez zmian)</i></description></item>
+		///		<item><description>1 <i>(zamiana tekstu na duże litery)</i></description></item>
+		///		<item><description>2 <i>(zamiana tekstu na małe litery)</i></description></item>
+		///		<item><description>3 <i>(pierwsza litera w słowie duża, pozostałe małe)</i></description></item>
+		/// </list>
 		/// </summary>
 		//* ============================================================================================================
 		public int TextTransform
@@ -388,9 +388,9 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę tekstu w kontrolce.
-        /// Nadpisuje oryginalną właściwość i rozszerza o transformacje tekstu, ustawione w <see cref="TextTransform"/>.
-        /// Tak więc podczas ustawiania tekstu, stosowana jest na nim aktualnie ustawiona transformacja.
-        /// Tekst oryginalny jest zachowywany i możliwy do pobrania przez <see cref="OriginalText"/>.
+		/// Nadpisuje oryginalną właściwość i rozszerza o transformacje tekstu, ustawione w <see cref="TextTransform"/>.
+		/// Tak więc podczas ustawiania tekstu, stosowana jest na nim aktualnie ustawiona transformacja.
+		/// Tekst oryginalny jest zachowywany i możliwy do pobrania przez <see cref="OriginalText"/>.
 		/// </summary>
 		//* ============================================================================================================
 		public override string Text
@@ -407,7 +407,7 @@ namespace CDesigner.Controls
 				case 1: this._currentText = value.ToUpper(); break;
 				case 2: this._currentText = value.ToLower(); break;
 				case 3: this._currentText = System.Globalization.CultureInfo.CurrentCulture.TextInfo.
-                    ToTitleCase( value.ToLower() ); break;
+					ToTitleCase( value.ToLower() ); break;
 				}
 				this.Refresh();
 			}
@@ -415,8 +415,8 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Właściwość pozwalająca na pobranie oryginalnego tekstu.
-        /// Oryginalny tekst dodatkowo zapisywany jest osobno, aby po zmianie transformacji stosowana była ona
-        /// na oryginalnym tekście a nie na tym, który był już transformowany.
+		/// Oryginalny tekst dodatkowo zapisywany jest osobno, aby po zmianie transformacji stosowana była ona
+		/// na oryginalnym tekście a nie na tym, który był już transformowany.
 		/// </summary>
 		//* ============================================================================================================
 		public string OriginalText
@@ -429,13 +429,13 @@ namespace CDesigner.Controls
 
 #region FUNKCJE PODSTAWOWE
 
-        /// <summary>
-        /// Funkcja zmienia wymiary pola na te podane w argumentach.
-        /// Wymiary podawane są w milimetrach, po czym konwertowane na piksele względem odpowiediego współczynnika.
-        /// </summary>
-        /// 
-        /// <param name="width">Szerokość pola w milimetrach.</param>
-        /// <param name="height">Wysokość pola w milimetrach.</param>
+		/// <summary>
+		/// Funkcja zmienia wymiary pola na te podane w argumentach.
+		/// Wymiary podawane są w milimetrach, po czym konwertowane na piksele względem odpowiediego współczynnika.
+		/// </summary>
+		/// 
+		/// <param name="width">Szerokość pola w milimetrach.</param>
+		/// <param name="height">Wysokość pola w milimetrach.</param>
 		//* ============================================================================================================
 		public void setParentBounds( int width, int height )
 		{
@@ -446,23 +446,23 @@ namespace CDesigner.Controls
 		}
 
 		/// <summary>
-        /// Zmienia przyleganie tekstu do kontrolki.
-        /// Funkcja pozwala na szybką zmianę przylegania tekstu, podawaną w typie INT.
-        /// Dopuszczalne wartości:
-        /// 
-	    /// <list type="bullet">
-	    ///		<item><description>0 <i>(góra - lewo)</i></description></item>
-	    ///		<item><description>1 <i>(góra - środek)</i></description></item>
-	    ///		<item><description>2 <i>(góra - prawo)</i></description></item>
-	    ///		<item><description>3 <i>(środek - lewo)</i></description></item>
-	    ///		<item><description>4 <i>(środek)</i></description></item>
-	    ///		<item><description>5 <i>(środek - prawo)</i></description></item>
-	    ///		<item><description>6 <i>(dół - lewo)</i></description></item>
-	    ///		<item><description>7 <i>(dół - środek)</i></description></item>
-	    ///		<item><description>8 <i>(dół - prawo)</i></description></item>
-	    /// </list>
+		/// Zmienia przyleganie tekstu do kontrolki.
+		/// Funkcja pozwala na szybką zmianę przylegania tekstu, podawaną w typie INT.
+		/// Dopuszczalne wartości:
+		/// 
+		/// <list type="bullet">
+		///	    <item><description>0 <i>(góra - lewo)</i></description></item>
+		///	    <item><description>1 <i>(góra - środek)</i></description></item>
+		///	    <item><description>2 <i>(góra - prawo)</i></description></item>
+		///	    <item><description>3 <i>(środek - lewo)</i></description></item>
+		///	    <item><description>4 <i>(środek)</i></description></item>
+		///	    <item><description>5 <i>(środek - prawo)</i></description></item>
+		///	    <item><description>6 <i>(dół - lewo)</i></description></item>
+		///	    <item><description>7 <i>(dół - środek)</i></description></item>
+		///	    <item><description>8 <i>(dół - prawo)</i></description></item>
+		/// </list>
 		/// </summary>
-        /// 
+		/// 
 		/// <param name="align">Wartość przylegania kontrolki.</param>
 		//* ============================================================================================================
 		public void setTextAlignment( int align )
@@ -486,15 +486,15 @@ namespace CDesigner.Controls
 		}
 
 		/// <summary>
-        /// Pobiera aktualnie ustawione przyleganie tekstu.
-        /// Funkcja zwraca wartość przylegania w typie INT, używaną w edytorze wzorów.
-        /// Szczegóły dotyczące zwracanej wartości znajdują się w funkcji <see cref="setTextAlignment"/>.
-        /// Pozwala na pobranie aktualnego przylegania lub zamianę podanego na numer.
-        /// W przypadku gdy funkcja ma zwrócić przyleganie kontrolki, nie należy nic podawać, albo podać -1.
+		/// Pobiera aktualnie ustawione przyleganie tekstu.
+		/// Funkcja zwraca wartość przylegania w typie INT, używaną w edytorze wzorów.
+		/// Szczegóły dotyczące zwracanej wartości znajdują się w funkcji <see cref="setTextAlignment"/>.
+		/// Pozwala na pobranie aktualnego przylegania lub zamianę podanego na numer.
+		/// W przypadku gdy funkcja ma zwrócić przyleganie kontrolki, nie należy nic podawać, albo podać -1.
 		/// </summary>
-        /// 
+		/// 
 		/// <param name="alignment">Przyleganie do zamiany lub wartość -1.</param>
-        /// 
+		/// 
 		/// <returns>Przyleganie zamienione na formę, używaną w edytorze wzorów.</returns>
 		//* ============================================================================================================
 		public int getTextAlignment( int alignment = -1 )
@@ -524,20 +524,20 @@ namespace CDesigner.Controls
 
 		/// <summary>
 		/// Pobiera pozycję pola względem punktu zaczepienia.
-        /// Punkt zaczepienia pola jest punktem, względem którego podawane są wymiary w edytorze.
-        /// Zmiana punktu zaczepienia powoduje również zmianę pozycji (bez zmiany szerokości i wysokości).
-        /// Możliwe wartości punktu zaczepienia:
-        /// 
-	    /// <list type="bullet">
-	    ///		<item><description>ContentAlignment.TopLeft <i>(góra - lewo)</i></description></item>
-	    ///		<item><description>ContentAlignment.TopRight  <i>(góra - prawo)</i></description></item>
-	    ///		<item><description>ContentAlignment.BottomLeft <i>(dół - lewo)</i></description></item>
-	    ///		<item><description>ContentAlignment.BottomRight <i>(dół - prawo)</i></description></item>
-	    /// </list>
+		/// Punkt zaczepienia pola jest punktem, względem którego podawane są wymiary w edytorze.
+		/// Zmiana punktu zaczepienia powoduje również zmianę pozycji (bez zmiany szerokości i wysokości).
+		/// Możliwe wartości punktu zaczepienia:
+		/// 
+		/// <list type="bullet">
+		///     <item><description>ContentAlignment.TopLeft <i>(góra - lewo)</i></description></item>
+		///     <item><description>ContentAlignment.TopRight  <i>(góra - prawo)</i></description></item>
+		///     <item><description>ContentAlignment.BottomLeft <i>(dół - lewo)</i></description></item>
+		///     <item><description>ContentAlignment.BottomRight <i>(dół - prawo)</i></description></item>
+		/// </list>
 		/// </summary>
-        /// 
+		/// 
 		/// <param name="align">Punkt zaczepienia pola.</param>
-        /// 
+		/// 
 		/// <returns>Pozycja pola względem punktu zaczepienia.</returns>
 		//* ============================================================================================================
 		public PointF getPosByAlignPoint( ContentAlignment align )
@@ -551,7 +551,7 @@ namespace CDesigner.Controls
 					point.Y = this._dpiBounds.Y;
 				break;
 				case 0x004:
- 					point.X = this._dpiBounds.X + this._dpiBounds.Width;
+					point.X = this._dpiBounds.X + this._dpiBounds.Width;
 					point.Y = this._dpiBounds.Y;
 				break;
 				case 0x100:
@@ -568,11 +568,11 @@ namespace CDesigner.Controls
 		}
 
 		/// <summary>
-        /// Zmienia pozycję kontrolki względem osi X dla wybranego punktu zaczepienia.
-        /// Wszelkie możliwe kombinacje punktu zaczepienia opisane są w funkcji <see cref="getPosByAlignPoint"/>.
-        /// Funkcja oblicza wartość X względem podanej relatywnej wartości dla punktu zaczepienia.
+		/// Zmienia pozycję kontrolki względem osi X dla wybranego punktu zaczepienia.
+		/// Wszelkie możliwe kombinacje punktu zaczepienia opisane są w funkcji <see cref="getPosByAlignPoint"/>.
+		/// Funkcja oblicza wartość X względem podanej relatywnej wartości dla punktu zaczepienia.
 		/// </summary>
-        /// 
+		/// 
 		/// <param name="x">Nowa pozycja kontrolki względem osi X.</param>
 		/// <param name="align">Punkt zaczepienia kontrolki.</param>
 		//* ============================================================================================================
@@ -598,11 +598,11 @@ namespace CDesigner.Controls
 		}
 
 		/// <summary>
-        /// Zmienia pozycję kontrolki względem osi Y dla wybranego punktu zaczepienia.
-        /// Wszelkie możliwe kombinacje punktu zaczepienia opisane są w funkcji <see cref="getPosByAlignPoint"/>.
-        /// Funkcja oblicza wartość Y względem podanej relatywnej wartości dla punktu zaczepienia.
+		/// Zmienia pozycję kontrolki względem osi Y dla wybranego punktu zaczepienia.
+		/// Wszelkie możliwe kombinacje punktu zaczepienia opisane są w funkcji <see cref="getPosByAlignPoint"/>.
+		/// Funkcja oblicza wartość Y względem podanej relatywnej wartości dla punktu zaczepienia.
 		/// </summary>
-        /// 
+		/// 
 		/// <param name="y">Nowa pozycja kontrolki względem osi Y.</param>
 		/// <param name="align">Punkt zaczepienia kontrolki.</param>
 		//* ============================================================================================================
@@ -627,12 +627,12 @@ namespace CDesigner.Controls
 			this.Top = top;
 		}
 
-        /// <summary>
-        /// Zmienia pozycję kontrolki względem osi X i Y dla wybranego punktu zaczepienia.
-        /// Wszelkie możliwe kombinacje punktu zaczepienia opisane są w funkcji <see cref="getPosByAlignPoint"/>.
-        /// Jest to skrót pozwalający na szybką zamianę pozycji pola użyciem jednej funkcji.
-        /// </summary>
-        /// 
+		/// <summary>
+		/// Zmienia pozycję kontrolki względem osi X i Y dla wybranego punktu zaczepienia.
+		/// Wszelkie możliwe kombinacje punktu zaczepienia opisane są w funkcji <see cref="getPosByAlignPoint"/>.
+		/// Jest to skrót pozwalający na szybką zamianę pozycji pola użyciem jednej funkcji.
+		/// </summary>
+		/// 
 		/// <param name="x">Nowa pozycja kontrolki względem osi X.</param>
 		/// <param name="y">Nowa pozycja kontrolki względem osi Y.</param>
 		/// <param name="align">Punkt zaczepienia kontrolki.</param>
@@ -654,14 +654,14 @@ namespace CDesigner.Controls
 		}
 
 		/// <summary>
-        /// Odświeża punkty graniczne kontrolki.
-        /// Funkcja pozwalająca odświeżyć pozycję kontrolki i jej wymiary w prosty sposób.
+		/// Odświeża punkty graniczne kontrolki.
+		/// Funkcja pozwalająca odświeżyć pozycję kontrolki i jej wymiary w prosty sposób.
 		/// </summary>
 		//* ============================================================================================================
 		public void refreshLocation()
 		{
 			this.DPIBounds = new RectangleF
- 			(
+			(
 				(float)((double)this.Location.X / this._dpiConvScale),
 				(float)((double)this.Location.Y / this._dpiConvScale),
 				this.DPIBounds.Width,
@@ -673,12 +673,12 @@ namespace CDesigner.Controls
 
 #region AKCJE
 
-        /// <summary>
-        /// Akcja wywoływana podczas ryoswania kontrolki.
-        /// Rysuje obraz na polu wraz z ramką po narysowaniu kontrolki przez klasę bazową.
-        /// Wywołuje akcję z klasy bazowej.
-        /// </summary>
-        /// 
+		/// <summary>
+		/// Akcja wywoływana podczas ryoswania kontrolki.
+		/// Rysuje obraz na polu wraz z ramką po narysowaniu kontrolki przez klasę bazową.
+		/// Wywołuje akcję z klasy bazowej.
+		/// </summary>
+		/// 
 		/// <param name="ev">Argumenty zdarzenia.</param>
 		//* ============================================================================================================
 		protected override void OnPaint( PaintEventArgs ev )
@@ -697,8 +697,8 @@ namespace CDesigner.Controls
 					this._borderColor, this._borderSize, ButtonBorderStyle.Solid,
 					this._borderColor, this._borderSize, ButtonBorderStyle.Solid,
 					this._borderColor, this._borderSize, ButtonBorderStyle.Solid );
-        }
+		}
 
 #endregion
-    };
+	};
 }
