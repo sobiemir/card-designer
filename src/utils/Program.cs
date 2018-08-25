@@ -10,51 +10,6 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.1.x.x
-/// Ostatnia zmiana: 2016-12-25
-/// 
-/// CHANGELOG:
-/// [15.03.2015] Pierwsza wersja klasy.
-/// [27.06.2015] Utworzenie funkcji do zapisu błedów, ostrzeżeń, informacji i wiadomości, pobieranie ikony programu,
-///              sprawdzanie blokowanych plików, sprawdzanie dostępu do CDRestore.
-/// [28.07.2015] Znaki odpowiednie dla języka dla wyrażeń regularnych.
-/// [06.08.2015] Funkcja zamiany pierwszych znaków słów w podanym ciągu na duże litery.
-/// [09.08.2016] Reorganizacja kodu, wczytywanie bitmap do pamięci programu, pobieranie informacji o wersji programu.
-/// [28.08.2016] Usunięcie znaków dla wyrażeń regularnych, początek komentarzy, wcięcia przy logach, sprawdzanie
-///              blokady dostępu do CDRestore w osobnej funkcji.
-/// [17.11.2016] Nowe ikonki w liście bitmap, nazwa kodowa aplikacji, try catch na stylach wizualnych aplikacji,
-///              funkcja do szybkiego zapisu i wyświetlania pytań w programie, pobieranie plików z podanego folderu,
-///              zamiana wartości na rozmiar, szybkie otwieranie formularzy.
-/// [25.12.2016] Porządkowanie kodu, komentarze, regiony, poprawki w funkcjach, przystosowanie do nowych standardów.
-/// 
-/// Lista plików:
-/// Controls
-///     AlignedPage             [158 ]
-///     AlignedPictureBox       [159 ]
-///     PageField               [713 ]
-/// Forms
-///     DatafileSettingsForm    [661 ]
-///     DataReaderForm          [727 ]
-///     EditColumnsForm         [1547]
-///     EditRowsForm            [1171]
-///     InfoForm                [232 ]
-///     MainForm                [4289]
-///     NewPatternForm          [549 ]
-///     UpdateForm              [749 ]
-/// Utils
-///     AssemblyLoader          [131 ]
-///     DataBackup              [699 ]
-///     DataFilter              [1037]
-///     DataStorage             [404 ]
-///     IOFileData              [840 ]
-///     Language                [549 ]
-///     PatternEditor           [1337]
-///     Program                 [857 ]
-///     ProgressStream          [247 ]
-///     Settings                [499 ]
-///     Structures              [1129]
-///     UpdateApp               [353 ]
-/// ----------------------------------------
-/// RAZEM:                      19 037
 ///
 
 #define LOGMESSAGE
@@ -68,11 +23,8 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Reflection;
-using System.Globalization;
 
 using CDesigner.Forms;
-using System.Text;
-using System.Diagnostics;
 
 namespace CDesigner.Utils
 {
@@ -117,9 +69,9 @@ namespace CDesigner.Utils
 			"images/cdesigner-256.png",  "images/cdesigner-512.png", "images/cdrestore-16.png",
 			"images/cdrestore-32.png",   "images/cdrestore-48.png",  "images/cdrestore-64.png",
 			"images/cdrestore-96.png",   "images/cdrestore-128.png", "images/cdrestore-256.png",
-			"images/cdrestore-512.png",  "images/information.jpg",   "images/noimage.png",
-			"icons/item-add.png",        "icons/item-delete.png",    "icons/first-page.png",
-			"icons/prev-page.png",       "icons/next-page.png",      "icons/last-page.png"
+			"images/cdrestore-512.png",  "images/noimage.png",       "icons/item-add.png",
+			"icons/item-delete.png",     "icons/first-page.png",     "icons/prev-page.png",
+			"icons/next-page.png",       "icons/last-page.png"
 		};
 
 		/// <summary>Klasy globalne, ogólnodostępne dla całego programu.</summary>

@@ -218,12 +218,7 @@ $def Polski
 	@Labels
 		|00 Data kompilacji:
 		|01 Autor:
-		|02 Szczegóły kopii programu
-		|03 Zarejestrowano dla:
-		|04 Numer seryjny:
-		|05 Data wygaśnięcia:
-		|06 Nigdy
-		
+
 	% przyciski
 	@Buttons
 		|00 Zamknij
@@ -258,7 +253,7 @@ $def Polski
 		|07 Kompresja plików zakończona sukcesem.
 		|08 Wystąpił błąd podczas rozpakowywania plików.\nSkontaktuj się z administratorem.
 		|09 Aktualizacja została przygotowana do instalacji.\nCzy chcesz uruchomić ponownie program aby ją zainstalować?
-	
+
 % formularz przypisywania kolumn do pól
 % ============================================================
 #DataReader

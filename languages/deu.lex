@@ -217,11 +217,6 @@ $def Deutsch
 	@Labels
 		|00 Data kompilacji:
 		|01 Autor:
-		|02 Szczegóły kopii programu
-		|03 Zarejestrowano dla:
-		|04 Numer seryjny:
-		|05 Data wygaśnięcia:
-		|06 Nigdy
 		
 	% przyciski
 	@Buttons

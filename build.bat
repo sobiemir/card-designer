@@ -178,7 +178,6 @@ copy /Y resources\noimage.png build\images
 copy /Y resources\transparent.png build\images
 copy /Y resources\cdrestore.ico build\icons
 copy /Y resources\cdesigner.ico build\icons
-copy /Y resources\information.jpg build\images
 copy /Y properties\cdrestore\update.lst build
 copy /Y resources\icons\image-field.png build\icons
 copy /Y resources\icons\text-field.png build\icons

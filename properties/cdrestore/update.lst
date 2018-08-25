@@ -1,10 +1,9 @@
-[0.8.6204.18503]
+[0.9.6811.14098]
 ./cdesigner.exe
 ./cdrestore.exe
 ./cdset.nfo
 ./libraries/PdfSharp.dll
 ./images/noimage.png
-./images/information.jpg
 ./images/transparent.png
 ./icons/combo-child.png
 ./icons/combo-end.png

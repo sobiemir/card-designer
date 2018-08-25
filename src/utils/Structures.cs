@@ -287,7 +287,6 @@ namespace CDesigner.Utils
 		CDRESTORE128,
 		CDRESTORE256,
 		CDRESTORE512,
-		REGISTERLOGO,
 		NOIMAGE,
 		ITEMADD,
 		ITEMREMOVE,
@@ -665,11 +664,6 @@ namespace CDesigner.Utils
 		I06_BUT_CLOSE      = 0x00,
 		I06_LAB_COMPILDATE = 0x00,
 		I06_LAB_AUTHOR     = 0x01,
-		I06_LAB_ABOUTCOPY  = 0x02,
-		I06_LAB_REGFOR     = 0x03,
-		I06_LAB_REGNUMBER  = 0x04,
-		I06_LAB_EXPIREDATE = 0x05,
-		I06_LAB_EXPIRNEVER = 0x06,
 
 		// /////////////////////////// I07 [UpdateForm]
 

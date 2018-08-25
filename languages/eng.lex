@@ -215,11 +215,6 @@ $def English
 	@Labels
 		|00 Compilation date:
 		|01 Author:
-		|02 Program copy details
-		|03 Registered for:
-		|04 Serial number:
-		|05 Expiration date:
-		|06 Never
 		
 	% przyciski
 	@Buttons

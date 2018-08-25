@@ -195,7 +195,6 @@ cp -f resources/transparent.png build/images/transparent.png
 cp -f resources/cdrestore.ico build/icons/cdrestore.ico
 cp -f resources/cdesigner.ico build/icons/cdesigner.ico
 cp -f properties/cdrestore/update.lst build/update.lst
-cp -f resources/information.jpg build/images/information.jpg
 cp -f resources/icons/image-field.png build/icons/image-field.png
 cp -f resources/icons/text-field.png build/icons/text-field.png
 cp -f resources/icons/exit-application.png build/icons/exit-application.png
