@@ -8,29 +8,12 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.1.x.x
-/// Ostatnia zmiana: 2016-12-24
-/// 
-/// CHANGELOG:
-/// [29.03.2015] Pierwsza wersja pliku.
-/// [04.05.2015] Struktura do przechowywania dodatkowych danych, ujednolicenie nazw zmiennych,
-///              Skalowanie ramki względem DPI, margines tekstu, przyleganie tekstu do krawędzi.
-/// [10.05.2015] Nowa klasa - PageField - w przyszłości zastąpi CustomLabel, prostsza organizacja.
-/// [16.05.2015] Zmiana nazwy pliku CustomLabel na PageField, zastąpienie i usunięcie starej klasy,
-///              Pobieranie przylegania tekstu, punkt zaczepienia pola - pobieranie i ustawianie
-///              wartości względem punktu zaczepienia, zmiana konwersji typów liczbowych.
-/// [31.05.2015] Wymiary rodzica, funkcja do ustawiania pozycji kontrolki i jej odświeżania.
-/// [05.06.2015] Zmiana przelicznika DPI, transformacje tekstu.
-/// [09.06.2015] Funkcje do pilnowania, aby pole nie wychodziło poza punkty graniczne rodzica,
-///              możliwość wpisania już skonwertowanych do DPI wyimarów rodzica.
-/// [24.12.2016] Komentarze, regiony.
 ///
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Globalization;
 
 namespace CDesigner.Controls
 {
@@ -46,14 +29,8 @@ namespace CDesigner.Controls
 	{
 #region ZMIENNE
 
-		/// <summary>Kolor ramki wokół pola.</summary>
-		private Color _borderColor;
-
 		/// <summary>Rozmiar ramki wokół pola.</summary>
 		private int _borderSize;
-
-		/// <summary>Ścieżka do obrazka wyświetlanego w polu.</summary>
-		private string _imagePath;
 
 		/// <summary>Wymiary pola w milimetrach.</summary>
 		private RectangleF _dpiBounds;
@@ -70,17 +47,11 @@ namespace CDesigner.Controls
 		/// <summary>Rozmiar czcionki w milimetrach.</summary>
 		private double _dpiFontSize;
 
-		/// <summary>Margines wokół tekstu w milimetrach.</summary>
-		private PointF _dpiTextMargin;
-
 		/// <summary>Margines wewnętrzny tekstu w milimetrach.</summary>
 		private float _dpiPadding;
 
 		/// <summary>Rozmiar rodzica na którym znajduje się pole, podawany w milimetrach.</summary>
 		private Point _dpiParentSize;
-
-		/// <summary>Obraz wyświetlany w polu.</summary>
-		private Image _backImage;
 
 		/// <summary>Ilość pikseli na DPI, używana przy przeliczaniu.</summary>
 		private double _pixelsPerDPI;
@@ -91,14 +62,8 @@ namespace CDesigner.Controls
 		/// <summary>Rodzaj transformacji tekstu.</summary>
 		private int _textTransform;
 
-		/// <summary>Tekst oryginalny bez transformacji.</summary>
-		private string _originalText;
-
 		/// <summary>Aktualny tekst wyświetlany w polu.</summary>
 		private string _currentText;
-
-		/// <summary>Czy dodatkowy margines został zastosowany?</summary>
-		private bool _extraMargin;
 
 #endregion
 
@@ -112,23 +77,24 @@ namespace CDesigner.Controls
 		public PageField()
 			: base()
 		{
-			this._borderColor   = Color.Black;
+			this.BorderColor     = Color.Black;
+			this.BackImagePath   = null;
+			this.TextMargin      = new PointF( 2.0f, 2.0f );
+			this.BackImage       = null;
+			this.OriginalText    = null;
+			this.ApplyTextMargin = false;
+
 			this._borderSize    = 0;
-			this._imagePath     = null;
 			this._dpiBounds     = new RectangleF( 0.0f, 0.0f, 1.0f, 1.0f );
 			this._dpiBorderSize = 0.0f;
 			this._dpiScale      = 1.0;
 			this._dpiConvScale  = 3.93714927048264;
-			this._dpiTextMargin = new PointF( 2.0f, 2.0f );
 			this._dpiPadding    = 0.0f;
 			this._dpiParentSize = new Point( -1, -1 );
-			this._backImage     = null;
 			this._pixelsPerDPI  = 3.93714927048264;
 			this._parentBounds  = new Size(800, 600);
 			this._textTransform = 0;
-			this._originalText  = null;
 			this._currentText   = "";
-			this._extraMargin   = false;
 		}
 
 		/// <summary>
@@ -156,11 +122,7 @@ namespace CDesigner.Controls
 		/// Oryginalnie kontrolka nie posiada prostego sposobu, którym można zmienić kolor wyświetlanej ramki.
 		/// </summary>
 		//* ============================================================================================================
-		public Color BorderColor
-		{
-			get { return this._borderColor; }
-			set { this._borderColor = value; }
-		}
+		public Color BorderColor { get; set; }
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę marginesu dla tekstu w kontrolce.
@@ -197,17 +159,13 @@ namespace CDesigner.Controls
 				if( value.X < 0 )
 					value.X = this._dpiBounds.X;
 				else
-				{
 					this.Left = Convert.ToInt32((double)value.X * this._dpiConvScale);
-				}
 
 				// pozycja Y
 				if( value.Y < 0 )
 					value.Y = this._dpiBounds.Y;
 				else
-				{
 					this.Top = Convert.ToInt32((double)value.Y * this._dpiConvScale);
-				}
 
 				// szerokość
 				if( value.Width < 0 )
@@ -283,33 +241,21 @@ namespace CDesigner.Controls
 		/// Tło rysowane jest przy akcji odświeżającej kontrolkę.
 		/// </summary>
 		//* ============================================================================================================
-		public Image BackImage
-		{
-			get { return this._backImage; }
-			set { this._backImage = value; }
-		}
+		public Image BackImage { get; set; }
 
 		/// <summary>
 		/// Właściwość pozwalająca na zmianę marginesu tekstu.
 		/// Aktualnie wartość ta nie jest używana, jako margines używany jest <see cref="DPIPadding"/>.
 		/// </summary>
 		//* ============================================================================================================
-		public PointF TextMargin
-		{
-			get { return this._dpiTextMargin; }
-			set { this._dpiTextMargin = value; }
-		}
+		public PointF TextMargin { get; set; }
 
 		/// <summary>
 		/// Właściwość pozwala na aktywacje dodatkowego marginesu tekstu.
 		/// Dodatkowy margines nie jest aktualnie używany, jako margines traktowany jest <see cref="DPIPadding"/>.
 		/// </summary>
 		//* ============================================================================================================
-		public bool ApplyTextMargin
-		{
-			get { return this._extraMargin; }
-			set { this._extraMargin = value; }
-		}
+		public bool ApplyTextMargin { get; set; }
 
 		/// <summary>
 		/// Właściwość pozwala na zmianę ścieżki tła kontrolki.
@@ -317,13 +263,7 @@ namespace CDesigner.Controls
 		/// W przypadku zmiany obrazka, ustawiana jest na ścieżkę w której obraz się znajduje.
 		/// </summary>
 		//* ============================================================================================================
-		public string BackImagePath
-		{
-			// pobierz ścieżkę do aktualnego obrazu
-			get { return this._imagePath; }
-			// ustaw nową ścieżkę do obrazu
-			set { this._imagePath = value; }
-		}
+		public string BackImagePath { get; set; }
 
 		/// <summary>
 		/// Właściwość pozwalająca zmienić skalę wyświetlania pola.
@@ -377,10 +317,12 @@ namespace CDesigner.Controls
 				this._textTransform = value;
 				switch( this._textTransform )
 				{
-				case 0: this._currentText = this._originalText; break;
-				case 1: this._currentText = this._originalText.ToUpper(); break;
-				case 2: this._currentText = this._originalText.ToLower(); break;
-				case 3: this._currentText = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase( this._originalText.ToLower() ); break;
+				case 0: this._currentText = this.OriginalText; break;
+				case 1: this._currentText = this.OriginalText.ToUpper(); break;
+				case 2: this._currentText = this.OriginalText.ToLower(); break;
+				case 3:
+					this._currentText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(this.OriginalText.ToLower());
+				break;
 				}
 				this.Refresh();
 			}
@@ -400,7 +342,7 @@ namespace CDesigner.Controls
 			// zmień tekst kontrolki
 			set
 			{
-				this._originalText = value;
+				this.OriginalText = value;
 				switch( this._textTransform )
 				{
 				case 0: this._currentText = value; break;
@@ -419,11 +361,7 @@ namespace CDesigner.Controls
 		/// na oryginalnym tekście a nie na tym, który był już transformowany.
 		/// </summary>
 		//* ============================================================================================================
-		public string OriginalText
-		{
-			// pobierz oryginalny tekst kontrolki (bez transformacji)
-			get { return this._originalText; }
-		}
+		public string OriginalText { get; private set; }
 
 #endregion
 
@@ -502,7 +440,7 @@ namespace CDesigner.Controls
 			if( alignment < 0 )
 				alignment = (int)this.TextAlign;
 
-			int align = 0;
+			int align = 4;
 
 			// ustaw odpowiednie przyleganie tekstu...
 			switch( alignment )
@@ -516,7 +454,6 @@ namespace CDesigner.Controls
 				case 0x100: align = 6; break;
 				case 0x200: align = 7; break;
 				case 0x400: align = 8; break;
-				default: align = 4; break;
 			}
 
 			return align;
@@ -684,21 +621,24 @@ namespace CDesigner.Controls
 		protected override void OnPaint( PaintEventArgs ev )
 		{
 			// rysuj dopasowany obraz
-			if( this._backImage != null )
-				ev.Graphics.DrawImage( this._backImage, 0, 0, this.Width, this.Height );
+			if( this.BackImage != null )
+				ev.Graphics.DrawImage( this.BackImage, 0, 0, this.Width, this.Height );
 
 			// rysuj tekst...
 			base.OnPaint( ev );
 
 			// rysuj ramkę
 			if( this._borderSize > 0 )
-				ControlPaint.DrawBorder( ev.Graphics, this.ClientRectangle,
-					this._borderColor, this._borderSize, ButtonBorderStyle.Solid,
-					this._borderColor, this._borderSize, ButtonBorderStyle.Solid,
-					this._borderColor, this._borderSize, ButtonBorderStyle.Solid,
-					this._borderColor, this._borderSize, ButtonBorderStyle.Solid );
+				ControlPaint.DrawBorder(
+					ev.Graphics,
+					this.ClientRectangle,
+					this.BorderColor, this._borderSize, ButtonBorderStyle.Solid,
+					this.BorderColor, this._borderSize, ButtonBorderStyle.Solid,
+					this.BorderColor, this._borderSize, ButtonBorderStyle.Solid,
+					this.BorderColor, this._borderSize, ButtonBorderStyle.Solid
+				);
 		}
 
 #endregion
-	};
+	}
 }

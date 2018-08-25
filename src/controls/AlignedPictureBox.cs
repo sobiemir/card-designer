@@ -7,18 +7,8 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.4.x.x
-/// Ostatnia zmiana: 2016-01-07
-/// 
-/// CHANGELOG:
-/// [01.06.2016] Pierwsza wersja pliku.
-/// [23.12.2016] Komentarze, regiony.
-/// [01.07.2017] Poprawki w ustawianiu obrazka na linuksie.
 ///
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -33,13 +23,6 @@ namespace CDesigner.Controls
 	///
 	public class AlignedPictureBox : PictureBox
 	{
-#region ZMIENNE
-
-		/// <summary>Wartość odpowiadająca pozycji przylegania kontrolki.</summary>
-		private int _align;
-		
-#endregion
-
 #region KONSTRUKTOR / WŁAŚCIWOŚCI
 		
 		/// <summary>
@@ -50,7 +33,7 @@ namespace CDesigner.Controls
 		public AlignedPictureBox()
 			: base()
 		{
-			this._align = 0;
+			this.Align = 0;
 		}
 
 		/// <summary>
@@ -70,11 +53,7 @@ namespace CDesigner.Controls
 		/// </list>
 		/// </summary>
 		//* ============================================================================================================
-		public int Align
-		{
-			get { return this._align; }
-			set { this._align = value; }
-		}
+		public int Align { get; set; }
 		
 #endregion
 
@@ -92,7 +71,7 @@ namespace CDesigner.Controls
 			var location = this.Location;
 
 			// brak obrazka lub przyleganie do lewej
-			if( this.Image == null || parent == null || this._align == 0 )
+			if( this.Image == null || parent == null || this.Align == 0 )
 			{
 				this.Location = new Point( 0, 0 );
 				return;

@@ -7,17 +7,8 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.5.x.x
-/// Ostatnia zmiana: 2016-12-23
-/// 
-/// CHANGELOG:
-/// [06.06.2016] Pierwsza wersja pliku.
-/// [23.12.2016] Komentarze, regiony.
 ///
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -32,13 +23,6 @@ namespace CDesigner.Controls
 	///
 	class AlignedPage : Panel
 	{
-#region ZMIENNE
-
-		/// <summary>Wartość odpowiadająca pozycji przylegania kontrolki.</summary>
-		private int _align;
-
-#endregion
-
 #region KONSTRUKTOR / WŁAŚCIWOŚCI
 
 		/// <summary>
@@ -49,7 +33,7 @@ namespace CDesigner.Controls
 		public AlignedPage()
 			: base()
 		{
-			this._align = 0;
+			this.Align = 0;
 		}
 
 		/// <summary>
@@ -69,11 +53,7 @@ namespace CDesigner.Controls
 		/// </list>
 		/// </summary>
 		//* ============================================================================================================
-		public int Align
-		{
-			get { return this._align; }
-			set { this._align = value; }
-		}
+		public int Align { get; set; }
 
 #endregion
 
@@ -90,7 +70,7 @@ namespace CDesigner.Controls
 			var parent   = (Panel)this.Parent;
 			var location = this.Location;
 
-			if( parent == null || this._align == 0 )
+			if( parent == null || this.Align == 0 )
 			{
 				this.Location = new Point( 0, 0 );
 				return;

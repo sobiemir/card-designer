@@ -9,30 +9,11 @@
 /// 
 /// Autor: Kamil Biały
 /// Od wersji: 0.3.x.x
-/// Ostatnia zmiana: 2016-12-25
-/// 
-/// CHANGELOG:
-/// [10.05.2015] Pierwsza wersja klasy.
-/// [16.05.2015] Nowe atrybuty w FieldExtraData, FieldData, PageExtraData i PageData.
-/// [01.06.2015] Struktura z ustawieniami aplikacji.
-/// [04.06.2015] Nowe pola w FieldData i SettingsInfo, dane filtrowania, WinAPIConst dla ComboBox,
-///              struktury dla grupowego pola wyboru, struktura filtrowania.
-/// [06.08.2015] Zmiana nazwy pliku z Structs na Structures, typy numeryczne dla języków, typ numeryczny
-///              dla wczytywanych bitmap, typ numeryczny dla filtra, rozszerzenie ustawień aplikacji.
-/// [14.08.2016] Struktura informacji o kolumnie, typ danych, struktura zmiennych globalnych, typ numeryczny
-///              dla zakończeń linii i ujednolicony typ numeryczny dla danych językowych.
-/// [14.11.2016] Struktura informacji o wzorze, dodatkowe pozycje dla typu z danymi językowymi.
-/// [04.12.2016] Struktura dla danych o aktualizacji, dodatkowe pozycje dla typu z danymi językowymi.
-/// [25.12.2016] Porzędkowanie kodu, komentarze, regiony.
 ///
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using System.Globalization;
 
 using CDesigner.Forms;
